@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 19 タップ反応</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 19 — タップ反応 <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 20 自発的な視線</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 20 — 自発的な視線 <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
 <label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
@@ -216,38 +216,53 @@ canvas.addEventListener('pointerup', event => {
   const origin = tap;
   tap = null;
   if (!origin || event.pointerId !== origin.id || Math.hypot(event.clientX-origin.x,event.clientY-origin.y)>9) return;
-  if (mode !== 'roam' || roam.phase !== 'rest' || roam.attention) return;
+  if (mode !== 'roam' || roam.phase !== 'rest') return;
   const rect = canvas.getBoundingClientRect();
   tapPoint.set(2*(event.clientX-rect.left)/rect.width-1,1-2*(event.clientY-rect.top)/rect.height);
   tapRay.setFromCamera(tapPoint,camera);
-  if (tapRay.intersectObjects(parts,false).length) beginAttention();
+  if (!tapRay.intersectObjects(parts,false).length) return;
+  roam.glanceAt = Infinity;
+  if (roam.attention) {
+    const gaze = roam.attention;
+    // A tap during a glance continues the same motion from its current weight.
+    if (gaze.duration < 2) {
+      gaze.duration = 2;
+      gaze.elapsed = .28 * gaze.blend;
+      $('destination').textContent = 'こちらを見ています';
+    }
+  } else {
+    beginAttention();
+  }
 });
 
-function beginAttention() {
+function beginAttention(spontaneous = false) {
   const head = groups.head;
   gazeDirection.copy(camera.position).sub(head.getWorldPosition(new T.Vector3()));
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   roam.attention = {
     elapsed: 0,
+    blend: 0,
+    duration: spontaneous ? .95 : 2,
     yaw: T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.48,1.48),
     pitch: T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.22,.22),
     head: head.quaternion.clone(),
     neck: groups.neck.quaternion.clone()
   };
-  $('destination').textContent = 'こちらを見ています';
+  $('destination').textContent = spontaneous ? 'ふとこちらを見ています' : 'こちらを見ています';
 }
 
 function advanceRoam(dt) {
   if (roam.attention) {
     const gaze = roam.attention;
     gaze.elapsed += dt;
-    const weight = smooth(T.MathUtils.clamp(Math.min(gaze.elapsed/.28,(2-gaze.elapsed)/.34),0,1));
+    gaze.blend = T.MathUtils.clamp(Math.min(gaze.elapsed/.28,(gaze.duration-gaze.elapsed)/.34),0,1);
+    const weight = smooth(gaze.blend);
     groups.neck.quaternion.copy(gaze.neck);
     groups.neck.rotateY(gaze.yaw * .22 * weight);
     groups.head.quaternion.copy(gaze.head);
     groups.head.rotateY(gaze.yaw * .78 * weight);
     groups.head.rotateX(gaze.pitch * weight);
-    if (gaze.elapsed >= 2) {
+    if (gaze.elapsed >= gaze.duration) {
       roam.attention = null;
       $('destination').textContent = (roam.returning ? home : destination.name) + 'に到着・休憩中';
     }
@@ -267,7 +282,11 @@ function advanceRoam(dt) {
       roam.phase = 'rest';
       roam.elapsed = 0;
       roam.pause = 4 + Math.random()*3;
+      roam.glanceAt = Math.random() < .65 ? 1.2 + Math.random()*1.8 : Infinity;
     }
+  } else if (roam.phase === 'rest' && roam.elapsed >= roam.glanceAt) {
+    roam.glanceAt = Infinity;
+    beginAttention(true);
   } else if (roam.phase === 'rest' && roam.elapsed >= roam.pause) {
     roam.phase = 'turn';
     roam.elapsed = 0;
