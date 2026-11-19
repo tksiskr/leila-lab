@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 15 自律歩行</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 15 — 自律歩行 <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div><button id="reset">原姿勢</button><button id="front">正面</button><button id="side">側面</button><button id="demo">従来の歩行</button><button id="mixamo">Mixamoの歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 16 自律待機</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 16 — 自律待機 <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div><button id="reset">原姿勢</button><button id="front">正面</button><button id="side">側面</button><button id="demo">従来の歩行</button><button id="mixamo">Mixamoの歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="autoWait">自律待機</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const $=id=>document.getElementById(id), view=$('view');try{
 const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,20);camera.position.set(0,.65,1.8);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,.49,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();scene.add(new T.HemisphereLight(0xffffff,0x666e88,2.3));for(const [x,y,z,i] of [[2,3,4,3],[-3,2,-2,2]]){const l=new T.DirectionalLight(0xffffff,i);l.position.set(x,y,z);scene.add(l)}const floorGrid = new T.GridHelper(8,80,0x586477,0x394453);floorGrid.position.z = 1.5;scene.add(floorGrid);
@@ -105,11 +105,21 @@ const destinations = [
 ];
 const autoDelay = .65;
 let destination = destinations[0];
-$('autoWalk').onclick = () => {
+let waitRemaining = 0;
+function beginAutoWalk(now) {
   choose('autoWalk');
+  start = now;
   destination = destinations[Math.floor(Math.random() * destinations.length)];
   $('destination').textContent = '行き先を選んでいます…';
-};
+}
+function beginAutoWait() {
+  choose('autoWait');
+  waitRemaining = 4 + Math.random() * 3;
+  travelPose(0);
+  $('destination').textContent = '自律待機中';
+}
+$('autoWalk').onclick = () => beginAutoWalk(performance.now());
+$('autoWait').onclick = beginAutoWait;
 const travelJoint = new T.Quaternion();
 const transitionJoint = new T.Quaternion();
 const transitionHip = new T.Vector3();
@@ -182,7 +192,11 @@ function travelPose(elapsed, routeDuration = cruiseDuration) {
   }
 }
 
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;if(mode==='autoWalk'){
+beginAutoWait();
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;if(mode==='autoWait'){
+  waitRemaining -= dt;
+  if (waitRemaining <= 0) beginAutoWalk(t);
+}else if(mode==='autoWalk'){
   const elapsed = Math.max(0,(t-start)/1000-autoDelay);
   travelPose(elapsed,destination.duration);
   const finished = elapsed >= startEnd + destination.duration + clipStop.duration;
