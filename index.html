@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 18 装甲カラー</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 18 — 装甲カラー <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 18.1 装甲カラー</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 18.1 — 装甲カラー <span id="fps"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
 <label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
@@ -40,7 +40,7 @@ function armorMaterial(original, region) {
   material.customProgramCacheKey = () => 'leila-armor-' + region;
   material.onBeforeCompile = shader => {
     shader.uniforms.leilaPalette = palette;
-    if (region === 'chest') {
+    if (region === 'chest' || region === 'head') {
       shader.vertexShader = 'attribute float leilaAccent; varying float vLeilaAccent;\n' + shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>',
         '#include <begin_vertex>\nvLeilaAccent = leilaAccent;');
@@ -48,7 +48,9 @@ function armorMaterial(original, region) {
     }
     const accent = region === 'green'
       ? 'armorColor *= vec3(0.30, 0.76, 0.49);'
-      : region === 'chest'
+      : region === 'head'
+        ? 'armorColor *= mix(vec3(0.30, 0.76, 0.49), vec3(1.0), vLeilaAccent);'
+        : region === 'chest'
         ? 'armorColor = mix(armorColor, armorColor * vec3(0.85, 0.12, 0.19), vLeilaAccent);'
         : '';
     shader.fragmentShader = 'uniform float leilaPalette;\n' + shader.fragmentShader;
@@ -74,20 +76,28 @@ function armorMaterial(original, region) {
   armorMaterials.set(region, material);
   return material;
 }
-function addChestAccent(mesh) {
+function addAccentMask(mesh, region) {
   const positions = mesh.geometry.attributes.position;
   const points = new Float32Array(positions.count);
   const p = new T.Vector3();
   for (let i=0; i<positions.count; i++) {
     p.fromBufferAttribute(positions,i).applyMatrix4(mesh.matrixWorld);
     const edge = Math.abs(p.x + .018) / .019 + Math.abs(p.y - .758) / .033;
-    points[i] = (1 - T.MathUtils.smoothstep(edge,.72,1.03)) * T.MathUtils.smoothstep(p.z,.052,.076);
+    if (region === 'head') {
+      // Restrict the white lower face to the front so the side armor stays green.
+      const innerFace = 1 - T.MathUtils.smoothstep(Math.abs(p.x),.039,.053);
+      const frontFace = T.MathUtils.smoothstep(p.z,.046,.061);
+      const belowEyes = 1 - T.MathUtils.smoothstep(p.y,.898,.909);
+      points[i] = innerFace * frontFace * belowEyes;
+    } else {
+      points[i] = (1 - T.MathUtils.smoothstep(edge,.72,1.03)) * T.MathUtils.smoothstep(p.z,.052,.076);
+    }
   }
   mesh.geometry.setAttribute('leilaAccent', new T.BufferAttribute(points,1));
 }
 gl.scene.traverse(o=>{if(o.isMesh)parts.push(o)});for(const o of parts){const m=o.name.match(/tripo_part_(\d+)/)||o.parent.name.match(/tripo_part_(\d+)/);if(!m||!mapping[m[1]])throw Error('未分類メッシュ '+o.name);const part = mapping[m[1]];
-const region = part === 'chest' ? 'chest' : /^(head|upper[PN]|shoulder[PN]|fore[PN])$/.test(part) ? 'green' : 'white';
-if (region === 'chest') addChestAccent(o);
+const region = part === 'chest' || part === 'head' ? part : /^(upper[PN]|shoulder[PN]|fore[PN])$/.test(part) ? 'green' : 'white';
+if (region === 'chest' || region === 'head') addAccentMask(o, region);
 o.material = armorMaterial(o.material, region);
 groups[part].attach(o);
 }
