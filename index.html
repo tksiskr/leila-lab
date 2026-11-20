@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 26 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.1 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}</style><header>LEILA / LAB 26.1 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status">読み込み中…</div><div id="destination" aria-live="polite"></div>
 <label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
@@ -10,7 +10,7 @@
 </select></label><button id="reset">原姿勢</button><button id="front">正面</button><button id="side">側面</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="autoWait">自律待機</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const $=id=>document.getElementById(id), view=$('view');try{
-const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);camera.position.set(0,.65,1.8);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,.49,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26 — independent architectural environment. One scene unit = one provisional metre / 2.
+const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);camera.position.set(0,.65,1.8);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,.49,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
 const facility = new T.Group(); facility.name='Facility'; scene.add(facility);
 const mat=(color,roughness=.75)=>new T.MeshStandardMaterial({color,roughness});
 const wall=mat(0xd5dce1), frame=mat(0x596a79), floor=mat(0x939fa9,.65);
@@ -20,23 +20,25 @@ const cube=new T.BoxGeometry(1,1,1);
 function block(parent,m,x,y,z,w,h,d){const o=new T.Mesh(cube,m);o.position.set(x,y,z);o.scale.set(w,h,d);parent.add(o);return o;}
 // Character rig is approximately half-scale; preserve all original animation coordinates.
 const architecture=new T.Group();architecture.scale.setScalar(.5);facility.add(architecture);
-block(architecture,floor,0,-.12,3,24,.24,30);
-block(architecture,wall,0,8.12,3,24,.24,30);
+const floorGroup=new T.Group(), ceilingGroup=new T.Group(), wallGroups=[];
+architecture.add(floorGroup,ceilingGroup);
+block(floorGroup,floor,0,-.12,3,24,.24,30);
+block(ceilingGroup,wall,0,8.12,3,24,.24,30);
 for(const [x,z,angle,length] of [[0,-12,0,24],[0,18,Math.PI,24],[-12,3,Math.PI/2,30],[12,3,-Math.PI/2,30]]){
- const side=new T.Group();side.position.set(x,0,z);side.rotation.y=angle;architecture.add(side);
+ const side=new T.Group();side.position.set(x,0,z);side.rotation.y=angle;architecture.add(side);wallGroups.push(side);
  block(side,wall,0,.35,0,length,.7,.42);block(side,wall,0,7.35,0,length,1.3,.42);
  const n=Math.round(length/3), span=length/n;
  for(let j=0;j<=n;j++) block(side,frame,-length/2+j*span,3.7,0,.18,6.1,.42);
  for(let j=0;j<n;j++) block(side,glass,-length/2+(j+.5)*span,3.7,0,span-.18,6,.035);
  block(side,frame,0,3.65,0,length,.09,.19);
 }
-for(let x=-9;x<=9;x+=6)for(let z=-8;z<=14;z+=7){block(architecture,frame,x,7.91,z,3.8,.16,.38);block(architecture,lamp,x,7.79,z,3.6,.08,.27);}
+for(let x=-9;x<=9;x+=6)for(let z=-8;z<=14;z+=7){block(ceilingGroup,frame,x,7.91,z,3.8,.16,.38);block(ceilingGroup,lamp,x,7.79,z,3.6,.08,.27);}
 // Floor panel joints, not a test grid.
 const seam=new T.MeshBasicMaterial({color:0x76838d});
-for(let x=-10;x<=10;x+=2)block(architecture,seam,x,.001,3,.012,.002,29.8);
-for(let z=-10;z<=16;z+=2)block(architecture,seam,0,.001,z,23.8,.002,.012);
+for(let x=-10;x<=10;x+=2)block(floorGroup,seam,x,.001,3,.012,.002,29.8);
+for(let z=-10;z<=16;z+=2)block(floorGroup,seam,0,.001,z,23.8,.002,.012);
 const outside=new T.Group();scene.add(outside);
-block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
+const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
 let seed=26;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
 const cityMats=[mat(0x7d94a5),mat(0xb3c4ce),mat(0x596d80)];
 for(let k=0;k<72;k++){const a=k*Math.PI*2/72,rad=22+rand()*35,h=1.5+rand()*8,w=1+rand()*2;block(outside,cityMats[k%3],Math.cos(a)*rad,h/2-.14,Math.sin(a)*rad,w,h,w*(.7+rand()*.5));}
@@ -56,7 +58,21 @@ function updateWorld(){const now=new Date(), minute=now.getHours()*60+now.getMin
  scene.background.copy(nightSky).lerp(daySky,daylight);ambient.intensity=.9+.7*daylight;indoor.intensity=1.6-.6*daylight;
  $('worldClock').textContent=now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' / '+(daylight>.5?'昼':'夜');}
 updateWorld();
-orbit.maxDistance=5;orbit.maxPolarAngle=Math.PI/2-.025;orbit.enablePan=false;
+// LAB 26.1: full orbit and two-finger dolly/pan; cut away crossed architectural surfaces.
+orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
+orbit.enablePan=true;orbit.screenSpacePanning=true;
+orbit.touches.ONE=T.TOUCH.ROTATE;orbit.touches.TWO=T.TOUCH.DOLLY_PAN;
+function updateCutaway(){
+ const {x,y,z}=camera.position;
+ floorGroup.visible=y>0.005;
+ outsideGround.visible=y>0.005;
+ ceilingGroup.visible=y<3.85;
+ wallGroups[0].visible=z>-5.85;
+ wallGroups[1].visible=z<8.85;
+ wallGroups[2].visible=x>-5.85;
+ wallGroups[3].visible=x<5.85;
+}
+
 
 // Fixed landmarks on the far side of the walking lane in the side view.
 const markerBase = new T.CylinderGeometry(.095,.115,.035,16);
@@ -651,6 +667,6 @@ for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(bas
 if(cur.step>.001){const b=cur.step;groups.head.updateWorldMatrix(true,false);const x=groups.head.getWorldPosition(V(0,0,0)).x;const wanted=x*(1-.72*b);const initial=groups.abdomen.rotation.z;for(let j=0;j<3;j++){groups.head.updateWorldMatrix(true,false);const error=groups.head.getWorldPosition(V(0,0,0)).x-wanted;groups.abdomen.rotation.z=T.MathUtils.clamp(groups.abdomen.rotation.z+error/.19,initial-.30*b,initial+.30*b);}const q=groups.neck.getWorldQuaternion(new T.Quaternion());const desired=new T.Quaternion().setFromEuler(new T.Euler(0,cur.twist*.10,0));groups.head.quaternion.slerp(q.invert().multiply(desired),b*.85);}
 
 groups.upperP.rotation.z=-.48+.045*cur.step*Math.sin(a);groups.upperN.rotation.z=.48-cur.raise*2.0+.045*cur.step*Math.sin(a);groups.upperP.rotation.x=.28*twist*style*cur.step;groups.upperN.rotation.x=-.28*twist*style*cur.step;groups.elbowN.rotation.x=-.3*cur.raise-.13*cur.step*(1+Math.cos(a-.3));groups.elbowP.rotation.x=-.12-.13*cur.step*(1-Math.cos(a-.3));groups.handP.rotation.x=.07*Math.sin(a-.4)*cur.step;groups.handN.rotation.x=-.07*Math.sin(a-.4)*cur.step;groups.shoulderN.rotation.z=-.12*cur.raise;
-for(const side of ['P','N']){const g=gait((phase+(side==='N'?.5:0))%1,Math.min(1.15,style));let f=feet[side];for(const k of ['z','lift','pitch'])f[k]=g[k]*cur.step;f.inward=.014*cur.step; if($('ik').checked)leg(side,f.lift,f.z,f.inward,f.pitch,0,.025);else if(cur.step>.001){groups['thigh'+side].rotation.x=-f.z*4;groups['knee'+side].rotation.x=-f.lift*8;}}sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}updateWorld();orbit.update();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+for(const side of ['P','N']){const g=gait((phase+(side==='N'?.5:0))%1,Math.min(1.15,style));let f=feet[side];for(const k of ['z','lift','pitch'])f[k]=g[k]*cur.step;f.inward=.014*cur.step; if($('ik').checked)leg(side,f.lift,f.z,f.inward,f.pitch,0,.025);else if(cur.step>.001){groups['thigh'+side].rotation.x=-f.z*4;groups['knee'+side].rotation.x=-f.lift*8;}}sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}updateWorld();orbit.update();updateCutaway();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 }catch(e){$('status').textContent='読み込みエラー: '+e.message;console.error(e)}
 </script></html>
