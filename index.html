@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 36 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 36 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 37 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 37 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -779,6 +779,25 @@ let hipReactionApplied = false;
 const handTarget = new T.Vector3();
 const handBend = new T.Vector3();
 const handView = new T.Vector3();
+const palmUp = V(0,1,0);
+const palmDown = V(0,-1,0);
+const palmForward = new T.Vector3();
+const offeredPalm = new T.Vector3();
+const coverPalm = new T.Vector3();
+const coverWrist = new T.Vector3();
+const palmBasis = new T.Matrix4();
+const palmAcross = new T.Vector3();
+const desiredHandRotation = new T.Quaternion();
+
+// Palm surface centers and axes measured in the model's original wrist space.
+const palmRig = Object.fromEntries(['P','N'].map(side => {
+  const sign = side === 'P' ? 1 : -1;
+  const fingers = V(sign*.40,-.916,0).normalize();
+  const normal = V(-sign*.916,-.40,0).normalize();
+  const rest = new T.Quaternion().setFromRotationMatrix(
+    palmBasis.makeBasis(fingers,normal,V(0,0,0).crossVectors(fingers,normal))).invert();
+  return [side,{center:V(sign*.007,-.028,.002),rest}];
+}));
 const reactionJoints = ['chest','neck','head','upperN','elbowN','foreN','handN','upperP','elbowP','foreP','handP']
   .map(key => ({joint:groups[key],pose:new T.Quaternion()}));
 let reaction = null;
@@ -905,11 +924,17 @@ function applyCapturedArm(kind,side,weight) {
 }
 
 // Fit the arm to a wrist target in front of the chest using both segment lengths.
-function reachHand(side,x,y,z,weight) {
+function orientPalm(side,forward,normal) {
+  palmAcross.crossVectors(forward,normal);
+  return desiredHandRotation.setFromRotationMatrix(palmBasis.makeBasis(forward,normal,palmAcross))
+    .multiply(palmRig[side].rest);
+}
+
+function reachHand(side,target,orientation,weight) {
   const upper = groups['upper'+side], elbow = groups['elbow'+side];
   const upperRest = base['elbow'+side], lowerRest = base['hand'+side];
   const shoulder = upper.getWorldPosition(V(0,0,0));
-  const ray = groups.chest.localToWorld(handTarget.set(x,y,z)).sub(shoulder);
+  const ray = target.clone().sub(shoulder);
   const a = upperRest.length(), b = lowerRest.length();
   const length = T.MathUtils.clamp(ray.length(), Math.abs(a-b)+.001, a+b-.001);
   ray.normalize();
@@ -924,7 +949,9 @@ function reachHand(side,x,y,z,weight) {
   upper.quaternion.slerp(upperPose,1-weight);
   elbow.quaternion.slerp(elbowPose,1-weight);
   groups['fore'+side].quaternion.slerp(neutralRotation,weight);
-  groups['hand'+side].quaternion.slerp(neutralRotation,weight);
+  const hand = groups['hand'+side];
+  hand.parent.getWorldQuaternion(gestureLocal).invert().multiply(orientation);
+  hand.quaternion.slerp(gestureLocal,weight);
 }
 
 function applyHipDodge(direction,weight) {
@@ -976,12 +1003,26 @@ function applyTouchPose(pose,side,yaw,pitch,time,weight) {
       .05*handView.y/Math.max(.25,Math.hypot(handView.x,handView.z)),-.035,.047);
     const x = -direction*.038+.145*Math.sin(handYaw);
     const z = .162*Math.cos(handYaw);
-    reachHand(side,x,handHeight,z,offerWeight);
+    const wristTarget = groups.chest.localToWorld(handTarget.set(x,handHeight,z));
+    palmForward.copy(camera.position).sub(wristTarget);
+    palmForward.y = 0;
+    if (palmForward.lengthSq() < .00001) {
+      palmForward.set(Math.sin(root.rotation.y),0,Math.cos(root.rotation.y));
+    }
+    palmForward.normalize();
+    reachHand(side,wristTarget,orientPalm(side,palmForward,palmUp),offerWeight);
     if (reaction.kind === 'handReply') {
       const otherSide = side === 'P' ? 'N' : 'P';
-      const lift = smooth(Math.min(1,time/.36));
-      const cover = smooth(T.MathUtils.clamp((time-.36)/.38,0,1));
-      reachHand(otherSide,mix(direction*.070,x,cover),handHeight+mix(.014,.041,lift),z-.009,weight);
+      const approach = smooth(Math.min(1,time/.44));
+      const lower = smooth(T.MathUtils.clamp((time-.44)/.39,0,1));
+      // Track the actual offered palm after applying the arm and wrist pose.
+      groups['hand'+side].localToWorld(offeredPalm.copy(palmRig[side].center));
+      coverPalm.copy(offeredPalm);
+      coverPalm.y += mix(.073,.003,lower);
+      const coverRotation = orientPalm(otherSide,palmForward,palmDown);
+      coverWrist.copy(coverPalm).sub(handBend.copy(palmRig[otherSide].center).applyQuaternion(coverRotation));
+      const coverWeight = approach*smooth(Math.min(1,(reaction.duration-time)/.35));
+      reachHand(otherSide,coverWrist,coverRotation,coverWeight);
     }
     head.rotateZ(direction*.08*offerWeight);
   }
