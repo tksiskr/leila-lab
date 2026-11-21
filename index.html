@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 29 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 29 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 30 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 30 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -6,7 +6,7 @@
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
-  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
   const response = await fetch(path);
@@ -443,7 +443,6 @@ canvas.addEventListener('pointerup', event => {
   const origin = tap;
   tap = null;
   if (!origin || event.pointerId !== origin.id || Math.hypot(event.clientX-origin.x,event.clientY-origin.y)>9) return;
-  if (mode !== 'roam') return;
   const rect = canvas.getBoundingClientRect();
   tapPoint.set(2*(event.clientX-rect.left)/rect.width-1,1-2*(event.clientY-rect.top)/rect.height);
   tapRay.setFromCamera(tapPoint,camera);
@@ -451,23 +450,119 @@ canvas.addEventListener('pointerup', event => {
     .find(hit => destinationMeshes.get(hit.object) !== sofaTarget || floorGroup.visible);
   const leilaHit = tapRay.intersectObjects(parts,false)[0];
   if (targetHit && (!leilaHit || targetHit.distance < leilaHit.distance)) {
+    if (mode !== 'roam') return;
+    restoreReactionPose();
     requestDestination(destinationMeshes.get(targetHit.object),true);
     return;
   }
-  if (!leilaHit || !['wait','rest','linger','window'].includes(roam.phase)) return;
-  roam.glanceAt = Infinity;
-  if (roam.attention) {
-    const gaze = roam.attention;
-    // A tap during a glance continues the same motion from its current weight.
-    if (gaze.duration < 2) {
-      gaze.duration = 2;
-      gaze.elapsed = .28 * gaze.blend;
-      $('destination').textContent = 'こちらを見ています';
-    }
-  } else {
-    beginAttention();
-  }
+  if (!leilaHit) return;
+  const part = leilaHit.object.parent;
+  const active = mode === 'dance' && !dance.finished || mode === 'roam' && roam.phase === 'route';
+  const choices = active
+    ? ['notice','nod','smallWave']
+    : part === groups.head || part === groups.neck
+      ? ['notice','nod','smallWave']
+      : ['smallWave','largeWave','beckon','nod'];
+  beginReaction(choices[Math.floor(Math.random()*choices.length)],true);
 });
+
+const reactions = {
+  notice: {label:'こちらを見ています',duration:1.05},
+  nod: {label:'うなずきました',duration:1.16},
+  smallWave: {label:'小さく手を振っています',duration:1.52},
+  largeWave: {label:'大きく手を振っています',duration:2.0},
+  beckon: {label:'手招きしています',duration:1.92}
+};
+const reactionJoints = ['neck','head','upperN','elbowN','foreN','handN','upperP','elbowP','foreP','handP']
+  .map(key => ({joint:groups[key],pose:new T.Quaternion()}));
+let reaction = null;
+let reactionApplied = false;
+const reactionHeading = new T.Quaternion();
+const reactionArm = new T.Quaternion();
+
+function restoreReactionPose() {
+  if (!reactionApplied) return;
+  for (const {joint,pose} of reactionJoints) joint.quaternion.copy(pose);
+  reactionApplied = false;
+}
+
+function beginReaction(kind,fromTap=false) {
+  // Keep taps distinct without restarting a gesture on every rapid touch.
+  if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap) {
+    if (reaction.fromTap) return;
+    reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
+    reaction.next = kind;
+    return;
+  }
+  const offset = camera.position.clone().sub(root.position).applyAxisAngle(turnAxis,-root.rotation.y);
+  reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:offset.x > .15 ? 'P' : 'N'};
+  const status = $('reactionStatus');
+  status.textContent = reaction.label;
+  status.hidden = false;
+}
+
+function aimReactionArm(joint,rest,direction,weight) {
+  reactionArm.copy(joint.quaternion);
+  aim(joint,rest,direction.applyQuaternion(reactionHeading));
+  joint.quaternion.slerp(reactionArm,1-weight);
+}
+
+function applyReaction(dt) {
+  if (!reaction) return;
+  const {kind,duration,side} = reaction;
+  const time = reaction.elapsed += dt;
+  if (time >= duration) {
+    const next = reaction.next;
+    reaction = null;
+    if (next) beginReaction(next,true);
+    else $('reactionStatus').hidden = true;
+    return;
+  }
+  const weight = smooth(Math.min(1,time/.3,(duration-time)/.38));
+  for (const {joint,pose} of reactionJoints) pose.copy(joint.quaternion);
+  reactionApplied = true;
+
+  const head = groups.head;
+  gazeDirection.copy(camera.position).sub(head.getWorldPosition(jokeHeadPosition));
+  gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
+  const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.35,1.35);
+  const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  const nod = kind === 'nod' ? .22 * Math.sin(Math.PI*T.MathUtils.clamp((time-.23)/.60,0,1)) : 0;
+  groups.neck.rotateY(.23*yaw*weight);
+  head.rotateY(.77*yaw*weight);
+  head.rotateX((pitch+nod)*weight);
+  if (kind === 'notice' || kind === 'nod') return;
+
+  const sign = side === 'P' ? 1 : -1;
+  const wave = Math.sin((time-.29)*Math.PI*2*(kind === 'largeWave' ? 1.65 : 2.15));
+  const curl = .5 + .5*Math.sin((time-.29)*Math.PI*2*1.85);
+  const upper = groups['upper'+side];
+  const elbow = groups['elbow'+side];
+  const wrist = groups['hand'+side];
+  root.getWorldQuaternion(reactionHeading);
+  if (kind === 'largeWave') {
+    aimReactionArm(upper,base['elbow'+side],V(sign*.78,.48,.30),weight);
+    aimReactionArm(elbow,base['hand'+side],V(sign*(.14+wave*.53),.93,.26),weight);
+    wrist.rotateZ(sign*wave*.28*weight);
+  } else if (kind === 'smallWave') {
+    aimReactionArm(upper,base['elbow'+side],V(sign*.52,-.44,.55),weight);
+    aimReactionArm(elbow,base['hand'+side],V(sign*(.12+wave*.23),.81,.54),weight);
+    wrist.rotateZ(sign*wave*.24*weight);
+  } else {
+    aimReactionArm(upper,base['elbow'+side],V(sign*.31,-.28,.88),weight);
+    aimReactionArm(elbow,base['hand'+side],V(sign*.12,.40+curl*.48,.84-curl*.49),weight);
+    wrist.rotateY(sign*(.25+curl*.32)*weight);
+    wrist.rotateZ(sign*(.18+curl*.43)*weight);
+  }
+}
+
+for (const kind of ['smallWave','largeWave','beckon']) {
+  $(kind+'Preview').onclick = () => beginReaction(kind);
+}
+
+// Button and slider handlers can capture the current base pose between frames.
+document.querySelector('section').addEventListener('click',restoreReactionPose,true);
+document.querySelector('section').addEventListener('input',restoreReactionPose,true);
 
 function beginAttention(spontaneous = false) {
   const head = groups.head;
@@ -631,6 +726,21 @@ function advanceRoam(dt) {
 
 function chooseDestination() {
   const roll = Math.random();
+  if (roam.target?.kind !== 'user' && roll < .16) {
+    const target = userApproachTarget();
+    if (target) {
+      startDestination(target);
+      return;
+    }
+  }
+  if (!reaction && roam.target?.kind !== 'user' && roll >= .16 && roll < .27) {
+    const point = camera.position.clone();
+    const heading = headingTo(root.position,point);
+    const gestures = ['smallWave','largeWave','beckon'];
+    startDestination({kind:'greeting',name:'ユーザー',heading,
+      gesture:gestures[Math.floor(Math.random()*gestures.length)]});
+    return;
+  }
   if (roll < .32) {
     startDestination(wanderingTarget());
   } else if (roll < .58 && roam.phase !== 'window') {
@@ -684,8 +794,8 @@ function resetTravel() {
 function setTravelDistance(distance) {
   setTravelPosition(root.position.x, distance);
 }
-function setTravelPosition(x, z) {
-  if (followLeila) {
+function setTravelPosition(x, z, holdCamera=false) {
+  if (followLeila && !holdCamera) {
     camera.position.x += x - root.position.x;
     camera.position.z += z - root.position.z;
     orbit.target.x += x - root.position.x;
@@ -715,7 +825,7 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
   const metres = distance * transferScale;
   if (planarRoute) {
     const {from,scale} = planarRoute;
-    setTravelPosition(from.x + Math.sin(heading)*metres*scale, from.z + Math.cos(heading)*metres*scale);
+    setTravelPosition(from.x + Math.sin(heading)*metres*scale, from.z + Math.cos(heading)*metres*scale,planarRoute.holdCamera);
   } else {
     setTravelDistance(origin + (heading === Math.PI ? -1 : 1) * metres);
   }
@@ -904,6 +1014,38 @@ function routeTurn(heading, message) {
   return {type:'turn',heading,time:1.3,message};
 }
 
+function userApproachTarget() {
+  const from = root.position;
+  const viewer = V(camera.position.x,0,camera.position.z);
+  const direction = viewer.clone().sub(from);
+  const distance = direction.length();
+  if (distance < 1.03 || camera.position.y < .10) return null;
+  direction.divideScalar(distance);
+  // Use a direct segment so each step closes the distance to the viewer.
+  const stride = Math.min(1.10,distance-.76);
+  const couchMin = sofaTarget.lookAt.clone().add(V(-.45,-1,-.68));
+  const couchMax = sofaTarget.lookAt.clone().add(V(.45,1,.68));
+  const couch = new T.Box3(couchMin,couchMax);
+  const ray = new T.Ray(from,direction);
+  const couchHit = ray.intersectBox(couch,V(0,0,0));
+  for (const fraction of [1,.8,.6,.4]) {
+    const length = stride*fraction;
+    if (length < .24 || couchHit && from.distanceTo(couchHit) < length) continue;
+    const point = from.clone().addScaledVector(direction,length);
+    if (point.x < -5.65 || point.x > 5.65 || point.z < -5.65 || point.z > 8.65) continue;
+    if (clearOfPoles(from,point)) {
+      return {kind:'user',name:'ユーザー',point,heading:headingTo(point,viewer)};
+    }
+  }
+  return null;
+}
+
+$('approachPreview').onclick = () => {
+  if (mode !== 'roam') beginRoam();
+  if (roam.target?.kind === 'user' && roam.phase === 'route') return;
+  requestDestination({kind:'user',name:'ユーザー'});
+};
+
 function requestDestination(target, acknowledge=false) {
   if (roam.phase === 'route') {
     roam.pending = {target,acknowledge};
@@ -922,7 +1064,17 @@ function requestDestination(target, acknowledge=false) {
 }
 
 function startDestination(target, acknowledge=false, seated=roam.phase==='seated') {
-  const message = target.kind === 'wander' ? '気ままに歩いています' : '行き先　' + target.name;
+  if (target.kind === 'user') {
+    const approach = userApproachTarget();
+    if (!approach) {
+      beginReaction('smallWave');
+      return;
+    }
+    target = approach;
+  }
+  const message = target.kind === 'wander' ? '気ままに歩いています'
+    : target.kind === 'user' ? 'あなたに近付いています'
+    : target.kind === 'greeting' ? 'あなたのほうを向いています' : '行き先　' + target.name;
   const from = root.position.clone();
   const visit = [];
   if (seated) visit.push({type:'rise',time:1.55,message:'ソファから立ち上がっています'});
@@ -932,12 +1084,14 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   if (target.kind === 'wander') {
     visit.push({type:'wander',remaining:target.legs,message});
   } else if (target.point && from.distanceTo(target.point) > .025) {
-    if (!appendWalk(visit,from,target.point,message)) {
+    if (!appendWalk(visit,from,target.point,message,target.kind === 'user')) {
       enterQuietRest('linger','少し立ち止まっています',4);
       return;
     }
   }
-  if (target.kind === 'window') {
+  if (target.kind === 'greeting') {
+    visit.push(routeTurn(target.heading,message));
+  } else if (target.kind === 'window') {
     visit.push(routeTurn(target.heading,'窓の外を見ています'));
   } else if (target === sofaTarget) {
     visit.push(
@@ -949,11 +1103,12 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   startRouteStage();
 }
 
-function appendWalk(visit,from,to,message) {
+function appendWalk(visit,from,to,message,holdCamera=false) {
   const path = destinationPath(from,to);
   let previous = from;
   for (const point of path) {
     const walk = routeWalk(previous,point,message);
+    walk.holdCamera = holdCamera;
     visit.push(routeTurn(walk.heading,message),walk);
     previous = point;
   }
@@ -1240,6 +1395,13 @@ function applyQuietPose() {
 
 function arriveAtDestination() {
   roam.elapsed = 0;
+  if (roam.target.kind === 'user' || roam.target.kind === 'greeting') {
+    const target = roam.target;
+    const approached = target.kind === 'user';
+    enterQuietRest('linger',approached ? 'あなたの近くで立ち止まっています' : 'あなたのほうを向いています',5+Math.random()*3);
+    if (!reaction?.fromTap) beginReaction(approached ? 'smallWave' : target.gesture);
+    return;
+  }
   if (roam.target.kind === 'window') {
     enterQuietRest('window','窓の外を眺めています',10+Math.random()*8);
     return;
@@ -1480,7 +1642,7 @@ function advanceDance(dt) {
 }
 
 beginRoam();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;if(mode==='roam'){
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();if(mode==='roam'){
   advanceRoam(dt);
   sync();
 }else if(mode==='dance'){advanceDance(dt);sync();}else if(mode==='travel'){
@@ -1499,6 +1661,6 @@ if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
   alignSupportToFloor(1-cur.step,true);
 }
-sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}updateWorld();orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}applyReaction(dt);updateWorld();orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 }catch(e){$('status').textContent='読み込みエラー: '+e.message;console.error(e)}
 </script></html>
