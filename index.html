@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.14 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.14 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.11 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.11 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -293,7 +293,7 @@ function leg(side, lift=0, stride=0, inward=0, pitch=0, offset=0, heelComp=.045)
   goal.z += stride;
   solveLeg(side, goal, 0, pitch);
 }
-function solveLeg(side, goal, footHeading, pitch=0, shoeRotation=null, kneeHint=null, inwardKnee=0) {
+function solveLeg(side, goal, footHeading, pitch=0) {
   const th = groups['thigh'+side], kn = groups['knee'+side];
   const sh = groups['shin'+side], ft = groups['foot'+side];
   const u = base['knee'+side], v = base['foot'+side];
@@ -303,26 +303,15 @@ function solveLeg(side, goal, footHeading, pitch=0, shoeRotation=null, kneeHint=
   const direction = goal.clone().sub(hip);
   const length = T.MathUtils.clamp(direction.length(), .001, upper+lower-.0001);
   direction.normalize();
-  const forward = V(Math.sin(footHeading),0,Math.cos(footHeading));
-  const bend = kneeHint ? kneeHint.clone().sub(hip) : forward.clone();
-  bend.addScaledVector(direction,-bend.dot(direction));
-  const forwardBend = forward.clone().addScaledVector(direction,-forward.dot(direction)).normalize();
-  const nativeBend = smooth(T.MathUtils.clamp((bend.dot(forward)-.003)/.022,0,1));
-  bend.normalize().lerp(forwardBend,1-nativeBend).normalize();
-  if (inwardKnee > 0) {
-    const sideSign = side === 'P' ? -1 : 1;
-    const inward = V(Math.cos(footHeading)*sideSign,0,-Math.sin(footHeading)*sideSign);
-    inward.addScaledVector(direction,-inward.dot(direction)).normalize();
-    const guidedBend = forwardBend.clone().addScaledVector(inward,.08).normalize();
-    bend.lerp(guidedBend,inwardKnee).normalize();
-  }
+  const bend = V(Math.sin(footHeading),0,Math.cos(footHeading));
+  bend.addScaledVector(direction,-bend.dot(direction)).normalize();
   const along = (upper*upper-lower*lower+length*length)/(2*length);
   const height = Math.sqrt(Math.max(0,upper*upper-along*along));
   const knee = hip.clone().addScaledVector(direction,along).addScaledVector(bend,height);
   aim(th,u,knee.clone().sub(hip));
   aim(kn,v,hip.clone().addScaledVector(direction,length).sub(knee));
   sh.rotation.set(0,0,0);
-  const sole = shoeRotation ?? new T.Quaternion().setFromEuler(new T.Euler(pitch,footHeading,0,'YXZ'));
+  const sole = new T.Quaternion().setFromEuler(new T.Euler(pitch,footHeading,0,'YXZ'));
   ft.quaternion.copy(ft.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(sole));
 }
 // Reference study: fixed pose, coordinates are world directions, front is +Z.
@@ -384,7 +373,6 @@ function mixamoPose(elapsed) {
     joint.parent.getWorldQuaternion(walkParent).invert();
     joint.quaternion.copy(walkParent.multiply(walkWorld));
   }
-  plantCatwalkFeet(elapsed,0,1);
 }
 
 
@@ -733,7 +721,6 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
     joint.quaternion.copy(walkParent.multiply(travelJoint));
   }
   root.rotation.y = heading;
-  if (elapsed > 0) plantCatwalkFeet(walkTime,heading,1-clipWeight);
 }
 
 const sofaDock = V(0,0,0);
@@ -972,12 +959,7 @@ function startRouteStage() {
       return;
     }
     stage.feet = sofaSides.map(side => groups['foot'+side].getWorldPosition(V(0,0,0)));
-    stage.targets = sofaSides.map(side => {
-      const ankle = routeFootTarget(side,stage.heading);
-      ankle.y = standingAnkleHeights[side];
-      return ankle;
-    });
-    stage.shoes = sofaSides.map(side => groups['foot'+side].getWorldQuaternion(new T.Quaternion()));
+    stage.targets = sofaSides.map(side => routeFootTarget(side,stage.heading));
   }
   $('destination').textContent = stage.message;
 }
@@ -991,10 +973,7 @@ function advanceRouteTurn(stage, progress) {
     const step = T.MathUtils.clamp((progress-index*.42)/.58,0,1);
     const goal = stage.feet[index].clone().lerp(stage.targets[index],smooth(step));
     goal.y += .042*turn*Math.sin(Math.PI*step);
-    const heading = stage.angle+stage.delta*smooth(step);
-    const flat = new T.Quaternion().setFromAxisAngle(turnAxis,heading);
-    const rotation = stage.shoes[index].clone().slerp(flat,smooth(Math.min(1,progress/.38)));
-    solveLeg(side,goal,heading,0,rotation);
+    solveLeg(side,goal,stage.angle+stage.delta*smooth(step));
   });
   alignSupportToFloor();
 }
@@ -1030,70 +1009,6 @@ function applyRouteLook(stage, progress) {
   groups.head.rotateX(stage.pitch*weight);
   const nod = T.MathUtils.clamp((progress-.38)/.39,0,1);
   groups.head.rotateX(.25*Math.sin(Math.PI*nod)**2);
-}
-
-function plantCatwalkFeet(time,heading,clipWeight) {
-  const feet = shoeContactGeometry.map(({side,foot,vertices}) => {
-    const goal = foot.getWorldPosition(V(0,0,0));
-    const rotation = foot.getWorldQuaternion(new T.Quaternion());
-    const knee = groups['knee'+side].getWorldPosition(V(0,0,0));
-    return {side,vertices,goal,rotation,knee,sole:goal.y+shoeBottom(vertices,rotation)};
-  });
-  const lowest = Math.min(...feet.map(foot => foot.sole));
-  let drop = 0;
-  for (const [index,foot] of feet.entries()) {
-    const {side,vertices,goal,rotation,sole} = foot;
-    // P lands at one sixth of the captured cycle, N half a cycle later.
-    const cycle = time/walkCycle - 1/6 - index*.5;
-    const phase = cycle - Math.floor(cycle);
-    const stance = phase < .70
-      ? 1-smooth(T.MathUtils.clamp((phase-.44)/.23,0,1))
-      : smooth(T.MathUtils.clamp((phase-.84)/.16,0,1));
-    const receiving = phase < .70 ? 1 : smooth(T.MathUtils.clamp((phase-.89)/.11,0,1));
-    const heelPitch = phase > .70 ? -.12 : -.12*(1-smooth(Math.min(1,phase/.17)));
-    // For the start and stop clips, use the lower shoe as the supporting foot.
-    const contact = 1-smooth(T.MathUtils.clamp((sole-lowest)/.065,0,1));
-    const capturedWeight = stance*clipWeight;
-    const transitionWeight = contact*(1-clipWeight);
-    foot.weight = capturedWeight+transitionWeight;
-    if (foot.weight <= 0) continue;
-    const pitch = heelPitch*capturedWeight/foot.weight;
-    const planted = new T.Quaternion().setFromEuler(new T.Euler(pitch,heading,0,'YXZ'));
-    rotation.slerp(planted,foot.weight);
-    const floorY = -shoeBottom(vertices,rotation);
-    goal.y = T.MathUtils.lerp(goal.y,floorY,capturedWeight*receiving+transitionWeight);
-    const hip = groups['thigh'+side].getWorldPosition(V(0,0,0));
-    const reach = base['knee'+side].length()+base['foot'+side].length()-.008;
-    const horizontal = (hip.x-goal.x)**2+(hip.z-goal.z)**2;
-    const needed = hip.y-goal.y-Math.sqrt(Math.max(0,reach**2-horizontal));
-    // Round off changes in which leg determines the pelvis height.
-    const correction = Math.max(0,needed)*smooth(Math.min(1,foot.weight*2));
-    const difference = drop-correction;
-    drop = .5*(drop+correction+Math.hypot(difference,.006))-.003;
-    drop = Math.max(drop,0);
-  }
-  // A shallow, continuous vertical cycle avoids dropping the whole body at heel strike.
-  const steady = smooth(T.MathUtils.clamp((clipWeight-.22)/.78,0,1));
-  if (steady > 0) {
-    const headY = groups.head.getWorldPosition(V(0,0,0)).y;
-    const steadyHeadY = .784 + .0022*Math.cos(4*Math.PI*(time/walkCycle-.34));
-    const steadyDrop = Math.max(0,headY-steadyHeadY);
-    drop = T.MathUtils.lerp(drop,steadyDrop,steady);
-  }
-  groups.pelvis.position.y -= drop;
-  for (const {side,goal,rotation,knee,weight} of feet) {
-    if (drop > 0 || weight > 0) solveLeg(side,goal,heading,0,rotation,knee,steady);
-  }
-}
-
-function shoeBottom(vertices,rotation) {
-  const matrix = new T.Matrix4().makeRotationFromQuaternion(rotation).elements;
-  let bottom = Infinity;
-  for (let i=0;i<vertices.length;i+=3) {
-    const height = matrix[1]*vertices[i]+matrix[5]*vertices[i+1]+matrix[9]*vertices[i+2];
-    if (height < bottom) bottom = height;
-  }
-  return Number.isFinite(bottom) ? bottom : 0;
 }
 
 function walkingContactWeight(stage,time) {
