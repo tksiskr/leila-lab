@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.10 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.10 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.11 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.11 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -975,6 +975,7 @@ function advanceRouteTurn(stage, progress) {
     goal.y += .042*turn*Math.sin(Math.PI*step);
     solveLeg(side,goal,stage.angle+stage.delta*smooth(step));
   });
+  alignSupportToFloor();
 }
 
 function sitAtSofa(amount, restTime=0) {
@@ -1010,6 +1011,27 @@ function applyRouteLook(stage, progress) {
   groups.head.rotateX(.25*Math.sin(Math.PI*nod)**2);
 }
 
+function walkingContactWeight(stage,time) {
+  const takeoff = 1-smooth(T.MathUtils.clamp((time-.55)/.65,0,1));
+  const landing = 1-smooth(T.MathUtils.clamp((stage.time-time-.60)/.75,0,1));
+  return Math.max(takeoff,landing);
+}
+
+function alignSupportToFloor(weight=1) {
+  if (weight <= 0) return;
+  let lowest = Infinity;
+  for (const {foot,vertices} of shoeContactGeometry) {
+    foot.updateWorldMatrix(true,false);
+    const m = foot.matrixWorld.elements;
+    for (let i=0; i<vertices.length; i+=3) {
+      const height = m[1]*vertices[i] + m[5]*vertices[i+1] + m[9]*vertices[i+2] + m[13];
+      if (height < lowest) lowest = height;
+    }
+  }
+  // Roll the shoe around its lowest point and carry the pelvis with it.
+  if (Number.isFinite(lowest)) groups.pelvis.position.y -= lowest*weight;
+}
+
 function advanceDestinationRoute(dt) {
   const stage = roam.visit[roam.visitIndex];
   roam.elapsed = Math.min(stage.time,roam.elapsed+dt);
@@ -1017,7 +1039,8 @@ function advanceDestinationRoute(dt) {
   switch (stage.type) {
     case 'walk':
       travelPose(roam.elapsed,stage.duration,0,stage.heading,false,stage.speed,0,stage);
-      blendSofaPose(stage.pose,1-smooth(Math.min(1,roam.elapsed/.2)));
+      blendSofaPose(stage.pose,1-smooth(Math.min(1,roam.elapsed/.34)));
+      alignSupportToFloor(walkingContactWeight(stage,roam.elapsed));
       break;
     case 'turn':
       advanceRouteTurn(stage,progress);
@@ -1029,6 +1052,8 @@ function advanceDestinationRoute(dt) {
       travelPose(time,walk.duration,0,walk.heading,false,walk.speed,0,walk);
       blendSofaPose(stage.pose,1-smooth(Math.min(1,progress/.28)));
       blendSofaPose(sofaStand,smooth(progress));
+      const contact = walkingContactWeight(walk,stage.walkElapsed);
+      alignSupportToFloor(T.MathUtils.lerp(contact,1,smooth(progress)));
       break;
     }
     case 'look':
@@ -1087,6 +1112,7 @@ function applyQuietPose() {
   const time = roam.elapsed;
   const settle = smooth(Math.min(1,time/.48));
   blendSofaPose(roam.quietEntryPose,1-settle);
+  if (settle < 1) alignSupportToFloor();
   const fade = smooth(Math.min(1,time/1.25));
   const breathe = Math.sin(time*1.7)*.014*fade;
   groups.chest.rotateX(breathe);
@@ -1159,11 +1185,12 @@ floorGroup.attach(sofaShadow);
 const bodyContact=makeContactShadow();
 const footContacts=['P','N'].map(side=>({side,shadow:makeContactShadow(),meshes:groups['foot'+side].children.filter(o=>o.isMesh&&!dots.includes(o))}));
 for(const f of footContacts)for(const mesh of f.meshes)mesh.geometry.computeBoundingBox();
-const standingAnkleHeights = Object.fromEntries(footContacts.map(({side,meshes}) => {
+const shoeContactGeometry = footContacts.map(({side,meshes}) => {
   const foot = groups['foot'+side];
   foot.updateWorldMatrix(true,true);
   const inverseFoot = foot.matrixWorld.clone().invert();
   const vertex = V(0,0,0);
+  const vertices = [];
   let bottom = Infinity;
   for (const mesh of meshes) {
     const transform = inverseFoot.clone().multiply(mesh.matrixWorld);
@@ -1171,10 +1198,13 @@ const standingAnkleHeights = Object.fromEntries(footContacts.map(({side,meshes})
     for (let i=0; i<positions.count; i++) {
       vertex.fromBufferAttribute(positions,i).applyMatrix4(transform);
       bottom = Math.min(bottom,vertex.y);
+      vertices.push(vertex.x,vertex.y,vertex.z);
     }
   }
-  return [side,Number.isFinite(bottom) ? -bottom : defs['foot'+side][2]];
-}));
+  const ankleHeight = Number.isFinite(bottom) ? -bottom : defs['foot'+side][2];
+  return {side,foot,vertices:new Float32Array(vertices),ankleHeight};
+});
+const standingAnkleHeights = Object.fromEntries(shoeContactGeometry.map(({side,ankleHeight}) => [side,ankleHeight]));
 const contactBox=new T.Box3(),contactPartBox=new T.Box3(),contactCenter=new T.Vector3(),contactSize=new T.Vector3();
 function updateContactShadows(){
  const visible=floorGroup.visible;bodyContact.visible=visible;
