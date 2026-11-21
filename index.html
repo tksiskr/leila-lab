@@ -1,8 +1,48 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 37 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 37 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
-  <option value="0">標準・白装甲</option>
-  <option value="1">サーナイト風（試作）</option>
-  <option value="2">従来・シルバー</option>
-</select></label><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 38 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+#paintWindow[hidden] {display:none}
+#paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
+.paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
+.paintHeader h2 {margin:0;font-size:1rem}
+.paintHeader button,.paintBody button {margin:0;min-height:36px}
+.paintBody {display:grid;grid-template-columns:minmax(0,1fr) minmax(138px,.8fr) minmax(0,1fr);gap:12px;padding:12px 14px}
+.paintBody label {justify-content:space-between;gap:6px;margin:6px 0;font-size:.84rem}
+.paintBody select,.paintBody input:not([type=range]) {max-width:70%;min-width:0;background:#151e2b;border:1px solid #62738b;color:white;border-radius:7px;padding:7px;font:inherit}
+.paintBody h3 {font-size:.84rem;margin:4px 0 8px}
+.paintViews,.paintActions,.paintRecent {display:flex;flex-wrap:wrap;gap:5px}
+.paintViews button,.paintActions button,.paintSaved button {font-size:.8rem}
+.paintRecent {min-height:34px;margin-bottom:6px}
+.paintRecent button {min-width:34px;min-height:34px;border-color:#8291a3;box-shadow:inset 0 0 0 1px #172030}
+#paintWheel {margin:0 auto;width:min(145px,100%);aspect-ratio:1;position:relative;border-radius:50%;touch-action:none;cursor:crosshair;user-select:none;background:linear-gradient(rgb(0 0 0/var(--shade,0)),rgb(0 0 0/var(--shade,0))),radial-gradient(circle closest-side,white,transparent),conic-gradient(from 90deg,red,yellow,lime,cyan,blue,magenta,red)}
+#paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
+#paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
+@media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
+</style><header>LEILA / LAB 38 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+<aside id="paintWindow" aria-labelledby="paintTitle" hidden>
+  <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
+  <div class="paintBody">
+    <div class="paintControls">
+      <div class="paintViews" aria-label="プレビューの向き">
+        <button type="button" data-paint-view="front">正面</button><button type="button" data-paint-view="side">側面</button><button type="button" data-paint-view="back">背面</button>
+      </div>
+      <label>ベース配色 <select id="paintBase"><option value="0">標準・白装甲</option><option value="1">サーナイト風</option><option value="2">従来・シルバー</option></select></label>
+      <label>外装パーツ <select id="paintPart"></select></label>
+      <label>対象 <select id="paintSide"><option value="both">左右セット</option><option value="P">左</option><option value="N">右</option></select></label>
+      <div class="paintActions"><button id="paintAll" type="button">全外装に適用</button><button id="paintReset" type="button">選択パーツをベース色に戻す</button></div>
+    </div>
+    <div class="paintPicker">
+      <div id="paintWheel" tabindex="0" role="group" aria-label="カラーホイール。左右キーで色相、上下キーで彩度を調整"><span id="paintMarker"></span></div>
+      <label>明るさ <input id="paintValue" type="range" min="0" max="100" value="100"></label>
+      <label>色コード <input id="paintHex" type="text" value="#FFFFFF" maxlength="7" spellcheck="false" autocomplete="off"></label>
+    </div>
+    <div class="paintSaved">
+      <h3>最近使った色</h3><div id="paintRecent" class="paintRecent"></div>
+      <label>保存した配色 <select id="paintDesigns"><option value="">選択する</option></select></label>
+      <label>配色の名前 <input id="paintName" type="text" maxlength="32" autocomplete="off"></label>
+      <button id="paintSave" type="button">名前を付けて保存</button>
+      <div id="paintStatus" role="status"></div>
+    </div>
+  </div>
+</aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
@@ -203,19 +243,273 @@ for (const [name,x,z,color] of [
 
 const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
-const palette = {value: 0};
-const paletteControl = $('palette');
-paletteControl.value = '0';
-paletteControl.onchange = () => { palette.value = Number(paletteControl.value); };
+const paintParts = [
+  ['head','頭部'],['temple','側頭装甲',true],['chest','胸部'],['abdomen','腹部'],['pelvis','腰'],
+  ['shoulder','肩',true],['upper','上腕',true],['fore','前腕',true],['hand','手',true],
+  ['thigh','太もも',true],['knee','膝',true],['shin','すね',true],['foot','足',true]
+];
+const paintKeys = paintParts.flatMap(([key,,paired]) => paired ? [key+'P',key+'N'] : [key]);
+const paintStoreKey = 'leila.armor.v1';
+const normalizePaint = value => typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value) ? value.toUpperCase() : null;
+function readPaintDesign(value) {
+  const colors = {};
+  for (const key of paintKeys) {
+    const color = normalizePaint(value?.colors?.[key]);
+    if (color) colors[key] = color;
+  }
+  return {base:[0,1,2].includes(value?.base) ? value.base : 0,colors};
+}
+function readPaintState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(paintStoreKey));
+    return {
+      current:readPaintDesign(saved?.current),
+      recent:[...new Set((Array.isArray(saved?.recent) ? saved.recent : []).map(normalizePaint).filter(Boolean))].slice(0,12),
+      designs:(Array.isArray(saved?.designs) ? saved.designs : [])
+        .filter(item => typeof item?.name === 'string' && item.name.trim())
+        .map(item => ({name:item.name.slice(0,32),design:readPaintDesign(item.design)}))
+    };
+  } catch {
+    return {current:readPaintDesign(),recent:[],designs:[]};
+  }
+}
+const paintState = readPaintState();
+const palette = {value:paintState.current.base};
+const paintUniforms = Object.fromEntries(paintKeys.map(key => [key,{
+  value:new T.Vector4(1,1,1,0)
+}]));
+const paintOff = {value:new T.Vector4(1,1,1,0)};
+const paintTint = new T.Color();
+function syncPaintMaterials() {
+  palette.value = paintState.current.base;
+  for (const key of paintKeys) {
+    const color = paintState.current.colors[key];
+    if (color) {
+      paintTint.set(color);
+      paintUniforms[key].value.set(paintTint.r,paintTint.g,paintTint.b,1);
+    } else paintUniforms[key].value.w = 0;
+  }
+}
+syncPaintMaterials();
+
+function setupPaintWindow() {
+  const panel = $('paintWindow'), open = $('paintOpen'), wheel = $('paintWheel');
+  const part = $('paintPart'), side = $('paintSide'), base = $('paintBase');
+  const value = $('paintValue'), hex = $('paintHex'), status = $('paintStatus');
+  const designs = $('paintDesigns'), name = $('paintName'), save = $('paintSave');
+  let color = {h:0,s:0,v:1}, wheelPointer = null;
+  for (const [key,label] of paintParts) part.add(new Option(label,key));
+  let opened = false;
+  function persist(message='') {
+    try {
+      localStorage.setItem(paintStoreKey,JSON.stringify(paintState));
+      status.textContent = message;
+    } catch {
+      status.textContent = 'このブラウザでは配色を保存できません。';
+    }
+  }
+  function targets() {
+    const key = part.value;
+    const paired = paintParts.find(([id]) => id === key)[2];
+    side.disabled = !paired;
+    return paired ? (side.value === 'both' ? [key+'P',key+'N'] : [key+side.value]) : [key];
+  }
+  function colorHex() {
+    const c = color.v*color.s;
+    const hue = color.h/60;
+    const x = c*(1-Math.abs(hue%2-1));
+    const bands = [[c,x,0],[x,c,0],[0,c,x],[0,x,c],[x,0,c],[c,0,x]];
+    return '#'+bands[Math.floor(hue)].map(n => Math.round((n+color.v-c)*255)
+      .toString(16).padStart(2,'0')).join('').toUpperCase();
+  }
+  function fromHex(input) {
+    const [r,g,b] = input.slice(1).match(/../g).map(n => parseInt(n,16)/255);
+    const high = Math.max(r,g,b), delta = high-Math.min(r,g,b);
+    const sector = !delta ? 0 : high === r ? (g-b)/delta : high === g ? 2+(b-r)/delta : 4+(r-g)/delta;
+    color = {h:(sector*60+360)%360,s:high ? delta/high : 0,v:high};
+    updatePicker();
+  }
+  function updatePicker() {
+    const angle = color.h*Math.PI/180;
+    $('paintMarker').style.left = (50+Math.cos(angle)*color.s*50)+'%';
+    $('paintMarker').style.top = (50+Math.sin(angle)*color.s*50)+'%';
+    wheel.style.setProperty('--shade',String(1-color.v));
+    value.value = Math.round(color.v*100);
+    hex.value = colorHex();
+  }
+  function selectPart() {
+    const keys = targets();
+    const first = paintState.current.colors[keys[0]];
+    $('paintReset').disabled = keys.every(key => !paintState.current.colors[key]);
+    if (first && keys.every(key => paintState.current.colors[key] === first)) fromHex(first);
+  }
+  function showRecent() {
+    $('paintRecent').replaceChildren(...paintState.recent.map(recent => {
+      const swatch = document.createElement('button');
+      swatch.type = 'button';
+      swatch.title = recent;
+      swatch.setAttribute('aria-label',recent+' を適用');
+      swatch.style.background = recent;
+      swatch.onclick = () => {
+        fromHex(recent);
+        applyPaint(targets(),true);
+      };
+      return swatch;
+    }));
+  }
+  function commitPaint() {
+    const current = colorHex();
+    paintState.recent = [current,...paintState.recent.filter(item => item !== current)].slice(0,12);
+    showRecent();
+    persist();
+  }
+  function applyPaint(keys, commit=false) {
+    const current = colorHex();
+    for (const key of keys) paintState.current.colors[key] = current;
+    $('paintReset').disabled = false;
+    syncPaintMaterials();
+    if (commit) commitPaint();
+  }
+  function wheelEvent(event) {
+    const rect = wheel.getBoundingClientRect();
+    const x = (event.clientX-rect.left-rect.width/2)/(rect.width/2);
+    const y = (event.clientY-rect.top-rect.height/2)/(rect.height/2);
+    color.h = (Math.atan2(y,x)*180/Math.PI+360)%360;
+    color.s = Math.min(1,Math.hypot(x,y));
+    updatePicker();
+    applyPaint(targets());
+  }
+  wheel.onpointerdown = event => {
+    if (wheelPointer !== null || event.button !== 0) return;
+    wheelPointer = event.pointerId;
+    wheel.setPointerCapture(wheelPointer);
+    wheelEvent(event);
+  };
+  wheel.onpointermove = event => {
+    if (event.pointerId === wheelPointer) wheelEvent(event);
+  };
+  for (const type of ['pointerup','pointercancel','lostpointercapture']) {
+    wheel.addEventListener(type,event => {
+      if (event.pointerId !== wheelPointer) return;
+      wheelPointer = null;
+      commitPaint();
+    });
+  }
+  wheel.onkeydown = event => {
+    const step = {ArrowLeft:[-3,0],ArrowRight:[3,0],ArrowUp:[0,.03],ArrowDown:[0,-.03]}[event.key];
+    if (!step) return;
+    event.preventDefault();
+    color.h = (color.h+step[0]+360)%360;
+    color.s = Math.max(0,Math.min(1,color.s+step[1]));
+    updatePicker();
+    applyPaint(targets(),true);
+  };
+  value.oninput = () => {
+    color.v = Number(value.value)/100;
+    updatePicker();
+    applyPaint(targets());
+  };
+  value.onchange = commitPaint;
+  hex.onchange = () => {
+    const input = hex.value.trim();
+    const valid = normalizePaint(input.startsWith('#') ? input : '#'+input);
+    if (!valid) {
+      updatePicker();
+      status.textContent = '# から始まる6桁の色コードを入力してください。';
+      return;
+    }
+    fromHex(valid);
+    applyPaint(targets(),true);
+  };
+  part.onchange = side.onchange = selectPart;
+  base.value = paintState.current.base;
+  base.onchange = () => {
+    paintState.current.base = Number(base.value);
+    syncPaintMaterials();
+    persist();
+  };
+  $('paintAll').onclick = () => applyPaint(paintKeys,true);
+  $('paintReset').onclick = () => {
+    for (const key of targets()) delete paintState.current.colors[key];
+    syncPaintMaterials();
+    selectPart();
+    persist();
+  };
+  function showDesigns() {
+    designs.replaceChildren(new Option('選択する',''),...paintState.designs.map(({name},i) => new Option(name,String(i))));
+  }
+  function updateSaveLabel() {
+    save.textContent = paintState.designs.some(item => item.name === name.value.trim()) ? '同じ名前で上書き' : '名前を付けて保存';
+  }
+  name.oninput = updateSaveLabel;
+  save.onclick = () => {
+    const title = name.value.trim();
+    if (!title) {
+      status.textContent = '配色の名前を入力してください。';
+      name.focus();
+      return;
+    }
+    const item = {name:title,design:readPaintDesign(paintState.current)};
+    const existing = paintState.designs.findIndex(entry => entry.name === title);
+    if (existing < 0) paintState.designs.push(item);
+    else paintState.designs[existing] = item;
+    showDesigns();
+    designs.value = String(existing < 0 ? paintState.designs.length-1 : existing);
+    updateSaveLabel();
+    persist('「'+title+'」を保存しました。');
+  };
+  designs.onchange = () => {
+    if (designs.value === '') return;
+    const entry = paintState.designs[Number(designs.value)];
+    paintState.current = readPaintDesign(entry.design);
+    base.value = paintState.current.base;
+    name.value = entry.name;
+    selectPart();
+    syncPaintMaterials();
+    updateSaveLabel();
+    persist('「'+entry.name+'」を読み込みました。');
+  };
+  function toggle(next) {
+    opened = next;
+    panel.hidden = !next;
+    open.setAttribute('aria-expanded',String(next));
+    if (next) {
+      view.scrollIntoView({block:'start'});
+      $('paintClose').focus({preventScroll:true});
+    } else open.focus({preventScroll:true});
+  }
+  open.onclick = () => toggle(!opened);
+  $('paintClose').onclick = () => toggle(false);
+  panel.onkeydown = event => { if (event.key === 'Escape') toggle(false); };
+  panel.querySelectorAll('[data-paint-view]').forEach(button => {
+    button.onclick = () => $(button.dataset.paintView).click();
+  });
+  window.addEventListener('pagehide',() => persist());
+  showRecent();
+  showDesigns();
+  updatePicker();
+  selectPart();
+  open.disabled = false;
+}
 
 const armorMaterials = new Map();
-function armorMaterial(original, region) {
-  // One material per region, with the original texture maps shared.
-  if (armorMaterials.has(region)) return armorMaterials.get(region);
+function armorMaterial(original, region, paintKey) {
+  // Parts share shader programs while retaining their own color uniforms and source maps.
+  const materialKey = original.uuid+'|'+region+'|'+paintKey;
+  if (armorMaterials.has(materialKey)) return armorMaterials.get(materialKey);
   const material = original.clone();
   material.customProgramCacheKey = () => 'leila-armor-' + region;
   material.onBeforeCompile = shader => {
     shader.uniforms.leilaPalette = palette;
+    shader.uniforms.leilaTint = paintUniforms[paintKey] ?? paintOff;
+    if (region === 'head') {
+      shader.uniforms.leilaTempleP = paintUniforms.templeP;
+      shader.uniforms.leilaTempleN = paintUniforms.templeN;
+      shader.vertexShader = 'attribute float leilaTemple; varying float vLeilaTemple;\n'+shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>',
+        '#include <begin_vertex>\nvLeilaTemple = leilaTemple;');
+      shader.fragmentShader = 'varying float vLeilaTemple; uniform vec4 leilaTempleP; uniform vec4 leilaTempleN;\n'+shader.fragmentShader;
+    }
     if (region === 'chest' || region === 'head') {
       shader.vertexShader = 'attribute float leilaAccent; varying float vLeilaAccent;\n' + shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>',
@@ -229,7 +523,10 @@ function armorMaterial(original, region) {
         : region === 'chest'
         ? 'armorColor = mix(armorColor, armorColor * vec3(0.85, 0.12, 0.19), vLeilaAccent);'
         : '';
-    shader.fragmentShader = 'uniform float leilaPalette;\n' + shader.fragmentShader;
+    const customTint = region === 'head'
+      ? 'mix(leilaTint, vLeilaTemple > 0.0 ? leilaTempleP : leilaTempleN, abs(vLeilaTemple))'
+      : 'leilaTint';
+    shader.fragmentShader = 'uniform float leilaPalette; uniform vec4 leilaTint;\n' + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `
       #include <map_fragment>
       vec3 originalColor = diffuseColor.rgb;
@@ -238,23 +535,34 @@ function armorMaterial(original, region) {
       // Keep the dark joints and amber details from the original map.
       float armorMask = smoothstep(0.21, 0.48, darkest)
         * (1.0 - smoothstep(0.12, 0.31, (lightest - darkest) / max(lightest, 0.001)));
-      armorMask *= 1.0 - step(1.5, leilaPalette);
+      float baseArmorMask = armorMask * (1.0 - step(1.5, leilaPalette));
       float tone = mix(0.60, 0.89, smoothstep(0.28, 0.85, lightest));
       vec3 armorColor = vec3(tone, tone * 0.98, tone * 0.965);
       if (leilaPalette > 0.5) { ${accent} }
-      diffuseColor.rgb = mix(originalColor, armorColor, armorMask);
+      vec4 customPaint = ${customTint};
+      ${region === 'head' ? `
+      // Blend coverage and color together where the head and side plates meet.
+      vec4 sidePaint = vLeilaTemple > 0.0 ? leilaTempleP : leilaTempleN;
+      vec3 boundaryColor = mix(leilaTint.rgb * leilaTint.a, sidePaint.rgb * sidePaint.a, abs(vLeilaTemple));
+      customPaint.rgb = boundaryColor / max(customPaint.a, 0.001);
+      ` : ''}
+      vec3 basePaint = mix(originalColor, armorColor, baseArmorMask);
+      vec3 tintedArmor = customPaint.rgb * mix(0.76, 1.06, lightest);
+      diffuseColor.rgb = mix(basePaint, tintedArmor, armorMask * customPaint.a);
+      armorMask = max(baseArmorMask, armorMask * customPaint.a);
     `);
     shader.fragmentShader = shader.fragmentShader.replace('#include <metalnessmap_fragment>',
       '#include <metalnessmap_fragment>\nmetalnessFactor = mix(metalnessFactor, 0.02, armorMask);');
     shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>',
       '#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.29, armorMask);');
   };
-  armorMaterials.set(region, material);
+  armorMaterials.set(materialKey, material);
   return material;
 }
 function addAccentMask(mesh, region) {
   const positions = mesh.geometry.attributes.position;
   const points = new Float32Array(positions.count);
+  const temples = region === 'head' ? new Float32Array(positions.count) : null;
   const p = new T.Vector3();
   for (let i=0; i<positions.count; i++) {
     p.fromBufferAttribute(positions,i).applyMatrix4(mesh.matrixWorld);
@@ -267,19 +575,22 @@ function addAccentMask(mesh, region) {
       const browSeam = .852 + .83 * Math.min(Math.abs(p.x),.042);
       const belowBrow = 1 - T.MathUtils.smoothstep(p.y,browSeam-.003,browSeam+.003);
       points[i] = innerFace * frontFace * belowBrow;
+      temples[i] = Math.sign(p.x) * T.MathUtils.smoothstep(Math.abs(p.x),.047,.063)
+        * (1-T.MathUtils.smoothstep(p.y,.945,.967));
     } else {
       points[i] = (1 - T.MathUtils.smoothstep(edge,.72,1.03)) * T.MathUtils.smoothstep(p.z,.052,.076);
     }
   }
   mesh.geometry.setAttribute('leilaAccent', new T.BufferAttribute(points,1));
+  if (temples) mesh.geometry.setAttribute('leilaTemple',new T.BufferAttribute(temples,1));
 }
 gl.scene.traverse(o=>{if(o.isMesh)parts.push(o)});for(const o of parts){const m=o.name.match(/tripo_part_(\d+)/)||o.parent.name.match(/tripo_part_(\d+)/);if(!m||!mapping[m[1]])throw Error('未分類メッシュ '+o.name);const part = mapping[m[1]];
 const region = part === 'chest' || part === 'head' ? part : /^(upper[PN]|shoulder[PN]|fore[PN])$/.test(part) ? 'green' : 'white';
 if (region === 'chest' || region === 'head') addAccentMask(o, region);
-o.material = armorMaterial(o.material, region);
+o.material = armorMaterial(o.material, region, part);
 groups[part].attach(o);
 }
-paletteControl.disabled = false;
+
 scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
 function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+chinViewHeight,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(characterViewDistance*Math.sin(heading),.12,characterViewDistance*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
@@ -2232,6 +2543,7 @@ function advanceStandingWait(dt) {
 $('standWait').onclick = () => beginStandingWait(false);
 $('offerHandButton').onclick = () => beginStandingWait(true);
 
+setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);if(mode==='roam'){
   advanceRoam(dt);
   sync();
