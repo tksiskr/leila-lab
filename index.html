@@ -1,8 +1,8 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 35 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 35 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 36 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}</style><header>LEILA / LAB 36 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
-</select></label><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button></div><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+</select></label><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
@@ -14,7 +14,7 @@ async function loadAsset(path) {
   return response;
 }
 const $=id=>document.getElementById(id), view=$('view');try{
-const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);camera.position.set(0,.65,1.8);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,.49,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
+const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
 const facility = new T.Group(); facility.name='Facility'; scene.add(facility);
 const mat=(color,roughness=.75)=>new T.MeshStandardMaterial({color,roughness});
 const wall=mat(0xd5dce1), frame=mat(0x596a79), floor=mat(0x939fa9,.65);
@@ -282,7 +282,7 @@ groups[part].attach(o);
 paletteControl.disabled = false;
 scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
-function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+.49,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(1.8*Math.sin(heading),.16,1.8*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
+function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+chinViewHeight,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(characterViewDistance*Math.sin(heading),.12,characterViewDistance*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
 $('loungeView').onclick = () => {
   invitation = null;
   followLeila = false;
@@ -415,10 +415,16 @@ $('jokePreview').value = '';
 
 let roam;
 function beginRoam() {
-  choose('roam');
-  travelPose(0);
-  lowerSupportingHeels();
-  alignSupportToFloor(1,true);
+  const wasWaiting = mode === 'standWait';
+  if (wasWaiting) {
+    mode = 'roam';
+    blendSofaPose(standingWaitPose,1);
+  } else {
+    choose('roam');
+    travelPose(0);
+    lowerSupportingHeels();
+    alignSupportToFloor(1,true);
+  }
   roam = {phase:'wait', elapsed:0, pause:4+Math.random()*3,waitPose:captureSofaPose()};
   $('destination').textContent = '自律行動中・待機中';
 }
@@ -587,7 +593,7 @@ function respondToContact(action, current) {
   const cheek = id.startsWith('cheek');
   const nape = id === 'backHead' && current.hit.object.parent === groups.neck;
   const side = /Left$|P$/.test(id) ? 'P' : /Right$|N$/.test(id) ? 'N' : undefined;
-  const offered = hand && action === 'hold' && current.offeredHand &&
+  const offered = action === 'hold' && current.offeredHand &&
     current.offeredHand === mood.offeredHand;
   const repeatedFlank = flank && action === 'tap' && mood.seconds-mood.flankAt < 3.5;
   const crownStroke = action === 'drag' && id === 'crown';
@@ -659,7 +665,9 @@ canvas.addEventListener('pointerdown', event => {
   }
   const part = identifyBodyPart(leila);
   const offer = mood.offeredHand;
-  const offeredHand = offer && part.id === 'hand'+offer.side && mood.seconds <= offer.until ? offer : null;
+  const offeredHand = offer && reaction?.kind === 'offerHand' &&
+    (part.id === 'hand'+offer.side || part.id === 'fore'+offer.side) &&
+    mood.seconds <= offer.until ? offer : null;
   const started = {id,x,y,hit:leila,path:[part],action:null,lastSample:-Infinity,offeredHand};
   if (offeredHand && reaction?.kind === 'offerHand') {
     reaction.duration = Math.max(reaction.duration,reaction.elapsed+.65);
@@ -738,9 +746,7 @@ function endPointer(event) {
 for (const type of ['pointerup','pointercancel','lostpointercapture']) {
   canvas.addEventListener(type, endPointer, true);
 }
-canvas.addEventListener('contextmenu', event => {
-  if (contact) event.preventDefault();
-});
+canvas.addEventListener('contextmenu', event => event.preventDefault());
 window.addEventListener('blur', () => {
   trackedPointers.clear();
   backgroundTap = null;
@@ -756,7 +762,7 @@ const reactions = {
   withdraw:{label:'そっと頭を引いています',duration:1.34,pose:'withdraw'},
   flinch:{label:'肩をすくめています',duration:1.05,pose:'flinch'},
   hipDodge:{label:'腰を引いてよけています',duration:1.15,pose:'hipDodge'},
-  offerHand:{label:'手を差し出しています',duration:4.1,pose:'hand'},
+  offerHand:{label:'手を差し出しています',duration:.22+10+.35,pose:'hand'},
   handReply:{label:'差し出した手にもう片方の手を重ねています',duration:2.05,pose:'hand'},
   look: {label:'こちらを振り向いています',duration:1.48,clip:'look'},
   nod: {label:'うなずいています',duration:1.24,clip:'nod'},
@@ -772,6 +778,7 @@ const hipFeet = [new T.Vector3(),new T.Vector3()];
 let hipReactionApplied = false;
 const handTarget = new T.Vector3();
 const handBend = new T.Vector3();
+const handView = new T.Vector3();
 const reactionJoints = ['chest','neck','head','upperN','elbowN','foreN','handN','upperP','elbowP','foreP','handP']
   .map(key => ({joint:groups[key],pose:new T.Quaternion()}));
 let reaction = null;
@@ -848,7 +855,7 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false) {
   const offset = camera.position.clone().sub(root.position).applyAxisAngle(turnAxis,-root.rotation.y);
   reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:touchSide ?? (offset.x > .15 ? 'P' : 'N')};
   reaction.continuingOffer = continuingOffer;
-  if (kind === 'offerHand') mood.offeredHand = {side:reaction.side,until:mood.seconds+reaction.duration+.6};
+  mood.offeredHand = kind === 'offerHand' ? {side:reaction.side,until:mood.seconds+reaction.duration} : null;
   if (kind === 'beckon') {
     const radius = camera.position.distanceTo(orbit.target);
     invitation = {
@@ -963,13 +970,18 @@ function applyTouchPose(pose,side,yaw,pitch,time,weight) {
   } else if (pose === 'hand') {
     const offerWeight = reaction.continuingOffer
       ? smooth(Math.min(1,(reaction.duration-time)/.35)) : weight;
-    const x = -direction*.038;
-    reachHand(side,x,-.087,.162,offerWeight);
+    groups.chest.worldToLocal(handView.copy(camera.position));
+    const handYaw = T.MathUtils.clamp(Math.atan2(handView.x,handView.z),-.79,.79);
+    const handHeight = -.087+T.MathUtils.clamp(
+      .05*handView.y/Math.max(.25,Math.hypot(handView.x,handView.z)),-.035,.047);
+    const x = -direction*.038+.145*Math.sin(handYaw);
+    const z = .162*Math.cos(handYaw);
+    reachHand(side,x,handHeight,z,offerWeight);
     if (reaction.kind === 'handReply') {
       const otherSide = side === 'P' ? 'N' : 'P';
       const lift = smooth(Math.min(1,time/.36));
       const cover = smooth(T.MathUtils.clamp((time-.36)/.38,0,1));
-      reachHand(otherSide,mix(direction*.070,x,cover),mix(-.073,-.046,lift),.153,weight);
+      reachHand(otherSide,mix(direction*.070,x,cover),handHeight+mix(.014,.041,lift),z-.009,weight);
     }
     head.rotateZ(direction*.08*offerWeight);
   }
@@ -2140,10 +2152,49 @@ gestureClips = Object.fromEntries(Object.entries(gestureData).map(([key,clip])=>
 ]));
 
 beginRoam();
+const standingWaitPose = captureSofaPose();
+let standingWait;
+
+function beginStandingWait(offerHand) {
+  restoreReactionPose();
+  if (mode !== 'standWait') {
+    standingWait = {entry:captureSofaPose(),elapsed:0,offerHand:false};
+    mode = 'standWait';
+  }
+  standingWait.offerHand = offerHand;
+  if (!offerHand || reaction?.kind !== 'offerHand') {
+    reaction = null;
+    mood.offeredHand = null;
+    $('reactionStatus').hidden = true;
+  }
+  $('destination').textContent = offerHand ? 'カメラのほうを向いています' : 'その場で待機中';
+}
+
+function advanceStandingWait(dt) {
+  standingWait.elapsed += dt;
+  const blend = smooth(Math.min(1,standingWait.elapsed/.55));
+  blendSofaPose(standingWait.entry,1);
+  blendSofaPose(standingWaitPose,blend);
+  if (blend < 1) alignSupportToFloor();
+  const facingCamera = standingWait.offerHand || reaction?.pose === 'hand';
+  if (!facingCamera) return;
+  const desired = headingTo(root.position,camera.position);
+  const delta = headingDelta(root.rotation.y,desired);
+  root.rotation.y += T.MathUtils.clamp(delta,-3.2*dt,3.2*dt);
+  if (standingWait.offerHand && blend === 1 && Math.abs(delta) < .12) {
+    standingWait.offerHand = false;
+    $('destination').textContent = 'その場で待機中';
+    beginReaction('offerHand');
+  }
+}
+
+$('standWait').onclick = () => beginStandingWait(false);
+$('offerHandButton').onclick = () => beginStandingWait(true);
+
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);if(mode==='roam'){
   advanceRoam(dt);
   sync();
-}else if(mode==='dance'){advanceDance(dt);sync();}else if(mode==='travel'){
+}else if(mode==='standWait'){advanceStandingWait(dt);sync();}else if(mode==='dance'){advanceDance(dt);sync();}else if(mode==='travel'){
   const elapsed = Math.max(0,(t-start)/1000);
   travelPose(elapsed);
   alignSupportToFloor(walkingContactWeight({duration:cruiseDuration},elapsed),true);
