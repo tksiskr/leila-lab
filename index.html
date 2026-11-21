@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 27.3 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 27.3 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 27.4 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 27.4 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -411,7 +411,7 @@ function beginRoam() {
   choose('roam');
   travelPose(0);
   lowerSupportingHeels();
-  alignSupportToFloor();
+  alignSupportToFloor(1,true);
   roam = {phase:'wait', elapsed:0, pause:4+Math.random()*3,waitPose:captureSofaPose()};
   $('destination').textContent = '自律行動中・待機中';
 }
@@ -505,7 +505,7 @@ function applyRestPose() {
   }
   root.rotation.y = roam.heading;
   lowerSupportingHeels(blend);
-  alignSupportToFloor();
+  alignSupportToFloor(1,true);
 
   if (idle.joke) {
     applyJokePose(idle.joke,roam.elapsed-idle.jokeStart);
@@ -1034,7 +1034,7 @@ function advanceRouteTurn(stage, progress) {
     goal.y += .042*turn*Math.sin(Math.PI*step);
     solveLeg(side,goal,stage.angle+stage.delta*smooth(step));
   });
-  alignSupportToFloor();
+  alignSupportToFloor(1,true);
 }
 
 function sitAtSofa(amount, restTime=0) {
@@ -1076,11 +1076,12 @@ function walkingContactWeight(stage,time) {
   return Math.max(takeoff,landing);
 }
 
-function shoeFloorHeight({foot,vertices}) {
+function shoeFloorHeight({foot,vertices},heelOnly=false) {
   foot.updateWorldMatrix(true,false);
   const m = foot.matrixWorld.elements;
   let lowest = Infinity;
   for (let i=0; i<vertices.length; i+=3) {
+    if (heelOnly && vertices[i+2] > 0) continue;
     const height = m[1]*vertices[i] + m[5]*vertices[i+1] + m[9]*vertices[i+2] + m[13];
     if (height < lowest) lowest = height;
   }
@@ -1089,7 +1090,7 @@ function shoeFloorHeight({foot,vertices}) {
 
 function lowerSupportingHeels(amount=1) {
   if (amount <= 0) return;
-  const heights = shoeContactGeometry.map(shoeFloorHeight);
+  const heights = shoeContactGeometry.map(shoe => shoeFloorHeight(shoe));
   const lowest = Math.min(...heights);
   if (!Number.isFinite(lowest)) return;
   for (const [index,{foot}] of shoeContactGeometry.entries()) {
@@ -1104,9 +1105,9 @@ function lowerSupportingHeels(amount=1) {
   }
 }
 
-function alignSupportToFloor(weight=1) {
+function alignSupportToFloor(weight=1,heelOnly=false) {
   if (weight <= 0) return;
-  const lowest = Math.min(...shoeContactGeometry.map(shoeFloorHeight));
+  const lowest = Math.min(...shoeContactGeometry.map(shoe => shoeFloorHeight(shoe,heelOnly)));
   if (Number.isFinite(lowest)) groups.pelvis.position.y -= lowest*weight;
 }
 
@@ -1118,7 +1119,7 @@ function advanceDestinationRoute(dt) {
     case 'walk':
       travelPose(roam.elapsed,stage.duration,0,stage.heading,false,stage.speed,0,stage);
       blendSofaPose(stage.pose,1-smooth(Math.min(1,roam.elapsed/.34)));
-      alignSupportToFloor(walkingContactWeight(stage,roam.elapsed));
+      alignSupportToFloor(walkingContactWeight(stage,roam.elapsed),true);
       break;
     case 'turn':
       advanceRouteTurn(stage,progress);
@@ -1132,7 +1133,7 @@ function advanceDestinationRoute(dt) {
       blendSofaPose(sofaStand,smooth(progress));
       lowerSupportingHeels(smooth(progress));
       const contact = walkingContactWeight(walk,stage.walkElapsed);
-      alignSupportToFloor(T.MathUtils.lerp(contact,1,smooth(progress)));
+      alignSupportToFloor(T.MathUtils.lerp(contact,1,smooth(progress)),true);
       break;
     }
     case 'look':
@@ -1312,7 +1313,7 @@ r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;i
 }else if(mode==='travel'){
   const elapsed = Math.max(0,(t-start)/1000);
   travelPose(elapsed);
-  alignSupportToFloor(walkingContactWeight({time:startEnd+cruiseDuration+clipStop.duration},elapsed));
+  alignSupportToFloor(walkingContactWeight({time:startEnd+cruiseDuration+clipStop.duration},elapsed),true);
   sync();
 }else if(mode==='mixamo'){mixamoPose((t-start)/1000);sync();}else if(mode==='reference'){referencePose();sync();}else if(mode!=='manual'){const e=(t-start)/1000,style=Number($style.value),walking=mode==='walk',blend=1-Math.exp(-dt*5);if(walking||cur.step>.015)phase=(phase+dt*.85)%1;const a=2*Math.PI*phase, sway=-Math.sin(a),twist=Math.cos(a);let w=mode==='right'?-1:mode==='left'?1:mode==='raise'?1:mode==='idle'?(-.55-.45*Math.cos(e*.24)):0;
 Object.assign(target,{shift:.055*w*style+(walking?.034*sway*style:0),drop:.028*Math.abs(w)+(walking?.009+.004*Math.cos(2*a):0),tilt:-.18*w*style+(walking?-.115*sway*style:0),twist:walking?-.17*twist*style:.045*w,raise:mode==='raise'?1:0,step:walking?1:0});for(const k in cur)cur[k]+=(target[k]-cur[k])*blend;
@@ -1323,7 +1324,7 @@ groups.upperP.rotation.z=-.48+.045*cur.step*Math.sin(a);groups.upperN.rotation.z
 for(const side of ['P','N']){const g=gait((phase+(side==='N'?.5:0))%1,Math.min(1.15,style));let f=feet[side];for(const k of ['z','lift','pitch'])f[k]=g[k]*cur.step;f.inward=.014*cur.step; if($('ik').checked)leg(side,f.lift,f.z,f.inward,f.pitch,0,.025);else if(cur.step>.001){groups['thigh'+side].rotation.x=-f.z*4;groups['knee'+side].rotation.x=-f.lift*8;}}
 if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
-  alignSupportToFloor(1-cur.step);
+  alignSupportToFloor(1-cur.step,true);
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}updateWorld();orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 }catch(e){$('status').textContent='読み込みエラー: '+e.message;console.error(e)}
