@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.11 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.11 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.12 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.12 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
@@ -293,7 +293,7 @@ function leg(side, lift=0, stride=0, inward=0, pitch=0, offset=0, heelComp=.045)
   goal.z += stride;
   solveLeg(side, goal, 0, pitch);
 }
-function solveLeg(side, goal, footHeading, pitch=0) {
+function solveLeg(side, goal, footHeading, pitch=0, shoeRotation=null) {
   const th = groups['thigh'+side], kn = groups['knee'+side];
   const sh = groups['shin'+side], ft = groups['foot'+side];
   const u = base['knee'+side], v = base['foot'+side];
@@ -311,7 +311,7 @@ function solveLeg(side, goal, footHeading, pitch=0) {
   aim(th,u,knee.clone().sub(hip));
   aim(kn,v,hip.clone().addScaledVector(direction,length).sub(knee));
   sh.rotation.set(0,0,0);
-  const sole = new T.Quaternion().setFromEuler(new T.Euler(pitch,footHeading,0,'YXZ'));
+  const sole = shoeRotation ?? new T.Quaternion().setFromEuler(new T.Euler(pitch,footHeading,0,'YXZ'));
   ft.quaternion.copy(ft.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(sole));
 }
 // Reference study: fixed pose, coordinates are world directions, front is +Z.
@@ -373,6 +373,7 @@ function mixamoPose(elapsed) {
     joint.parent.getWorldQuaternion(walkParent).invert();
     joint.quaternion.copy(walkParent.multiply(walkWorld));
   }
+  plantCatwalkFeet(elapsed,0,1);
 }
 
 
@@ -721,6 +722,7 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
     joint.quaternion.copy(walkParent.multiply(travelJoint));
   }
   root.rotation.y = heading;
+  plantCatwalkFeet(walkTime,heading,1-clipWeight);
 }
 
 const sofaDock = V(0,0,0);
@@ -1009,6 +1011,48 @@ function applyRouteLook(stage, progress) {
   groups.head.rotateX(stage.pitch*weight);
   const nod = T.MathUtils.clamp((progress-.38)/.39,0,1);
   groups.head.rotateX(.25*Math.sin(Math.PI*nod)**2);
+}
+
+function plantCatwalkFeet(time,heading,clipWeight) {
+  if (clipWeight <= 0) return;
+  const feet = [];
+  let drop = 0;
+  for (const [index,{side,foot,vertices}] of shoeContactGeometry.entries()) {
+    // The source cycle first lands P at 1/6 of a cycle, then N half a cycle later.
+    const cycle = time/walkCycle - 1/6 - index*.5;
+    const phase = cycle - Math.floor(cycle);
+    const edge = phase < .70
+      ? 1-smooth(T.MathUtils.clamp((phase-.48)/.17,0,1))
+      : smooth(T.MathUtils.clamp((phase-.90)/.10,0,1));
+    const weight = edge*clipWeight;
+    const goal = foot.getWorldPosition(V(0,0,0));
+    const rotation = foot.getWorldQuaternion(new T.Quaternion());
+    if (weight > 0) {
+      const pitch = phase > .70 ? -.14 : -.14*(1-smooth(Math.min(1,phase/.11)));
+      const planted = new T.Quaternion().setFromEuler(new T.Euler(pitch,heading,0,'YXZ'));
+      rotation.slerp(planted,weight);
+      const matrix = new T.Matrix4().makeRotationFromQuaternion(rotation).elements;
+      let bottom = Infinity;
+      for (let i=0;i<vertices.length;i+=3) {
+        bottom = Math.min(bottom,matrix[1]*vertices[i]+matrix[5]*vertices[i+1]+matrix[9]*vertices[i+2]);
+      }
+      if (Number.isFinite(bottom)) {
+        const floorHeight = -bottom;
+        const landing = phase < .70 ? 1 : smooth(T.MathUtils.clamp((phase-.94)/.06,0,1));
+        const groundedHeight = T.MathUtils.lerp(Math.max(floorHeight,goal.y),floorHeight,landing);
+        goal.y = T.MathUtils.lerp(goal.y,groundedHeight,weight);
+      }
+      const hip = groups['thigh'+side].getWorldPosition(V(0,0,0));
+      const reach = base['knee'+side].length()+base['foot'+side].length()-.004;
+      const horizontal = (hip.x-goal.x)**2+(hip.z-goal.z)**2;
+      drop = Math.max(drop,(hip.y-goal.y-Math.sqrt(Math.max(0,reach**2-horizontal)))*Math.min(1,weight*3));
+    }
+    feet.push({side,goal,rotation,weight});
+  }
+  groups.pelvis.position.y -= drop;
+  for (const {side,goal,rotation,weight} of feet) {
+    if (drop > 0 || weight > 0) solveLeg(side,goal,heading,0,rotation);
+  }
 }
 
 function walkingContactWeight(stage,time) {
