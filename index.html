@@ -1,11 +1,11 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.5 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.5 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 26.6 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}</style><header>LEILA / LAB 26.6 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><label>装甲カラー <select id="palette" disabled>
   <option value="0">標準・白装甲</option>
   <option value="1">サーナイト風（試作）</option>
   <option value="2">従来・シルバー</option>
 </select></label><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><button id="autoWait" class="primary">自律行動</button><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
-</select></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+</select></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 const $=id=>document.getElementById(id), view=$('view');try{
 const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);camera.position.set(0,.65,1.8);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,.49,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
@@ -274,7 +274,34 @@ $('loungeView').onclick = () => {
 };$('marker').onchange=()=>dots.forEach(d=>d.visible=$('marker').checked);function choose(m){resetTravel();$('destination').textContent='';mode=m;start=performance.now();}for(const [id,m] of Object.entries({demo:'walk',mixamo:'mixamo',travel:'travel',reference:'reference',right:'right',left:'left',raise:'raise',idle:'idle'}))$(id).onclick=()=>choose(m);
 // Two-bone IK: world-space ankle target, forward knee bend, fixed ankle orientation.
 const V=(x,y,z)=>new T.Vector3(x,y,z);function aim(g,rest,dir){const q=g.parent.getWorldQuaternion(new T.Quaternion()).invert();g.quaternion.setFromUnitVectors(rest.clone().normalize(),dir.clone().applyQuaternion(q).normalize());g.updateWorldMatrix(true,true)}
-function leg(side,lift=0,stride=0,inward=0,pitch=0,offset=0,heelComp=.045){const th=groups['thigh'+side],kn=groups['knee'+side],sh=groups['shin'+side],ft=groups['foot'+side];const u=base['knee'+side],v=base['foot'+side];const L=u.length(), M=v.length();root.updateMatrixWorld(true);const h=th.getWorldPosition(V(0,0,0)), goal=V(...defs['foot'+side].slice(1));goal.x+=offset;goal.y+=lift;goal.z+=stride;goal.x-= (side==='P'?1:-1)*inward;goal.y+=Math.abs(Math.sin(pitch))*heelComp;const d=goal.clone().sub(h),len=Math.max(.001,Math.min(d.length(),L+M-.0001));d.normalize();const bend=V(0,0,1).addScaledVector(d,-d.z).normalize();const along=(L*L-M*M+len*len)/(2*len),height=Math.sqrt(Math.max(0,L*L-along*along));const mid=h.clone().addScaledVector(d,along).addScaledVector(bend,height);aim(th,u,mid.clone().sub(h));const end=h.clone().addScaledVector(d,len);aim(kn,v,end.clone().sub(mid));sh.rotation.set(0,0,0);root.updateMatrixWorld(true);ft.quaternion.copy(ft.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(new T.Quaternion().setFromAxisAngle(V(1,0,0),pitch)));}
+function leg(side, lift=0, stride=0, inward=0, pitch=0, offset=0, heelComp=.045) {
+  const goal = V(...defs['foot'+side].slice(1));
+  goal.x += offset - (side === 'P' ? 1 : -1) * inward;
+  goal.y += lift + Math.abs(Math.sin(pitch)) * heelComp;
+  goal.z += stride;
+  solveLeg(side, goal, 0, pitch);
+}
+function solveLeg(side, goal, footHeading, pitch=0) {
+  const th = groups['thigh'+side], kn = groups['knee'+side];
+  const sh = groups['shin'+side], ft = groups['foot'+side];
+  const u = base['knee'+side], v = base['foot'+side];
+  const upper = u.length(), lower = v.length();
+  root.updateMatrixWorld(true);
+  const hip = th.getWorldPosition(V(0,0,0));
+  const direction = goal.clone().sub(hip);
+  const length = T.MathUtils.clamp(direction.length(), .001, upper+lower-.0001);
+  direction.normalize();
+  const bend = V(Math.sin(footHeading),0,Math.cos(footHeading));
+  bend.addScaledVector(direction,-bend.dot(direction)).normalize();
+  const along = (upper*upper-lower*lower+length*length)/(2*length);
+  const height = Math.sqrt(Math.max(0,upper*upper-along*along));
+  const knee = hip.clone().addScaledVector(direction,along).addScaledVector(bend,height);
+  aim(th,u,knee.clone().sub(hip));
+  aim(kn,v,hip.clone().addScaledVector(direction,length).sub(knee));
+  sh.rotation.set(0,0,0);
+  const sole = new T.Quaternion().setFromEuler(new T.Euler(pitch,footHeading,0,'YXZ'));
+  ft.quaternion.copy(ft.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(sole));
+}
 // Reference study: fixed pose, coordinates are world directions, front is +Z.
 function referencePose(){
  for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k]);}
@@ -381,12 +408,19 @@ const turnDuration = turnClip.duration;
 
 const home = '出発地点';
 
-function beginRoam() {
-  choose('roam');
+function waitAtHome() {
   roam = {phase:'wait', elapsed:0, pause:4+Math.random()*3, returning:false, origin:0, heading:0};
-  travelPose(0);
   $('destination').textContent = '自律行動中・待機中';
 }
+function beginRoam() {
+  choose('roam');
+  waitAtHome();
+  travelPose(0);
+}
+$('sofaPreview').onclick = () => {
+  beginRoam();
+  beginSofaVisit();
+};
 const gazeDirection = new T.Vector3();
 const headWorld = new T.Quaternion();
 const tapRay = new T.Raycaster();
@@ -579,6 +613,10 @@ function applyTurn(progress,nextHeading) {
 }
 
 function advanceRoam(dt) {
+  if (roam.phase === 'sofa') {
+    advanceSofaVisit(dt);
+    return;
+  }
   if (roam.attention) {
     const gaze = roam.attention;
     gaze.elapsed += dt;
@@ -602,6 +640,10 @@ function advanceRoam(dt) {
   }
   roam.elapsed += dt;
   if (roam.phase === 'wait' && roam.elapsed >= roam.pause) {
+    if (!roam.justUsedSofa && Math.random() < .34) {
+      beginSofaVisit();
+      return;
+    }
     if (!roam.returning) destination = destinations[Math.floor(Math.random()*destinations.length)];
     roam.phase = 'walk';
     roam.elapsed = 0;
@@ -610,6 +652,10 @@ function advanceRoam(dt) {
   if (roam.phase === 'walk') {
     applyRoamWalk(roam.elapsed);
     if (roam.elapsed >= travelDuration()) {
+      if (roam.returning && Math.random() < .34) {
+        beginSofaVisit();
+        return;
+      }
       $('destination').textContent = (roam.returning ? home : destination.name) + 'に到着・休憩中';
       roam.phase = 'rest';
       roam.elapsed = 0;
@@ -700,18 +746,21 @@ function sampleIndices(frame, count, loop) {
 }
 function resetTravel() {
   root.rotation.y = 0;
-  root.position.x = 0;
-  setTravelDistance(0);
+  setTravelPosition(0, 0);
 }
 function setTravelDistance(distance) {
-  const delta = distance - root.position.z;
-  root.position.z = distance;
-  if (followLeila) {
-    camera.position.z += delta;
-    orbit.target.z += delta;
-  }
+  setTravelPosition(root.position.x, distance);
 }
-function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading = 0, direct = false, speed = cruiseSpeed, phaseOffset = 0) {
+function setTravelPosition(x, z) {
+  if (followLeila) {
+    camera.position.x += x - root.position.x;
+    camera.position.z += z - root.position.z;
+    orbit.target.x += x - root.position.x;
+    orbit.target.z += z - root.position.z;
+  }
+  root.position.set(x,0,z);
+}
+function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading = 0, direct = false, speed = cruiseSpeed, phaseOffset = 0, planarRoute = null) {
   root.rotation.y = 0; // Retarget in the rig's forward direction before turning the whole rig.
 
   const stopStart = startEnd + routeDuration;
@@ -730,7 +779,12 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
     ? leadDistance + speed * routeDuration + transitionHip.z - clipStop.hips[0].z
     : elapsed < startEnd ? transitionHip.z - clipStart.hips[0].z
       : leadDistance + speed * (elapsed - startEnd);
-  setTravelDistance(origin + (heading === Math.PI ? -1 : 1) * distance * transferScale);
+  const metres = distance * transferScale;
+  if (planarRoute) {
+    setTravelPosition(planarRoute.x + Math.sin(heading)*metres, planarRoute.z + Math.cos(heading)*metres);
+  } else {
+    setTravelDistance(origin + (heading === Math.PI ? -1 : 1) * metres);
+  }
 
   for (const key in groups) {
     groups[key].position.copy(base[key]);
@@ -753,6 +807,161 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
     joint.quaternion.copy(walkParent.multiply(travelJoint));
   }
   root.rotation.y = heading;
+}
+
+// The lounge visit starts and ends at the patrol's home point.
+const sofaHome = V(0,0,0);
+const sofaWaypoint = V(0,0,.86); // Clear the first two test posts before crossing the lane.
+const sofaDock = V(0,0,0);
+const sofaSeat = V(0,0,0);
+const sofaHeading = Math.PI/2;
+const sofaSides = ['P','N'];
+const poseJoints = Object.values(groups);
+let sofaStand;
+
+function captureSofaPose() {
+  return poseJoints.map(joint => ({
+    position:joint.position.clone(),
+    rotation:joint.quaternion.clone()
+  }));
+}
+
+function blendSofaPose(pose, weight) {
+  poseJoints.forEach((joint,index) => {
+    joint.position.lerp(pose[index].position,weight);
+    joint.quaternion.slerp(pose[index].rotation,weight);
+  });
+}
+
+function initializeSofaMotion() {
+  sofaSeat.copy(sofa.localToWorld(V(-.378,.45,.08)));
+  sofaDock.copy(sofa.localToWorld(V(-.378,0,.69)));
+  travelPose(0);
+  sofaStand = captureSofaPose();
+}
+
+function sofaWalk(from, to, message) {
+  const distance = from.distanceTo(to);
+  const heading = Math.atan2(to.x-from.x,to.z-from.z);
+  const coast = Math.max(1,Math.round((distance/transferScale-startDistance-stopDistance)/(cruiseSpeed*walkCycle)));
+  const duration = coast*walkCycle;
+  return {type:'walk',from,heading,duration,speed:routeSpeed({distance,duration},false),
+    time:startEnd+duration+clipStop.duration,message};
+}
+
+function sofaTurn(heading, message='方向転換中') {
+  return {type:'turn',heading,time:1.3,message};
+}
+
+function beginSofaVisit() {
+  const towardLounge = '行き先　居住区のソファ';
+  const towardHome = '行き先　出発地点';
+  const aisle = sofaWalk(sofaHome,sofaWaypoint,towardLounge);
+  const approach = sofaWalk(sofaWaypoint,sofaDock,towardLounge);
+  const leave = sofaWalk(sofaDock,sofaWaypoint,towardHome);
+  const returnHome = sofaWalk(sofaWaypoint,sofaHome,towardHome);
+  roam.phase = 'sofa';
+  roam.visit = [
+    sofaTurn(aisle.heading,towardLounge), aisle,
+    sofaTurn(approach.heading,towardLounge), approach,
+    sofaTurn(sofaHeading,'ソファの前で向きを変えています'),
+    {type:'sit',time:1.65,message:'ソファに座っています'},
+    {type:'rest',time:6+Math.random()*4,message:'ソファで休憩中'},
+    {type:'rise',time:1.55,message:'ソファから立ち上がっています'},
+    sofaTurn(leave.heading,towardHome), leave,
+    sofaTurn(returnHome.heading,towardHome), returnHome,
+    sofaTurn(0)
+  ];
+  roam.visitIndex = Math.abs(root.rotation.y) < .01 ? 1 : 0;
+  startSofaStage();
+}
+
+function sofaFootTarget(side, heading) {
+  const ankle = V(...defs['foot'+side].slice(1));
+  // The right boot sole is slightly lower relative to its rig pivot.
+  if (side === 'N') ankle.y += .01;
+  return ankle.applyAxisAngle(turnAxis,heading).add(root.position);
+}
+
+function startSofaStage() {
+  const stage = roam.visit[roam.visitIndex];
+  roam.elapsed = 0;
+  stage.pose = captureSofaPose();
+  if (stage.type === 'turn') {
+    stage.angle = root.rotation.y;
+    stage.delta = Math.atan2(Math.sin(stage.heading-stage.angle),Math.cos(stage.heading-stage.angle));
+    stage.feet = sofaSides.map(side => groups['foot'+side].getWorldPosition(V(0,0,0)));
+    stage.targets = sofaSides.map(side => sofaFootTarget(side,stage.heading));
+  }
+  $('destination').textContent = stage.message;
+}
+
+function turnAtSofa(stage, progress) {
+  root.rotation.y = stage.angle + stage.delta*smooth(progress);
+  blendSofaPose(sofaStand,1);
+  blendSofaPose(stage.pose,1-smooth(Math.min(1,progress*4)));
+  sofaSides.forEach((side,index) => {
+    const turn = Math.min(1, Math.abs(stage.delta)/.6);
+    const step = T.MathUtils.clamp((progress-index*.42)/.58,0,1);
+    const goal = stage.feet[index].clone().lerp(stage.targets[index],smooth(step));
+    goal.y += .042*turn*Math.sin(Math.PI*step);
+    solveLeg(side,goal,stage.angle+stage.delta*smooth(step));
+  });
+}
+
+function sitAtSofa(amount, restTime=0) {
+  blendSofaPose(sofaStand,1);
+  const pelvis = groups.pelvis;
+  const lean = Math.sin(Math.PI*amount);
+  pelvis.position.y = T.MathUtils.lerp(pelvis.position.y,sofaSeat.y+.052,amount);
+  pelvis.position.z = T.MathUtils.lerp(pelvis.position.z,sofaSeat.x-sofaDock.x,amount)+.03*lean;
+  pelvis.position.x *= 1-amount;
+  pelvis.rotateX(.12*lean);
+  groups.abdomen.rotateX(.24*lean);
+  groups.chest.rotateX(.12*lean-.055*amount);
+  groups.head.rotateX(-.15*lean+.025*amount);
+  groups.head.rotateY(.1*Math.sin(restTime*1.3)*amount);
+  sofaSides.forEach((side,index) => {
+    const upper = groups['upper'+side];
+    const elbow = groups['elbow'+side];
+    const sign = index === 0 ? 1 : -1;
+    upper.rotateZ(sign*.12*amount);
+    upper.rotateX(.26*amount);
+    elbow.rotateX(-1.04*amount);
+    solveLeg(side,sofaFootTarget(side,sofaHeading),sofaHeading);
+  });
+}
+
+function advanceSofaVisit(dt) {
+  const stage = roam.visit[roam.visitIndex];
+  roam.elapsed = Math.min(stage.time,roam.elapsed+dt);
+  const progress = roam.elapsed/stage.time;
+  switch (stage.type) {
+    case 'walk':
+      travelPose(roam.elapsed,stage.duration,0,stage.heading,false,stage.speed,0,stage.from);
+      blendSofaPose(stage.pose,1-smooth(Math.min(1,roam.elapsed/.2)));
+      break;
+    case 'turn':
+      turnAtSofa(stage,progress);
+      break;
+    case 'sit':
+      sitAtSofa(smooth(progress));
+      break;
+    case 'rest':
+      sitAtSofa(1,roam.elapsed);
+      break;
+    case 'rise':
+      sitAtSofa(1-smooth(progress));
+      break;
+  }
+  if (progress < 1) return;
+  roam.visitIndex++;
+  if (roam.visitIndex < roam.visit.length) {
+    startSofaStage();
+  } else {
+    waitAtHome();
+    roam.justUsedSofa = true;
+  }
 }
 
 // LAB 26.3: inexpensive soft contact shadows, independent of lighting.
@@ -793,6 +1002,7 @@ function updateContactShadows(){
  if(count){bodyContact.position.set(cx/count,.003,cz/count);bodyContact.scale.set(.38,1,.38);bodyContact.material.opacity=.19;}
 }
 
+initializeSofaMotion();
 beginRoam();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;if(mode==='roam'){
   advanceRoam(dt);
