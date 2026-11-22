@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 60 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 61 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 60 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 61 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1498,7 +1498,7 @@ const legReactions = {
   calfTickle:{label:'くすぐったそうにかかとを上げています',duration:1.65,shift:.016,heel:.44},
   footRetract:{label:'つま先をひょいと引いています',duration:1.57,shift:.022,lift:.024,forward:-.058,pitch:-.25},
   footEcho:{label:'つま先を引いてから、ちょんと叩き返しています',duration:2.0,shift:.025,lift:.030,forward:-.068,pitch:-.22,echo:true,glance:true},
-  footOffer:{label:'腰に手を当て、片足を大きく差し出しています',duration:2.79,shift:.045,drop:.036,forward:.242,pitch:-.07,presentFoot:true,glance:true},
+  footOffer:{label:'小首をかしげ、足を浮かせて差し出しています',duration:2.79,shift:.045,drop:0,lift:.092,forward:.242,pitch:-.07,presentFoot:true,glance:true},
   heelPeek:{label:'膝を曲げ、肩越しに靴の裏を覗いています',duration:2.61,shift:.047,drop:.023,lift:.275,forward:-.229,pitch:1.03,peek:true},
   legAway:{label:'足を引いて触れたところから離しています',duration:1.65,shift:.033,lift:.029,forward:-.080,pitch:-.09}
 };
@@ -2365,9 +2365,6 @@ function applyLegContactPose(entry,time,weight,sign) {
   }
   if (standing && pitch < 0) rise = Math.max(rise,-pitch*.05);
   goal.add(V(0,rise,forward).applyAxisAngle(turnAxis,heading));
-  if (standing && entry.presentFoot) {
-    lowerPelvisForFeet([{side:entry.side,ankle:goal},{side:other,ankle:hipFeet[1-index]}]);
-  }
   if (standing) solveLeg(other,hipFeet[1-index],heading);
   solveLeg(entry.side,goal,heading,pitch);
   const blend = Math.min(1,weight*3.5);
@@ -2439,8 +2436,10 @@ function applyLegReaction(entry,time,weight,yaw,pitch) {
   neck.rotateY((sign*.09*(1-lookUp)+yaw*.25*lookUp)*weight);
   head.rotateY((sign*.19*(1-lookUp)+yaw*.56*lookUp)*weight);
   head.rotateX(mix(.57,pitch*.72-(entry.presentFoot ? .10 : 0),lookUp)*weight);
-  head.rotateZ(-sign*.115*weight*lookUp);
+  const tilt = -sign*weight*lookUp;
+  head.rotateZ((entry.presentFoot ? .17 : .115)*tilt);
   if (entry.presentFoot) {
+    neck.rotateZ(.055*tilt);
     const armWeight = weight*rearRamp(time,.12,.64);
     setFootOfferHand(sign > 0 ? 'N' : 'P',armWeight,true);
     setFootOfferHand(entry.side,armWeight,false);
