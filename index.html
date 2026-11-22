@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 59 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 60 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 59 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 60 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1733,7 +1733,23 @@ function keepHeldElbowClear(elbow,bend,shoulder,ray,along,length) {
   return false;
 }
 
-function reachHand(side,target,orientation,weight,held=false) {
+const armPlaneBasis = new T.Matrix4();
+const armPlaneAcross = new T.Vector3();
+const armPlaneRestRotation = new T.Quaternion();
+const armPlaneWorldRotation = new T.Quaternion();
+
+function aimArmInPlane(joint,rest,direction,restNormal,worldNormal) {
+  const restAxis = rest.clone().normalize();
+  const worldAxis = direction.clone().normalize();
+  armPlaneRestRotation.setFromRotationMatrix(
+    armPlaneBasis.makeBasis(restAxis,restNormal,armPlaneAcross.crossVectors(restAxis,restNormal))).invert();
+  armPlaneWorldRotation.setFromRotationMatrix(
+    armPlaneBasis.makeBasis(worldAxis,worldNormal,armPlaneAcross.crossVectors(worldAxis,worldNormal)));
+  joint.parent.getWorldQuaternion(gestureLocal).invert();
+  joint.quaternion.copy(gestureLocal.multiply(armPlaneWorldRotation).multiply(armPlaneRestRotation));
+}
+
+function reachHand(side,target,orientation,weight,held=false,bendGuide=null) {
   const upper = groups['upper'+side], elbow = groups['elbow'+side];
   const upperRest = base['elbow'+side], lowerRest = base['hand'+side];
   const shoulder = upper.getWorldPosition(V(0,0,0));
@@ -1743,15 +1759,26 @@ function reachHand(side,target,orientation,weight,held=false) {
   ray.normalize();
   // A held elbow follows an outward, slightly forward arc around the armor.
   const sign = side === 'P' ? 1 : -1;
-  const bend = groups.chest.localToWorld(handBend.set(sign*(held ? .037 : .14),held ? -.25 : -.15,held ? .075 : 0))
+  const bend = groups.chest.localToWorld(bendGuide
+    ? handBend.copy(bendGuide)
+    : handBend.set(sign*(held ? .037 : .14),held ? -.25 : -.15,held ? .075 : 0))
     .sub(groups.chest.getWorldPosition(V(0,0,0)));
   bend.addScaledVector(ray,-bend.dot(ray)).normalize();
   const along = (a*a-b*b+length*length)/(2*length);
   const upperDirection = bend.multiplyScalar(Math.sqrt(Math.max(0,a*a-along*along))).addScaledVector(ray,along);
   const upperPose = upper.quaternion.clone(), elbowPose = elbow.quaternion.clone();
   if (held && !keepHeldElbowClear(upperDirection,bend,shoulder,ray,along,length)) return false;
-  aim(upper,upperRest,upperDirection);
-  aim(elbow,lowerRest,ray.multiplyScalar(length).sub(upperDirection));
+  const lowerDirection = ray.multiplyScalar(length).sub(upperDirection);
+  if (bendGuide) {
+    // Keep the elbow shells in the same hinge plane as both arm segments.
+    const restNormal = upperRest.clone().cross(lowerRest).normalize();
+    const worldNormal = upperDirection.clone().cross(lowerDirection).normalize();
+    aimArmInPlane(upper,upperRest,upperDirection,restNormal,worldNormal);
+    aimArmInPlane(elbow,lowerRest,lowerDirection,restNormal,worldNormal);
+  } else {
+    aim(upper,upperRest,upperDirection);
+    aim(elbow,lowerRest,lowerDirection);
+  }
   upper.quaternion.slerp(upperPose,1-weight);
   elbow.quaternion.slerp(elbowPose,1-weight);
   groups['fore'+side].quaternion.slerp(neutralRotation,weight);
@@ -2349,18 +2376,21 @@ function applyLegContactPose(entry,time,weight,sign) {
   }
 }
 
+const footOfferElbowGuide = new T.Vector3();
+
 function setFootOfferHand(side,weight,brace) {
   const sign = side === 'P' ? 1 : -1;
   const {pelvis} = groups;
   pelvis.getWorldQuaternion(torsoHandRotation);
-  pelvis.localToWorld(torsoHandTarget.set(sign*(brace ? .074 : .094),brace ? .024 : -.083,brace ? .020 : -.044));
+  pelvis.localToWorld(torsoHandTarget.set(sign*(brace ? .074 : .101),brace ? .024 : -.112,brace ? .020 : -.046));
   torsoHandForward.set(-sign*.25,-1,brace ? .30 : -.28).normalize();
   torsoHandNormal.set(-sign,0,0).addScaledVector(torsoHandForward,sign*torsoHandForward.x).normalize();
   torsoHandForward.applyQuaternion(torsoHandRotation);
   torsoHandNormal.applyQuaternion(torsoHandRotation);
   const orientation = orientPalm(side,torsoHandForward,torsoHandNormal);
   torsoHandTarget.sub(torsoHandOffset.copy(palmRig[side].center).applyQuaternion(orientation));
-  reachHand(side,torsoHandTarget,orientation,weight,true);
+  footOfferElbowGuide.set(sign*(brace ? .90 : .35),0,brace ? -.40 : -.94);
+  reachHand(side,torsoHandTarget,orientation,weight,true,footOfferElbowGuide);
 }
 
 const shoeLookTarget = new T.Vector3();
