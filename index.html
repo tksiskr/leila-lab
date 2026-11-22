@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 57 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 58 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 57 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 58 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -857,6 +857,11 @@ function identifyBodyPart(hit) {
   const limb = limbLabels[key.slice(0,-1)];
   if (limb) {
     const left = key.endsWith('P');
+    if (key.startsWith('shin')) {
+      joint.worldToLocal(restPoint.copy(hit.point));
+      const calf = restPoint.z < restPoint.y*.077;
+      return {id:(calf ? 'calf' : 'shin')+key.at(-1),label:(left ? '左' : '右')+(calf ? 'ふくらはぎ' : 'すね')};
+    }
     return {id:key, label:(left ? '左' : '右') + limb};
   }
 
@@ -1150,10 +1155,26 @@ function torsoGestureKind(region,action,feeling,moving,repeated=false) {
   return {tap:'flankStartle',drag:'flankTickle',hold:'flankGuard'}[action];
 }
 
+function legReactionKind(part,action,feeling,rear,moving) {
+  if (moving) return 'legStepGlance';
+  const receptive = feeling === 'affectionate' || feeling === 'happy';
+  const playful = feeling === 'playful';
+  if (feeling === 'annoyed') return part === 'thigh' ? 'thighShift' : 'legAway';
+  if (part === 'foot') {
+    if (rear) return 'heelPeek';
+    if (action !== 'tap' && receptive || action === 'hold' && playful) return 'footOffer';
+    return action === 'tap' && playful ? 'footEcho' : 'footRetract';
+  }
+  if (part === 'thigh') return action === 'drag' && feeling === 'affectionate' ? 'thighRelax' : 'thighShift';
+  if (part === 'knee') return playful ? 'kneeReturn' : 'kneeReflex';
+  return part === 'calf' ? 'calfTickle' : 'shinDodge';
+}
+
 function respondToContact(action, current) {
   const {id} = current.path[0];
   const face = faceRegion(id);
   const torso = torsoRegion(id);
+  const leg = /^(thigh|knee|shin|calf|foot)[PN]$/.exec(id)?.[1];
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
   const hand = /^hand[PN]$/.test(id);
   const forearm = /^fore[PN]$/.test(id);
@@ -1192,6 +1213,12 @@ function respondToContact(action, current) {
   }
   let choices;
   if (offered) choices = [['handReply',1]];
+  else if (leg) {
+    const rearFoot = leg === 'foot' && root.worldToLocal(rearPoint.copy(camera.position)).z < -.05;
+    const kind = legReactionKind(leg,action,feeling,rearFoot,moving);
+    beginReaction(kind,true,side,action === 'drag',current);
+    return;
+  }
   else if (torso) {
     const kind = torsoGestureKind(torso,action,feeling,moving,repeatedFlank);
     if (kind === 'chestEcho') {
@@ -1274,7 +1301,9 @@ canvas.addEventListener('pointerdown', event => {
     const joint = leila.object.parent;
     started.torsoPoint = {joint,local:joint.worldToLocal(leila.point.clone())};
   }
-  if (started.facePoint || torso) started.touchStroke = {x,y,dx:0,dy:0,lastAt:-Infinity,reversals:0,speed:0};
+  if (started.facePoint || torso || /^thigh[PN]$/.test(part.id)) {
+    started.touchStroke = {x,y,dx:0,dy:0,lastAt:-Infinity,reversals:0,speed:0};
+  }
   if (offeredHand && reaction?.kind === 'offerHand') {
     reaction.duration = Math.max(reaction.duration,reaction.elapsed+.65);
     offeredHand.until = mood.seconds+reaction.duration-reaction.elapsed;
@@ -1441,11 +1470,28 @@ const torsoReactions = {
 };
 for (const entry of Object.values(torsoReactions)) entry.pose = 'torso';
 
+const legReactions = {
+  legStepGlance:{label:'着地してから足元をちらっと見ています',duration:1.65},
+  thighShift:{label:'反対の脚に体重を移して太ももを見ています',duration:1.60,shift:.031},
+  thighRelax:{label:'膝の力を抜いてそのまま身を預けています',duration:2.18,shift:.017,drop:.028,track:true,linger:true},
+  kneeReflex:{label:'膝が小さく跳ねて、驚いて見下ろしています',duration:1.46,shift:.026,lift:.040,forward:.038,pitch:-.16,pulse:true},
+  kneeReturn:{label:'いったん膝を引き、そっと戻して見返しています',duration:1.88,shift:.025,lift:.036,forward:-.064,pitch:-.16,glance:true},
+  shinDodge:{label:'足先を浮かせて指をよけています',duration:1.56,shift:.023,lift:.031,forward:-.063,pitch:-.23},
+  calfTickle:{label:'くすぐったそうにかかとを上げています',duration:1.65,shift:.016,heel:.44},
+  footRetract:{label:'つま先をひょいと引いています',duration:1.57,shift:.022,lift:.024,forward:-.058,pitch:-.25},
+  footEcho:{label:'つま先を引いてから、ちょんと叩き返しています',duration:2.0,shift:.025,lift:.030,forward:-.068,pitch:-.22,echo:true,glance:true},
+  footOffer:{label:'腰に手を当て、足先を差し出しています',duration:2.68,shift:.039,drop:.018,forward:.143,pitch:-.08,presentFoot:true,glance:true},
+  heelPeek:{label:'かかとをひょいと上げて肩越しに覗いています',duration:2.25,shift:.024,heel:.50,peek:true},
+  legAway:{label:'足を引いて触れたところから離しています',duration:1.65,shift:.033,lift:.029,forward:-.080,pitch:-.09}
+};
+for (const entry of Object.values(legReactions)) entry.pose = 'leg';
+
 const reactions = {
   ...rearReactions,
   ...armReactions,
   ...faceReactions,
   ...torsoReactions,
+  ...legReactions,
   softGlance:{label:'こちらに目を向けています',duration:.80,pose:'glance'},
   tilt:{label:'首をかしげています',duration:1.25,pose:'tilt'},
   leanIn:{label:'頬を寄せています',duration:1.55,pose:'lean'},
@@ -1556,14 +1602,15 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   const continuingOffer = kind === 'handReply' && reaction?.kind === 'offerHand';
   const faceContact = reactions[kind].pose === 'face' && strokeContact;
   const torsoContact = reactions[kind].pose === 'torso' && strokeContact;
+  const legContact = reactions[kind].pose === 'leg' && strokeContact;
   if (fromTap && kind !== 'welcome' && reaction?.next === 'welcome') return;
   if (reaction?.kind === 'chestGuard' && reaction.elapsed < reaction.duration-.32 &&
       fromTap && kind !== 'welcome') return;
   const continuousStroke = fromStroke && (faceContact && reaction?.pose === 'face' ||
-    torsoContact && reaction?.pose === 'torso');
+    torsoContact && reaction?.pose === 'torso' || legContact && reaction?.pose === 'leg');
   if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap && kind !== 'welcome' &&
       !continuingOffer && (!continuousStroke || kind === 'chestGuard')) {
-    if (reaction.fromTap && !fromStroke && !faceContact && !torsoContact && kind !== 'handReply' &&
+    if (reaction.fromTap && !fromStroke && !faceContact && !torsoContact && !legContact && kind !== 'handReply' &&
         kind !== 'flinch') return;
     if (faceContact && !strokeContact.action && reaction.pose === 'face' && reaction.elapsed < .28) return;
     reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
@@ -1577,7 +1624,7 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:touchSide ?? (offset.x > .15 ? 'P' : 'N')};
   reaction.continuingOffer = continuingOffer;
   reaction.strokeContact = strokeContact;
-  if (faceContact || torsoContact) reaction.contactStartedAt = mood.seconds;
+  if (faceContact || torsoContact || legContact) reaction.contactStartedAt = mood.seconds;
   mood.offeredHand = kind === 'offerHand' ? {side:reaction.side,until:mood.seconds+reaction.duration} : null;
   if (kind === 'beckon') {
     const radius = camera.position.distanceTo(orbit.target);
@@ -2206,16 +2253,129 @@ function applyTorsoReaction(entry,time,weight,yaw,pitch,dt) {
   applyTorsoHand(entry,time,weight,sign);
 }
 
+function legGestureAmount(entry,time,weight) {
+  if (entry.presentFoot) {
+    return rearRamp(time,.29,.90)*(1-rearRamp(time,entry.duration-.70,entry.duration-.16));
+  }
+  if (entry.echo) {
+    return rearRamp(time,.10,.37)*(1-rearRamp(time,.55,.91));
+  }
+  if (entry.pulse) return rearRamp(time,.03,.26)*(1-rearRamp(time,.27,.69));
+  return weight*(entry.glance ? 1-.65*rearRamp(time,.50,1.12) : 1);
+}
+
+function applyLegContactPose(entry,time,weight,sign) {
+  const standing = mode === 'standWait' || mode === 'idle' || mode === 'roam' &&
+    ['wait','linger','window','rest'].includes(roam.phase);
+  const seated = mode === 'roam' && roam.phase === 'seated';
+  if (!standing && !seated) return;
+  for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
+  const pelvis = groups.pelvis;
+  hipPosition.copy(pelvis.position);
+  hipReactionApplied = true;
+  const index = sign > 0 ? 0 : 1;
+  const other = index === 0 ? 'N' : 'P';
+  groups.footP.getWorldPosition(hipFeet[0]);
+  groups.footN.getWorldPosition(hipFeet[1]);
+  const goal = hipFeet[index];
+  const heading = root.rotation.y;
+  const amount = legGestureAmount(entry,time,weight);
+  let forward = (entry.forward ?? 0)*amount;
+  let rise = (entry.lift ?? 0)*amount*(seated ? 1.55 : 1);
+  let pitch = (entry.pitch ?? 0)*amount;
+  if (seated) forward = Math.max(-.019,forward*.70);
+  if (standing) {
+    pelvis.position.x -= sign*(entry.shift ?? 0)*weight;
+    pelvis.position.y -= (entry.drop ?? .009)*weight;
+    if (Math.abs(forward) > .001) {
+      const end = goal.clone().add(V(0,0,forward).applyAxisAngle(turnAxis,heading));
+      if (!clearOfPoles(goal,end) || handLinkCouch().containsPoint(end) ||
+          end.x < -5.55 || end.x > 5.55 || end.z < -5.55 || end.z > 8.55) forward = 0;
+    }
+  }
+  if (entry.heel) {
+    pitch = entry.heel*weight*(seated ? .70 : 1);
+    const {ankleHeight,toePivotZ} = shoeContactGeometry[index];
+    const shortfall = 1-Math.cos(pitch);
+    rise += toePivotZ*Math.sin(pitch)-ankleHeight*shortfall;
+    forward += toePivotZ*shortfall+ankleHeight*Math.sin(pitch);
+  }
+  if (entry.presentFoot) {
+    const out = rearRamp(time,.29,.90);
+    const back = rearRamp(time,entry.duration-.70,entry.duration-.16);
+    rise += .037*(Math.sin(out*Math.PI)+Math.sin(back*Math.PI));
+  }
+  if (entry.echo) {
+    const tap = rearRamp(time,.70,.96)*(1-rearRamp(time,.97,1.1));
+    rise += .026*tap;
+    pitch += (seated ? .31 : -.12)*tap;
+  }
+  if (standing && pitch < 0) rise = Math.max(rise,-pitch*.05);
+  goal.add(V(0,rise,forward).applyAxisAngle(turnAxis,heading));
+  if (standing) solveLeg(other,hipFeet[1-index],heading);
+  solveLeg(entry.side,goal,heading,pitch);
+  const blend = Math.min(1,weight*3.5);
+  for (const {key,joint,pose} of hipReactionJoints) {
+    if (/^(thigh|knee|foot|shin)/.test(key)) joint.quaternion.slerp(pose,1-blend);
+  }
+}
+
+function setHandOnHip(side,weight) {
+  const sign = side === 'P' ? 1 : -1;
+  const {pelvis} = groups;
+  pelvis.getWorldQuaternion(torsoHandRotation);
+  pelvis.localToWorld(torsoHandTarget.set(sign*.109,-.006,.052));
+  torsoHandForward.set(-sign*.30,-1,.18).normalize();
+  torsoHandNormal.set(-sign,0,0).addScaledVector(torsoHandForward,sign*torsoHandForward.x).normalize();
+  torsoHandForward.applyQuaternion(torsoHandRotation);
+  torsoHandNormal.applyQuaternion(torsoHandRotation);
+  reachHand(side,torsoHandTarget,orientPalm(side,torsoHandForward,torsoHandNormal),weight,true);
+}
+
+function applyLegReaction(entry,time,weight,yaw,pitch) {
+  const {chest,neck,head} = groups;
+  const sign = entry.side === 'P' ? 1 : -1;
+  if (entry.kind === 'legStepGlance') {
+    if (time < .12) return;
+    const shoe = shoeContactGeometry[sign > 0 ? 0 : 1];
+    if (entry.landedAt === undefined && shoeFloorHeight(shoe) < .018) entry.landedAt = time;
+    if (entry.landedAt === undefined) return;
+    weight *= rearRamp(time-entry.landedAt,0,.21)*(1-rearRamp(time-entry.landedAt,.36,.65));
+  } else {
+    applyLegContactPose(entry,time,weight,sign);
+  }
+  if (entry.peek) {
+    root.worldToLocal(rearPoint.copy(camera.position));
+    entry.peekSide ??= Math.abs(rearPoint.x) < .10 ? sign : Math.sign(rearPoint.x);
+    const peek = weight*rearRamp(time,.14,.74);
+    chest.rotateY(entry.peekSide*.59*peek);
+    neck.rotateY(entry.peekSide*.55*peek);
+    head.rotateY(entry.peekSide*.99*peek);
+    head.rotateZ(-entry.peekSide*.19*peek);
+    head.rotateX((.06+pitch*.6)*peek);
+    return;
+  }
+  const lookUp = entry.glance || entry.linger ? rearRamp(time,.55,1.16) : 0;
+  chest.rotateX((entry.presentFoot ? -.13 : .11*(1-lookUp))*weight);
+  chest.rotateZ(sign*(entry.presentFoot ? -.15 : -.045)*weight);
+  neck.rotateY((sign*.09*(1-lookUp)+yaw*.25*lookUp)*weight);
+  head.rotateY((sign*.19*(1-lookUp)+yaw*.56*lookUp)*weight);
+  head.rotateX(mix(.57,pitch*.72-(entry.presentFoot ? .10 : 0),lookUp)*weight);
+  head.rotateZ(-sign*.115*weight*lookUp);
+  if (entry.presentFoot) setHandOnHip(sign > 0 ? 'N' : 'P',weight*rearRamp(time,.12,.55));
+}
+
 function applyReaction(dt) {
   if (!reaction) return;
   const {kind,duration,side,clip} = reaction;
-  const contactMotion = reaction.pose === 'face' || reaction.pose === 'torso';
+  const contactMotion = reaction.pose === 'face' || reaction.pose === 'torso' || reaction.pose === 'leg';
   const time = reaction.elapsed = contactMotion ? advanceContactElapsed(reaction,dt) : reaction.elapsed+dt;
   if (time >= duration) {
     const {next,nextSide,nextStroke,nextFromStroke,pose,offer,side:offeredSide} = reaction;
     if (pose === 'rear' || pose === 'arm' || reaction.touchFollowUp) touchPause.until = mood.seconds+.75;
     if (pose === 'face' && kind !== 'faceBrief') touchPause.until = mood.seconds+.45;
     if (pose === 'torso' && kind !== 'torsoBrief') touchPause.until = mood.seconds+.51;
+    if (pose === 'leg' && kind !== 'legStepGlance') touchPause.until = mood.seconds+.48;
     reaction = null;
     if (offer) {
       beginReaction('offerHand',false,offeredSide);
@@ -2234,6 +2394,10 @@ function applyReaction(dt) {
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.38,1.38);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  if (reaction.pose === 'leg') {
+    applyLegReaction(reaction,time,weight,yaw,pitch);
+    return;
+  }
   if (reaction.pose === 'torso') {
     applyTorsoReaction(reaction,time,weight,yaw,pitch,dt);
     return;
@@ -2435,7 +2599,7 @@ function advanceRoam(dt) {
     return;
   }
   const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm' ||
-    reaction?.pose === 'face' || reaction?.pose === 'torso'
+    reaction?.pose === 'face' || reaction?.pose === 'torso' || reaction?.pose === 'leg'
     || reaction?.touchFollowUp
     || mood.seconds < touchPause.until;
   if (!lingeringReaction) roam.elapsed += dt;
@@ -3235,7 +3399,11 @@ const shoeContactGeometry = footContacts.map(({side,meshes}) => {
     }
   }
   const ankleHeight = Number.isFinite(bottom) ? -bottom : defs['foot'+side][2];
-  return {side,foot,vertices:new Float32Array(vertices),ankleHeight};
+  let toePivotZ = .050;
+  for (let i=0; i<vertices.length; i+=3) {
+    if (vertices[i+1] < bottom+.010) toePivotZ = Math.max(toePivotZ,vertices[i+2]);
+  }
+  return {side,foot,vertices:new Float32Array(vertices),ankleHeight,toePivotZ};
 });
 const standingAnkleHeights = Object.fromEntries(shoeContactGeometry.map(({side,ankleHeight}) => [side,ankleHeight]));
 const contactBox=new T.Box3(),contactPartBox=new T.Box3(),contactCenter=new T.Vector3(),contactSize=new T.Vector3();
