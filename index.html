@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 71 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 71 外見切替試作</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 71 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 71 — 外見切替試作 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -42,7 +42,7 @@
       <div id="paintStatus" role="status"></div>
     </div>
   </div>
-</aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+</aside><div class="cameraButtons"><button id="appearanceToggle" type="button" aria-pressed="false" disabled>人間型を試す</button> <span id="appearanceStatus" role="status"></span><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
@@ -929,7 +929,61 @@ enableShadowCasting(o);
 groups[part].attach(o);
 }
 
-scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
+scene.remove(gl.scene);
+const appearanceToggle = $('appearanceToggle');
+const appearanceStatus = $('appearanceStatus');
+root.updateMatrixWorld(true);
+const restRootInverse = root.matrixWorld.clone().invert();
+const appearanceInverses = Object.fromEntries(Object.entries(groups).map(([name,joint]) => [
+  name, restRootInverse.clone().multiply(joint.matrixWorld).invert()
+]));
+let humanAppearance = null;
+let showHuman = false;
+appearanceToggle.disabled = false;
+appearanceToggle.addEventListener('click', async () => {
+  appearanceToggle.disabled = true;
+  appearanceStatus.textContent = '';
+  try {
+    if (!humanAppearance) {
+      appearanceStatus.textContent = '人間型を読み込み中…';
+      const asset = await new GLTFLoader().parseAsync(
+        await (await loadAsset('./leila-human.glb')).arrayBuffer(), ''
+      );
+      const skins = [];
+      asset.scene.updateMatrixWorld(true);
+      asset.scene.traverse(mesh => { if (mesh.isSkinnedMesh) skins.push(mesh); });
+      if (!skins.length) throw new Error('スキン付きメッシュが見つかりません');
+      for (const mesh of skins) {
+        const keys = mesh.skeleton.bones.map(bone => bone.name);
+        if (keys.some(key => !Object.hasOwn(groups,key))) {
+          throw new Error('人間型の関節名がLABの関節と一致しません');
+        }
+        const skeleton = new T.Skeleton(
+          keys.map(key => groups[key]),
+          keys.map(key => appearanceInverses[key].clone())
+        );
+        mesh.bind(skeleton,mesh.matrixWorld.clone());
+        mesh.frustumCulled = false;
+        enableShadowCasting(mesh);
+      }
+      root.add(asset.scene);
+      humanAppearance = asset.scene;
+    }
+    showHuman = !showHuman;
+    humanAppearance.visible = showHuman;
+    // The original body still supplies the existing touch and contact geometry.
+    for (const mesh of parts) mesh.visible = !showHuman;
+    appearanceToggle.textContent = showHuman ? 'アンドロイド型に戻す' : '人間型を試す';
+    appearanceToggle.setAttribute('aria-pressed',String(showHuman));
+    appearanceStatus.textContent = '';
+  } catch (error) {
+    appearanceStatus.textContent = '人間型の読み込みエラー: ' + error.message;
+    console.error(error);
+  } finally {
+    appearanceToggle.disabled = false;
+  }
+});
+$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
 function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+chinViewHeight,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(characterViewDistance*Math.sin(heading),.12,characterViewDistance*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
 $('loungeView').onclick = () => {
