@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 56 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 57 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 56 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 57 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1426,7 +1426,7 @@ const torsoReactions = {
   chestEcho:{label:'叩かれた場所を指先で叩き返しています',duration:2.05,first:[-.13,0,.04,.37,.07],after:[.03,.02,0,.17,.08],hand:'echo'},
   chestStroke:{label:'胸元を撫でる指の動きを見守っています',duration:1.88,first:[-.05,0,.07,.28,.08],after:[.04,0,-.04,.13,.08],track:'chest'},
   chestTouch:{label:'胸元の指先の隣に手を添えています',duration:2.02,first:[-.03,0,.07,.28,.04],after:[.05,.02,-.02,-.07,.03],hand:'touch'},
-  chestGuard:{label:'胸元を腕でかばい、片足を引いて半身になっています',duration:2.65,first:[-.19,.22,.05,.26,-.12],after:[-.07,.38,.02,-.03,-.45],stance:'guard',hand:'cover'},
+  chestGuard:{label:'腕で胸元をかばい、肩越しに見返しています',duration:2.85,first:[-.19,-.18,.05],after:[-.07,-1.03,.04],stance:'guard',hand:'cover'},
   bellyStartle:{label:'お腹を引っ込めて見下ろしています',duration:1.56,first:[.32,0,.03,.49,0],after:[.04,0,0,.24,.05,.14],stance:'tuck'},
   bellyEase:{label:'お腹を撫でられて肩と腰の力を抜いています',duration:1.84,first:[.11,0,.05,.43,.04],after:[.16,0,-.03,.16,.05],track:'belly',stance:'ease'},
   bellyLean:{label:'膝を緩めて、撫でている手に身を預けています',duration:2.20,first:[.10,0,.04,.45,.05],after:[.27,0,-.02,-.14,.09,.09],track:'belly',stance:'lean',linger:true},
@@ -2034,8 +2034,21 @@ function applyFaceReaction(entry,time,weight,yaw,pitch,dt) {
 const torsoStances = {
   tuck:[0,-.008,-.046,0], ease:[0,-.013,.016,0], lean:[0,-.028,.054,0],
   flank:[-.025,-.011,-.043,.23], retreat:[-.034,-.017,-.078,.32],
-  guard:[-.019,-.019,-.045,.54]
+  guard:[.031,-.038,-.048,-.78]
 };
+
+function chestGuardStep(from,planted,heading,sign) {
+  const end = planted.clone().add(V(sign*.014,0,-.216).applyAxisAngle(turnAxis,heading));
+  end.y = from.y;
+  const delta = end.sub(from);
+  const destination = from.clone().add(delta);
+  if (destination.x < -5.55 || destination.x > 5.55 ||
+      destination.z < -5.55 || destination.z > 8.55 || !clearOfPoles(from,destination)) return null;
+  const couch = handLinkCouch();
+  if (couch.containsPoint(from) || couch.containsPoint(destination) ||
+      couch.containsPoint(from.clone().addScaledVector(delta,.5))) return null;
+  return delta;
+}
 
 function applyTorsoStance(entry,time,phase,weight,sign) {
   const standing = mode === 'standWait' || mode === 'idle' || mode === 'roam' &&
@@ -2049,8 +2062,8 @@ function applyTorsoStance(entry,time,phase,weight,sign) {
   groups.footN.getWorldPosition(hipFeet[1]);
   const [x,y,z,turn] = torsoStances[entry.stance];
   const isGuard = entry.stance === 'guard';
-  const out = rearRamp(time,.18,.73);
-  const back = rearRamp(time,entry.duration-.66,entry.duration-.12);
+  const out = rearRamp(time,.20,.86);
+  const back = rearRamp(time,entry.duration-.69,entry.duration-.12);
   const step = out*(1-back);
   const shift = isGuard ? step :
     weight*(entry.peek || entry.stance === 'tuck' ? 1-.68*phase :
@@ -2061,21 +2074,23 @@ function applyTorsoStance(entry,time,phase,weight,sign) {
   pelvis.rotateY(sign*turn*shift);
   groups.abdomen.rotateY(sign*.07*shift);
   const heading = root.rotation.y;
+  let stepSide = null;
   if (isGuard) {
-    const foot = hipFeet[entry.side === 'P' ? 0 : 1];
+    const plantedIndex = entry.side === 'P' ? 0 : 1;
+    stepSide = entry.side === 'P' ? 'N' : 'P';
+    const foot = hipFeet[1-plantedIndex];
     if (entry.retreatFoot === undefined) {
-      const end = foot.clone().add(V(sign*.036,0,-.133).applyAxisAngle(turnAxis,heading));
-      entry.retreatFoot = end.x >= -5.55 && end.x <= 5.55 && end.z >= -5.55 && end.z <= 8.55 &&
-        clearOfPoles(foot,end) && !handLinkCouch().containsPoint(end);
+      entry.retreatFoot = chestGuardStep(foot,hipFeet[plantedIndex],heading,sign);
     }
     if (entry.retreatFoot) {
-      foot.add(V(sign*.036*step,.026*(Math.sin(Math.PI*out)+Math.sin(Math.PI*back)),-.133*step)
-        .applyAxisAngle(turnAxis,heading));
+      foot.addScaledVector(entry.retreatFoot,step);
+      foot.y += .039*(Math.sin(Math.PI*out)+Math.sin(Math.PI*back));
     }
   }
-  const legHeading = isGuard && entry.retreatFoot ? sign*.40*step : 0;
-  solveLeg('P',hipFeet[0],heading+(entry.side === 'P' ? legHeading : 0));
-  solveLeg('N',hipFeet[1],heading+(entry.side === 'N' ? legHeading : 0));
+  const pivot = isGuard ? -sign*step : 0;
+  const retreatHeading = entry.retreatFoot ? 1.10 : .20;
+  solveLeg('P',hipFeet[0],heading+pivot*(stepSide === 'P' ? retreatHeading : .22));
+  solveLeg('N',hipFeet[1],heading+pivot*(stepSide === 'N' ? retreatHeading : .22));
   for (const {key,joint,pose} of hipReactionJoints) {
     if (/^(thigh|knee|foot|shin)/.test(key)) joint.quaternion.slerp(pose,1-Math.min(1,weight*3));
   }
@@ -2120,6 +2135,25 @@ function applyTorsoHand(entry,time,weight,sign) {
   reachHand(side,torsoHandTarget,orientation,reach*weight,true);
 }
 
+const guardViewDirection = new T.Vector3();
+const guardHeadRotation = new T.Quaternion();
+
+function chestGuardLook(time,weight,sign) {
+  const {neck,head} = groups;
+  const turnToUser = () => {
+    head.getWorldPosition(guardViewDirection);
+    guardViewDirection.sub(camera.position).negate()
+      .applyQuaternion(head.getWorldQuaternion(guardHeadRotation).invert());
+    return Math.atan2(guardViewDirection.x,guardViewDirection.z);
+  };
+  const glare = weight*rearRamp(time,.10,.51);
+  neck.rotateY(T.MathUtils.clamp(turnToUser()*.49,-.83,.83)*glare);
+  head.rotateY(T.MathUtils.clamp(turnToUser(),-1.13,1.13)*glare);
+  const elevation = -Math.atan2(guardViewDirection.y,Math.hypot(guardViewDirection.x,guardViewDirection.z));
+  head.rotateX((T.MathUtils.clamp(elevation,-.30,.30)+.11)*glare);
+  head.rotateZ(sign*.07*glare);
+}
+
 function applyTorsoReaction(entry,time,weight,yaw,pitch,dt) {
   const sign = entry.side === 'P' ? 1 : -1;
   const phase = rearRamp(time,.22,entry.linger ? 1.02 : .64);
@@ -2147,16 +2181,25 @@ function applyTorsoReaction(entry,time,weight,yaw,pitch,dt) {
   }
   if (entry.track === 'belly') headTurn += .12*entry.strokeX;
   if (entry.track === 'tickle') roll += .09*Math.sin(mood.seconds*25)*(entry.peek ? 1-phase : 1);
+  if (entry.stance === 'guard') {
+    entry.guardViewYaw ??= T.MathUtils.clamp(
+      headingDelta(root.rotation.y,headingTo(root.position,camera.position)),-.82,.82);
+    turn += entry.guardViewYaw*phase;
+  }
   const {chest,neck,head} = groups;
   chest.rotateX(chestPitch*weight);
   chest.rotateY(turn*weight);
   chest.rotateZ(roll*weight);
-  const cameraGaze = phase*(entry.hand === 'cover' ? .12 : .34);
-  neck.rotateX((headPitch*.42+pitch*cameraGaze*.22)*weight);
-  neck.rotateY((headTurn*.33+yaw*cameraGaze*.31)*weight);
-  head.rotateX((headPitch*.58+pitch*cameraGaze*.60)*weight);
-  head.rotateY((headTurn*.67+yaw*cameraGaze*.69)*weight);
-  head.rotateZ(-sign*angle(5)*weight);
+  if (entry.stance === 'guard') {
+    chestGuardLook(time,weight,sign);
+  } else {
+    const cameraGaze = phase*.34;
+    neck.rotateX((headPitch*.42+pitch*cameraGaze*.22)*weight);
+    neck.rotateY((headTurn*.33+yaw*cameraGaze*.31)*weight);
+    head.rotateX((headPitch*.58+pitch*cameraGaze*.60)*weight);
+    head.rotateY((headTurn*.67+yaw*cameraGaze*.69)*weight);
+    head.rotateZ(-sign*angle(5)*weight);
+  }
   if (entry.stance === 'flank' || entry.kind === 'flankRetreat') {
     groups['upper'+entry.side].rotateZ(-sign*.23*weight*(entry.peek ? 1-phase*.8 : 1));
   }
