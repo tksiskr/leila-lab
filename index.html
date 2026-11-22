@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 70 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 71 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 70 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 71 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -190,6 +190,70 @@ for (const side of [-1, 1]) {
   }
 }
 
+// A cantilevered top brings the book within reach from the near sofa cushion.
+const sideTable = new T.Group();
+sideTable.position.set(-4.58,0,-.462);
+floorGroup.add(sideTable);
+sideTable.position.multiplyScalar(2);
+sideTable.scale.setScalar(2);
+const tableWood = mat(0x9e6e49,.72);
+block(sideTable,tableWood,.035,.432,-.123,.30,.026,.355);
+block(sideTable,sofaLeg,.006,.212,-.014,.045,.415,.042);
+block(sideTable,sofaLeg,.012,.022,-.022,.28,.031,.246);
+const tableBounds = new T.Box3(new T.Vector3(-4.79,-1,-.74),new T.Vector3(-4.32,1,-.26));
+const book = new T.Group();
+book.name = 'Book';
+scene.add(book);
+const bookHome = new T.Vector3(-4.535,.449,-.672);
+const bookOnTable = new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(
+  new T.Vector3(0,0,1),new T.Vector3(1,0,0),new T.Vector3(0,1,0)));
+const bookLeather = mat(0x794d43,.80);
+const bookPaper = mat(0xf1e4c4,.91);
+const bookInk = mat(0x786e58,.94);
+const bookTrim = mat(0xc8a474,.65);
+const bookCover = new T.Group();
+const bookPage = new T.Group();
+book.add(bookCover,bookPage);
+function printBookLines(parent,ink,x,z,width,count) {
+  const shapes = Array.from({length:count},(_,line)=>{
+    const text = new T.Shape();
+    const y = count === 2 ? .027-line*.016 : .045-line*.009;
+    const half = width*(line === count-1 ? .30 : .50);
+    text.moveTo(x-half,y);
+    text.lineTo(x+half,y);
+    text.lineTo(x+half,y+.0013);
+    text.lineTo(x-half,y+.0013);
+    text.closePath();
+    return text;
+  });
+  const lines = new T.Mesh(new T.ShapeGeometry(shapes),ink);
+  lines.position.z = z;
+  parent.add(lines);
+  return lines;
+}
+block(book,bookLeather,0,0,.001,.011,.132,.011);
+for (const [half,sign] of [[bookCover,-1],[book,1]]) {
+  block(half,bookLeather,.048*sign,0,-.004,.099,.132,.004);
+  block(half,bookPaper,.047*sign,0,.001,.087,.123,.008);
+  printBookLines(half,bookInk,.047*sign,.0052,.062,10);
+}
+printBookLines(bookCover,bookTrim,-.049,-.0062,.063,2).rotateX(Math.PI);
+block(bookPage,bookPaper,.046,0,.0056,.087,.121,.0007);
+printBookLines(bookPage,bookInk,.045,.0061,.057,10);
+for (const prop of [sideTable,book]) prop.traverse(enableShadowCasting);
+function placeBookOnTable() {
+  book.position.copy(bookHome);
+  book.quaternion.copy(bookOnTable);
+  setBookPages(0,0);
+}
+function setBookPages(open,pageTurn) {
+  bookCover.rotation.y = Math.PI*(1-open);
+  bookCover.position.z = .011*(1-open);
+  bookPage.visible = pageTurn > 0 && pageTurn < 1 && open > .99;
+  bookPage.rotation.y = -Math.PI*pageTurn;
+}
+placeBookOnTable();
+
 const outside=new T.Group();scene.add(outside);
 const bed = new T.Group();
 bed.name = 'Bed';
@@ -357,6 +421,7 @@ orbit.touches.ONE=T.TOUCH.ROTATE;orbit.touches.TWO=T.TOUCH.DOLLY_PAN;
 function updateCutaway(){
  const {x,y,z}=camera.position;
  floorGroup.visible=y>0.005;
+ book.visible=floorGroup.visible;
  outsideGround.visible=y>0.005;
  ceilingGroup.visible=y<3.85;
  wallGroups[0].visible=z>-5.85;
@@ -1047,6 +1112,7 @@ function pickSurface(x, y) {
   const leila = touchRay.intersectObjects(parts, false)[0];
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
+    if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget) return wallGroups[0].visible;
     return true;
@@ -1150,7 +1216,7 @@ const mood = {
 for (const [key,label] of Object.entries(moodLabels)) moodControl.add(new Option(label,key));
 function currentMood() { return moodControl.value || mood.current; }
 function moodSituation() {
-  if ((mode === 'dance' && !dance.finished) || (mode === 'roam' && roam.phase === 'route')) return 'focused';
+  if ((mode === 'dance' && !dance.finished) || (mode === 'roam' && (roam.phase === 'route' || roam.phase === 'reading'))) return 'focused';
   if (mode === 'roam' && roam.phase === 'seated' &&
       (lastWorldMinute >= 22*60 || lastWorldMinute < 6*60)) return 'sleepy';
   return 'free';
@@ -1401,6 +1467,12 @@ function legReactionKind(part,action,feeling,rear,moving) {
 }
 
 function respondToContact(action, current) {
+  if (handlingBook()) {
+    if (roam.phase === 'reading' && action === 'tap') {
+      cueReading(currentMood() === 'affectionate' ? 'pause' : 'glance');
+    }
+    return;
+  }
   const {id} = current.path[0];
   const face = faceRegion(id);
   const torso = torsoRegion(id);
@@ -1619,6 +1691,8 @@ function endPointer(event) {
     const {destination} = pickSurface(event.clientX, event.clientY);
     if (destination === lightSwitchTarget) {
       requestLightSwitch();
+    } else if (destination === bookTarget) {
+      requestBook();
     } else if (destination === bedTarget) {
       restoreReactionPose();
       if (mode !== 'roam') beginRoam();
@@ -2673,7 +2747,7 @@ function applyLegReaction(entry,time,weight,yaw,pitch) {
 }
 
 function applyReaction(dt) {
-  if (!reaction) return;
+  if (!reaction || handlingBook()) return;
   const {kind,duration,side,clip} = reaction;
   const contactMotion = reaction.pose === 'face' || reaction.pose === 'torso' || reaction.pose === 'leg';
   const time = reaction.elapsed = contactMotion ? advanceContactElapsed(reaction,dt) : reaction.elapsed+dt;
@@ -2886,6 +2960,10 @@ function advanceRoam(dt) {
     advanceDestinationRoute(dt);
     return;
   }
+  if (roam.phase === 'reading') {
+    advanceReading(dt);
+    return;
+  }
   if (roam.attention) {
     const gaze = roam.attention;
     gaze.elapsed += dt;
@@ -2957,6 +3035,11 @@ function chooseDestination() {
       (lastWorldMinute >= 21*60 || lastWorldMinute < 7*60) &&
       mood.seconds >= (mood.nextBedAt ?? 0) && roll < .23) {
     startDestination(bedTarget);
+    return;
+  }
+  const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
+  if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
+    startDestination(bookTarget);
     return;
   }
   const social = !reaction && moodSituation() === 'free' && mood.seconds >= Math.max(mood.nextSocialAt,mood.avoidedUntil);
@@ -3146,6 +3229,7 @@ const sofaDock = V(0,0,0);
 const sofaSeat = V(0,0,0);
 const sofaHeading = Math.PI/2;
 const sofaTarget = {name:'居住区のソファ',point:sofaDock,lookAt:V(0,0,0)};
+const bookTarget = {name:'サイドテーブルの本',point:sofaDock,lookAt:bookHome};
 const furnitureSitTime = 2.05;
 const furnitureStandTime = 2.45;
 const bedSitUpTime = 1.71;
@@ -3198,6 +3282,9 @@ function initializeSofaMotion() {
   sofa.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,sofaTarget);
   });
+  book.traverse(object => {
+    if (object.isMesh) destinationMeshes.set(object,bookTarget);
+  });
   if (restClips) bed.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,bedTarget);
   });
@@ -3233,11 +3320,12 @@ function advanceWalkPath(stage,distance,elapsed) {
 
 function clearOfPoles(from,to) {
   if (from.distanceToSquared(to) < .000001) return true;
-  if (bed.visible) {
-    const delta = to.clone().sub(from);
-    const length = delta.length();
-    const hit = new T.Ray(from,delta.divideScalar(length)).intersectBox(bedBounds,V(0,0,0));
-    if (bedBounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
+  const delta = to.clone().sub(from);
+  const length = delta.length();
+  const ray = new T.Ray(from,delta.divideScalar(length));
+  for (const bounds of bed.visible ? [bedBounds,tableBounds] : [tableBounds]) {
+    const hit = ray.intersectBox(bounds,V(0,0,0));
+    if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
   const segment = new T.Line3(from,to);
   const nearest = V(0,0,0);
@@ -3286,9 +3374,9 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  if (bed.visible) {
-    for (const x of [bedBounds.min.x-.16,bedBounds.max.x+.16]) {
-      for (const z of [bedBounds.min.z-.16,bedBounds.max.z+.16]) waypoints.push(V(x,0,z));
+  for (const bounds of bed.visible ? [bedBounds,tableBounds] : [tableBounds]) {
+    for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
+      for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
   const candidates = waypoints.filter(inWalkingArea);
@@ -3435,11 +3523,16 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     : target.kind === 'greeting' ? 'あなたのほうを向いています' : '行き先　' + target.name;
   const from = root.position.clone();
   const visit = [];
+  if (roam.phase === 'reading') {
+    visit.push({type:'bookPut',time:2.05,message:'本をテーブルに戻しています'});
+    seated = true;
+  }
+  const alreadyAtBookSeat = seated && target === bookTarget && from.distanceTo(sofaDock) < .025;
   if (roam.phase === 'bed') visit.push({
     type:'bedRise',time:bedSitUpTime+furnitureStandTime,message:'ベッドから起き上がっています'
   });
-  if (seated) visit.push({type:'rise',time:restClips ? furnitureStandTime : 1.55,message:'ソファから立ち上がっています'});
-  if (acknowledge) {
+  if (seated && !alreadyAtBookSeat) visit.push({type:'rise',time:restClips ? furnitureStandTime : 1.55,message:'ソファから立ち上がっています'});
+  if (acknowledge && !alreadyAtBookSeat) {
     visit.push({type:'look',point:target.lookAt,time:1.45,message:target.name+'を見ています'});
   }
   if (target.kind === 'wander') {
@@ -3460,8 +3553,11 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
         roam.pause=roam.elapsed+5;
         return;
       }
-      enterQuietRest('linger','少し立ち止まっています',4);
-      return;
+      if (roam.phase === 'reading') target = lingeringTarget();
+      else {
+        enterQuietRest('linger','少し立ち止まっています',4);
+        return;
+      }
     }
   }
   if (target.kind === 'greeting') {
@@ -3471,7 +3567,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
   } else if (target.kind === 'window') {
     visit.push(routeTurn(target.heading,'窓の外を見ています'));
-  } else if (target === sofaTarget) {
+  } else if ((target === sofaTarget || target === bookTarget) && !alreadyAtBookSeat) {
     visit.push(
       routeTurn(sofaHeading,'ソファの前で向きを変えています'),
       {type:'sit',time:restClips ? furnitureSitTime : 1.65,message:'ソファに座っています'}
@@ -3480,6 +3576,15 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     visit.push(routeTurn(bedTarget.heading,'ベッドの縁に向きを変えています'),
       {type:'bedSit',time:furnitureSitTime,message:'ベッドの端に腰掛けています'},
       {type:'bedLie',time:1.85,message:'ベッドで横になっています'});
+  }
+  if (target === bookTarget) {
+    visit.push({type:'bookPick',time:1.80,message:'本を手に取っています'});
+  }
+  if (target === bookTarget || roam.phase === 'reading') {
+    restoreReactionPose();
+    reaction = null;
+    mood.offeredHand = null;
+    $('reactionStatus').hidden = true;
   }
   roam = {phase:'route',target,visit,visitIndex:0,elapsed:0};
   startRouteStage();
@@ -3556,6 +3661,11 @@ function startRouteStage() {
   }
   roam.elapsed = 0;
   stage.pose = captureSofaPose();
+  if (stage.type === 'bookPut') {
+    stage.bookFrom = book.position.clone();
+    stage.bookRotation = book.quaternion.clone();
+    stage.cover = bookCover.rotation.y;
+  }
   if (stage.type === 'bedRise') {
     sitWithMotion(1,0,true);
     stage.edgePose=captureSofaPose();
@@ -3640,6 +3750,142 @@ function sitAtSofa(amount, restTime=0) {
   });
   lowerPelvisForFeet(feet);
   for (const {side,ankle} of feet) solveLeg(side,ankle,sofaHeading);
+}
+
+function handlingBook() {
+  if (mode !== 'roam') return false;
+  const stage = roam.visit?.[roam.visitIndex]?.type;
+  return roam.phase === 'reading' || roam.phase === 'route' && (stage === 'bookPick' || stage === 'bookPut');
+}
+
+function requestBook() {
+  if (mode !== 'roam') beginRoam();
+  if (roam.phase === 'reading') {
+    cueReading('show');
+  } else if (roam.target !== bookTarget || roam.phase !== 'route') {
+    requestDestination(bookTarget,true);
+  }
+}
+
+function cueReading(kind) {
+  if (roam.bookCue?.kind === kind) return;
+  if (!roam.bookCue && bookPageReach(roam.readTime) > 0) {
+    roam.pendingBookCue = kind;
+    return;
+  }
+  roam.pendingBookCue = null;
+  roam.bookCue = {kind,elapsed:0,duration:kind === 'glance' ? 1.6 : kind === 'show' ? 3.5 : 2.7};
+  $('destination').textContent = kind === 'show' ? '本の表紙を見せています'
+    : kind === 'pause' ? '本を膝に置いてこちらを向いています' : '本からちらっと目を上げました';
+}
+
+const bookReadingRotation = new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(
+  V(0,0,1),V(.58,.815,0).normalize(),V(-.815,.58,0).normalize()));
+const bookDisplayBasis = new T.Matrix4();
+const bookDisplayRotation = new T.Quaternion();
+const bookUp = V(0,1,0);
+const bookGripCenter = V(0,0,0);
+const bookGripWrist = V(0,0,0);
+const bookGripForward = V(0,0,0);
+const bookGripNormal = V(0,0,0);
+const bookGripOffset = V(0,0,0);
+
+function bookPageTurn(time) {
+  return rearRamp(time%5.8,4.45,5.48);
+}
+
+function bookPageReach(time) {
+  const phase = time%5.8;
+  return rearRamp(phase,4.14,4.45)*(1-rearRamp(phase,5.48,5.77));
+}
+
+function gripBook(side,amount,travel,show,pageTurn,pageReach=0) {
+  if (amount <= 0) return;
+  const right = side === 'N';
+  const pageAngle = Math.PI*pageTurn;
+  const gripX = right ? mix(.012,.066,travel)*(1-.57*show) : -.063;
+  bookGripCenter.set(mix(gripX,.066*Math.cos(pageAngle),pageReach),mix(-.041,-.028,pageReach),
+    mix(right ? mix(.018,-.008,travel) : -.008,.009+.066*Math.sin(pageAngle),pageReach));
+  bookGripCenter.applyQuaternion(book.quaternion).add(book.position);
+  // Roll the picking hand around the spine from a top grip to support underneath.
+  const roll = right ? (travel-.82*pageReach)*Math.PI : Math.PI;
+  bookGripForward.set(0,1,0).applyQuaternion(book.quaternion);
+  bookGripNormal.set(Math.sin(roll),0,-Math.cos(roll)).applyQuaternion(book.quaternion);
+  const rotation = orientPalm(side,bookGripForward,bookGripNormal);
+  bookGripWrist.copy(bookGripCenter)
+    .sub(bookGripOffset.copy(palmRig[side].center).applyQuaternion(rotation));
+  reachHand(side,bookGripWrist,rotation,amount,false,V(right ? -.14 : .14,-.20,.025));
+}
+
+function poseReadingBook(travel,grip,time,show=0,pause=0,glance=0,transferStage=null) {
+  sitAtSofa(1);
+  const reach = grip*(1-travel);
+  groups.abdomen.rotateZ(.22*reach);
+  groups.chest.rotateZ(.34*reach);
+  groups.chest.rotateX(.17*reach);
+  groups.head.rotateX(.28*travel*(1-Math.max(show,pause,glance))+.25*reach);
+
+  book.position.copy(sofaSeat).add(V(.20+.020*show-.04*pause,.187+.034*show-.085*pause,.010));
+  book.position.lerp(bookHome,1-travel);
+  book.quaternion.copy(bookOnTable).slerp(bookReadingRotation,travel*(1-.66*pause));
+  const display = Math.max(show,pause,glance);
+  if (display > 0) {
+    const head = groups.head.getWorldPosition(V(0,0,0));
+    const viewer = camera.position.clone().sub(head);
+    const yaw = T.MathUtils.clamp(headingDelta(sofaHeading,Math.atan2(viewer.x,viewer.z)),-1.3,1.3);
+    groups.chest.rotateY(yaw*.21*pause);
+    groups.neck.rotateY(yaw*.29*display);
+    groups.head.rotateY(yaw*.60*display);
+    groups.head.rotateX(-.15*display);
+    if (show > 0) {
+      const normal = camera.position.clone().sub(book.position);
+      normal.y = Math.max(.15,normal.y);
+      normal.normalize();
+      const right = V(0,0,0).crossVectors(bookUp,normal);
+      if (right.lengthSq() < .00001) right.set(0,0,-1);
+      right.normalize();
+      const up = V(0,0,0).crossVectors(normal,right).normalize();
+      book.quaternion.slerp(bookDisplayRotation.setFromRotationMatrix(bookDisplayBasis.makeBasis(right,up,normal)),show);
+    }
+  }
+  const pageTurn = display > .02 || travel < 1 ? 0 : bookPageTurn(time);
+  const pageReach = display > .02 || travel < 1 ? 0 : bookPageReach(time);
+  let open = rearRamp(travel,.25,.86)*(1-show);
+  if (transferStage?.bookFrom) {
+    const settle = rearRamp(travel,.72,1);
+    book.position.lerp(transferStage.bookFrom,settle);
+    book.quaternion.slerp(transferStage.bookRotation,settle);
+    open = mix(open,1-transferStage.cover/Math.PI,settle);
+  }
+  setBookPages(open,pageTurn);
+  gripBook('N',grip,travel,show,pageTurn,pageReach);
+  gripBook('P',grip*rearRamp(travel,.48,.90)*(1-show),travel,0,0);
+}
+
+function poseBookTransfer(progress,stage) {
+  const travel = rearRamp(progress,.37,1);
+  poseReadingBook(travel,rearRamp(progress,0,.37),0,0,0,0,stage);
+  if (stage.bookFrom) blendSofaPose(stage.pose,rearRamp(progress,.82,1));
+  else blendSofaPose(stage.pose,1-rearRamp(progress,0,.21));
+}
+
+function advanceReading(dt) {
+  const cue = roam.bookCue;
+  let weight = 0;
+  if (cue) {
+    cue.elapsed += dt;
+    weight = rearRamp(cue.elapsed,0,.38)*(1-rearRamp(cue.elapsed,cue.duration-.48,cue.duration));
+    if (cue.elapsed >= cue.duration) {
+      roam.bookCue = null;
+      $('destination').textContent = '本を読んでいます';
+    }
+  } else {
+    roam.readTime += dt;
+    if (roam.pendingBookCue) cueReading(roam.pendingBookCue);
+  }
+  poseReadingBook(1,1,roam.readTime,cue?.kind === 'show' ? weight : 0,
+    cue?.kind === 'pause' ? weight : 0,cue?.kind === 'glance' ? weight : 0);
+  if (!roam.bookCue && !roam.pendingBookCue && roam.readTime >= roam.pause && bookPageReach(roam.readTime) === 0) chooseDestination();
 }
 
 const restBodyHeading = new T.Quaternion();
@@ -3988,6 +4234,12 @@ function advanceDestinationRoute(dt) {
       sitAtSofa(1-(restClips ? progress : smooth(progress)));
       if (restClips) blendSofaPose(stage.pose,1-rearRamp(progress,0,.18));
       break;
+    case 'bookPick':
+      poseBookTransfer(progress,stage);
+      break;
+    case 'bookPut':
+      poseBookTransfer(1-progress,stage);
+      break;
     case 'bedSit':
       sitWithMotion(smooth(progress),0,true);
       blendSofaPose(stage.pose,1-rearRamp(progress,0,.16));
@@ -4012,10 +4264,12 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1) return;
+  if (stage.type === 'bookPut') placeBookOnTable();
   if (roam.pending && stage.type !== 'bedSit') {
     const {target,acknowledge} = roam.pending;
     if (stage.type === 'bedLie') roam.phase='bed';
-    startDestination(target,acknowledge,stage.type==='sit');
+    if (stage.type === 'bookPick') roam.phase='reading';
+    startDestination(target,acknowledge,stage.type==='sit' || stage.type==='bookPut');
     return;
   }
   roam.visitIndex++;
@@ -4092,6 +4346,14 @@ function arriveAtDestination() {
     roam.pause=27+Math.random()*16;
     mood.nextBedAt=mood.seconds+72;
     $('destination').textContent='ベッドでくつろいでいます';
+    return;
+  }
+  if (roam.target === bookTarget) {
+    roam.phase = 'reading';
+    roam.readTime = 0;
+    roam.pause = 22+Math.random()*11;
+    mood.nextBookAt = mood.seconds+70;
+    $('destination').textContent = '本を読んでいます';
     return;
   }
   if (roam.target === lightSwitchTarget) {
@@ -4245,6 +4507,10 @@ function nextDanceId() {
 }
 
 function beginDance(kind,id=null) {
+  if (handlingBook()) {
+    requestDestination({kind:'linger',name:'ソファのそば',onArrival:()=>beginDance(kind,id)});
+    return;
+  }
   if (mode==='roam' && roam.phase==='bed') {
     startDestination({kind:'linger',name:'ベッドのそば',onArrival:()=>beginDance(kind,id)});
     return;
@@ -4374,6 +4640,10 @@ const standingWaitPose = captureSofaPose();
 let standingWait;
 
 function beginStandingWait(offerHand) {
+  if (handlingBook()) {
+    requestDestination({kind:'linger',name:'ソファのそば',onArrival:()=>beginStandingWait(offerHand)});
+    return;
+  }
   if (mode==='roam' && roam.phase==='bed') {
     startDestination({kind:'linger',name:'ベッドのそば',onArrival:()=>beginStandingWait(offerHand)});
     return;
@@ -4905,6 +5175,7 @@ $('offerHandButton').onclick = () => beginStandingWait(true);
 
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);
+if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (handLink && mode !== 'standWait') endHandLink(false);
 if (handLink) {advanceHandLink(dt);sync();}
 else if(mode==='roam'){
