@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 55 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 56 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 55 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 56 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -881,7 +881,11 @@ function identifyBodyPart(hit) {
       if (z < .011) return {id:'backHead', label:'後頭部'};
       return {id:'face', label:'顔中央'};
     case 'chest':
-      return z < .020 ? {id:'upperBack', label:'背中上部'} : {id:'chest', label:'胸部装甲'};
+      if (z < .020) return {id:'upperBack',label:'背中上部'};
+      if (y > .765 && z > .040 && width > .009) {
+        return {id:'collar'+side,label:sideLabel+'鎖骨まわり'};
+      }
+      return {id:'chest',label:'胸部装甲'};
     case 'abdomen':
       if (z < .027 && y > .66) return {id:'upperBack', label:'背中上部'};
       if (width > .024) return {id:'flank'+side, label:sideLabel+'脇腹'};
@@ -1114,9 +1118,42 @@ function faceGestureKind(region,action,feeling,situation,moving) {
   return fallback;
 }
 
+function torsoRegion(id) {
+  if (/^shoulder[PN]$/.test(id)) return 'shoulder';
+  if (id.startsWith('collar')) return 'collar';
+  if (id.startsWith('flank')) return 'flank';
+  return id === 'chest' || id === 'abdomen' ? id : null;
+}
+
+function torsoGestureKind(region,action,feeling,moving,repeated=false) {
+  const receptive = feeling === 'happy' || feeling === 'affectionate';
+  const playful = feeling === 'playful';
+  const annoyed = feeling === 'annoyed';
+  if (region === 'chest' && annoyed) return 'chestGuard';
+  if (moving) return 'torsoBrief';
+  if (region === 'shoulder') {
+    return {tap:'shoulderStartle',drag:receptive ? 'shoulderLean' : 'shoulderEase',
+      hold:annoyed ? 'shoulderAway' : receptive ? 'shoulderRest' : 'shoulderWatch'}[action];
+  }
+  if (region === 'collar') {
+    return {tap:'collarStartle',drag:'collarStroke',hold:playful || annoyed ? 'collarShy' : 'collarWatch'}[action];
+  }
+  if (region === 'chest') {
+    return {tap:playful ? 'chestEcho' : 'chestStartle',drag:'chestStroke',hold:'chestTouch'}[action];
+  }
+  if (region === 'abdomen') {
+    return {tap:'bellyStartle',drag:annoyed ? 'bellyAway' : feeling === 'affectionate' ? 'bellyLean' : 'bellyEase',
+      hold:annoyed ? 'bellyAway' : receptive ? 'bellyTouch' : 'bellyWatch'}[action];
+  }
+  if (repeated || annoyed) return 'flankRetreat';
+  if (playful && action !== 'hold') return 'flankPeek';
+  return {tap:'flankStartle',drag:'flankTickle',hold:'flankGuard'}[action];
+}
+
 function respondToContact(action, current) {
   const {id} = current.path[0];
   const face = faceRegion(id);
+  const torso = torsoRegion(id);
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
   const hand = /^hand[PN]$/.test(id);
   const forearm = /^fore[PN]$/.test(id);
@@ -1140,18 +1177,10 @@ function respondToContact(action, current) {
     mood.avoidedUntil = mood.seconds+(alreadyAvoiding ? 15 : 5);
     if (alreadyAvoiding) setMood('annoyed');
     scheduleSocialFollowUp(15);
-    if (!rear) {
-      beginReaction(situation === 'focused' ? 'softGlance' : flank ? 'hipDodge' : 'flinch',true,side);
-      return;
-    }
   }
   if (rear) {
     const kind = rearContactKind(rear,action,feeling,moving,nape);
     beginReaction(kind,true,findRearSide(current.hit,side),action === 'drag',action === 'drag' ? current : null);
-    return;
-  }
-  if (mood.seconds < mood.avoidedUntil && (flank || nape)) {
-    beginReaction('softGlance',true,side);
     return;
   }
   if (crownStroke || offered) {
@@ -1163,6 +1192,23 @@ function respondToContact(action, current) {
   }
   let choices;
   if (offered) choices = [['handReply',1]];
+  else if (torso) {
+    const kind = torsoGestureKind(torso,action,feeling,moving,repeatedFlank);
+    if (kind === 'chestEcho') {
+      const echo = reaction?.kind === kind ? reaction.strokeContact
+        : reaction?.next === kind ? reaction.nextStroke : null;
+      if (echo && mood.seconds-echo.lastTapAt <= .38) {
+        echo.count = Math.min(2,echo.count+1);
+        echo.lastTapAt = mood.seconds;
+        return;
+      }
+      current.count = 1;
+      current.lastTapAt = mood.seconds;
+    }
+    if (kind === 'bellyLean' || kind === 'shoulderLean') enjoyContact(torso,.40);
+    beginReaction(kind,true,side ?? findRearSide(current.hit),action === 'drag',current);
+    return;
+  }
   else if (face) {
     if (action === 'drag' && feeling !== 'annoyed' && (face === 'cheek' || face === 'forehead')) {
       enjoyContact(face,.55);
@@ -1177,7 +1223,6 @@ function respondToContact(action, current) {
     return;
   }
   else if (situation === 'focused') choices = [['softGlance',4],['nod',1]];
-  else if (flank && action === 'tap') choices = [['hipDodge',1]];
   else if (head && (action === 'drag' || cheek)) {
     choices = {
       neutral:[['tilt',4],['softGlance',1]],
@@ -1223,8 +1268,13 @@ canvas.addEventListener('pointerdown', event => {
     pointerTime:event.timeStamp,offeredHand};
   if (faceRegion(part.id)) {
     started.facePoint = groups.head.worldToLocal(leila.point.clone());
-    started.faceStroke = {x,y,dx:0,dy:0,lastAt:-Infinity,reversals:0};
   }
+  const torso = torsoRegion(part.id);
+  if (torso === 'chest' || torso === 'abdomen') {
+    const joint = leila.object.parent;
+    started.torsoPoint = {joint,local:joint.worldToLocal(leila.point.clone())};
+  }
+  if (started.facePoint || torso) started.touchStroke = {x,y,dx:0,dy:0,lastAt:-Infinity,reversals:0,speed:0};
   if (offeredHand && reaction?.kind === 'offerHand') {
     reaction.duration = Math.max(reaction.duration,reaction.elapsed+.65);
     offeredHand.until = mood.seconds+reaction.duration-reaction.elapsed;
@@ -1257,7 +1307,7 @@ function updateDrag(event, current, finish = false) {
   }
   if (!finish && event.timeStamp-current.lastSample < 32) return;
   current.lastSample = event.timeStamp;
-  if (!finish && current.faceStroke) sampleFaceStroke(current.faceStroke,event.clientX,event.clientY);
+  if (!finish && current.touchStroke) sampleTouchStroke(current.touchStroke,event.clientX,event.clientY);
   const {leila} = pickSurface(event.clientX, event.clientY);
   const part = leila && identifyBodyPart(leila);
   if (!part || part.id === current.path.at(-1).id) {
@@ -1273,13 +1323,14 @@ function updateDrag(event, current, finish = false) {
   }
 }
 
-function sampleFaceStroke(stroke,x,y) {
+function sampleTouchStroke(stroke,x,y) {
   const dx = x-stroke.x, dy = y-stroke.y;
   const distance = Math.hypot(dx,dy);
   if (distance < 4) return;
   if (Math.hypot(stroke.dx,stroke.dy) > 0 &&
       (dx*stroke.dx+dy*stroke.dy)/distance < -.40) stroke.reversals++;
-  Object.assign(stroke,{x,y,dx:dx/distance,dy:dy/distance,lastAt:mood.seconds});
+  const speed = distance/Math.max(.025,mood.seconds-stroke.lastAt);
+  Object.assign(stroke,{x,y,dx:dx/distance,dy:dy/distance,lastAt:mood.seconds,speed});
 }
 
 canvas.addEventListener('pointermove', event => {
@@ -1358,10 +1409,43 @@ const faceReactions = {
 };
 for (const entry of Object.values(faceReactions)) entry.pose = 'face';
 
+// Chest pitch, turn and tilt, followed by head pitch, turn and tilt.
+const torsoReactions = {
+  torsoBrief:{label:'触れたところをちらっと見ています',duration:1.0,first:[0,0,0,.17,.10],after:[0,0,0,.02,0]},
+  shoulderStartle:{label:'肩をすくめて振り向いています',duration:1.49,first:[-.04,0,.19,.08,.04],after:[0,.08,.05,-.02,.31]},
+  shoulderEase:{label:'撫でられて肩の力を抜いています',duration:1.8,first:[0,0,.10,.12,.14],after:[.04,.09,-.08,0,.24],track:'shoulder'},
+  shoulderLean:{label:'撫でる手のほうへ肩を寄せています',duration:2.0,first:[0,.04,.10,.14,.16],after:[.05,-.12,-.18,-.06,.22,.15],track:'shoulder'},
+  shoulderRest:{label:'肩を預けて首を傾けています',duration:2.1,first:[0,0,.07,.17,.12],after:[.06,-.17,-.22,-.06,.14,.23]},
+  shoulderWatch:{label:'肩に触れた指先を見ています',duration:1.65,first:[0,0,.12,.14,.16],after:[0,-.04,.03,.06,.26,.15]},
+  shoulderAway:{label:'半身になって肩を外しています',duration:1.69,first:[-.13,.20,.10,.12,.04],after:[-.12,.48,.08,-.04,-.17]},
+  collarStartle:{label:'首をすくめ、鎖骨からこちらへ顔を上げています',duration:1.54,first:[-.09,0,.09,.37,.10],after:[0,.02,.01,-.10,.05,.07]},
+  collarStroke:{label:'肩を開きながら指先を追っています',duration:1.77,first:[.02,.02,.07,.27,.08],after:[0,0,.01,.16,.10],track:'collar'},
+  collarWatch:{label:'首を傾けて指先を見ています',duration:1.72,first:[0,.03,.04,.25,.12],after:[.02,.03,0,.20,.14,.15]},
+  collarShy:{label:'一拍おいて顔を横へそらしています',duration:1.75,first:[-.05,0,.07,.19,.03],after:[-.02,.12,.02,.10,-.32,-.05]},
+  chestStartle:{label:'胸元の装甲が叩かれて驚いています',duration:1.50,first:[-.18,0,.04,.33,0],after:[-.03,0,0,.16,.05,.10]},
+  chestEcho:{label:'叩かれた場所を指先で叩き返しています',duration:2.05,first:[-.13,0,.04,.37,.07],after:[.03,.02,0,.17,.08],hand:'echo'},
+  chestStroke:{label:'胸元を撫でる指の動きを見守っています',duration:1.88,first:[-.05,0,.07,.28,.08],after:[.04,0,-.04,.13,.08],track:'chest'},
+  chestTouch:{label:'胸元の指先の隣に手を添えています',duration:2.02,first:[-.03,0,.07,.28,.04],after:[.05,.02,-.02,-.07,.03],hand:'touch'},
+  chestGuard:{label:'胸元を腕でかばい、片足を引いて半身になっています',duration:2.65,first:[-.19,.22,.05,.26,-.12],after:[-.07,.38,.02,-.03,-.45],stance:'guard',hand:'cover'},
+  bellyStartle:{label:'お腹を引っ込めて見下ろしています',duration:1.56,first:[.32,0,.03,.49,0],after:[.04,0,0,.24,.05,.14],stance:'tuck'},
+  bellyEase:{label:'お腹を撫でられて肩と腰の力を抜いています',duration:1.84,first:[.11,0,.05,.43,.04],after:[.16,0,-.03,.16,.05],track:'belly',stance:'ease'},
+  bellyLean:{label:'膝を緩めて、撫でている手に身を預けています',duration:2.20,first:[.10,0,.04,.45,.05],after:[.27,0,-.02,-.14,.09,.09],track:'belly',stance:'lean',linger:true},
+  bellyWatch:{label:'お腹に触れた指先を一拍見ています',duration:1.7,first:[.13,0,0,.44,.08],after:[.09,0,0,.38,.07,.09]},
+  bellyTouch:{label:'お腹の指先に手を添えて顔を上げています',duration:2.06,first:[.11,0,.01,.46,.04],after:[.10,0,0,-.09,.05],hand:'touch'},
+  bellyAway:{label:'腰を引いて指先から離れています',duration:1.7,first:[.26,.17,-.03,.32,.01],after:[.10,.24,-.08,.05,-.12],stance:'retreat'},
+  flankStartle:{label:'肘を下げ、腰をひねって指先を躱しています',duration:1.52,first:[.12,.30,-.23,.26,.11],after:[.04,.13,-.09,.06,.10],stance:'flank'},
+  flankTickle:{label:'くすぐったそうに肩を揺らしています',duration:1.72,first:[.09,.24,-.21,.24,.12],after:[.08,.19,-.11,.14,.09],track:'tickle',stance:'flank'},
+  flankPeek:{label:'いったん躱してから、指先の方を覗き返しています',duration:1.92,first:[.14,.31,-.25,.24,.06],after:[.12,-.16,.12,-.08,.22,.08],track:'tickle',stance:'flank',peek:true},
+  flankGuard:{label:'肘で脇を守って上体をひねっています',duration:1.91,first:[.10,.27,-.21,.28,.04],after:[.08,.24,-.12,.09,-.12],stance:'flank',hand:'flank'},
+  flankRetreat:{label:'大きく腰を引いて、脇腹を遠ざけています',duration:1.96,first:[.27,.34,-.28,.24,.08],after:[.10,.34,-.13,.06,-.19],stance:'retreat',hand:'flank'}
+};
+for (const entry of Object.values(torsoReactions)) entry.pose = 'torso';
+
 const reactions = {
   ...rearReactions,
   ...armReactions,
   ...faceReactions,
+  ...torsoReactions,
   softGlance:{label:'こちらに目を向けています',duration:.80,pose:'glance'},
   tilt:{label:'首をかしげています',duration:1.25,pose:'tilt'},
   leanIn:{label:'頬を寄せています',duration:1.55,pose:'lean'},
@@ -1369,7 +1453,6 @@ const reactions = {
   dodge:{label:'ひょいと頭を引いています',duration:1.48,pose:'dodge'},
   withdraw:{label:'そっと頭を引いています',duration:1.34,pose:'withdraw'},
   flinch:{label:'肩をすくめています',duration:1.05,pose:'flinch'},
-  hipDodge:{label:'腰を引いてよけています',duration:1.15,pose:'hipDodge'},
   offerHand:{label:'手を差し出しています',duration:.22+10+.35,pose:'hand'},
   handReply:{label:'差し出した手にもう片方の手を重ねています',duration:2.05,pose:'hand'},
   look: {label:'こちらを振り向いています',duration:1.48,clip:'look'},
@@ -1472,12 +1555,16 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   if (reaction?.pose === 'rear' && fromTap && kind !== 'welcome') return;
   const continuingOffer = kind === 'handReply' && reaction?.kind === 'offerHand';
   const faceContact = reactions[kind].pose === 'face' && strokeContact;
+  const torsoContact = reactions[kind].pose === 'torso' && strokeContact;
   if (fromTap && kind !== 'welcome' && reaction?.next === 'welcome') return;
-  if (kind === 'hipDodge' && reaction?.kind === 'hipDodge') return;
+  if (reaction?.kind === 'chestGuard' && reaction.elapsed < reaction.duration-.32 &&
+      fromTap && kind !== 'welcome') return;
+  const continuousStroke = fromStroke && (faceContact && reaction?.pose === 'face' ||
+    torsoContact && reaction?.pose === 'torso');
   if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap && kind !== 'welcome' &&
-      !continuingOffer && !(faceContact && fromStroke && reaction.pose === 'face')) {
-    if (reaction.fromTap && !fromStroke && !faceContact && kind !== 'handReply' &&
-        kind !== 'hipDodge' && kind !== 'flinch') return;
+      !continuingOffer && (!continuousStroke || kind === 'chestGuard')) {
+    if (reaction.fromTap && !fromStroke && !faceContact && !torsoContact && kind !== 'handReply' &&
+        kind !== 'flinch') return;
     if (faceContact && !strokeContact.action && reaction.pose === 'face' && reaction.elapsed < .28) return;
     reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
     reaction.next = kind;
@@ -1490,7 +1577,7 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:touchSide ?? (offset.x > .15 ? 'P' : 'N')};
   reaction.continuingOffer = continuingOffer;
   reaction.strokeContact = strokeContact;
-  if (faceContact) reaction.faceStartedAt = mood.seconds;
+  if (faceContact || torsoContact) reaction.contactStartedAt = mood.seconds;
   mood.offeredHand = kind === 'offerHand' ? {side:reaction.side,until:mood.seconds+reaction.duration} : null;
   if (kind === 'beckon') {
     const radius = camera.position.distanceTo(orbit.target);
@@ -1609,27 +1696,6 @@ function reachHand(side,target,orientation,weight,held=false) {
   return true;
 }
 
-function applyHipDodge(direction,weight) {
-  for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
-  hipPosition.copy(groups.pelvis.position);
-  hipReactionApplied = true;
-  groups.chest.rotateZ(-direction*.23*weight);
-  groups.abdomen.rotateY(direction*.18*weight);
-  if (moodSituation() === 'focused' || mode === 'roam' && roam.phase === 'seated') return;
-  groups.footP.getWorldPosition(hipFeet[0]);
-  groups.footN.getWorldPosition(hipFeet[1]);
-  groups.pelvis.position.x += direction*.086*weight;
-  groups.pelvis.position.z -= .055*weight;
-  groups.pelvis.position.y -= .035*weight;
-  groups.pelvis.rotateY(direction*.22*weight);
-  solveLeg('P',hipFeet[0],root.rotation.y);
-  solveLeg('N',hipFeet[1],root.rotation.y);
-  // Fade the orientation back to the underlying pose at both ends.
-  for (const {key,joint,pose} of hipReactionJoints) {
-    if (/^(foot|shin)/.test(key)) joint.quaternion.slerp(pose,1-weight);
-  }
-}
-
 function applyTouchPose(pose,side,yaw,pitch,time,weight) {
   const direction = side === 'P' ? -1 : 1;
   const head = groups.head;
@@ -1647,8 +1713,6 @@ function applyTouchPose(pose,side,yaw,pitch,time,weight) {
     groups.neck.rotateX(-.12*recoil*weight);
     head.rotateZ(-direction*.21*recoil*weight);
     if (pose === 'flinch') groups['upper'+side].rotateZ(direction*.22*weight);
-  } else if (pose === 'hipDodge') {
-    applyHipDodge(direction,weight);
   } else if (pose === 'hand') {
     const offerWeight = reaction.continuingOffer
       ? smooth(Math.min(1,(reaction.duration-time)/.35)) : weight;
@@ -1871,7 +1935,7 @@ const faceHandNormal = new T.Vector3();
 const faceHandOffset = new T.Vector3();
 const faceHandRotation = new T.Quaternion();
 // Tip of the middle finger in the model's wrist space.
-const cheekFingertip = {P:V(.040,-.090,0),N:V(-.040,-.089,0)};
+const middleFingertip = {P:V(.040,-.090,0),N:V(-.040,-.089,0)};
 
 function touchFingerAtCheek(entry,time,weight) {
   const current = entry.strokeContact;
@@ -1902,17 +1966,17 @@ function touchFingerAtCheek(entry,time,weight) {
   faceHandForward.applyQuaternion(faceHandRotation);
   faceHandNormal.applyQuaternion(faceHandRotation);
   const rotation = orientPalm(side,faceHandForward,faceHandNormal);
-  faceFingertip.sub(faceHandOffset.copy(cheekFingertip[side]).applyQuaternion(rotation));
+  faceFingertip.sub(faceHandOffset.copy(middleFingertip[side]).applyQuaternion(rotation));
   reachHand(side,faceFingertip,rotation,reach*weight,true);
 }
 
-function advanceFaceElapsed(entry,dt) {
+function advanceContactElapsed(entry,dt) {
   const current = entry.strokeContact;
   const next = entry.elapsed+dt;
   if (entry.next || !entry.track || !current || current !== contact ||
-      mood.seconds-entry.faceStartedAt > 4) return next;
+      mood.seconds-entry.contactStartedAt > 4) return next;
   const moving = current.action === 'drag' &&
-    mood.seconds-current.faceStroke.lastAt < (entry.linger ? .74 : .28);
+    mood.seconds-current.touchStroke.lastAt < (entry.linger ? .74 : .28);
   if (!moving && !(entry.linger && current.action === 'hold')) return next;
   // Hold the settled pose during a continuous stroke, then give it a normal exit.
   return entry.elapsed <= .94 ? Math.min(next,.94) : next;
@@ -1925,7 +1989,7 @@ function applyFaceReaction(entry,time,weight,yaw,pitch,dt) {
   const angle = index => mix(entry.first[index] ?? 0,entry.after[index] ?? 0,phase);
   let headPitch = angle(0), turn = sign*angle(1), tilt = -sign*angle(2), neckPitch = angle(3);
   const current = entry.strokeContact;
-  const stroke = current === contact && current?.action === 'drag' ? current.faceStroke : null;
+  const stroke = current === contact && current?.action === 'drag' ? current.touchStroke : null;
   const active = stroke && mood.seconds-stroke.lastAt < .25;
   const response = 1-Math.exp(-dt*12);
   entry.strokeX = mix(entry.strokeX ?? 0,active ? stroke.dx : 0,response);
@@ -1967,15 +2031,148 @@ function applyFaceReaction(entry,time,weight,yaw,pitch,dt) {
   if (entry.fingertip) touchFingerAtCheek(entry,time,weight);
 }
 
+const torsoStances = {
+  tuck:[0,-.008,-.046,0], ease:[0,-.013,.016,0], lean:[0,-.028,.054,0],
+  flank:[-.025,-.011,-.043,.23], retreat:[-.034,-.017,-.078,.32],
+  guard:[-.019,-.019,-.045,.54]
+};
+
+function applyTorsoStance(entry,time,phase,weight,sign) {
+  const standing = mode === 'standWait' || mode === 'idle' || mode === 'roam' &&
+    ['wait','linger','window','rest'].includes(roam.phase);
+  if (!entry.stance || !standing) return;
+  for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
+  const pelvis = groups.pelvis;
+  hipPosition.copy(pelvis.position);
+  hipReactionApplied = true;
+  groups.footP.getWorldPosition(hipFeet[0]);
+  groups.footN.getWorldPosition(hipFeet[1]);
+  const [x,y,z,turn] = torsoStances[entry.stance];
+  const isGuard = entry.stance === 'guard';
+  const out = rearRamp(time,.18,.73);
+  const back = rearRamp(time,entry.duration-.66,entry.duration-.12);
+  const step = out*(1-back);
+  const shift = isGuard ? step :
+    weight*(entry.peek || entry.stance === 'tuck' ? 1-.68*phase :
+      entry.linger ? mix(.20,1,phase) : 1);
+  pelvis.position.x += sign*x*shift;
+  pelvis.position.y += y*shift;
+  pelvis.position.z += z*shift;
+  pelvis.rotateY(sign*turn*shift);
+  groups.abdomen.rotateY(sign*.07*shift);
+  const heading = root.rotation.y;
+  if (isGuard) {
+    const foot = hipFeet[entry.side === 'P' ? 0 : 1];
+    if (entry.retreatFoot === undefined) {
+      const end = foot.clone().add(V(sign*.036,0,-.133).applyAxisAngle(turnAxis,heading));
+      entry.retreatFoot = end.x >= -5.55 && end.x <= 5.55 && end.z >= -5.55 && end.z <= 8.55 &&
+        clearOfPoles(foot,end) && !handLinkCouch().containsPoint(end);
+    }
+    if (entry.retreatFoot) {
+      foot.add(V(sign*.036*step,.026*(Math.sin(Math.PI*out)+Math.sin(Math.PI*back)),-.133*step)
+        .applyAxisAngle(turnAxis,heading));
+    }
+  }
+  const legHeading = isGuard && entry.retreatFoot ? sign*.40*step : 0;
+  solveLeg('P',hipFeet[0],heading+(entry.side === 'P' ? legHeading : 0));
+  solveLeg('N',hipFeet[1],heading+(entry.side === 'N' ? legHeading : 0));
+  for (const {key,joint,pose} of hipReactionJoints) {
+    if (/^(thigh|knee|foot|shin)/.test(key)) joint.quaternion.slerp(pose,1-Math.min(1,weight*3));
+  }
+}
+
+const torsoHandTarget = new T.Vector3();
+const torsoHandForward = new T.Vector3();
+const torsoHandNormal = new T.Vector3();
+const torsoHandOffset = new T.Vector3();
+const torsoHandRotation = new T.Quaternion();
+
+function applyTorsoHand(entry,time,weight,sign) {
+  if (!entry.hand) return;
+  const {side,hand} = entry;
+  const {chest} = groups;
+  const reach = rearRamp(time,hand === 'cover' ? .04 : .31,hand === 'cover' ? .40 : .80);
+  if (reach <= 0) return;
+  let fingertip = false;
+  if (hand === 'cover' || hand === 'flank') {
+    torsoHandTarget.set(hand === 'cover' ? -sign*.064 : sign*.065,
+      hand === 'cover' ? .039 : -.115,hand === 'cover' ? .115 : .113);
+    chest.localToWorld(torsoHandTarget);
+  } else {
+    const point = entry.strokeContact?.torsoPoint;
+    if (!point) return;
+    point.joint.localToWorld(torsoHandTarget.copy(point.local));
+    chest.worldToLocal(torsoHandTarget);
+    const tap = center => Math.max(0,1-Math.abs(time-center)/.125);
+    const knock = hand === 'echo' ? Math.max(tap(.93),entry.strokeContact.count > 1 ? tap(1.28) : 0) : 0;
+    torsoHandTarget.x += hand === 'touch' ? sign*.029 : 0;
+    torsoHandTarget.z += hand === 'echo' ? mix(.049,.008,knock) : .026;
+    chest.localToWorld(torsoHandTarget);
+    fingertip = true;
+  }
+  chest.getWorldQuaternion(torsoHandRotation);
+  torsoHandForward.set(-sign*(hand === 'flank' ? .29 : .87),hand === 'flank' ? -.95 : .37,-.23).normalize();
+  torsoHandNormal.set(0,0,-1).addScaledVector(torsoHandForward,torsoHandForward.z).normalize();
+  torsoHandForward.applyQuaternion(torsoHandRotation);
+  torsoHandNormal.applyQuaternion(torsoHandRotation);
+  const orientation = orientPalm(side,torsoHandForward,torsoHandNormal);
+  if (fingertip) torsoHandTarget.sub(torsoHandOffset.copy(middleFingertip[side]).applyQuaternion(orientation));
+  reachHand(side,torsoHandTarget,orientation,reach*weight,true);
+}
+
+function applyTorsoReaction(entry,time,weight,yaw,pitch,dt) {
+  const sign = entry.side === 'P' ? 1 : -1;
+  const phase = rearRamp(time,.22,entry.linger ? 1.02 : .64);
+  applyTorsoStance(entry,time,phase,weight,sign);
+  const angle = index => mix(entry.first[index] ?? 0,entry.after[index] ?? 0,phase);
+  const current = entry.strokeContact;
+  const stroke = current === contact && current?.action === 'drag' ? current.touchStroke : null;
+  const active = stroke && mood.seconds-stroke.lastAt < .27;
+  const response = 1-Math.exp(-dt*13);
+  entry.strokeX = mix(entry.strokeX ?? 0,active ? stroke.dx : 0,response);
+  const outward = sign*entry.strokeX;
+  let chestPitch = angle(0), turn = sign*angle(1), roll = sign*angle(2);
+  let headPitch = angle(3), headTurn = sign*angle(4);
+  if (entry.track === 'shoulder') roll -= .14*outward;
+  if (entry.track === 'collar') {
+    turn -= .19*sign*Math.max(0,outward);
+    headPitch += .17*Math.max(0,-outward);
+    headTurn += .14*entry.strokeX;
+  }
+  if (entry.track === 'chest') {
+    const recoil = active && stroke.reversals >= 2 && stroke.speed > 200 ? 1 : 0;
+    entry.strokeRecoil = mix(entry.strokeRecoil ?? 0,recoil,response);
+    chestPitch -= .24*entry.strokeRecoil;
+    headTurn += .18*entry.strokeX;
+  }
+  if (entry.track === 'belly') headTurn += .12*entry.strokeX;
+  if (entry.track === 'tickle') roll += .09*Math.sin(mood.seconds*25)*(entry.peek ? 1-phase : 1);
+  const {chest,neck,head} = groups;
+  chest.rotateX(chestPitch*weight);
+  chest.rotateY(turn*weight);
+  chest.rotateZ(roll*weight);
+  const cameraGaze = phase*(entry.hand === 'cover' ? .12 : .34);
+  neck.rotateX((headPitch*.42+pitch*cameraGaze*.22)*weight);
+  neck.rotateY((headTurn*.33+yaw*cameraGaze*.31)*weight);
+  head.rotateX((headPitch*.58+pitch*cameraGaze*.60)*weight);
+  head.rotateY((headTurn*.67+yaw*cameraGaze*.69)*weight);
+  head.rotateZ(-sign*angle(5)*weight);
+  if (entry.stance === 'flank' || entry.kind === 'flankRetreat') {
+    groups['upper'+entry.side].rotateZ(-sign*.23*weight*(entry.peek ? 1-phase*.8 : 1));
+  }
+  applyTorsoHand(entry,time,weight,sign);
+}
+
 function applyReaction(dt) {
   if (!reaction) return;
   const {kind,duration,side,clip} = reaction;
-  const time = reaction.elapsed = reaction.pose === 'face'
-    ? advanceFaceElapsed(reaction,dt) : reaction.elapsed+dt;
+  const contactMotion = reaction.pose === 'face' || reaction.pose === 'torso';
+  const time = reaction.elapsed = contactMotion ? advanceContactElapsed(reaction,dt) : reaction.elapsed+dt;
   if (time >= duration) {
     const {next,nextSide,nextStroke,nextFromStroke,pose,offer,side:offeredSide} = reaction;
     if (pose === 'rear' || pose === 'arm' || reaction.touchFollowUp) touchPause.until = mood.seconds+.75;
     if (pose === 'face' && kind !== 'faceBrief') touchPause.until = mood.seconds+.45;
+    if (pose === 'torso' && kind !== 'torsoBrief') touchPause.until = mood.seconds+.51;
     reaction = null;
     if (offer) {
       beginReaction('offerHand',false,offeredSide);
@@ -1994,6 +2191,10 @@ function applyReaction(dt) {
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.38,1.38);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  if (reaction.pose === 'torso') {
+    applyTorsoReaction(reaction,time,weight,yaw,pitch,dt);
+    return;
+  }
   if (reaction.pose === 'face') {
     applyFaceReaction(reaction,time,weight,yaw,pitch,dt);
     return;
@@ -2190,7 +2391,8 @@ function advanceRoam(dt) {
     }
     return;
   }
-  const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm' || reaction?.pose === 'face'
+  const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm' ||
+    reaction?.pose === 'face' || reaction?.pose === 'torso'
     || reaction?.touchFollowUp
     || mood.seconds < touchPause.until;
   if (!lingeringReaction) roam.elapsed += dt;
