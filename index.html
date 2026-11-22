@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 66 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 67 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 66 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 67 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -3005,8 +3005,7 @@ function travelPose(elapsed, routeDuration = cruiseDuration, origin = 0, heading
       : leadDistance + speed * (elapsed - startEnd);
   const metres = distance * transferScale;
   if (planarRoute) {
-    const {from,scale} = planarRoute;
-    setTravelPosition(from.x + Math.sin(heading)*metres*scale, from.z + Math.cos(heading)*metres*scale,planarRoute.holdCamera);
+    heading = advanceWalkPath(planarRoute,metres*planarRoute.scale,elapsed);
   } else {
     setTravelDistance(origin + (heading === Math.PI ? -1 : 1) * metres);
   }
@@ -3146,16 +3145,28 @@ function initializeSofaMotion() {
   sofaStand = captureSofaPose();
 }
 
-function routeWalk(from, to, message) {
-  const distance = from.distanceTo(to);
-  const heading = headingTo(from,to);
+function routeWalk(samples, message, holdCamera) {
+  const distance = samples.at(-1).distance;
   const approach = (startDistance+stopDistance)*transferScale;
   const clipDistance = Math.max(distance,approach+cruiseSpeed*transferScale*walkCycle*.35);
   const cycles = Math.max(1,Math.round((clipDistance-approach)/(cruiseSpeed*transferScale*walkCycle)));
   const duration = cycles*walkCycle;
-  return {type:'walk',from,heading,duration,scale:distance/clipDistance,
+  return {type:'walk',samples,heading:samples[0].heading,duration,scale:distance/clipDistance,holdCamera,
     speed:routeSpeed({distance:clipDistance,duration},false),
     time:startEnd+duration+clipStop.duration,message};
+}
+
+function advanceWalkPath(stage,distance,elapsed) {
+  const {samples,holdCamera,entryHeading} = stage;
+  distance = T.MathUtils.clamp(distance,0,samples.at(-1).distance);
+  let upper = 1;
+  while (upper < samples.length-1 && samples[upper].distance < distance) upper++;
+  const a = samples[upper-1], b = samples[upper];
+  const progress = (distance-a.distance)/(b.distance-a.distance);
+  setTravelPosition(T.MathUtils.lerp(a.point.x,b.point.x,progress),
+    T.MathUtils.lerp(a.point.z,b.point.z,progress),holdCamera);
+  const heading = a.heading + headingDelta(a.heading,b.heading)*progress;
+  return heading + headingDelta(stage.heading,entryHeading)*(1-smooth(Math.min(1,elapsed/.52)));
 }
 
 function clearOfPoles(from,to) {
@@ -3175,10 +3186,13 @@ function clearOfPoles(from,to) {
   });
 }
 
-function destinationPath(from,to,avoidSofa=false) {
-  const couch = avoidSofa ? new T.Box3(sofaTarget.lookAt.clone().add(V(-.30,-2,-.58)),
-    sofaTarget.lookAt.clone().add(V(.30,2,.58))) : null;
-  const clear = (a,b) => {
+function sofaWalkingBounds() {
+  return new T.Box3(sofaTarget.lookAt.clone().add(V(-.30,-2,-.58)),
+    sofaTarget.lookAt.clone().add(V(.30,2,.58)));
+}
+
+function walkingClearance(couch) {
+  return (a,b) => {
     if (!clearOfPoles(a,b)) return false;
     if (!couch) return true;
     const delta = b.clone().sub(a);
@@ -3187,9 +3201,24 @@ function destinationPath(from,to,avoidSofa=false) {
     const hit = new T.Ray(a,delta.divideScalar(length)).intersectBox(couch,V(0,0,0));
     return !couch.containsPoint(a) && (!hit || a.distanceTo(hit) >= length);
   };
+}
+
+function inWalkingArea(point) {
+  return point.x >= -5.65 && point.x <= 5.65 && point.z >= -5.65 && point.z <= 8.65;
+}
+
+function destinationPath(from,to,couch=sofaWalkingBounds()) {
+  const clear = walkingClearance(couch);
   if (clear(from,to)) return [to];
-  // Try short detours through the open interior or a known stopping point.
+  // Try detours near each obstacle before sending Leila across the room.
   const waypoints = [V(0,0,0), ...walkTargets.map(target => target.point), ...windows.map(target => target.point)];
+  for (const target of walkTargets) {
+    if (target === sofaTarget) continue;
+    for (let i=0; i<8; i++) {
+      const angle = i*Math.PI/4;
+      waypoints.push(V(target.lookAt.x+.52*Math.sin(angle),0,target.lookAt.z+.52*Math.cos(angle)));
+    }
+  }
   if (couch) {
     for (const x of [couch.min.x-.16,couch.max.x+.16]) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
@@ -3200,22 +3229,20 @@ function destinationPath(from,to,avoidSofa=false) {
       for (const z of [bedBounds.min.z-.16,bedBounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  let best = null;
+  const candidates = waypoints.filter(inWalkingArea);
+  let detour = [];
   let bestDistance = Infinity;
-  for (const point of waypoints) {
+  for (const point of candidates) {
     if (point.distanceToSquared(from) < .025**2 || point.distanceToSquared(to) < .025**2) continue;
     const length = from.distanceTo(point) + point.distanceTo(to);
     if (length < bestDistance && clear(from,point) && clear(point,to)) {
-      best = point;
+      detour = [point,to];
       bestDistance = length;
     }
   }
-  if (best) return [best,to];
-  // The sofa and bed can block different legs of the same route.
-  if (!bed.visible && !couch) return [];
-  const departures=waypoints.filter(point=>point.distanceToSquared(from)>.025**2 && clear(from,point));
-  const arrivals=waypoints.filter(point=>point.distanceToSquared(to)>.025**2 && clear(point,to));
-  let detour=[];
+  // A two-corner route can be shorter or go around two different obstacles.
+  const departures=candidates.filter(point=>point.distanceToSquared(from)>.025**2 && clear(from,point));
+  const arrivals=candidates.filter(point=>point.distanceToSquared(to)>.025**2 && clear(point,to));
   for (const first of departures) {
     for (const last of arrivals) {
       if (first === last) continue;
@@ -3234,6 +3261,38 @@ function headingTo(from,to) {
 
 function headingDelta(from,to) {
   return Math.atan2(Math.sin(to-from),Math.cos(to-from));
+}
+
+function roundedWalkCorner(previous,corner,next,clear) {
+  const incoming = corner.clone().sub(previous);
+  const outgoing = next.clone().sub(corner);
+  const maxTrim = Math.min(.95,incoming.length()*.45,outgoing.length()*.45);
+  incoming.normalize();
+  outgoing.normalize();
+  if (incoming.dot(outgoing) < -.84) return null;
+  const entryHeading = Math.atan2(incoming.x,incoming.z);
+  const exitHeading = Math.atan2(outgoing.x,outgoing.z);
+
+  for (let trim=maxTrim; trim>=.045; trim*=.65) {
+    const entry = corner.clone().addScaledVector(incoming,-trim);
+    const exit = corner.clone().addScaledVector(outgoing,trim);
+    const curve = new T.QuadraticBezierCurve3(entry,corner,exit);
+    const samples = [{point:entry,heading:entryHeading}];
+    const tangent = V(0,0,0);
+    // The walk follows these same chords, so the clearance checks cover its actual path.
+    for (let index=1; index<=24; index++) {
+      const t = index/24;
+      const point = curve.getPoint(t);
+      if (!clear(samples.at(-1).point,point)) break;
+      tangent.copy(incoming).lerp(outgoing,t);
+      samples.push({point,heading:Math.atan2(tangent.x,tangent.z)});
+    }
+    if (samples.length === 25) return samples;
+  }
+  if (Math.abs(headingDelta(entryHeading,exitHeading)) < .06) {
+    return [{point:corner,heading:entryHeading}];
+  }
+  return null;
 }
 
 function routeTurn(heading, message) {
@@ -3258,7 +3317,7 @@ function userApproachTarget() {
     const length = stride*fraction;
     if (length < .24 || couchHit && from.distanceTo(couchHit) < length) continue;
     const point = from.clone().addScaledVector(direction,length);
-    if (point.x < -5.65 || point.x > 5.65 || point.z < -5.65 || point.z > 8.65) continue;
+    if (!inWalkingArea(point)) continue;
     if (clearOfPoles(from,point)) {
       return {kind:'user',name:'ユーザー',point,heading:headingTo(point,viewer)};
     }
@@ -3320,10 +3379,19 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     visit.push({type:'look',point:target.lookAt,time:1.45,message:target.name+'を見ています'});
   }
   if (target.kind === 'wander') {
-    visit.push({type:'wander',remaining:target.legs,message});
+    const couch = sofaWalkingBounds();
+    const points = [from];
+    let heading = root.rotation.y;
+    for (let leg=0; leg<target.legs; leg++) {
+      const previous = points.at(-1);
+      const point = nextWanderPoint(previous,heading,couch);
+      if (!point) break;
+      points.push(...destinationPath(previous,point,couch));
+      heading = headingTo(points.at(-2),points.at(-1));
+    }
+    appendWalkPath(visit,points,message,false,walkingClearance(couch));
   } else if (target.point && from.distanceTo(target.point) > .025) {
-    if (!appendWalk(visit,from,target.point,message,target.kind === 'user',
-      target === lightSwitchTarget || target === bedTarget || target === sofaTarget || roam.phase === 'bed')) {
+    if (!appendWalk(visit,from,target.point,message,target.kind === 'user')) {
       if (roam.phase === 'bed') {
         roam.pause=roam.elapsed+5;
         return;
@@ -3353,30 +3421,48 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   startRouteStage();
 }
 
-function appendWalk(visit,from,to,message,holdCamera=false,avoidSofa=false) {
-  const path = destinationPath(from,to,avoidSofa);
-  let previous = from;
-  for (const point of path) {
-    const walk = routeWalk(previous,point,message);
-    walk.holdCamera = holdCamera;
-    visit.push(routeTurn(walk.heading,message),walk);
-    previous = point;
-  }
+function appendWalk(visit,from,to,message,holdCamera=false) {
+  const couch = sofaWalkingBounds();
+  const path = destinationPath(from,to,couch);
+  appendWalkPath(visit,[from,...path],message,holdCamera,walkingClearance(couch));
   return path.length > 0;
 }
 
-function nextWanderPoint(from) {
-  const heading = root.rotation.y;
+function appendWalkPath(visit,points,message,holdCamera,clear) {
+  if (points.length < 2) return;
+  let samples = [{point:points[0],heading:headingTo(points[0],points[1]),distance:0}];
+  const append = (point,heading) => {
+    const previous = samples.at(-1);
+    const length = previous.point.distanceTo(point);
+    if (length > .00001) samples.push({point,heading,distance:previous.distance+length});
+  };
+  for (let i=1; i<points.length-1; i++) {
+    const previous = points[i-1], corner = points[i], next = points[i+1];
+    const rounded = roundedWalkCorner(previous,corner,next,clear);
+    if (rounded) {
+      for (const {point,heading} of rounded) append(point,heading);
+    } else {
+      append(corner,headingTo(previous,corner));
+      visit.push(routeWalk(samples,message,holdCamera));
+      samples = [{point:corner,heading:headingTo(corner,next),distance:0}];
+    }
+  }
+  append(points.at(-1),headingTo(points.at(-2),points.at(-1)));
+  visit.push(routeWalk(samples,message,holdCamera));
+}
+
+function nextWanderPoint(from,heading,couch) {
+  const clear = walkingClearance(couch);
   for (let attempt=0; attempt<18; attempt++) {
     const direction = heading + (Math.random()-.5)*2.7;
     const distance = 1.05 + Math.random()*1.45;
     const point = from.clone().add(V(Math.sin(direction)*distance,0,Math.cos(direction)*distance));
     if (point.x < -2.3 || point.x > 3.6 || point.z < -3.7 || point.z > 4.6) continue;
-    if (clearOfPoles(from,point)) return point;
+    if (clear(from,point)) return point;
   }
   // Re-enter the room if starting at a window or facing outward at its edge.
   const center = V(.35,0,.15);
-  if (from.distanceTo(center) > .5 && destinationPath(from,center).length) return center;
+  if (from.distanceTo(center) > .5 && destinationPath(from,center,couch).length) return center;
   return null;
 }
 
@@ -3393,19 +3479,16 @@ function startRouteStage() {
     arriveAtDestination();
     return;
   }
-  if (stage.type === 'wander') {
-    const from = root.position.clone();
-    const point = nextWanderPoint(from);
-    if (!point || stage.remaining <= 0) {
-      arriveAtDestination();
+  if (stage.type === 'walk') {
+    const delta = headingDelta(root.rotation.y,stage.heading);
+    if (Math.abs(delta) > .72) {
+      const turn = routeTurn(stage.heading,stage.message);
+      turn.time = T.MathUtils.clamp(.30+Math.abs(delta)*.34,.55,1.30);
+      roam.visit.splice(roam.visitIndex,0,turn);
+      startRouteStage();
       return;
     }
-    const leg = [];
-    appendWalk(leg,from,point,stage.message);
-    if (stage.remaining > 1) leg.push({...stage,remaining:stage.remaining-1});
-    roam.visit.splice(roam.visitIndex,1,...leg);
-    startRouteStage();
-    return;
+    stage.entryHeading = root.rotation.y;
   }
   roam.elapsed = 0;
   stage.pose = captureSofaPose();
