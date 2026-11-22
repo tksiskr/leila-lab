@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 52 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 53 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 52 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 53 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -2977,6 +2977,11 @@ const handLinkShoulder = new T.Vector3();
 const handLinkPalmNormal = new T.Vector3();
 const screenGripCenter = new T.Vector3();
 const screenGripWrist = new T.Vector3();
+const carryTarget = new T.Vector3();
+const carryDelta = new T.Vector3();
+const carryNext = new T.Vector3();
+const carryPath = new T.Ray();
+const carryCouchHit = new T.Vector3();
 
 function handPullDirection(link, origin=link.contact) {
   const lateral = Math.abs(link.x-origin.x);
@@ -3025,6 +3030,7 @@ function moveHeldHand(event,current) {
   handLink = {contact:current,side,resumeRoam,plane,x:current.x,y:current.y,
     age:0,gait:0,walkBlend:0,runBlend:0,currentGoal:current.hit.point.clone(),
     pointerTime:Math.max(current.pointerTime+touchHold,event.timeStamp-40),fastPull:0,fastUntil:0,
+    carryUntil:0,carryBlend:0,carrySide:0,landingAge:Infinity,
     shoulderPull:new T.Vector3(),bodyPull:new T.Vector3(),pullAmount:0,braceAmount:0,
     phase:'planted',overreachTime:0,followTime:0,followEntry:null,hangAmount:0,glanceTime:0,glanceBlend:0,
     directionAnchor:{x:current.x,y:current.y},direction:null};
@@ -3082,6 +3088,11 @@ function shouldLeaveHandBrace(link,dt,stretch,fastPull) {
   return link.overreachTime >= mix(.16,.045,fastPull);
 }
 
+function handLinkCouch() {
+  return new T.Box3(sofaTarget.lookAt.clone().add(V(-.57,-2,-.79)),
+    sofaTarget.lookAt.clone().add(V(.57,2,.79)));
+}
+
 function walkWithHeldHand(link,dt,stretch,fastPull) {
   const heading = headingTo(root.position,link.currentGoal);
   const turn = headingDelta(root.rotation.y,heading);
@@ -3093,10 +3104,8 @@ function walkWithHeldHand(link,dt,stretch,fastPull) {
     * mix(1,.45,chase*T.MathUtils.smoothstep(Math.abs(turn),.55,1.85));
   const length = Math.min(speed*dt,stretch*Math.min(.85,dt*14.4));
   const next = V(Math.sin(heading)*length,0,Math.cos(heading)*length).add(root.position);
-  const couch = new T.Box3(sofaTarget.lookAt.clone().add(V(-.57,-2,-.79)),
-    sofaTarget.lookAt.clone().add(V(.57,2,.79)));
   if (next.x < -5.65 || next.x > 5.65 || next.z < -5.65 || next.z > 8.65 ||
-      couch.containsPoint(next) || !clearOfPoles(root.position,next)) return 0;
+      handLinkCouch().containsPoint(next) || !clearOfPoles(root.position,next)) return 0;
   const turnLimit = dt*mix(3.2,10,chase);
   root.rotation.y += T.MathUtils.clamp(turn,-turnLimit,turnLimit);
   // Keep the camera fixed while she closes the gap to the finger.
@@ -3217,6 +3226,92 @@ function solveScreenGrip(side,upper,orientation,weight,reach,preferredDepth) {
   return reachHand(side,guardedWrist,orientation,weight,true);
 }
 
+function updateHandCarry(link,dt,direction,fastPull,stretch,policy) {
+  const wasCarried = link.carryBlend > .12;
+  const allowed = direction === 'lateral' && policy === 'follow';
+  if (allowed && fastPull > .52 && stretch > .20) {
+    link.carryUntil = link.fastUntil;
+    link.landingAge = Infinity;
+    if (link.phase === 'planted') {
+      link.phase = 'following';
+      link.followTime = .36;
+    }
+  }
+  const airborne = policy === 'follow' && link.carryUntil > link.age;
+  const rate = airborne ? 24 : 9;
+  link.carryBlend = mix(link.carryBlend,airborne ? 1 : 0,1-Math.exp(-dt*rate));
+  if (!airborne && wasCarried && link.carryBlend <= .12) link.landingAge = 0;
+  else link.landingAge += dt;
+  return airborne;
+}
+
+function poseHandCarry(link,dt,airborne) {
+  const lift = link.carryBlend;
+  if (lift < .002 && link.landingAge >= .24) return;
+  if (airborne) {
+    const turn = headingDelta(root.rotation.y,headingTo(root.position,handLinkGoal));
+    const limit = dt*4.5;
+    root.rotation.y += T.MathUtils.clamp(turn,-limit,limit);
+    link.carrySide = mix(link.carrySide,Math.sin(turn),1-Math.exp(-dt*14));
+  }
+  groups.pelvis.rotateX(.26*lift);
+  groups.pelvis.rotateZ(-link.carrySide*.18*lift);
+  groups.chest.rotateX(.24*lift);
+  groups.neck.rotateX(-.32*lift);
+  const swing = Math.sin(link.age*13)*.12;
+  for (const [index,side] of ['P','N'].entries()) {
+    const sign = index ? -1 : 1;
+    groups['thigh'+side].rotateX((.35+sign*(.15+swing))*lift);
+    groups['knee'+side].rotateX((.42-sign*.14)*lift);
+    groups['foot'+side].rotateX(.19*lift);
+  }
+  const landing = rearRamp(link.landingAge,0,.065)*(1-rearRamp(link.landingAge,.065,.24));
+  groups.abdomen.rotateX(.20*landing);
+  groups.neck.rotateX(-.12*landing);
+  for (const side of ['P','N']) {
+    groups['thigh'+side].rotateX(-.24*landing);
+    groups['knee'+side].rotateX(.40*landing);
+  }
+  alignSupportToFloor();
+  groups.pelvis.position.y += .13*lift;
+}
+
+function moveCarriedBody(delta) {
+  const from = root.position;
+  carryNext.set(T.MathUtils.clamp(from.x+delta.x,-5.65,5.65),0,
+    T.MathUtils.clamp(from.z+delta.z,-5.65,8.65));
+  const distance = from.distanceTo(carryNext);
+  if (distance < .00001) return;
+  carryPath.origin.copy(from);
+  carryPath.direction.copy(carryNext).sub(from).multiplyScalar(1/distance);
+  const hit = carryPath.intersectBox(handLinkCouch(),carryCouchHit);
+  let length = hit ? T.MathUtils.clamp(from.distanceTo(hit)-.015,0,distance) : distance;
+  carryPath.at(length,carryNext);
+  if (!clearOfPoles(from,carryNext)) {
+    let clear = 0;
+    for (let attempt = 0; attempt < 8; attempt++) {
+      const mid = (clear+length)*.5;
+      if (clearOfPoles(from,carryPath.at(mid,carryNext))) clear = mid;
+      else length = mid;
+    }
+    carryPath.at(clear,carryNext);
+  }
+  setTravelPosition(carryNext.x,carryNext.z,true);
+}
+
+function pinCarriedHand(side,palmOrientation,depth,lift) {
+  handLinkRay.ray.at(depth,carryTarget).sub(handLinkOffset);
+  if (!solveHeldHand(side,carryTarget,palmOrientation,1)) {
+    const safeWrist = groups.chest.localToWorld(guardedWrist.set(side === 'P' ? .16 : -.16,-.13,.15));
+    if (!reachHand(side,safeWrist,palmOrientation,1,true)) return false;
+  }
+  // Measure the remaining error after IK, then translate the whole rig with the wrist.
+  carryDelta.copy(carryTarget).sub(groups['hand'+side].getWorldPosition(guardedWrist));
+  moveCarriedBody(carryDelta);
+  groups.pelvis.position.y += T.MathUtils.clamp(carryDelta.y,-.13*lift,.22);
+  return true;
+}
+
 const handLinkLook = new T.Vector3();
 const handLinkHeadWorld = new T.Quaternion();
 
@@ -3282,6 +3377,10 @@ function advanceHandLink(dt) {
   handLinkWrist.copy(link.currentGoal).sub(handLinkOffset.copy(palmRig[side].center).applyQuaternion(palmOrientation));
 
   const unloadedStretch = handLinkShoulder.distanceTo(handLinkWrist)-reach;
+  const policy = handLinkPolicy(currentMood());
+  handLinkRay.ray.at(fingerDepth,carryTarget).sub(handLinkOffset);
+  const rawStretch = handLinkShoulder.distanceTo(carryTarget)-reach;
+  const airborne = updateHandCarry(link,dt,direction,fastPull,rawStretch,policy);
   updateHandBrace(link,dt,unloadedStretch,direction);
 
   let releasing = false;
@@ -3290,7 +3389,6 @@ function advanceHandLink(dt) {
     applyHandLinkBody(link,dt,direction);
     upper.getWorldPosition(handLinkShoulder);
     const remainingStretch = handLinkShoulder.distanceTo(handLinkWrist)-reach;
-    const policy = handLinkPolicy(currentMood());
     if (shouldLeaveHandBrace(link,dt,direction === 'down' ? 0 : remainingStretch,
       policy === 'follow' ? fastPull : 0)) {
       if (policy === 'release') releasing = true;
@@ -3307,7 +3405,7 @@ function advanceHandLink(dt) {
   } else {
     link.followTime += dt;
     const stretch = Math.max(0,unloadedStretch-.015);
-    const speed = !vertical && stretch > 0 ? walkWithHeldHand(link,dt,stretch,fastPull) : 0;
+    const speed = !airborne && !vertical && stretch > 0 ? walkWithHeldHand(link,dt,stretch,fastPull) : 0;
     link.runBlend = mix(link.runBlend,T.MathUtils.smoothstep(speed,.68,1.30),1-Math.exp(-dt*12));
     link.walkBlend = mix(link.walkBlend,speed ? 1 : 0,1-Math.exp(-dt*9));
     if (link.walkBlend > .015) {
@@ -3326,16 +3424,24 @@ function advanceHandLink(dt) {
     groups.abdomen.rotateX(.14*link.runBlend);
     groups.neck.rotateX(-.13*link.runBlend);
     glanceWhileHandLinked(link,dt,speed);
-    const message = speed > .78 ? '手をつないで走っています'
+    const message = airborne ? '手をつないだまま引っ張られています'
+      : link.landingAge < .24 ? '手をつないだまま着地しています'
+      : speed > .78 ? '手をつないで走っています'
       : speed ? '手をつないで歩いています' : '手をつないでいます';
     const status = $('destination');
     if (status.textContent !== message) status.textContent = message;
   }
 
-  applyHandLinkHang(link,dt,direction,unloadedStretch);
+  poseHandCarry(link,dt,airborne);
+  if (link.carryBlend < .12) applyHandLinkHang(link,dt,direction,unloadedStretch);
   const weight = rearRamp(link.age,0,.22);
-  const screenGrip = !vertical && (fastPull > .20 || link.runBlend > .15)
-    && solveScreenGrip(side,upper,palmOrientation,weight,reach,fingerDepth);
+  const landingGrip = !vertical && policy === 'follow'
+    && (link.carryBlend > .06 || link.landingAge < .24);
+  const screenGrip = airborne || landingGrip
+    ? solveScreenGrip(side,upper,palmOrientation,1,reach,fingerDepth)
+      || pinCarriedHand(side,palmOrientation,fingerDepth,link.carryBlend)
+    : !vertical && (fastPull > .20 || link.runBlend > .15)
+      && solveScreenGrip(side,upper,palmOrientation,weight,reach,fingerDepth);
   if (!screenGrip && !solveHeldHand(side,handLinkWrist,palmOrientation,weight)) {
     // Stay on the held side if no forward route around the chest is available.
     const fallback = groups.chest.localToWorld(handLinkWrist.set(side === 'P' ? .16 : -.16,-.13,.11));
