@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 43 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 44 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 43 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 44 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1010,7 +1010,7 @@ function rearContactKind(region,action,feeling,moving,nape) {
   return receptive ? 'rearStay' : feeling === 'annoyed' ? 'rearDistance' : 'rearGuard';
 }
 
-const rearIdle = {until:0};
+const touchPause = {until:0};
 const rearPoint = new T.Vector3();
 function rearHitRegion(id,hit) {
   if (id.startsWith('buttock')) return 'hips';
@@ -1035,10 +1035,31 @@ function findRearSide(hit,side) {
     : headingDelta(root.rotation.y,headingTo(root.position,camera.position)) >= 0 ? 'P' : 'N';
 }
 
+const armReactions = {
+  armGlance:{label:'触れられた側の手元を見ています',duration:1.45,pose:'arm',look:1,lift:.012},
+  armBusyGlance:{label:'動きながら手元へちらっと目を向けています',duration:.93,pose:'arm',look:.43},
+  armLean:{label:'前腕をそっと寄せています',duration:2.12,pose:'arm',look:1,lift:.061,reach:.042},
+  armOffer:{label:'手元を見てから、あなたに目を合わせています',duration:1.26,pose:'arm',look:1,lift:.028,offer:true},
+  armTease:{label:'手をひょいと引き、こちらを窺っています',duration:1.90,pose:'arm',look:1,withdraw:.068,returnArm:true},
+  armWithdraw:{label:'そっと腕を手元に引いています',duration:1.71,pose:'arm',look:.8,withdraw:.058}
+};
+
+function armContactKind(action,feeling,moving,isHand) {
+  if (moving) return 'armBusyGlance';
+  if (feeling === 'annoyed') return 'armWithdraw';
+  if (feeling === 'playful' && action !== 'tap') return 'armTease';
+  if (feeling === 'happy' || feeling === 'affectionate') {
+    if (action === 'hold' || isHand && action === 'tap' && Math.random() < .8) return 'armOffer';
+    if (action === 'drag') return 'armLean';
+  }
+  return 'armGlance';
+}
+
 function respondToContact(action, current) {
   const {id} = current.path[0];
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
   const hand = /^hand[PN]$/.test(id);
+  const forearm = /^fore[PN]$/.test(id);
   const shoulder = /^shoulder[PN]$/.test(id);
   const flank = id.startsWith('flank');
   const cheek = id.startsWith('cheek');
@@ -1082,6 +1103,10 @@ function respondToContact(action, current) {
   }
   let choices;
   if (offered) choices = [['handReply',1]];
+  else if (hand || forearm) {
+    beginReaction(armContactKind(action,feeling,moving,hand),true,side,action === 'drag');
+    return;
+  }
   else if (situation === 'focused') choices = [['softGlance',4],['nod',1]];
   else if (flank && action === 'tap') choices = [['hipDodge',1]];
   else if (head && (action === 'drag' || cheek)) {
@@ -1094,9 +1119,6 @@ function respondToContact(action, current) {
       annoyed:[['withdraw',5],['softGlance',1]]
     }[feeling];
     if (situation === 'sleepy') choices = [[feeling === 'annoyed' ? 'withdraw' : 'tilt',1]];
-  } else if (hand) {
-    choices = feeling === 'affectionate' || feeling === 'happy'
-      ? [['offerHand',4],['nod',1]] : [['softGlance',3],['smallWave',1]];
   } else if (shoulder || head) {
     choices = feeling === 'annoyed' ? [['softGlance',1]] : [['look',3],['nod',2]];
   } else {
@@ -1215,6 +1237,7 @@ window.addEventListener('blur', () => {
 
 const reactions = {
   ...rearReactions,
+  ...armReactions,
   softGlance:{label:'こちらに目を向けています',duration:.80,pose:'glance'},
   tilt:{label:'首をかしげています',duration:1.25,pose:'tilt'},
   leanIn:{label:'頬を寄せています',duration:1.55,pose:'lean'},
@@ -1636,17 +1659,48 @@ function applyRearReaction(entry,time,weight,pitch) {
   }
 }
 
+const touchedArmPoint = new T.Vector3();
+const touchedArmDirection = new T.Vector3();
+const touchedArmOrientation = new T.Quaternion();
+
+function applyArmReaction(entry,time,weight,yaw,pitch) {
+  const side = entry.side;
+  const hand = groups['hand'+side];
+  const head = groups.head;
+  hand.getWorldPosition(touchedArmPoint);
+  touchedArmDirection.copy(touchedArmPoint).sub(head.getWorldPosition(jokeHeadPosition))
+    .applyQuaternion(head.getWorldQuaternion(headWorld).invert());
+  const armYaw = T.MathUtils.clamp(Math.atan2(touchedArmDirection.x,touchedArmDirection.z),-.67,.67);
+  const armPitch = T.MathUtils.clamp(-Math.atan2(touchedArmDirection.y,Math.hypot(touchedArmDirection.x,touchedArmDirection.z)),0,.51);
+  const lookBack = entry.offer || entry.returnArm ? rearRamp(time,.54,1.02) : rearRamp(time,.91,1.30)*.53;
+  const look = weight*entry.look;
+  groups.neck.rotateY(.30*mix(armYaw,yaw,lookBack)*look);
+  head.rotateY(.70*mix(armYaw,yaw,lookBack)*look);
+  head.rotateX(mix(armPitch,pitch,lookBack)*look);
+
+  if (!entry.lift && !entry.withdraw || moodSituation() === 'focused') return;
+  const turn = entry.returnArm ? 1-rearRamp(time,.65,1.33) : 1;
+  const lift = (entry.lift ?? 0)+(entry.withdraw ? .031*turn : 0);
+  groups.chest.worldToLocal(touchedArmPoint);
+  touchedArmPoint.y += lift;
+  touchedArmPoint.z += (entry.reach ?? 0)-(entry.withdraw ?? 0)*turn;
+  touchedArmPoint.x *= entry.withdraw ? 1-.25*turn : 1;
+  groups.chest.localToWorld(touchedArmPoint);
+  hand.getWorldQuaternion(touchedArmOrientation);
+  reachHand(side,touchedArmPoint,touchedArmOrientation,weight*.87);
+}
+
 function applyReaction(dt) {
   if (!reaction) return;
   const {kind,duration,side,clip} = reaction;
   const time = reaction.elapsed += dt;
   if (time >= duration) {
     const {next,nextSide,nextStroke,pose,offer,side:offeredSide} = reaction;
-    if (pose === 'rear' || reaction.rearFollowUp) rearIdle.until = mood.seconds+.75;
+    if (pose === 'rear' || pose === 'arm' || reaction.touchFollowUp) touchPause.until = mood.seconds+.75;
     reaction = null;
     if (offer) {
       beginReaction('offerHand',false,offeredSide);
-      reaction.rearFollowUp = true;
+      reaction.touchFollowUp = true;
     }
     else if (next) beginReaction(next,true,nextSide,Boolean(nextStroke),nextStroke);
     else $('reactionStatus').hidden = true;
@@ -1661,6 +1715,10 @@ function applyReaction(dt) {
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.38,1.38);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  if (reaction.pose === 'arm') {
+    applyArmReaction(reaction,time,weight,yaw,pitch);
+    return;
+  }
   if (reaction.pose === 'rear') {
     applyRearReaction(reaction,time,weight,pitch);
     return;
@@ -1849,9 +1907,9 @@ function advanceRoam(dt) {
     }
     return;
   }
-  const lingeringReaction = reaction?.pose === 'rear'
-    || reaction?.rearFollowUp
-    || mood.seconds < rearIdle.until;
+  const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm'
+    || reaction?.touchFollowUp
+    || mood.seconds < touchPause.until;
   if (!lingeringReaction) roam.elapsed += dt;
   if (roam.phase === 'rest') {
     applyRestPose();
