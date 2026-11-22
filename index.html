@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 63 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 64 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 63 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 64 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -188,6 +188,26 @@ for (const side of [-1, 1]) {
 }
 
 const outside=new T.Group();scene.add(outside);
+const bed = new T.Group();
+bed.name = 'Bed';
+bed.position.set(7.68,0,10.86);
+bed.scale.setScalar(2);
+floorGroup.add(bed);
+const bedFabric = mat(0xb7cbd0,.92);
+const bedLinen = mat(0x5f8192,.94);
+const bedFrame = mat(0x46505a,.72);
+block(bed,bedFrame,0,.128,0,1.22,.128,1.58);
+block(bed,bedFrame,0,.325,-.755,1.22,.42,.07);
+block(bed,bedFabric,0,.239,0,1.18,.162,1.52);
+block(bed,bedLinen,0,.325,.28,1.19,.02,.91);
+block(bed,mat(0xe6e3dc,.96),0,.333,-.247,.62,.040,.26);
+for (const x of [-.51,.51]) for (const z of [-.66,.66]) block(bed,bedFrame,x,.043,z,.082,.086,.084);
+const bedHeight = .337;
+const bedTarget = {
+  kind:'bed',name:'ベッド',point:new T.Vector3(2.99,0,5.43),
+  lookAt:new T.Vector3(3.62,bedHeight,5.43),heading:-Math.PI/2
+};
+const bedBounds = new T.Box3(new T.Vector3(3.14,-1,4.58),new T.Vector3(4.54,1,6.27));
 const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
 let seed=26;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
 const cityMats=[mat(0x7d94a5),mat(0xb3c4ce),mat(0x596d80)];
@@ -324,6 +344,7 @@ for (const wallGroup of wallGroups) {
   wallGroup.traverse(object => { if (object.isMesh && object.material !== glass) object.receiveShadow = true; });
 }
 sofa.traverse(enableShadowCasting);
+bed.traverse(enableShadowCasting);
 // LAB 26.1: full orbit and two-finger dolly/pan; cut away crossed architectural surfaces.
 orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
 orbit.enablePan=true;orbit.screenSpacePanning=true;
@@ -964,7 +985,7 @@ function pickSurface(x, y) {
   const leila = touchRay.intersectObjects(parts, false)[0];
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
-    if (destination === sofaTarget) return floorGroup.visible;
+    if (destination === sofaTarget || destination === bedTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget) return wallGroups[0].visible;
     return true;
   });
@@ -1536,6 +1557,11 @@ function endPointer(event) {
     const {destination} = pickSurface(event.clientX, event.clientY);
     if (destination === lightSwitchTarget) {
       requestLightSwitch();
+    } else if (destination === bedTarget) {
+      restoreReactionPose();
+      if (mode !== 'roam') beginRoam();
+      if (roam.phase === 'bed') startDestination({kind:'linger',name:'ベッドのそば'});
+      else if (roam.target !== bedTarget || roam.phase !== 'route') requestDestination(bedTarget,true);
     } else if (destination && mode === 'roam') {
       restoreReactionPose();
       requestDestination(destination, true);
@@ -2831,6 +2857,8 @@ function advanceRoam(dt) {
     }
   } else if (roam.phase === 'seated') {
     sitAtSofa(1,roam.elapsed);
+  } else if (roam.phase === 'bed') {
+    updateBedRest();
   } else if (roam.phase === 'window' || roam.phase === 'linger') {
     applyQuietPose();
   }
@@ -2860,6 +2888,12 @@ function advanceRoam(dt) {
 function chooseDestination() {
   const roll = Math.random();
   const feeling = currentMood();
+  if (restClips && roam.phase !== 'bed' && roam.target !== bedTarget &&
+      (lastWorldMinute >= 21*60 || lastWorldMinute < 7*60) &&
+      mood.seconds >= (mood.nextBedAt ?? 0) && roll < .23) {
+    startDestination(bedTarget);
+    return;
+  }
   const social = !reaction && moodSituation() === 'free' && mood.seconds >= Math.max(mood.nextSocialAt,mood.avoidedUntil);
   const approachChance = feeling === 'affectionate' ? .42 : feeling === 'annoyed' ? .04 : .16;
   const greetingChance = feeling === 'annoyed' ? .04 : feeling === 'happy' ? .23 : .11;
@@ -3097,6 +3131,9 @@ function initializeSofaMotion() {
   sofa.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,sofaTarget);
   });
+  if (restClips) bed.traverse(object => {
+    if (object.isMesh) destinationMeshes.set(object,bedTarget);
+  });
   walkTargets.push(sofaTarget);
   pickableDestinations = [...destinationMeshes.keys()];
   travelPose(0);
@@ -3117,6 +3154,12 @@ function routeWalk(from, to, message) {
 
 function clearOfPoles(from,to) {
   if (from.distanceToSquared(to) < .000001) return true;
+  if (bed.visible) {
+    const delta = to.clone().sub(from);
+    const length = delta.length();
+    const hit = new T.Ray(from,delta.divideScalar(length)).intersectBox(bedBounds,V(0,0,0));
+    if (bedBounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
+  }
   const segment = new T.Line3(from,to);
   const nearest = V(0,0,0);
   return walkTargets.every(target => {
@@ -3144,6 +3187,11 @@ function destinationPath(from,to,avoidSofa=false) {
   if (couch) {
     for (const x of [couch.min.x-.16,couch.max.x+.16]) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
+    }
+  }
+  if (bed.visible) {
+    for (const x of [bedBounds.min.x-.16,bedBounds.max.x+.16]) {
+      for (const z of [bedBounds.min.z-.16,bedBounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
   let best = null;
@@ -3245,6 +3293,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     : target.kind === 'greeting' ? 'あなたのほうを向いています' : '行き先　' + target.name;
   const from = root.position.clone();
   const visit = [];
+  if (roam.phase === 'bed') visit.push({type:'bedRise',time:2.95,message:'ベッドから起き上がっています'});
   if (seated) visit.push({type:'rise',time:1.55,message:'ソファから立ち上がっています'});
   if (acknowledge) {
     visit.push({type:'look',point:target.lookAt,time:1.45,message:target.name+'を見ています'});
@@ -3252,7 +3301,12 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   if (target.kind === 'wander') {
     visit.push({type:'wander',remaining:target.legs,message});
   } else if (target.point && from.distanceTo(target.point) > .025) {
-    if (!appendWalk(visit,from,target.point,message,target.kind === 'user',target === lightSwitchTarget)) {
+    if (!appendWalk(visit,from,target.point,message,target.kind === 'user',
+      target === lightSwitchTarget || target === bedTarget)) {
+      if (roam.phase === 'bed') {
+        roam.pause=roam.elapsed+5;
+        return;
+      }
       enterQuietRest('linger','少し立ち止まっています',4);
       return;
     }
@@ -3269,6 +3323,10 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       routeTurn(sofaHeading,'ソファの前で向きを変えています'),
       {type:'sit',time:1.65,message:'ソファに座っています'}
     );
+  } else if (target === bedTarget) {
+    visit.push(routeTurn(bedTarget.heading,'ベッドの縁に向きを変えています'),
+      {type:'bedSit',time:1.85,message:'ベッドの端に腰掛けています'},
+      {type:'bedLie',time:1.85,message:'ベッドで横になっています'});
   }
   roam = {phase:'route',target,visit,visitIndex:0,elapsed:0};
   startRouteStage();
@@ -3330,6 +3388,11 @@ function startRouteStage() {
   }
   roam.elapsed = 0;
   stage.pose = captureSofaPose();
+  if (stage.type === 'bedRise') {
+    sitWithMotion(1,0,true);
+    stage.edgePose=captureSofaPose();
+    blendSofaPose(stage.pose,1);
+  }
   if (stage.type === 'look') {
     // A target behind Leila needs a body turn before the eyes can follow it.
     const angle = headingTo(root.position,stage.point);
@@ -3379,6 +3442,10 @@ function advanceRouteTurn(stage, progress) {
 }
 
 function sitAtSofa(amount, restTime=0) {
+  if (restClips) {
+    sitWithMotion(amount,restTime,false);
+    return;
+  }
   blendSofaPose(sofaStand,1);
   const pelvis = groups.pelvis;
   const lean = Math.sin(Math.PI*amount);
@@ -3405,6 +3472,115 @@ function sitAtSofa(amount, restTime=0) {
   });
   lowerPelvisForFeet(feet);
   for (const {side,ankle} of feet) solveLeg(side,ankle,sofaHeading);
+}
+
+const restBodyHeading = new T.Quaternion();
+const restBodyRotation = new T.Quaternion();
+const restParentRotation = new T.Quaternion();
+const restAnchor = new T.Vector3();
+
+function sampleFurnitureMotion(clip,time,heading,loop=false) {
+  const count = loop ? Math.max(1,clip.rotations.length-1) : clip.rotations.length;
+  const [a,b,blend] = sampleIndices(time*clip.fps,count,loop);
+  for (const key in groups) {
+    groups[key].position.copy(base[key]);
+    groups[key].quaternion.identity();
+  }
+  restBodyHeading.setFromAxisAngle(turnAxis,heading);
+  for (const [index,key] of capturedWalk.joints.entries()) {
+    const joint=groups[key];
+    restBodyRotation.copy(clip.rotations[a][index]).slerp(clip.rotations[b][index],blend)
+      .premultiply(restBodyHeading);
+    joint.quaternion.copy(joint.parent.getWorldQuaternion(restParentRotation).invert().multiply(restBodyRotation));
+  }
+}
+
+function sitWithMotion(amount,restTime,onBed) {
+  const {sit,seated,alternate}=restClips;
+  const heading=onBed ? bedTarget.heading : sofaHeading;
+  sampleFurnitureMotion(sit,sit.duration*amount,heading);
+  const seam=rearRamp(amount,.86,1);
+  if (seam>0) {
+    const endPose=captureSofaPose();
+    sampleFurnitureMotion(seated,restTime,heading,true);
+    blendSofaPose(endPose,1-seam);
+  }
+  if (amount === 1 && roam.sofaVariant && !onBed) {
+    const variety=rearRamp(restTime,2,3.2)*.56;
+    for (const [index,key] of capturedWalk.joints.entries()) {
+      if (key!=='neck' && key!=='head') continue;
+      const joint=groups[key];
+      restBodyRotation.copy(alternate.rotations[0][index]).premultiply(restBodyHeading);
+      joint.quaternion.slerp(joint.parent.getWorldQuaternion(restParentRotation).invert()
+        .multiply(restBodyRotation),variety);
+    }
+  }
+  const [first,next,fraction]=sampleIndices(amount*sit.duration*sit.fps,sit.hips.length,false);
+  const fromHeight=sit.hips[0].y;
+  const depth=T.MathUtils.clamp((fromHeight-mix(sit.hips[first].y,sit.hips[next].y,fraction))/
+    (fromHeight-sit.hips.at(-1).y),0,1);
+  const pelvis=groups.pelvis;
+  pelvis.position.y=mix(base.pelvis.y,(onBed ? bedHeight : sofaSeat.y)+.055,depth);
+  pelvis.position.z=mix(base.pelvis.z,onBed ? -.305 : sofaSeat.x-sofaDock.x,depth);
+  const feet=sofaSides.map(side=>{
+    const ankle=routeFootTarget(side,heading);
+    ankle.y=standingAnkleHeights[side];
+    return {side,ankle};
+  });
+  lowerPelvisForFeet(feet);
+  for (const {side,ankle} of feet) solveLeg(side,ankle,heading);
+}
+
+function layOnBed(pose,time) {
+  const clip=restClips[pose];
+  // The alternate sleeping take was captured across the source X axis.
+  sampleFurnitureMotion(clip,time,pose==='sleepAlternate' ? -Math.PI/2 : 0,true);
+  const [a,b,fraction]=sampleIndices(time*clip.fps,Math.max(1,clip.hips.length-1),true);
+  const movement=mix(clip.hips[a].y,clip.hips[b].y,fraction)-clip.hips[0].y;
+  const clearance=pose==='lounge' ? .074 : pose==='sleepAlternate' ? .136 : .122;
+  restAnchor.set(3.84,bedHeight+clearance+movement*transferScale,5.42);
+  groups.pelvis.position.copy(root.worldToLocal(restAnchor));
+  // The larger head shell needs clearance above the pillow after retargeting.
+  groups.chest.rotateX(.18);
+  groups.neck.rotateX(.24);
+  groups.head.rotateX(.09);
+}
+
+const bedHandDirection=new T.Vector3(1,0,0);
+const bedHandWrist=new T.Vector3();
+
+function braceHandOnBed(weight) {
+  if (weight <= 0) return;
+  const orientation=orientPalm('P',bedHandDirection,palmDown);
+  bedHandWrist.copy(palmRig.P.center).applyQuaternion(orientation).negate().add(restAnchor.set(3.35,.344,5.54));
+  reachHand('P',bedHandWrist,orientation,weight,true);
+}
+
+function moveBetweenBedPoses(seatedPose,lyingPose,amount,pose='lounge') {
+  if (lyingPose) blendSofaPose(lyingPose,1);
+  else layOnBed(pose,0);
+  blendSofaPose(seatedPose,1-smooth(amount));
+  groups.pelvis.position.y+=.203*rearRamp(amount,.16,.48)*(1-rearRamp(amount,.48,.96));
+  braceHandOnBed(1-rearRamp(amount,.06,.29));
+}
+
+function updateBedRest() {
+  if (roam.elapsed >= roam.bedNext) {
+    roam.bedBlendFrom=captureSofaPose();
+    roam.bedChangedAt=roam.elapsed;
+    roam.bedNext=roam.elapsed+7+Math.random()*5;
+    roam.bedPose=roam.bedPose==='lounge'
+      ? (Math.random()<.55 ? 'sleep' : 'sleepAlternate')
+      : roam.bedPose==='sleep' ? 'sleepAlternate' : 'lounge';
+    $('destination').textContent=roam.bedPose==='lounge' ? 'ベッドでくつろいでいます' : 'ベッドでうとうとしています';
+  }
+  layOnBed(roam.bedPose,roam.elapsed-roam.bedChangedAt);
+  if (roam.bedBlendFrom) {
+    const roll=rearRamp(roam.elapsed-roam.bedChangedAt,0,1.28);
+    blendSofaPose(roam.bedBlendFrom,1-roll);
+    groups.pelvis.position.y+=.037*Math.sin(Math.PI*roll);
+    if (roll===1) roam.bedBlendFrom=null;
+  }
 }
 
 function applyRouteLook(stage, progress) {
@@ -3524,6 +3700,22 @@ function advanceDestinationRoute(dt) {
       break;
     case 'rise':
       sitAtSofa(1-smooth(progress));
+      if (restClips) blendSofaPose(stage.pose,1-rearRamp(progress,0,.18));
+      break;
+    case 'bedSit':
+      sitWithMotion(smooth(progress),0,true);
+      blendSofaPose(stage.pose,1-rearRamp(progress,0,.16));
+      braceHandOnBed(rearRamp(progress,.78,1));
+      break;
+    case 'bedLie':
+      moveBetweenBedPoses(stage.pose,null,progress);
+      break;
+    case 'bedRise':
+      if (progress < .58) moveBetweenBedPoses(stage.edgePose,stage.pose,1-progress/.58);
+      else {
+        sitWithMotion(1-rearRamp(progress,.58,1),0,true);
+        braceHandOnBed(1-rearRamp(progress,.58,.68));
+      }
       break;
     case 'pressLight':
       pressWallSwitch(stage,progress);
@@ -3531,8 +3723,9 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1) return;
-  if (roam.pending) {
+  if (roam.pending && stage.type !== 'bedSit') {
     const {target,acknowledge} = roam.pending;
+    if (stage.type === 'bedLie') roam.phase='bed';
     startDestination(target,acknowledge,stage.type==='sit');
     return;
   }
@@ -3597,6 +3790,21 @@ function applyQuietPose() {
 
 function arriveAtDestination() {
   roam.elapsed = 0;
+  if (roam.target.onArrival) {
+    roam.phase='wait';
+    roam.target.onArrival();
+    return;
+  }
+  if (roam.target === bedTarget) {
+    roam.phase='bed';
+    roam.bedPose='lounge';
+    roam.bedChangedAt=0;
+    roam.bedNext=7+Math.random()*4;
+    roam.pause=27+Math.random()*16;
+    mood.nextBedAt=mood.seconds+72;
+    $('destination').textContent='ベッドでくつろいでいます';
+    return;
+  }
   if (roam.target === lightSwitchTarget) {
     const message = roam.switchPressed ? (roomLightsOn ? '電灯をつけました' : '電灯を消しました')
       : 'スイッチに手が届きませんでした';
@@ -3621,6 +3829,7 @@ function arriveAtDestination() {
   }
   if (roam.target === sofaTarget) {
     roam.phase = 'seated';
+    roam.sofaVariant=Math.random()<.20;
     roam.pause = 6 + Math.random()*4;
     $('destination').textContent = 'ソファで休憩中';
     return;
@@ -3712,6 +3921,14 @@ function updateContactShadows(){
  if(count){bodyContact.position.set(cx/count,.003,cz/count);bodyContact.scale.set(.38,1,.38);bodyContact.material.opacity=.085;}
 }
 
+const restData=await loadAsset('./rest-motions.json').then(response=>response.json()).catch(error=>{
+  console.warn('休憩モーションの読み込みに失敗しました',error);
+  return null;
+});
+const restClips=restData && Object.fromEntries(Object.entries(restData).map(([key,source])=>[
+  key,prepareTransition({...source,joints:capturedWalk.joints})
+]));
+bed.visible=Boolean(restClips);
 initializeSofaMotion();
 const danceSources = await (await loadAsset('./dances.json')).json();
 const danceClips = Object.fromEntries(Object.entries(danceSources).map(([id,source]) => [
@@ -3739,6 +3956,10 @@ function nextDanceId() {
 }
 
 function beginDance(kind,id=null) {
+  if (mode==='roam' && roam.phase==='bed') {
+    startDestination({kind:'linger',name:'ベッドのそば',onArrival:()=>beginDance(kind,id)});
+    return;
+  }
   const entry = captureSofaPose();
   if (kind !== 'auto') {
     resetTravel();
@@ -3864,6 +4085,10 @@ const standingWaitPose = captureSofaPose();
 let standingWait;
 
 function beginStandingWait(offerHand) {
+  if (mode==='roam' && roam.phase==='bed') {
+    startDestination({kind:'linger',name:'ベッドのそば',onArrival:()=>beginStandingWait(offerHand)});
+    return;
+  }
   endHandLink(false);
   restoreReactionPose();
   if (mode !== 'standWait') {
@@ -3949,7 +4174,7 @@ function moveHeldHand(event,current) {
   }
   if (current.linkStarted || !/^(hand|fore)[PN]$/.test(current.path[0].id)) return;
   if (Math.hypot(event.clientX-current.x,event.clientY-current.y) <= touchMotion) return;
-  if (moodSituation() === 'focused' || mode === 'roam' && roam.phase === 'seated') return;
+  if (moodSituation() === 'focused' || mode === 'roam' && (roam.phase === 'seated' || roam.phase === 'bed')) return;
 
   const side = current.path[0].id.at(-1);
   const resumeRoam = mode === 'roam';
