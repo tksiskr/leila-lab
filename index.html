@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 51 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 52 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 51 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 52 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1151,12 +1151,14 @@ canvas.addEventListener('pointerdown', event => {
   const offeredHand = offer && reaction?.kind === 'offerHand' &&
     (part.id === 'hand'+offer.side || part.id === 'fore'+offer.side) &&
     mood.seconds <= offer.until ? offer : null;
-  const started = {id,x,y,hit:leila,path:[part],action:null,lastSample:-Infinity,offeredHand};
+  const started = {id,x,y,hit:leila,path:[part],action:null,lastSample:-Infinity,
+    pointerTime:event.timeStamp,offeredHand};
   if (offeredHand && reaction?.kind === 'offerHand') {
     reaction.duration = Math.max(reaction.duration,reaction.elapsed+.65);
     offeredHand.until = mood.seconds+reaction.duration-reaction.elapsed;
   }
   contact = started;
+  if (/^(hand|fore)[PN]$/.test(part.id)) canvas.setPointerCapture(id);
   orbit.mouseButtons.LEFT = -1;
   orbit.touches.ONE = -1;
   started.timer = setTimeout(() => {
@@ -2973,6 +2975,8 @@ const handLinkOffset = new T.Vector3();
 const handLinkNormal = new T.Vector3();
 const handLinkShoulder = new T.Vector3();
 const handLinkPalmNormal = new T.Vector3();
+const screenGripCenter = new T.Vector3();
+const screenGripWrist = new T.Vector3();
 
 function handPullDirection(link, origin=link.contact) {
   const lateral = Math.abs(link.x-origin.x);
@@ -3004,14 +3008,7 @@ function endHandLink(resume=true) {
 
 function moveHeldHand(event,current) {
   if (handLink?.contact === current) {
-    handLink.x = event.clientX;
-    handLink.y = event.clientY;
-    const anchor = handLink.directionAnchor;
-    if (Math.hypot(handLink.x-anchor.x,handLink.y-anchor.y) > touchMotion*2.3) {
-      handLink.direction = handPullDirection(handLink,anchor);
-      anchor.x = handLink.x;
-      anchor.y = handLink.y;
-    }
+    sampleHandLinkPointer(handLink,event);
     return;
   }
   if (current.linkStarted || !/^(hand|fore)[PN]$/.test(current.path[0].id)) return;
@@ -3025,13 +3022,37 @@ function moveHeldHand(event,current) {
     camera.getWorldDirection(handLinkNormal),current.hit.point);
   beginStandingWait(false);
   standingWait.entry = entry;
-  handLink = {contact:current,side,resumeRoam,plane,x:event.clientX,y:event.clientY,
-    age:0,gait:0,walkBlend:0,currentGoal:current.hit.point.clone(),blocked:0,
+  handLink = {contact:current,side,resumeRoam,plane,x:current.x,y:current.y,
+    age:0,gait:0,walkBlend:0,runBlend:0,currentGoal:current.hit.point.clone(),
+    pointerTime:Math.max(current.pointerTime+touchHold,event.timeStamp-40),fastPull:0,fastUntil:0,
     shoulderPull:new T.Vector3(),bodyPull:new T.Vector3(),pullAmount:0,braceAmount:0,
     phase:'planted',overreachTime:0,followTime:0,followEntry:null,hangAmount:0,glanceTime:0,glanceBlend:0,
     directionAnchor:{x:current.x,y:current.y},direction:null};
+  sampleHandLinkPointer(handLink,event);
   current.linkStarted = true;
   $('destination').textContent = '手をつないでいます';
+}
+
+function sampleHandLinkPointer(link,event) {
+  const rect = canvas.getBoundingClientRect();
+  const x = T.MathUtils.clamp(event.clientX,rect.left,rect.right);
+  const y = T.MathUtils.clamp(event.clientY,rect.top,rect.bottom);
+  const elapsed = Math.max(.012,(event.timeStamp-link.pointerTime)*.001);
+  const lateralSpeed = Math.abs(x-link.x)/(Math.max(1,rect.width)*elapsed);
+  const fastPull = T.MathUtils.smoothstep(lateralSpeed,.65,2.2);
+  if (fastPull > .05) {
+    link.fastPull = Math.max(link.age < link.fastUntil ? link.fastPull : 0,fastPull);
+    link.fastUntil = link.age+.44;
+  }
+  link.x = x;
+  link.y = y;
+  link.pointerTime = event.timeStamp;
+  const anchor = link.directionAnchor;
+  if (Math.hypot(x-anchor.x,y-anchor.y) > touchMotion*2.3) {
+    link.direction = handPullDirection(link,anchor);
+    anchor.x = x;
+    anchor.y = y;
+  }
 }
 
 function handLinkFinger(link, out) {
@@ -3052,27 +3073,32 @@ function updateHandBrace(link,dt,stretch,direction) {
   link.braceAmount = mix(link.braceAmount,brace,1-Math.exp(-dt*(planted ? 8 : 6)));
 }
 
-function shouldLeaveHandBrace(link,dt,stretch) {
-  if (stretch < .065 || link.braceAmount < .73) {
+function shouldLeaveHandBrace(link,dt,stretch,fastPull) {
+  if (stretch < mix(.065,.125,fastPull) || link.braceAmount < mix(.73,.48,fastPull)) {
     link.overreachTime = 0;
     return false;
   }
   link.overreachTime += dt;
-  return link.overreachTime >= .16;
+  return link.overreachTime >= mix(.16,.045,fastPull);
 }
 
-function walkWithHeldHand(link,dt,stretch) {
+function walkWithHeldHand(link,dt,stretch,fastPull) {
   const heading = headingTo(root.position,link.currentGoal);
-  const speed = T.MathUtils.clamp(.20+stretch*2.0,.20,.68)
-    * (.35+.65*rearRamp(link.followTime,0,.22));
-  const length = Math.min(speed*dt,stretch*.24);
+  const turn = headingDelta(root.rotation.y,heading);
+  const walkSpeed = T.MathUtils.clamp(.20+stretch*2.0,.20,.68);
+  const chase = Math.max(fastPull*T.MathUtils.smoothstep(stretch,.045,.18),
+    T.MathUtils.smoothstep(stretch,.19,.51));
+  const speed = mix(walkSpeed,1.65,chase)
+    * mix(.35,1,rearRamp(link.followTime,0,mix(.22,.095,chase)))
+    * mix(1,.45,chase*T.MathUtils.smoothstep(Math.abs(turn),.55,1.85));
+  const length = Math.min(speed*dt,stretch*Math.min(.85,dt*14.4));
   const next = V(Math.sin(heading)*length,0,Math.cos(heading)*length).add(root.position);
   const couch = new T.Box3(sofaTarget.lookAt.clone().add(V(-.57,-2,-.79)),
     sofaTarget.lookAt.clone().add(V(.57,2,.79)));
   if (next.x < -5.65 || next.x > 5.65 || next.z < -5.65 || next.z > 8.65 ||
       couch.containsPoint(next) || !clearOfPoles(root.position,next)) return 0;
-  const turn = headingDelta(root.rotation.y,heading);
-  root.rotation.y += T.MathUtils.clamp(turn,-dt*3.2,dt*3.2);
+  const turnLimit = dt*mix(3.2,10,chase);
+  root.rotation.y += T.MathUtils.clamp(turn,-turnLimit,turnLimit);
   // Keep the camera fixed while she closes the gap to the finger.
   setTravelPosition(next.x,next.z,true);
   return length/dt;
@@ -3172,6 +3198,25 @@ function solveHeldHand(side,target,orientation,weight) {
   return reachHand(side,guardedWrist,orientation,weight,true);
 }
 
+function solveScreenGrip(side,upper,orientation,weight,reach,preferredDepth) {
+  // A different depth on the finger ray can keep the grip aligned on screen.
+  const ray = handLinkRay.ray;
+  const center = upper.getWorldPosition(screenGripCenter).add(handLinkOffset);
+  center.sub(ray.origin);
+  const depth = center.dot(ray.direction);
+  const radiusSquared = reach*reach-center.lengthSq()+depth*depth;
+  if (radiusSquared <= 0) return false;
+  const margin = Math.sqrt(radiusSquared);
+  const gripDepth = T.MathUtils.clamp(preferredDepth,depth-margin,depth+margin);
+  if (gripDepth <= 0 || Math.abs(gripDepth-preferredDepth) > .30) return false;
+  ray.at(gripDepth,screenGripWrist).sub(handLinkOffset);
+  groups.chest.worldToLocal(guardedWrist.copy(screenGripWrist));
+  boundHeldWrist(side,guardedWrist);
+  groups.chest.localToWorld(guardedWrist);
+  if (guardedWrist.distanceToSquared(screenGripWrist) > .000064) return false;
+  return reachHand(side,guardedWrist,orientation,weight,true);
+}
+
 const handLinkLook = new T.Vector3();
 const handLinkHeadWorld = new T.Quaternion();
 
@@ -3208,17 +3253,19 @@ function glanceWhileHandLinked(link,dt,speed) {
 
 function advanceHandLink(dt) {
   const link = handLink;
-  if (!link) return;
+  if (!link || dt <= 0) return;
   link.age += dt;
   advanceStandingWait(dt);
   if (!handLinkFinger(link,handLinkGoal)) return;
+  const direction = link.direction ?? handPullDirection(link);
+  const vertical = direction !== 'lateral';
+  const fastPull = !vertical && link.age < link.fastUntil ? link.fastPull : 0;
+  const fingerDepth = handLinkGoal.distanceTo(handLinkRay.ray.origin);
   handLinkGoal.y = T.MathUtils.clamp(handLinkGoal.y,.30,1.19);
-  link.currentGoal.lerp(handLinkGoal,1-Math.exp(-dt*16));
+  link.currentGoal.lerp(handLinkGoal,1-Math.exp(-dt*mix(16,52,fastPull)));
   const side = link.side;
   const upper = groups['upper'+side];
   const reach = base['elbow'+side].length()+base['hand'+side].length()-.001;
-  const direction = link.direction ?? handPullDirection(link);
-  const vertical = direction !== 'lateral';
   upper.getWorldPosition(handLinkShoulder);
 
   palmForward.copy(camera.position).sub(link.currentGoal);
@@ -3243,8 +3290,10 @@ function advanceHandLink(dt) {
     applyHandLinkBody(link,dt,direction);
     upper.getWorldPosition(handLinkShoulder);
     const remainingStretch = handLinkShoulder.distanceTo(handLinkWrist)-reach;
-    if (shouldLeaveHandBrace(link,dt,direction === 'down' ? 0 : remainingStretch)) {
-      if (handLinkPolicy(currentMood()) === 'release') releasing = true;
+    const policy = handLinkPolicy(currentMood());
+    if (shouldLeaveHandBrace(link,dt,direction === 'down' ? 0 : remainingStretch,
+      policy === 'follow' ? fastPull : 0)) {
+      if (policy === 'release') releasing = true;
       else if (!vertical) {
         link.phase = 'following';
         link.followEntry = captureSofaPose();
@@ -3258,12 +3307,11 @@ function advanceHandLink(dt) {
   } else {
     link.followTime += dt;
     const stretch = Math.max(0,unloadedStretch-.015);
-    const speed = !vertical && stretch > 0 ? walkWithHeldHand(link,dt,stretch) : 0;
-    link.blocked = !vertical && stretch > .048 && !speed ? link.blocked+dt : 0;
-    releasing = link.blocked > .60;
+    const speed = !vertical && stretch > 0 ? walkWithHeldHand(link,dt,stretch,fastPull) : 0;
+    link.runBlend = mix(link.runBlend,T.MathUtils.smoothstep(speed,.68,1.30),1-Math.exp(-dt*12));
     link.walkBlend = mix(link.walkBlend,speed ? 1 : 0,1-Math.exp(-dt*9));
     if (link.walkBlend > .015) {
-      link.gait += dt*(speed ? T.MathUtils.clamp(speed/.33,.58,1.65) : .60);
+      link.gait += dt*(speed ? T.MathUtils.clamp(speed/.33,.58,mix(1.65,3.05,link.runBlend)) : .60);
       const heading = root.rotation.y;
       root.rotation.y = 0;
       mixamoPose(link.gait);
@@ -3274,15 +3322,21 @@ function advanceHandLink(dt) {
     applyHandLinkBody(link,dt,direction);
     const entryWeight = 1-rearRamp(link.followTime,0,.36);
     if (entryWeight > 0) blendSofaPose(link.followEntry,entryWeight);
+    groups.pelvis.rotateX(.12*link.runBlend);
+    groups.abdomen.rotateX(.14*link.runBlend);
+    groups.neck.rotateX(-.13*link.runBlend);
     glanceWhileHandLinked(link,dt,speed);
-    const message = speed ? '手をつないで歩いています' : '手をつないでいます';
+    const message = speed > .78 ? '手をつないで走っています'
+      : speed ? '手をつないで歩いています' : '手をつないでいます';
     const status = $('destination');
     if (status.textContent !== message) status.textContent = message;
   }
 
   applyHandLinkHang(link,dt,direction,unloadedStretch);
   const weight = rearRamp(link.age,0,.22);
-  if (!solveHeldHand(side,handLinkWrist,palmOrientation,weight)) {
+  const screenGrip = !vertical && (fastPull > .20 || link.runBlend > .15)
+    && solveScreenGrip(side,upper,palmOrientation,weight,reach,fingerDepth);
+  if (!screenGrip && !solveHeldHand(side,handLinkWrist,palmOrientation,weight)) {
     // Stay on the held side if no forward route around the chest is available.
     const fallback = groups.chest.localToWorld(handLinkWrist.set(side === 'P' ? .16 : -.16,-.13,.11));
     reachHand(side,fallback,palmOrientation,weight,true);
