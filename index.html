@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 39 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 40 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 39 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 40 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -245,36 +245,39 @@ const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
 const paintParts = [
   ['face','顔'],['eyes','目',true],['hairTop','髪・頭頂'],['hairFront','髪・前'],['hairBack','髪・後ろ'],
-  ['hairSide','髪・横',true],['chest','胸部'],['abdomen','腹部'],['pelvis','腰'],
+  ['hairSide','髪・横',true],['chest','胸部'],['chestFront','胸部・前面装甲'],['abdomen','腹部'],['pelvis','腰'],
   ['shoulder','肩',true],['upper','上腕',true],['fore','前腕',true],['hand','手',true],
   ['thigh','太もも',true],['knee','膝',true],['shin','すね',true],['foot','足',true]
 ];
 const paintKeys = paintParts.flatMap(([key,,paired]) => paired ? [key+'P',key+'N'] : [key]);
+const hairPaintKeys = ['hairTop','hairFront','hairBack','hairSideP','hairSideN'];
 const headPaintKeys = ['face','eyesP','eyesN','hairTop','hairFront','hairBack','hairSideP','hairSideN'];
 const oldHeadPaintKeys = {face:'head',hairTop:'head',hairFront:'head',hairBack:'head',
   hairSideP:'templeP',hairSideN:'templeN'};
 const paintStoreKey = 'leila.armor.v1';
 const normalizePaint = value => typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value) ? value.toUpperCase() : null;
-function readPaintDesign(value) {
+function readPaintDesign(value, legacyChest=false) {
   const colors = {};
   for (const key of paintKeys) {
     const color = normalizePaint(value?.colors?.[key]) ?? normalizePaint(value?.colors?.[oldHeadPaintKeys[key]]);
     if (color) colors[key] = color;
   }
+  if (legacyChest && colors.chest && !colors.chestFront) colors.chestFront = colors.chest;
   return {base:[0,1,2].includes(value?.base) ? value.base : 0,colors};
 }
 function readPaintState() {
   try {
     const saved = JSON.parse(localStorage.getItem(paintStoreKey));
     return {
-      current:readPaintDesign(saved?.current),
+      version:2,
+      current:readPaintDesign(saved?.current,saved?.version !== 2),
       recent:[...new Set((Array.isArray(saved?.recent) ? saved.recent : []).map(normalizePaint).filter(Boolean))].slice(0,12),
       designs:(Array.isArray(saved?.designs) ? saved.designs : [])
         .filter(item => typeof item?.name === 'string' && item.name.trim())
-        .map(item => ({name:item.name.slice(0,32),design:readPaintDesign(item.design)}))
+        .map(item => ({name:item.name.slice(0,32),design:readPaintDesign(item.design,saved?.version !== 2)}))
     };
   } catch {
-    return {current:readPaintDesign(),recent:[],designs:[]};
+    return {version:2,current:readPaintDesign(),recent:[],designs:[]};
   }
 }
 const paintState = readPaintState();
@@ -302,7 +305,10 @@ function setupPaintWindow() {
   const value = $('paintValue'), hex = $('paintHex'), status = $('paintStatus');
   const designs = $('paintDesigns'), name = $('paintName'), save = $('paintSave');
   let color = {h:0,s:0,v:1}, wheelPointer = null;
-  for (const [key,label] of paintParts) part.add(new Option(label,key));
+  for (const [key,label] of paintParts) {
+    if (key === 'hairTop') part.add(new Option('髪全体','hairAll'));
+    part.add(new Option(label,key));
+  }
   let opened = false;
   function persist(message='') {
     try {
@@ -314,6 +320,10 @@ function setupPaintWindow() {
   }
   function targets() {
     const key = part.value;
+    if (key === 'hairAll') {
+      side.disabled = true;
+      return hairPaintKeys;
+    }
     const paired = paintParts.find(([id]) => id === key)[2];
     side.disabled = !paired;
     return paired ? (side.value === 'both' ? [key+'P',key+'N'] : [key+side.value]) : [key];
@@ -509,13 +519,14 @@ function armorMaterial(original, region, paintKey) {
   material.onBeforeCompile = shader => {
     shader.uniforms.leilaPalette = palette;
     shader.uniforms.leilaTint = paintUniforms[paintKey] ?? paintOff;
-    if (region === 'head') {
-      for (const key of headPaintKeys) shader.uniforms['leila_'+key] = paintUniforms[key];
-      shader.vertexShader = 'attribute vec3 leilaHeadPosition; varying vec3 vLeilaHeadPosition;\n'+shader.vertexShader;
+    if (region === 'head' || region === 'chest') {
+      const detailedKeys = region === 'head' ? headPaintKeys : ['chestFront'];
+      for (const key of detailedKeys) shader.uniforms['leila_'+key] = paintUniforms[key];
+      shader.vertexShader = 'attribute vec3 leilaPaintPosition; varying vec3 vLeilaPaintPosition;\n'+shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>',
-        '#include <begin_vertex>\nvLeilaHeadPosition = leilaHeadPosition;');
-      shader.fragmentShader = 'varying vec3 vLeilaHeadPosition;\n'
-        + headPaintKeys.map(key => 'uniform vec4 leila_'+key+';\n').join('')
+        '#include <begin_vertex>\nvLeilaPaintPosition = leilaPaintPosition;');
+      shader.fragmentShader = 'varying vec3 vLeilaPaintPosition;\n'
+        + detailedKeys.map(key => 'uniform vec4 leila_'+key+';\n').join('')
         + shader.fragmentShader;
     }
     if (region === 'chest' || region === 'head') {
@@ -547,7 +558,7 @@ function armorMaterial(original, region, paintKey) {
       vec4 customPaint = leilaTint;
       ${region === 'head' ? `
       // Rest-pose coordinates keep the color boundaries attached as the head moves.
-      vec3 headPoint = vLeilaHeadPosition;
+      vec3 headPoint = vLeilaPaintPosition;
       float width = abs(headPoint.x);
       float browSeam = 0.852 + 0.83 * min(width, 0.042);
       float faceWeight = (1.0 - smoothstep(browSeam - 0.003, browSeam + 0.002, headPoint.y))
@@ -566,6 +577,21 @@ function armorMaterial(original, region, paintKey) {
       customPaint = vec4(sidePaint.rgb * sidePaint.a, sidePaint.a) * (1.0 - frontWeight - backWeight)
         + front * frontWeight + rear * backWeight;
       customPaint = mix(mix(customPaint, top, topWeight), face, faceWeight);
+      customPaint.rgb /= max(customPaint.a, 0.001);
+      ` : ''}
+      ${region === 'chest' ? `
+      // The rounded front plates share the mesh with the collar and back.
+      vec3 chestPoint = vLeilaPaintPosition;
+      float chestWidth = abs(chestPoint.x);
+      float topSeam = 0.748 + 4.1 * chestWidth * chestWidth;
+      float bottomSeam = 0.733 - 0.015 * smoothstep(0.001, 0.038, chestWidth);
+      float frontDepth = 0.041 + 0.009 * smoothstep(0.007, 0.017, abs(chestPoint.y - 0.739));
+      float breastplate = smoothstep(frontDepth - 0.001, frontDepth + 0.003, chestPoint.z)
+        * (1.0 - smoothstep(topSeam - 0.001, topSeam + 0.001, chestPoint.y))
+        * smoothstep(bottomSeam - 0.001, bottomSeam + 0.001, chestPoint.y);
+      vec4 armorTint = vec4(leilaTint.rgb * leilaTint.a, leilaTint.a);
+      vec4 plateTint = vec4(leila_chestFront.rgb * leila_chestFront.a, leila_chestFront.a);
+      customPaint = mix(armorTint, plateTint, breastplate);
       customPaint.rgb /= max(customPaint.a, 0.001);
       ` : ''}
       vec3 basePaint = mix(originalColor, armorColor, baseArmorMask);
@@ -596,10 +622,11 @@ function armorMaterial(original, region, paintKey) {
 function addAccentMask(mesh, region) {
   const positions = mesh.geometry.attributes.position;
   const points = new Float32Array(positions.count);
-  const headPositions = region === 'head' ? new Float32Array(positions.count*3) : null;
+  const paintPositions = new Float32Array(positions.count*3);
   const p = new T.Vector3();
   for (let i=0; i<positions.count; i++) {
     p.fromBufferAttribute(positions,i).applyMatrix4(mesh.matrixWorld);
+    p.toArray(paintPositions,i*3);
     const edge = Math.abs(p.x + .018) / .019 + Math.abs(p.y - .758) / .033;
     if (region === 'head') {
       // Restrict the white lower face to the front so the side armor stays green.
@@ -609,13 +636,12 @@ function addAccentMask(mesh, region) {
       const browSeam = .852 + .83 * Math.min(Math.abs(p.x),.042);
       const belowBrow = 1 - T.MathUtils.smoothstep(p.y,browSeam-.003,browSeam+.003);
       points[i] = innerFace * frontFace * belowBrow;
-      p.toArray(headPositions,i*3);
     } else {
       points[i] = (1 - T.MathUtils.smoothstep(edge,.72,1.03)) * T.MathUtils.smoothstep(p.z,.052,.076);
     }
   }
   mesh.geometry.setAttribute('leilaAccent', new T.BufferAttribute(points,1));
-  if (headPositions) mesh.geometry.setAttribute('leilaHeadPosition',new T.BufferAttribute(headPositions,3));
+  mesh.geometry.setAttribute('leilaPaintPosition',new T.BufferAttribute(paintPositions,3));
 }
 gl.scene.traverse(o=>{if(o.isMesh)parts.push(o)});for(const o of parts){const m=o.name.match(/tripo_part_(\d+)/)||o.parent.name.match(/tripo_part_(\d+)/);if(!m||!mapping[m[1]])throw Error('未分類メッシュ '+o.name);const part = mapping[m[1]];
 const region = part === 'chest' || part === 'head' ? part : /^(upper[PN]|shoulder[PN]|fore[PN])$/.test(part) ? 'green' : 'white';
