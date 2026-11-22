@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 62 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 63 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 62 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 63 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -83,6 +83,17 @@ for(let x=-9;x<=9;x+=6)for(let z=-8;z<=14;z+=7){block(ceilingGroup,frame,x,7.91,
 const seam=mat(0x76838d,.86);
 for(let x=-10;x<=10;x+=2)block(floorGroup,seam,x,.001,3,.012,.002,29.8);
 for(let z=-10;z<=16;z+=2)block(floorGroup,seam,0,.001,z,23.8,.002,.012);
+// Mount the switch on the north window mullion, facing into the room.
+const wallSwitch=new T.Group();
+wallSwitch.position.set(3,1.38,.21);
+wallGroups[0].add(wallSwitch);
+const switchPlate=block(wallSwitch,mat(0x273743),0,0,.028,.27,.35,.055);
+const switchRocker=block(wallSwitch,mat(0xe4edf2),0,-.020,.071,.154,.203,.038);
+const switchIndicator=block(wallSwitch,new T.MeshBasicMaterial({color:0x566675}),0,.118,.061,.051,.022,.012);
+const lightSwitchTarget={
+  kind:'lightSwitch',name:'壁の電灯スイッチ',point:new T.Vector3(1.5,0,-5.59),
+  lookAt:wallSwitch.localToWorld(new T.Vector3(0,-.020,.091)),heading:Math.PI
+};
 // LAB 26.5 — a lounge bay beside the existing walking lane.
 const lounge = new T.Group();
 lounge.name = 'Lounge';
@@ -250,13 +261,15 @@ const keyDirection=new T.Vector3(), sunlightColor=new T.Color();
 const sunDisc=new T.Mesh(new T.SphereGeometry(1.2,16,12),new T.MeshBasicMaterial({color:0xffedba}));scene.add(sunDisc);
 const moonDisc=new T.Mesh(new T.SphereGeometry(.85,16,12),new T.MeshBasicMaterial({color:0xdce7ff}));scene.add(moonDisc);
 let lastWorldMinute=-1;
-let roomLightsOn=true;
+let roomLightsOverride=null;
+let roomLightsOn=false;
 const roomLightsButton=$('roomLights');
-roomLightsButton.onclick=()=>{
-  roomLightsOn=!roomLightsOn;
+roomLightsButton.onclick=()=>requestLightSwitch();
+function toggleRoomLights() {
+  roomLightsOverride=!roomLightsOn;
   lastWorldMinute=-1;
   updateWorld();
-};
+}
 function updateWorld(){
   const now=new Date(), minute=now.getHours()*60+now.getMinutes();
   if(minute===lastWorldMinute)return;
@@ -267,7 +280,10 @@ function updateWorld(){
   const daylight=T.MathUtils.smoothstep(altitude,-.12,.25);
   const directSun=T.MathUtils.smoothstep(altitude,.04,.43);
   const night=1-T.MathUtils.smoothstep(altitude,-.04,.34);
-  const electricLight=roomLightsOn ? night : 0;
+  const electricLight=roomLightsOverride === null ? night : Number(roomLightsOverride);
+  roomLightsOn=electricLight>=.08;
+  switchRocker.rotation.x=roomLightsOn ? -.19 : .19;
+  switchIndicator.material.color.setHex(roomLightsOn ? 0x91e3b1 : 0x566675);
   roomLightsButton.hidden=night<.08;
   roomLightsButton.textContent=roomLightsOn ? '電灯を消す' : '電灯をつける';
   skyMaterial.uniforms.daylight.value=daylight;
@@ -285,13 +301,13 @@ function updateWorld(){
   for (const light of ceilingLights) light.intensity=7.5*electricLight;
   lamp.color.copy(unlitFixtureColor).lerp(litFixtureColor,electricLight);
 
-  keyDirection.copy(roomLightsOn ? roomLightDirection : moonDirection).lerp(sunDirection,directSun).normalize();
+  keyDirection.copy(roomLightsOverride === false ? moonDirection : roomLightDirection).lerp(sunDirection,directSun).normalize();
   keyLight.position.copy(keyLight.target.position).addScaledVector(keyDirection,15);
   sunlightColor.copy(morningLightColor).lerp(middayLightColor,T.MathUtils.smoothstep(altitude,.12,.9));
-  keyLight.color.copy(roomLightsOn ? roomLightColor : moonlightColor).lerp(sunlightColor,directSun);
-  const nightKey=roomLightsOn ? 1.28 : .56+.33*moonAltitude;
+  keyLight.color.copy(roomLightsOverride === false ? moonlightColor : roomLightColor).lerp(sunlightColor,directSun);
+  const nightKey=roomLightsOverride === false ? .56+.33*moonAltitude : 1.28;
   keyLight.intensity=nightKey+(2.07-nightKey)*directSun;
-  const nightAmbient=roomLightsOn ? .76 : .38;
+  const nightAmbient=roomLightsOverride === false ? .38 : .76;
   ambient.intensity=nightAmbient+(1.18-nightAmbient)*daylight;
   scene.background.copy(nightSky).lerp(daySky,daylight);
   $('worldClock').textContent=now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' / '+(daylight>.5?'昼':'夜');
@@ -331,6 +347,7 @@ const markerCap = new T.CylinderGeometry(.054,.054,.022,16);
 const markerBaseMaterial = new T.MeshStandardMaterial({color:0x263644});
 const walkTargets = [];
 const destinationMeshes = new Map();
+for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
 for (const [name,x,z,color] of [
   ['緑のポール',-1.15,-1.95,0x49b8a9],
   ['青いポール',1.75,-.9,0x76a8e3],
@@ -945,8 +962,12 @@ function pickSurface(x, y) {
   root.updateWorldMatrix(true, true);
   touchRay.setFromCamera(touchPoint, camera);
   const leila = touchRay.intersectObjects(parts, false)[0];
-  const target = touchRay.intersectObjects(pickableDestinations, false)
-    .find(hit => destinationMeshes.get(hit.object) !== sofaTarget || floorGroup.visible);
+  const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
+    const destination=destinationMeshes.get(hit.object);
+    if (destination === sofaTarget) return floorGroup.visible;
+    if (destination === lightSwitchTarget) return wallGroups[0].visible;
+    return true;
+  });
   return target && (!leila || target.distance < leila.distance)
     ? {destination:destinationMeshes.get(target.object)} : {leila};
 }
@@ -1510,10 +1531,12 @@ function endPointer(event) {
       reportTouch('tap', current);
       respondToContact('tap', current);
     }
-  } else if (origin && mode === 'roam' &&
+  } else if (origin &&
       Math.hypot(event.clientX-origin.x,event.clientY-origin.y) <= touchMotion) {
     const {destination} = pickSurface(event.clientX, event.clientY);
-    if (destination) {
+    if (destination === lightSwitchTarget) {
+      requestLightSwitch();
+    } else if (destination && mode === 'roam') {
       restoreReactionPose();
       requestDestination(destination, true);
     }
@@ -3103,16 +3126,32 @@ function clearOfPoles(from,to) {
   });
 }
 
-function destinationPath(from,to) {
-  if (clearOfPoles(from,to)) return [to];
+function destinationPath(from,to,avoidSofa=false) {
+  const couch = avoidSofa ? new T.Box3(sofaTarget.lookAt.clone().add(V(-.30,-2,-.58)),
+    sofaTarget.lookAt.clone().add(V(.30,2,.58))) : null;
+  const clear = (a,b) => {
+    if (!clearOfPoles(a,b)) return false;
+    if (!couch) return true;
+    const delta = b.clone().sub(a);
+    const length = delta.length();
+    if (length < .001) return true;
+    const hit = new T.Ray(a,delta.divideScalar(length)).intersectBox(couch,V(0,0,0));
+    return !couch.containsPoint(a) && (!hit || a.distanceTo(hit) >= length);
+  };
+  if (clear(from,to)) return [to];
   // Try short detours through the open interior or a known stopping point.
   const waypoints = [V(0,0,0), ...walkTargets.map(target => target.point), ...windows.map(target => target.point)];
+  if (couch) {
+    for (const x of [couch.min.x-.16,couch.max.x+.16]) {
+      for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
+    }
+  }
   let best = null;
   let bestDistance = Infinity;
   for (const point of waypoints) {
     if (point.distanceToSquared(from) < .025**2 || point.distanceToSquared(to) < .025**2) continue;
     const length = from.distanceTo(point) + point.distanceTo(to);
-    if (length < bestDistance && clearOfPoles(from,point) && clearOfPoles(point,to)) {
+    if (length < bestDistance && clear(from,point) && clear(point,to)) {
       best = point;
       bestDistance = length;
     }
@@ -3164,6 +3203,17 @@ $('approachPreview').onclick = () => {
   requestDestination({kind:'user',name:'ユーザー'});
 };
 
+function requestLightSwitch() {
+  if (mode === 'roam' && roam.phase === 'route' &&
+      (roam.target === lightSwitchTarget || roam.pending?.target === lightSwitchTarget)) return;
+  restoreReactionPose();
+  reaction = null;
+  mood.offeredHand = null;
+  $('reactionStatus').hidden = true;
+  if (mode !== 'roam') beginRoam();
+  requestDestination(lightSwitchTarget,true);
+}
+
 function requestDestination(target, acknowledge=false) {
   if (roam.phase === 'route') {
     roam.pending = {target,acknowledge};
@@ -3202,13 +3252,16 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   if (target.kind === 'wander') {
     visit.push({type:'wander',remaining:target.legs,message});
   } else if (target.point && from.distanceTo(target.point) > .025) {
-    if (!appendWalk(visit,from,target.point,message,target.kind === 'user')) {
+    if (!appendWalk(visit,from,target.point,message,target.kind === 'user',target === lightSwitchTarget)) {
       enterQuietRest('linger','少し立ち止まっています',4);
       return;
     }
   }
   if (target.kind === 'greeting') {
     visit.push(routeTurn(target.heading,message));
+  } else if (target === lightSwitchTarget) {
+    visit.push(routeTurn(target.heading,'壁のスイッチの前に立っています'),
+      {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
   } else if (target.kind === 'window') {
     visit.push(routeTurn(target.heading,'窓の外を見ています'));
   } else if (target === sofaTarget) {
@@ -3221,8 +3274,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   startRouteStage();
 }
 
-function appendWalk(visit,from,to,message,holdCamera=false) {
-  const path = destinationPath(from,to);
+function appendWalk(visit,from,to,message,holdCamera=false,avoidSofa=false) {
+  const path = destinationPath(from,to,avoidSofa);
   let previous = from;
   for (const point of path) {
     const walk = routeWalk(previous,point,message);
@@ -3407,6 +3460,33 @@ function alignSupportToFloor(weight=1,heelOnly=false) {
   if (Number.isFinite(lowest)) groups.pelvis.position.y -= lowest*weight;
 }
 
+const switchFingerTarget = new T.Vector3();
+const switchWrist = new T.Vector3();
+const switchFingerOffset = new T.Vector3();
+const switchPressDirection = new T.Vector3(0,0,-1);
+
+function pressWallSwitch(stage,progress) {
+  blendSofaPose(stage.pose,1);
+  const reach = rearRamp(progress,.05,.43)*(1-rearRamp(progress,.70,.98));
+  if (reach <= 0) return;
+  const contact = rearRamp(progress,.31,.56)*(1-rearRamp(progress,.64,.89));
+  groups.chest.rotateX(.09*reach);
+  groups.head.rotateX(.16*reach);
+  groups.head.rotateY(.10*reach);
+  switchFingerTarget.copy(lightSwitchTarget.lookAt);
+  switchFingerTarget.x -= .11*(1-contact);
+  switchFingerTarget.z += .076*(1-contact);
+  const rotation = orientPalm('P',switchPressDirection,palmDown);
+  switchWrist.copy(switchFingerTarget)
+    .sub(switchFingerOffset.copy(middleFingertip.P).applyQuaternion(rotation));
+  if (!reachHand('P',switchWrist,rotation,reach,true) || stage.pressed || progress < .56 || contact < .99) return;
+  groups.handP.localToWorld(switchFingerOffset.copy(middleFingertip.P));
+  if (switchFingerOffset.distanceTo(switchFingerTarget) > .016) return;
+  stage.pressed = true;
+  toggleRoomLights();
+  $('destination').textContent = roomLightsOn ? 'レイラが電灯をつけました' : 'レイラが電灯を消しました';
+}
+
 function advanceDestinationRoute(dt) {
   const stage = roam.visit[roam.visitIndex];
   roam.elapsed = Math.min(stage.time,roam.elapsed+dt);
@@ -3444,6 +3524,10 @@ function advanceDestinationRoute(dt) {
       break;
     case 'rise':
       sitAtSofa(1-smooth(progress));
+      break;
+    case 'pressLight':
+      pressWallSwitch(stage,progress);
+      roam.switchPressed=stage.pressed;
       break;
   }
   if (progress < 1) return;
@@ -3513,6 +3597,12 @@ function applyQuietPose() {
 
 function arriveAtDestination() {
   roam.elapsed = 0;
+  if (roam.target === lightSwitchTarget) {
+    const message = roam.switchPressed ? (roomLightsOn ? '電灯をつけました' : '電灯を消しました')
+      : 'スイッチに手が届きませんでした';
+    enterQuietRest('linger',message,4);
+    return;
+  }
   if (roam.target.kind === 'user' || roam.target.kind === 'greeting') {
     const target = roam.target;
     const approached = target.kind === 'user';
