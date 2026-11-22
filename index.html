@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 53 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 54 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 53 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 54 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -836,6 +836,21 @@ function pickSurface(x, y) {
     ? {destination:destinationMeshes.get(target.object)} : {leila};
 }
 
+function identifyFrontHead(x,y,z) {
+  const width = Math.abs(x);
+  if (z < .037) return null;
+  const side = x >= 0 ? 'Left' : 'Right';
+  if (y >= .927 || width > .045 && y >= .887 && z >= .045) {
+    return {id:'fringe',label:'前髪'};
+  }
+  if (width > .043 || y < .807) return null;
+  if (y < .835 && width < .022) return {id:'chin',label:'顎'};
+  if (width < .012 && y < .858) return {id:'nose',label:'鼻先'};
+  if (width < .016 && y < .882) return {id:'brow',label:'眉間'};
+  if (y >= .872+.36*width) return {id:'forehead',label:'額'};
+  return {id:'cheek'+side,label:(x >= 0 ? '左' : '右')+'頬'};
+}
+
 function identifyBodyPart(hit) {
   const joint = hit.object.parent;
   const key = rigKeys.get(joint);
@@ -860,9 +875,10 @@ function identifyBodyPart(hit) {
       return z < .008 ? {id:'backHead', label:'後頭部'} : {id:'face', label:'顔中央'};
     case 'head':
       if (y > .939) return {id:'crown', label:'頭頂'};
-      if (width > .052 && z > -.054) return {id:'temple'+side, label:sideLabel+'側頭装甲'};
+      const facePart = identifyFrontHead(x,y,z);
+      if (facePart) return facePart;
+      if (width > .043 && z > -.054) return {id:'temple'+side, label:sideLabel+'側頭装甲'};
       if (z < .011) return {id:'backHead', label:'後頭部'};
-      if (width > .019 && y < .872) return {id:'cheek'+side, label:sideLabel+'頬'};
       return {id:'face', label:'顔中央'};
     case 'chest':
       return z < .020 ? {id:'upperBack', label:'背中上部'} : {id:'chest', label:'胸部装甲'};
@@ -1056,8 +1072,51 @@ function armContactKind(action,feeling,moving,isHand) {
   return 'armGlance';
 }
 
+function faceRegion(id) {
+  if (id.startsWith('cheek')) return 'cheek';
+  return ['fringe','forehead','brow','nose','chin'].includes(id) ? id : null;
+}
+
+const faceGestures = {
+  fringe: {tap:'fringeLook',drag:'fringeStroke',hold:'fringeCurious'},
+  forehead: {tap:'foreheadTuck',drag:'foreheadRest',hold:'foreheadReturn'},
+  brow: {tap:'browSurprise',drag:'browStroke',hold:'browWatch'},
+  cheek: {tap:'cheekTurn',drag:'cheekSoft',hold:'cheekSoft'},
+  nose: {tap:'noseStartle',drag:'noseTickle',hold:'nosePeek'},
+  chin: {tap:'chinGlance',drag:'chinFollow',hold:'chinWatch'}
+};
+
+function faceGestureKind(region,action,feeling,situation,moving) {
+  if (moving) return 'faceBrief';
+  const fallback = faceGestures[region][action];
+  if (feeling === 'annoyed' && action !== 'tap') {
+    return region === 'chin' ? 'chinAway' : region === 'cheek' ? 'cheekAway' : 'faceReluctant';
+  }
+  if (feeling === 'playful') {
+    if (region === 'fringe' && action === 'hold') return 'fringePeek';
+    if (region === 'brow' && action === 'hold') return 'browPoke';
+    if (region === 'nose' && action === 'tap') return 'nosePoke';
+    if (region === 'chin' && action === 'drag') return 'chinShy';
+    if (region === 'cheek' && action === 'hold') return 'cheekAway';
+  }
+  if (region === 'cheek') {
+    if (feeling === 'affectionate' && action === 'hold') {
+      return Math.random() < .28 ? 'cheekCover' : 'cheekLinger';
+    }
+    if (feeling === 'affectionate' && action === 'drag') return 'cheekLinger';
+    if (feeling === 'happy' && action !== 'tap') return 'cheekRub';
+  }
+  if (region === 'forehead' && feeling === 'affectionate' && action === 'drag') return 'foreheadSeek';
+  if (region === 'chin' && action === 'hold') {
+    if (situation === 'sleepy') return 'chinAway';
+    if (feeling === 'happy' || feeling === 'affectionate') return 'chinRest';
+  }
+  return fallback;
+}
+
 function respondToContact(action, current) {
   const {id} = current.path[0];
+  const face = faceRegion(id);
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
   const hand = /^hand[PN]$/.test(id);
   const forearm = /^fore[PN]$/.test(id);
@@ -1104,6 +1163,15 @@ function respondToContact(action, current) {
   }
   let choices;
   if (offered) choices = [['handReply',1]];
+  else if (face) {
+    if (action === 'drag' && feeling !== 'annoyed' && (face === 'cheek' || face === 'forehead')) {
+      enjoyContact(face,.55);
+    }
+    const kind = faceGestureKind(face,action,feeling,situation,moving);
+    const faceSide = side ?? findRearSide(current.hit);
+    beginReaction(kind,true,faceSide,action === 'drag',current);
+    return;
+  }
   else if (hand || forearm) {
     beginReaction(armContactKind(action,feeling,moving,hand),true,side,action === 'drag');
     return;
@@ -1153,6 +1221,10 @@ canvas.addEventListener('pointerdown', event => {
     mood.seconds <= offer.until ? offer : null;
   const started = {id,x,y,hit:leila,path:[part],action:null,lastSample:-Infinity,
     pointerTime:event.timeStamp,offeredHand};
+  if (faceRegion(part.id)) {
+    started.facePoint = groups.head.worldToLocal(leila.point.clone());
+    started.faceStroke = {x,y,dx:0,dy:0,lastAt:-Infinity,reversals:0};
+  }
   if (offeredHand && reaction?.kind === 'offerHand') {
     reaction.duration = Math.max(reaction.duration,reaction.elapsed+.65);
     offeredHand.until = mood.seconds+reaction.duration-reaction.elapsed;
@@ -1185,6 +1257,7 @@ function updateDrag(event, current, finish = false) {
   }
   if (!finish && event.timeStamp-current.lastSample < 32) return;
   current.lastSample = event.timeStamp;
+  if (!finish && current.faceStroke) sampleFaceStroke(current.faceStroke,event.clientX,event.clientY);
   const {leila} = pickSurface(event.clientX, event.clientY);
   const part = leila && identifyBodyPart(leila);
   if (!part || part.id === current.path.at(-1).id) {
@@ -1198,6 +1271,15 @@ function updateDrag(event, current, finish = false) {
   } else {
     current.pending = part.id;
   }
+}
+
+function sampleFaceStroke(stroke,x,y) {
+  const dx = x-stroke.x, dy = y-stroke.y;
+  const distance = Math.hypot(dx,dy);
+  if (distance < 4) return;
+  if (Math.hypot(stroke.dx,stroke.dy) > 0 &&
+      (dx*stroke.dx+dy*stroke.dy)/distance < -.40) stroke.reversals++;
+  Object.assign(stroke,{x,y,dx:dx/distance,dy:dy/distance,lastAt:mood.seconds});
 }
 
 canvas.addEventListener('pointermove', event => {
@@ -1241,9 +1323,45 @@ window.addEventListener('blur', () => {
   clearContact();
 });
 
+// Angles are head pitch, yaw toward the touched side, head tilt, neck pitch and chest pitch.
+const faceReactions = {
+  faceBrief: {label:'指先のほうをちらっと見ています',duration:.92,first:[.04,.07],after:[-.04,0],gaze:.55},
+  fringeLook: {label:'前髪の下から見返しています',duration:1.42,first:[-.19,.03],after:[-.08,0,.10],gaze:.8},
+  fringeStroke: {label:'撫でるほうへ頭を傾けています',duration:1.64,first:[-.13,.02],after:[-.05,.04,.10],track:'fringe'},
+  fringeCurious: {label:'首をかしげて指先を見上げています',duration:1.80,first:[-.17,.12,.13],after:[-.22,.07,.19]},
+  fringePeek: {label:'頭を引いてから覗き返しています',duration:1.94,first:[-.12,-.28,-.14,-.19,-.11],after:[-.12,.13,.16],gaze:.85},
+  foreheadTuck: {label:'顎を引いてから見上げています',duration:1.48,first:[.19,.03],after:[-.11,0,.07],gaze:.7},
+  foreheadRest: {label:'額をそっと手に寄せています',duration:1.79,first:[.16,.02],after:[.12,.04,.06,.17,.07],track:'forehead'},
+  foreheadSeek: {label:'撫でる手を追って額を寄せています',duration:2.13,first:[.13,.03,.03,.11],after:[.10,.06,.09,.21,.10],track:'seek'},
+  foreheadReturn: {label:'一拍おいて顔を上げています',duration:1.96,first:[.13,0,0,.03],after:[-.12,0,.04],changeAt:.46,gaze:.9},
+  browSurprise: {label:'少しのけぞって指先を見ています',duration:1.40,first:[-.13,.02,0,-.25,-.16],after:[.03,.02,.06],gaze:.55},
+  browStroke: {label:'眉間を撫でられて首を傾けています',duration:1.78,first:[-.08,.02,0,-.07],after:[.02,.04,.13],track:'brow'},
+  browWatch: {label:'眉間の指先を窺っています',duration:1.69,first:[-.12,.05,0,-.12,-.04],after:[.04,.02,.10],gaze:.35},
+  browPoke: {label:'顔を引いてから指先へ寄り返しています',duration:1.80,first:[-.10,-.10,-.04,-.21,-.13],after:[.11,.05,.09,.16,.08],changeAt:.32},
+  cheekTurn: {label:'触れた頬のほうを向いてから見返しています',duration:1.62,first:[.02,.30,.15],after:[-.07,.03,.10],gaze:.85},
+  cheekSoft: {label:'触れた頬をそっと傾けています',duration:1.60,first:[.02,.15,.15],after:[-.04,.08,.20,.05],track:'cheek'},
+  cheekRub: {label:'撫でる手に頬をすり寄せています',duration:1.93,first:[.03,.16,.17],after:[-.04,.11,.27,.12,.05],track:'rub'},
+  cheekLinger: {label:'手に頬を預けて余韻を楽しんでいます',duration:2.15,first:[.03,.16,.17],after:[-.06,.09,.32,.14,.06],track:'cheek',linger:true},
+  cheekCover: {label:'頬を預けて指先に手をそっと重ねています',duration:2.36,first:[.02,.16,.17],after:[-.05,.07,.26,.10,.04],cover:true},
+  cheekAway: {label:'顔を横に向けて指先を躱しています',duration:1.51,first:[-.06,-.29,-.15,-.14],after:[-.04,-.23,-.07],gaze:.2},
+  noseStartle: {label:'鼻先が触れて反射的に顔を引いています',duration:1.24,first:[-.09,.04,-.06,-.23,-.08],after:[.01,.03,.09],gaze:.65},
+  nosePoke: {label:'一度よけてから鼻先で指に触れ返しています',duration:1.69,first:[-.10,-.07,-.05,-.25,-.09],after:[.06,.04,.11,.18,.10],changeAt:.34},
+  noseTickle: {label:'くすぐったそうに顔を小さく振っています',duration:1.66,first:[-.11,.10,.03,-.14],after:[-.06,.01,.07,-.04],track:'nose'},
+  nosePeek: {label:'指の脇からちらっと覗き返しています',duration:1.93,first:[-.05,-.11,0,-.09],after:[-.11,-.24,-.17,-.04],changeAt:.42,gaze:.45},
+  chinGlance: {label:'顎を引いてから、顔を少し上げて見返しています',duration:1.70,first:[.17,.01,.07,-.05],after:[-.13,.02,.11],gaze:.92},
+  chinFollow: {label:'指に合わせて顎を上げています',duration:1.65,first:[.08,.02,.06],after:[-.17,.03,.07],track:'chin'},
+  chinShy: {label:'顎を上げながら照れたように顔をそらしています',duration:1.82,first:[.11,.04,.07],after:[-.13,-.21,.13],track:'chin'},
+  chinWatch: {label:'少し顔を上げて指先を見ています',duration:1.72,first:[.10,.02,.07],after:[-.12,0,.09],gaze:.55},
+  chinRest: {label:'顎をそっと預けて見返しています',duration:2.13,first:[.09,.03,.06],after:[-.13,.03,.12,.11,.07],gaze:.8},
+  chinAway: {label:'顎を引いてから横を向いています',duration:1.48,first:[.20,.02,.06,-.16],after:[.06,-.32,-.12,-.10]},
+  faceReluctant: {label:'顔を少し引いて指先を躱しています',duration:1.31,first:[-.10,-.19,-.14,-.15,-.06],after:[-.03,-.14,-.05]}
+};
+for (const entry of Object.values(faceReactions)) entry.pose = 'face';
+
 const reactions = {
   ...rearReactions,
   ...armReactions,
+  ...faceReactions,
   softGlance:{label:'こちらに目を向けています',duration:.80,pose:'glance'},
   tilt:{label:'首をかしげています',duration:1.25,pose:'tilt'},
   leanIn:{label:'頬を寄せています',duration:1.55,pose:'lean'},
@@ -1353,20 +1471,26 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   // Keep taps distinct without restarting a gesture on every rapid touch.
   if (reaction?.pose === 'rear' && fromTap && kind !== 'welcome') return;
   const continuingOffer = kind === 'handReply' && reaction?.kind === 'offerHand';
+  const faceContact = reactions[kind].pose === 'face' && strokeContact;
   if (fromTap && kind !== 'welcome' && reaction?.next === 'welcome') return;
   if (kind === 'hipDodge' && reaction?.kind === 'hipDodge') return;
-  if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap && kind !== 'welcome' && !continuingOffer) {
-    if (reaction.fromTap && !fromStroke && kind !== 'handReply' && kind !== 'hipDodge' && kind !== 'flinch') return;
+  if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap && kind !== 'welcome' &&
+      !continuingOffer && !(faceContact && fromStroke && reaction.pose === 'face')) {
+    if (reaction.fromTap && !fromStroke && !faceContact && kind !== 'handReply' &&
+        kind !== 'hipDodge' && kind !== 'flinch') return;
+    if (faceContact && !strokeContact.action && reaction.pose === 'face' && reaction.elapsed < .28) return;
     reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
     reaction.next = kind;
     reaction.nextSide = touchSide;
     reaction.nextStroke = strokeContact;
+    reaction.nextFromStroke = fromStroke;
     return;
   }
   const offset = camera.position.clone().sub(root.position).applyAxisAngle(turnAxis,-root.rotation.y);
   reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:touchSide ?? (offset.x > .15 ? 'P' : 'N')};
   reaction.continuingOffer = continuingOffer;
   reaction.strokeContact = strokeContact;
+  if (faceContact) reaction.faceStartedAt = mood.seconds;
   mood.offeredHand = kind === 'offerHand' ? {side:reaction.side,until:mood.seconds+reaction.duration} : null;
   if (kind === 'beckon') {
     const radius = camera.position.distanceTo(orbit.target);
@@ -1741,19 +1865,117 @@ function applyArmReaction(entry,time,weight,yaw,pitch) {
   reachHand(side,touchedArmPoint,touchedArmOrientation,weight*.87);
 }
 
+const facePalm = new T.Vector3();
+const faceHandForward = new T.Vector3();
+const faceHandNormal = new T.Vector3();
+const faceHandOffset = new T.Vector3();
+const faceHandRotation = new T.Quaternion();
+
+function coverFingerAtCheek(entry,time,weight) {
+  const current = entry.strokeContact;
+  const point = current?.facePoint;
+  if (!point) return;
+  const {head} = groups;
+  const side = entry.side;
+  const sign = side === 'P' ? 1 : -1;
+  const reach = rearRamp(time,.46,1.03);
+  if (reach <= 0) return;
+  const lower = rearRamp(time,.94,1.29);
+  facePalm.copy(point);
+  facePalm.z += mix(.071,.032,lower);
+  head.localToWorld(facePalm);
+  if (current === contact) {
+    const rect = canvas.getBoundingClientRect();
+    touchPoint.set(2*(current.x-rect.left)/rect.width-1,1-2*(current.y-rect.top)/rect.height);
+    camera.updateWorldMatrix(true,false);
+    touchRay.setFromCamera(touchPoint,camera);
+    touchRay.ray.closestPointToPoint(facePalm,faceHandOffset);
+    facePalm.lerp(faceHandOffset,lower);
+  }
+  head.getWorldQuaternion(faceHandRotation);
+  faceHandForward.set(-sign*.22,1,0).normalize().applyQuaternion(faceHandRotation);
+  faceHandNormal.set(0,0,-1).applyQuaternion(faceHandRotation);
+  const rotation = orientPalm(side,faceHandForward,faceHandNormal);
+  facePalm.sub(faceHandOffset.copy(palmRig[side].center).applyQuaternion(rotation));
+  reachHand(side,facePalm,rotation,reach*weight,true);
+}
+
+function advanceFaceElapsed(entry,dt) {
+  const current = entry.strokeContact;
+  const next = entry.elapsed+dt;
+  if (entry.next || !entry.track || !current || current !== contact ||
+      mood.seconds-entry.faceStartedAt > 4) return next;
+  const moving = current.action === 'drag' &&
+    mood.seconds-current.faceStroke.lastAt < (entry.linger ? .74 : .28);
+  if (!moving && !(entry.linger && current.action === 'hold')) return next;
+  // Hold the settled pose during a continuous stroke, then give it a normal exit.
+  return entry.elapsed <= .94 ? Math.min(next,.94) : next;
+}
+
+function applyFaceReaction(entry,time,weight,yaw,pitch,dt) {
+  const sign = entry.side === 'P' ? 1 : -1;
+  const changeAt = entry.changeAt ?? .20;
+  const phase = rearRamp(time,changeAt,changeAt+.39);
+  const angle = index => mix(entry.first[index] ?? 0,entry.after[index] ?? 0,phase);
+  let headPitch = angle(0), turn = sign*angle(1), tilt = -sign*angle(2), neckPitch = angle(3);
+  const current = entry.strokeContact;
+  const stroke = current === contact && current?.action === 'drag' ? current.faceStroke : null;
+  const active = stroke && mood.seconds-stroke.lastAt < .25;
+  const response = 1-Math.exp(-dt*12);
+  entry.strokeX = mix(entry.strokeX ?? 0,active ? stroke.dx : 0,response);
+  entry.strokeY = mix(entry.strokeY ?? 0,active ? stroke.dy : 0,response);
+  const x = entry.strokeX, y = entry.strokeY;
+  if (entry.track === 'fringe') tilt -= .19*x;
+  if (entry.track === 'forehead' || entry.track === 'seek') {
+    tilt -= .10*x;
+    if (entry.track === 'seek') neckPitch += .09*Math.sin(time*8)*phase+.05*Math.abs(x);
+  }
+  if (entry.track === 'brow') {
+    const dodge = active && stroke.reversals >= 3 ? 1 : 0;
+    entry.browDodge = mix(entry.browDodge ?? 0,dodge,response);
+    turn -= sign*.27*entry.browDodge;
+    neckPitch -= .23*entry.browDodge;
+    tilt += sign*.16*entry.browDodge;
+  }
+  if (entry.track === 'cheek' || entry.track === 'rub') {
+    tilt -= .10*x;
+    if (entry.track === 'rub') neckPitch += .12*y;
+  }
+  if (entry.track === 'nose') {
+    turn += .14*Math.sin(mood.seconds*23)*phase+.10*x;
+    tilt -= .07*x;
+  }
+  if (entry.track === 'chin' && current?.action === 'drag') {
+    const requested = active ? Math.max(0,-stroke.dy) : entry.chinLift ?? 0;
+    entry.chinLift = mix(entry.chinLift ?? 0,requested,response);
+    headPitch = mix(headPitch,.05,phase*(1-entry.chinLift)*.65)-.13*entry.chinLift;
+  }
+  const gaze = phase*(entry.gaze ?? 0);
+  const {chest,neck,head} = groups;
+  chest.rotateX(angle(4)*weight);
+  neck.rotateY((turn*.24+yaw*.25*gaze)*weight);
+  neck.rotateX(neckPitch*weight);
+  head.rotateY((turn*.76+yaw*.62*gaze)*weight);
+  head.rotateX((headPitch+pitch*.40*gaze)*weight);
+  head.rotateZ(tilt*weight);
+  if (entry.cover) coverFingerAtCheek(entry,time,weight);
+}
+
 function applyReaction(dt) {
   if (!reaction) return;
   const {kind,duration,side,clip} = reaction;
-  const time = reaction.elapsed += dt;
+  const time = reaction.elapsed = reaction.pose === 'face'
+    ? advanceFaceElapsed(reaction,dt) : reaction.elapsed+dt;
   if (time >= duration) {
-    const {next,nextSide,nextStroke,pose,offer,side:offeredSide} = reaction;
+    const {next,nextSide,nextStroke,nextFromStroke,pose,offer,side:offeredSide} = reaction;
     if (pose === 'rear' || pose === 'arm' || reaction.touchFollowUp) touchPause.until = mood.seconds+.75;
+    if (pose === 'face' && kind !== 'faceBrief') touchPause.until = mood.seconds+.45;
     reaction = null;
     if (offer) {
       beginReaction('offerHand',false,offeredSide);
       reaction.touchFollowUp = true;
     }
-    else if (next) beginReaction(next,true,nextSide,Boolean(nextStroke),nextStroke);
+    else if (next) beginReaction(next,true,nextSide,nextFromStroke,nextStroke);
     else $('reactionStatus').hidden = true;
     return;
   }
@@ -1766,6 +1988,10 @@ function applyReaction(dt) {
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.38,1.38);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  if (reaction.pose === 'face') {
+    applyFaceReaction(reaction,time,weight,yaw,pitch,dt);
+    return;
+  }
   if (reaction.pose === 'arm') {
     applyArmReaction(reaction,time,weight,yaw,pitch);
     return;
@@ -1958,7 +2184,7 @@ function advanceRoam(dt) {
     }
     return;
   }
-  const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm'
+  const lingeringReaction = reaction?.pose === 'rear' || reaction?.pose === 'arm' || reaction?.pose === 'face'
     || reaction?.touchFollowUp
     || mood.seconds < touchPause.until;
   if (!lingeringReaction) roam.elapsed += dt;
