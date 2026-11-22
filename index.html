@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 40 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 41 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 40 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 41 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -954,6 +954,87 @@ function enjoyContact(preference, strength) {
 function scheduleSocialFollowUp(seconds) {
   mood.followUpAt = Math.min(mood.followUpAt,mood.seconds+seconds);
 }
+const rearReactions = {
+  rearHeadLook: {label:'首をかしげて振り向いています',duration:2.00,look:.86,tilt:.13,delay:.15},
+  rearHeadRest: {label:'後頭部をそっと預けています',duration:2.45,look:.20,lean:-.24,relax:.34},
+  rearHeadPlay: {label:'頭をよけて肩越しに覗いています',duration:2.42,look:.88,tuck:.24,delay:.49},
+  rearNape: {label:'首をすくめ、振り向いています',duration:2.37,look:.75,tuck:.37,relax:-.45,step:.135,delay:.45},
+  rearShoulder: {label:'触れられた肩越しに振り向いています',duration:1.96,look:1,delay:.10},
+  rearOpposite: {label:'反対の肩越しにひょいと覗いています',duration:2.04,look:1.03,tilt:.15,delay:.25},
+  rearWalkGlance: {label:'歩きながら肩越しにちらっと見ています',duration:1.16,look:.76,delay:.06},
+  rearShoulderRelax: {label:'肩の力を抜いています',duration:2.36,look:.40,tilt:.16,relax:.70},
+  rearShoulderLean: {label:'肩をゆるめ、触れた側へ頬を寄せています',duration:2.55,look:.58,tilt:.36,relax:.58},
+  rearTurn: {label:'ゆっくり向き直って目を合わせています',duration:2.85,look:.85,turn:true,delay:.08},
+  rearTurnOffer: {label:'こちらへ向き直っています',duration:2.75,look:.82,turn:true,offer:true},
+  rearBackTap: {label:'背筋が伸び、一拍おいて振り向きました',duration:2.24,look:.90,lift:.24,delay:.34},
+  rearBackRelax: {label:'背中と肩の力を抜いています',duration:2.52,look:.27,relax:.9,lean:-.14},
+  rearBackTwist: {label:'上体をひねって、こちらを見ています',duration:2.70,look:1.12,tilt:.09,delay:.18},
+  rearWaistTap: {label:'腰を引いて触れられた場所を見ています',duration:2.10,look:.72,hip:.57,down:.24,delay:.20},
+  rearWaistTickle: {label:'くすぐったそうに腰をずらしています',duration:2.22,look:.67,hip:.89,delay:.23},
+  rearWaistReturn: {label:'腰をよけてから元の姿勢に戻っています',duration:2.58,look:.83,hip:.9,returnHip:true,delay:.24},
+  rearWaistStep: {label:'半歩前に離れて振り向いています',duration:2.63,look:1,step:.15,delay:.42},
+  rearStartle: {label:'一瞬驚いて、肩越しにこちらを見ています',duration:2.55,look:1.06,startle:true,delay:.49},
+  rearAccept: {label:'驚いてから肩越しに目を合わせています',duration:2.92,look:1.10,startle:true,relax:.49,tilt:.14,delay:.52},
+  rearStay: {label:'肩越しに見つめ、その場にとどまっています',duration:3.12,look:1.08,startle:true,relax:.68,lean:-.14,delay:.49},
+  rearPlayReturn: {label:'斜め前によけ、肩越しに見てから戻っています',duration:3.25,look:1.08,startle:true,hip:.8,step:.16,returnStep:true,delay:.52},
+  rearDodge: {label:'そっとよけ、触れた側を振り返っています',duration:2.83,look:.98,startle:true,hip:1,step:.15,delay:.48},
+  rearGuard: {label:'手を後ろに回して、そっと制しています',duration:2.93,look:1.02,startle:true,hip:.55,guard:true,delay:.58},
+  rearDistance: {label:'手でそっと制してから離れています',duration:3.18,look:1.05,startle:true,hip:.72,guard:true,step:.19,turn:true,delay:.58}
+};
+for (const entry of Object.values(rearReactions)) entry.pose = 'rear';
+
+function rearContactKind(region,action,feeling,moving,nape) {
+  if (moving) return 'rearWalkGlance';
+  if (region === 'head') {
+    if (action === 'hold') return nape ? 'rearNape' : 'rearHeadLook';
+    return action === 'tap' ? 'rearHeadLook' : feeling === 'playful' ? 'rearHeadPlay' : 'rearHeadRest';
+  }
+  if (region === 'shoulder') {
+    if (action === 'hold') return feeling === 'affectionate' ? 'rearTurnOffer' : 'rearTurn';
+    if (action === 'drag') return feeling === 'affectionate' ? 'rearShoulderLean' : 'rearShoulderRelax';
+    return feeling === 'playful' && Math.random() < .7 ? 'rearOpposite' : 'rearShoulder';
+  }
+  if (region === 'back') return {tap:'rearBackTap',drag:'rearBackRelax',hold:'rearBackTwist'}[action];
+  if (region === 'waist') {
+    if (action === 'hold') return feeling === 'affectionate' ? 'rearTurnOffer' : 'rearWaistStep';
+    if (action === 'drag') return feeling === 'happy' ? 'rearWaistReturn' : 'rearWaistTickle';
+    return 'rearWaistTap';
+  }
+  const receptive = feeling === 'happy' || feeling === 'affectionate';
+  if (action === 'tap') {
+    return receptive ? 'rearAccept' : feeling === 'annoyed' ? 'rearDodge' : 'rearStartle';
+  }
+  if (action === 'drag') {
+    return receptive ? 'rearStay' : feeling === 'playful' ? 'rearPlayReturn' : 'rearDodge';
+  }
+  return feeling === 'affectionate' ? 'rearStay' : feeling === 'annoyed' ? 'rearDistance' : 'rearGuard';
+}
+
+const rearIdle = {until:0};
+const rearPoint = new T.Vector3();
+function rearHitRegion(id,hit) {
+  if (id.startsWith('buttock')) return 'hips';
+  if (id === 'upperBack') return 'back';
+  if (!/^(waist|backHead|crown|temple|shoulder)/.test(id)) return null;
+  const key = rigKeys.get(hit.object.parent);
+  hit.object.parent.worldToLocal(rearPoint.copy(hit.point));
+  const z = rearPoint.z+defs[key][3];
+  if (id === 'waist' && z < .027) return 'waist';
+  if (id === 'backHead' || id === 'crown' && z < .011) return 'head';
+  if (key === 'head' && id.startsWith('temple') && z < .011) return 'head';
+  if (/^shoulder[PN]$/.test(id)) {
+    root.worldToLocal(rearPoint.copy(camera.position));
+    if (rearPoint.z < 0 && z < .027) return 'shoulder';
+  }
+  return null;
+}
+function findRearSide(hit,side) {
+  if (side) return side;
+  root.worldToLocal(rearPoint.copy(hit.point));
+  return Math.abs(rearPoint.x) > .008 ? (rearPoint.x > 0 ? 'P' : 'N')
+    : headingDelta(root.rotation.y,headingTo(root.position,camera.position)) >= 0 ? 'P' : 'N';
+}
+
 function respondToContact(action, current) {
   const {id} = current.path[0];
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
@@ -969,6 +1050,8 @@ function respondToContact(action, current) {
   const crownStroke = action === 'drag' && id === 'crown';
   const feeling = currentMood();
   const situation = moodSituation();
+  const rear = offered ? null : rearHitRegion(id,current.hit);
+  const moving = situation === 'focused' || ['walk','mixamo','travel'].includes(mode);
   mood.lastContact = mood.seconds;
   if (flank && action === 'tap') mood.flankAt = mood.seconds;
   if (repeatedFlank || nape && action === 'hold') {
@@ -976,7 +1059,14 @@ function respondToContact(action, current) {
     mood.avoidedUntil = mood.seconds+(alreadyAvoiding ? 15 : 5);
     if (alreadyAvoiding) setMood('annoyed');
     scheduleSocialFollowUp(15);
-    beginReaction(situation === 'focused' ? 'softGlance' : flank ? 'hipDodge' : 'flinch',true,side);
+    if (!rear) {
+      beginReaction(situation === 'focused' ? 'softGlance' : flank ? 'hipDodge' : 'flinch',true,side);
+      return;
+    }
+  }
+  if (rear) {
+    const kind = rearContactKind(rear,action,feeling,moving,nape);
+    beginReaction(kind,true,findRearSide(current.hit,side),action === 'drag',action === 'drag' ? current : null);
     return;
   }
   if (mood.seconds < mood.avoidedUntil && (flank || nape)) {
@@ -1124,6 +1214,7 @@ window.addEventListener('blur', () => {
 });
 
 const reactions = {
+  ...rearReactions,
   softGlance:{label:'こちらに目を向けています',duration:.80,pose:'glance'},
   tilt:{label:'首をかしげています',duration:1.25,pose:'tilt'},
   leanIn:{label:'頬を寄せています',duration:1.55,pose:'lean'},
@@ -1229,8 +1320,9 @@ function restoreReactionPose() {
   reactionApplied = false;
 }
 
-function beginReaction(kind,fromTap=false,touchSide,fromStroke=false) {
+function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeContact=null) {
   // Keep taps distinct without restarting a gesture on every rapid touch.
+  if (reaction?.pose === 'rear' && fromTap && kind !== 'welcome') return;
   const continuingOffer = kind === 'handReply' && reaction?.kind === 'offerHand';
   if (fromTap && kind !== 'welcome' && reaction?.next === 'welcome') return;
   if (kind === 'hipDodge' && reaction?.kind === 'hipDodge') return;
@@ -1239,11 +1331,13 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false) {
     reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
     reaction.next = kind;
     reaction.nextSide = touchSide;
+    reaction.nextStroke = strokeContact;
     return;
   }
   const offset = camera.position.clone().sub(root.position).applyAxisAngle(turnAxis,-root.rotation.y);
   reaction = {...reactions[kind],kind,fromTap,elapsed:0,side:touchSide ?? (offset.x > .15 ? 'P' : 'N')};
   reaction.continuingOffer = continuingOffer;
+  reaction.strokeContact = strokeContact;
   mood.offeredHand = kind === 'offerHand' ? {side:reaction.side,until:mood.seconds+reaction.duration} : null;
   if (kind === 'beckon') {
     const radius = camera.position.distanceTo(orbit.target);
@@ -1398,14 +1492,129 @@ function applyTouchPose(pose,side,yaw,pitch,time,weight) {
   }
 }
 
+function rearRamp(time,start,end) {
+  return smooth(T.MathUtils.clamp((time-start)/(end-start),0,1));
+}
+
+function startRearFootwork(entry, side) {
+  const standing = mode === 'standWait' || mode === 'roam' && ['wait','linger','window','rest'].includes(roam.phase);
+  if (!standing || !entry.step && !entry.turn) return null;
+  const from = root.position.clone();
+  const angle = root.rotation.y;
+  const sign = side === 'P' ? 1 : -1;
+  const delta = V(-sign*.045,0,entry.step ?? 0).applyAxisAngle(turnAxis,angle);
+  const to = from.clone().add(delta);
+  const couch = new T.Box3(sofaTarget.lookAt.clone().add(V(-.58,-2,-.80)),
+    sofaTarget.lookAt.clone().add(V(.58,2,.80)));
+  if (!entry.step || to.x < -5.65 || to.x > 5.65 || to.z < -5.65 || to.z > 8.65 ||
+      !clearOfPoles(from,to) || couch.containsPoint(to) || couch.containsPoint(from)) delta.set(0,0,0);
+  const turn = entry.turn && !couch.containsPoint(from)
+    ? Math.abs(headingDelta(angle,headingTo(to,camera.position)))*sign : 0;
+  if (!turn && delta.lengthSq() === 0) return null;
+  const feet = [side,side === 'P' ? 'N' : 'P'].map(key => ({
+    key,position:groups['foot'+key].getWorldPosition(V(0,0,0))
+  }));
+  return {mode,from,angle,delta,turn,feet};
+}
+
+function advanceRearFootwork(entry,time) {
+  if (time < .42) return 0;
+  if (entry.rearFeet === undefined) entry.rearFeet = startRearFootwork(entry,entry.side);
+  const legs = entry.rearFeet;
+  if (!legs || legs.mode !== mode) return 0;
+  const stepEnd = entry.returnStep ? 2.33 : 1.27;
+  const shift = rearRamp(time,.49,1.2)*(entry.returnStep ? 1-rearRamp(time,1.65,stepEnd) : 1);
+  const turnStart = entry.step ? 1.14 : .35;
+  const rotation = legs.turn*rearRamp(time,turnStart,turnStart+.92);
+  const position = legs.from.clone().addScaledVector(legs.delta,shift);
+  setTravelPosition(position.x,position.z,true);
+  root.rotation.y = legs.angle+rotation;
+  const blend = rearRamp(time,.42,.55)*(1-rearRamp(time,entry.duration-.49,entry.duration-.22));
+  if (blend <= 0) return rotation;
+  for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
+  hipPosition.copy(groups.pelvis.position);
+  hipReactionApplied = true;
+  for (const [index,{key,position:foot}] of legs.feet.entries()) {
+    const lag = index*.22;
+    const out = rearRamp(time,.43+lag,.94+lag);
+    const back = entry.returnStep ? rearRamp(time,1.62+lag,2.1+lag) : 0;
+    const footTurn = legs.turn*rearRamp(time,turnStart+lag,turnStart+.67+lag);
+    const target = foot.clone().sub(legs.from).applyAxisAngle(turnAxis,footTurn)
+      .add(legs.from).addScaledVector(legs.delta,out-back);
+    target.y += (legs.delta.lengthSq() > .0001 ? .027 : 0)*(Math.sin(Math.PI*out)+Math.sin(Math.PI*back));
+    if (legs.turn) target.y += .021*Math.sin(Math.PI*rearRamp(time,turnStart+lag,turnStart+.67+lag));
+    solveLeg(key,target,legs.angle+footTurn);
+  }
+  for (const {key,joint,pose} of hipReactionJoints) {
+    if (/^(thigh|knee|foot|shin)/.test(key)) joint.quaternion.slerp(pose,1-blend);
+  }
+  return rotation;
+}
+
+function applyRearReaction(entry,time,weight,pitch) {
+  const sign = (entry.side === 'P' ? 1 : -1)*(entry.kind === 'rearOpposite' ? -1 : 1);
+  const turned = advanceRearFootwork(entry,time);
+  const gaze = weight*rearRamp(time,entry.delay ?? .10,(entry.delay ?? .10)+.43);
+  const turn = entry.look*gaze*(1-.72*Math.min(1,Math.abs(turned)/1.7));
+  const shock = entry.startle ? rearRamp(time,0,.095)*(1-rearRamp(time,.12,.36)) : 0;
+  const relax = entry.relax ?? 0;
+  const lean = entry.lean ?? 0;
+  const spine = groups.chest, neck = groups.neck, head = groups.head;
+  if (entry.hip && !hipReactionApplied && moodSituation() !== 'focused') {
+    for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
+    hipPosition.copy(groups.pelvis.position);
+    hipReactionApplied = true;
+    const sway = entry.hip*gaze*(entry.returnHip ? 1-rearRamp(time,1.38,2.02) : 1);
+    groups.abdomen.rotateZ(sign*.31*sway);
+    groups.abdomen.rotateY(-sign*.16*sway);
+  }
+  if (shock && moodSituation() !== 'focused' && !hipReactionApplied) {
+    for (const {joint,pose} of hipReactionJoints) pose.copy(joint.quaternion);
+    hipPosition.copy(groups.pelvis.position);
+    hipReactionApplied = true;
+  }
+  if (shock && hipReactionApplied) groups.pelvis.rotateZ(-sign*.075*shock);
+  spine.rotateY(sign*.42*turn);
+  neck.rotateY(sign*.39*turn);
+  head.rotateY(sign*.88*turn);
+  spine.rotateX(-shock*.22-(entry.lift ?? 0)*weight*(1-rearRamp(time,.54,1.35))+lean*weight*.53);
+  neck.rotateX(shock*.14+(entry.tuck ?? 0)*weight*(1-rearRamp(time,.48,1.1))+lean*.5*weight);
+  head.rotateX(pitch*.46*gaze+(entry.down ?? 0)*gaze);
+  head.rotateZ(-sign*(entry.tilt ?? 0)*gaze);
+
+  const stroke = contact && contact === entry.strokeContact;
+  const shoulder = stroke && /^shoulder[PN]$/.test(contact.path.at(-1).id) ? contact.path.at(-1).id.at(-1) : null;
+  const rise = stroke && contact.path.some(part => part.id === 'backHead' || part.id === 'crown');
+  entry.shoulderBlend = mix(entry.shoulderBlend ?? 0,shoulder ? 1 : 0,.15);
+  if (shoulder) entry.strokeShoulder = shoulder;
+  if (rise && entry.kind === 'rearBackRelax') head.rotateX(-.13*gaze);
+  for (const side of ['P','N']) {
+    const direction = side === 'P' ? 1 : -1;
+    const extraRelax = entry.strokeShoulder === side ? entry.shoulderBlend*.25 : 0;
+    groups['upper'+side].rotateZ(direction*(shock*.20-(relax*.15+extraRelax)*weight));
+  }
+  if (entry.guard) {
+    const hand = entry.side;
+    const local = handTarget.set(sign*.085,-.124,-.100);
+    const target = groups.chest.localToWorld(local);
+    const forward = V(-sign*.55,0,-.835).normalize().applyAxisAngle(turnAxis,root.rotation.y);
+    reachHand(hand,target,orientPalm(hand,forward,palmDown),gaze*.93);
+  }
+}
+
 function applyReaction(dt) {
   if (!reaction) return;
   const {kind,duration,side,clip} = reaction;
   const time = reaction.elapsed += dt;
   if (time >= duration) {
-    const {next,nextSide} = reaction;
+    const {next,nextSide,nextStroke,pose,offer,side:offeredSide} = reaction;
+    if (pose === 'rear' || reaction.rearFollowUp) rearIdle.until = mood.seconds+.75;
     reaction = null;
-    if (next) beginReaction(next,true,nextSide);
+    if (offer) {
+      beginReaction('offerHand',false,offeredSide);
+      reaction.rearFollowUp = true;
+    }
+    else if (next) beginReaction(next,true,nextSide,Boolean(nextStroke),nextStroke);
     else $('reactionStatus').hidden = true;
     return;
   }
@@ -1418,6 +1627,10 @@ function applyReaction(dt) {
   gazeDirection.applyQuaternion(head.getWorldQuaternion(headWorld).invert());
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.38,1.38);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.25,.25);
+  if (reaction.pose === 'rear') {
+    applyRearReaction(reaction,time,weight,pitch);
+    return;
+  }
   if (reaction.pose) {
     applyTouchPose(reaction.pose,side,yaw,pitch,time,weight);
     return;
@@ -1602,10 +1815,13 @@ function advanceRoam(dt) {
     }
     return;
   }
-  roam.elapsed += dt;
+  const lingeringReaction = reaction?.pose === 'rear'
+    || reaction?.rearFollowUp
+    || mood.seconds < rearIdle.until;
+  if (!lingeringReaction) roam.elapsed += dt;
   if (roam.phase === 'rest') {
     applyRestPose();
-    if (roam.elapsed >= roam.glanceAt) {
+    if (!lingeringReaction && roam.elapsed >= roam.glanceAt) {
       roam.glanceAt = Infinity;
       beginAttention(true);
       return;
@@ -1615,7 +1831,7 @@ function advanceRoam(dt) {
   } else if (roam.phase === 'window' || roam.phase === 'linger') {
     applyQuietPose();
   }
-  if (roam.elapsed >= roam.pause) {
+  if (!lingeringReaction && roam.elapsed >= roam.pause) {
     if (!reaction && mood.seconds >= mood.avoidedUntil && mood.seconds >= mood.followUpAt) {
       mood.followUpAt = Infinity;
       roam.pause = roam.elapsed+5;
