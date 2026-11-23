@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 74 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 75 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 74 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 75 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -193,7 +193,7 @@ for (const side of [-1, 1]) {
 
 // A cantilevered top brings the book within reach from the near sofa cushion.
 const sideTable = new T.Group();
-sideTable.position.set(-4.58,0,-.407);
+sideTable.position.set(-4.58,0,-.362);
 floorGroup.add(sideTable);
 sideTable.position.multiplyScalar(2);
 sideTable.scale.setScalar(2);
@@ -205,11 +205,11 @@ const tablePostHeight = tableTop-tableTopThickness-tablePostBottom;
 block(sideTable,tableWood,.035,tableTop-tableTopThickness/2,-.123,.30,tableTopThickness,.355);
 block(sideTable,sofaLeg,.006,tablePostBottom+tablePostHeight/2,-.014,.045,tablePostHeight,.042);
 block(sideTable,sofaLeg,.012,.022,-.022,.28,.031,.246);
-const tableBounds = new T.Box3(new T.Vector3(-4.79,-1,-.685),new T.Vector3(-4.32,1,-.205));
+const tableBounds = new T.Box3(new T.Vector3(-4.79,-1,-.640),new T.Vector3(-4.32,1,-.160));
 const book = new T.Group();
 book.name = 'Book';
 scene.add(book);
-const bookHome = new T.Vector3(-4.535,tableTop+.006,-.617);
+const bookHome = new T.Vector3(-4.535,tableTop+.006,-.572);
 const bookOnTable = new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(
   new T.Vector3(0,0,1),new T.Vector3(1,0,0),new T.Vector3(0,1,0)));
 const bookLeather = mat(0x794d43,.80);
@@ -273,7 +273,9 @@ block(bed,bedFrame,0,.128,0,1.22,.128,1.58);
 block(bed,bedFrame,0,.325,-.755,1.22,.42,.07);
 block(bed,bedFabric,0,.244,0,1.18,.185,1.52);
 block(bed,bedLinen,0,.335,.28,1.19,.006,.91);
-block(bed,mat(0xe6e3dc,.96),0,.333,-.575,.62,.040,.26);
+const bedPillow = block(bed,mat(0xe6e3dc,.96),0,.333,-.575,.62,.040,.26);
+const bedPillowBounds = new T.Box3().setFromObject(bedPillow);
+const bedHeadBounds = new T.Box3();
 for (const x of [-.51,.51]) for (const z of [-.66,.66]) block(bed,bedFrame,x,.043,z,.082,.086,.084);
 const bedHeight = .337;
 const bedTarget = {
@@ -3681,6 +3683,7 @@ function startRouteStage() {
   }
   if (stage.type === 'bedRise') {
     sitWithMotion(1,0,true);
+    braceHandOnBed(1);
     stage.edgePose=captureSofaPose();
     blendSofaPose(stage.pose,1);
   }
@@ -3995,10 +3998,15 @@ function layOnBed(pose,time) {
   const clearance=pose==='lounge' ? .074 : pose==='sleepAlternate' ? .136 : .122;
   restAnchor.copy(bedCenter).add(V(0,bedHeight+clearance+movement*transferScale,-.01));
   groups.pelvis.position.copy(root.worldToLocal(restAnchor));
-  // The larger head shell needs clearance above the pillow after retargeting.
+  // Keep the retargeted head shell clear as the body settles onto the mattress.
   groups.chest.rotateX(.18);
   groups.neck.rotateX(.24);
   groups.head.rotateX(.09);
+  bedHeadBounds.setFromObject(groups.head).getCenter(restAnchor);
+  restAnchor.x = bedCenter.x+T.MathUtils.clamp(bedCenter.x-restAnchor.x,-.17,.17);
+  restAnchor.y = bedHeight+clearance+movement*transferScale;
+  restAnchor.z = bedCenter.z-.01+T.MathUtils.clamp(bedCenter.z-.555-restAnchor.z,-.28,.10);
+  groups.pelvis.position.copy(root.worldToLocal(restAnchor));
   // Give the boots separate tracks on the mattress when the retargeted clips cross the legs.
   if (pose === 'lounge') {
     poseBedLeg('P',V(.022,.085,.202),V(.021,-.044,.283),V(0,1,.10));
@@ -4012,6 +4020,7 @@ function layOnBed(pose,time) {
 
 const bedHandDirection=new T.Vector3(1,0,0);
 const bedHandWrist=new T.Vector3();
+const bedBraceBend=new T.Vector3(.16,-.14,-.04);
 const bedContactPoint = new T.Vector3();
 const bedContactAxis = new T.Vector3();
 const bedJointPivot = new T.Vector3();
@@ -4031,7 +4040,7 @@ function bedContactGeometry() {
   });
 }
 
-function bedSurfaceGap(meshes,point) {
+function bedSurfaceGap(meshes,point,includePillow=false) {
   let gap=Infinity;
   for (const {mesh,vertices} of meshes) {
     mesh.updateWorldMatrix(true,false);
@@ -4043,7 +4052,9 @@ function bedSurfaceGap(meshes,point) {
       const outside=Math.max(Math.abs(wx-bedCenter.x)-.59,Math.abs(wz-bedCenter.z)-.76);
       if (outside>.09) continue;
       const wy=m[1]*x+m[5]*y+m[9]*z+m[13];
-      const surface=bedHeight*(1-T.MathUtils.smoothstep(outside,0,.09));
+      const onPillow = includePillow && wx >= bedPillowBounds.min.x && wx <= bedPillowBounds.max.x
+        && wz >= bedPillowBounds.min.z && wz <= bedPillowBounds.max.z;
+      const surface = onPillow ? bedPillowBounds.max.y : bedHeight*(1-T.MathUtils.smoothstep(outside,0,.09));
       if (wy-surface >= gap) continue;
       gap=wy-surface;
       if (point) point.set(wx,wy,wz);
@@ -4052,10 +4063,14 @@ function bedSurfaceGap(meshes,point) {
   return gap;
 }
 
-function clearLimbFromMattress(joint,meshes,maxAngle) {
+function clearLimbFromMattress(joint,meshes,maxAngle,weight=1,headSupport=false) {
   for (let i=0;i<3;i++) {
-    const gap=bedSurfaceGap(meshes,bedContactPoint);
-    if (gap >= -.004) return;
+    const gap=bedSurfaceGap(meshes,bedContactPoint,headSupport);
+    if (!Number.isFinite(gap) || weight <= 0) return;
+    const overPillow = headSupport && bedContactPoint.x >= bedPillowBounds.min.x
+      && bedContactPoint.x <= bedPillowBounds.max.x && bedContactPoint.z >= bedPillowBounds.min.z
+      && bedContactPoint.z <= bedPillowBounds.max.z;
+    if (gap >= -.004 && (!overPillow || gap <= .004)) return;
     joint.getWorldPosition(bedJointPivot);
     bedContactAxis.copy(bedContactPoint).sub(bedJointPivot);
     bedContactAxis.y=0;
@@ -4064,7 +4079,7 @@ function clearLimbFromMattress(joint,meshes,maxAngle) {
     bedContactAxis.set(-bedContactAxis.z,0,bedContactAxis.x).divideScalar(lever)
       .applyQuaternion(joint.parent.getWorldQuaternion(bedJointRotation).invert());
     joint.quaternion.premultiply(bedJointRotation.setFromAxisAngle(
-      bedContactAxis,Math.min(maxAngle,-gap/lever)));
+      bedContactAxis,T.MathUtils.clamp(-gap/lever,-maxAngle,maxAngle)*weight));
   }
 }
 
@@ -4095,9 +4110,12 @@ function fitBedContact(amount) {
   }
   for (const side of sofaSides) {
     clearLimbFromMattress(groups['thigh'+side],bedContactMeshes[side],.38);
-    clearLimbFromMattress(groups['upper'+side],bedContactMeshes['arm'+side],.42);
+    const armWeight = side === 'P' ? rearRamp(amount,.14,.65) : 1;
+    clearLimbFromMattress(groups['upper'+side],bedContactMeshes['arm'+side],.42,armWeight);
   }
-  clearLimbFromMattress(groups.neck,bedContactMeshes.head,.24);
+  const pillowWeight = rearRamp(amount,.63,1);
+  clearLimbFromMattress(groups.neck,bedContactMeshes.head,.18,1-pillowWeight);
+  clearLimbFromMattress(groups.neck,bedContactMeshes.head,.18,pillowWeight,true);
 }
 
 function braceHandOnBed(weight) {
@@ -4105,7 +4123,7 @@ function braceHandOnBed(weight) {
   const orientation=orientPalm('P',bedHandDirection,palmDown);
   restAnchor.copy(bedCenter).add(V(-.49,bedHeight+.007,.11));
   bedHandWrist.copy(palmRig.P.center).applyQuaternion(orientation).negate().add(restAnchor);
-  reachHand('P',bedHandWrist,orientation,weight,true);
+  reachHand('P',bedHandWrist,orientation,weight,false,bedBraceBend);
 }
 
 function moveBetweenBedPoses(seatedPose,lyingPose,amount,pose='lounge') {
@@ -4113,7 +4131,6 @@ function moveBetweenBedPoses(seatedPose,lyingPose,amount,pose='lounge') {
   else layOnBed(pose,0);
   blendSofaPose(seatedPose,1-smooth(amount));
   fitBedContact(amount);
-  braceHandOnBed(1-rearRamp(amount,.06,.29));
 }
 
 function updateBedRest() {
