@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 82 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 83 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 82 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 83 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -331,10 +331,6 @@ const braceletGeometry = new T.LatheGeometry([
   [.025,.011],[.024,.008],[.024,-.008],[.025,-.011]
 ].map(([radius,height]) => new T.Vector2(radius,height)),32);
 braceletGeometry.rotateX(Math.PI/2);
-const caseBracelet = new T.Mesh(braceletGeometry,braceletMetal);
-caseBracelet.position.set(0,.061,.070);
-caseBracelet.rotation.x = -Math.PI/2;
-accessoryCase.add(caseBracelet);
 const dressingBounds = new T.Box3(new T.Vector3(-5.90,-1,-4.08),new T.Vector3(-5.24,1,-1.78));
 
 const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
@@ -526,12 +522,83 @@ for (const [name,x,z,color] of [
 
 const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
-const wornBracelet = new T.Mesh(braceletGeometry,braceletMetal);
-wornBracelet.visible = false;
+function accessoryShape(parent, material, points, depth=.007) {
+  const shape = new T.Shape();
+  points.forEach(([x,y],i) => i ? shape.lineTo(x,y) : shape.moveTo(x,y));
+  shape.closePath();
+  const mesh = new T.Mesh(new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false}),material);
+  parent.add(mesh);
+  return mesh;
+}
+
+function makeBow(material) {
+  const bow = new T.Group();
+  for (const side of [-1,1]) {
+    accessoryShape(bow,material,[[0,0],[side*.057,.026],[side*.065,-.023],[side*.048,-.025]]);
+  }
+  block(bow,material,0,0,.009,.025,.03,.020);
+  return bow;
+}
+
+const coral = mat(0xe95775,.42);
+const lilac = mat(0xae76e8,.45);
+const teal = mat(0x24aeb0,.49);
+const navy = mat(0x305995,.46);
+const ivory = mat(0xffebc1,.43);
+const bracelet = new T.Mesh(braceletGeometry,braceletMetal);
+const headband = new T.Group();
+const bandArc = new T.Mesh(new T.TorusGeometry(.105,.010,10,32,Math.PI),coral);
+bandArc.scale.set(1,.72,1.9);
+headband.add(bandArc);
+for (const x of [-.035,0,.035]) {
+  block(headband,ivory,x,.076-Math.abs(x)*.16,.019,.015,.015,.010);
+}
+const hairBow = makeBow(lilac);
+const neckBow = makeBow(teal);
+const tie = new T.Group();
+accessoryShape(tie,navy,[[-.014,0],[.014,0],[.021,-.085],[0,-.112],[-.021,-.085]]);
+block(tie,ivory,0,.005,.007,.034,.023,.012);
+const brooch = new T.Group();
+const star = Array.from({length:10},(_,i) => {
+  const angle = Math.PI/2+i*Math.PI/5;
+  const radius = i%2 ? .020 : .037;
+  return [radius*Math.cos(angle),radius*Math.sin(angle)];
+});
+accessoryShape(brooch,braceletMetal,star,.012);
+block(brooch,coral,0,0,.014,.022,.022,.008).rotation.z = Math.PI/4;
+
+const accessories = [
+  {name:'金色のバングル',region:'wrist', joint:'handP',model:bracelet,at:[0,0,0],tray:[0,.061,.067]},
+  {name:'コーラルのカチューシャ',region:'head',joint:'head',model:headband,at:[0,.042,.035],tray:[-.087,.060,.067]},
+  {name:'すみれ色のヘアリボン',region:'head',joint:'head',model:hairBow,at:[.085,.077,.051],tray:[.087,.060,.067]},
+  {name:'青緑の首リボン',region:'neck',joint:'neck',model:neckBow,at:[0,-.008,.051],tray:[-.087,.060,-.025]},
+  {name:'紺のネクタイ',region:'tie',joint:'chest',model:tie,at:[0,.055,.087],tray:[0,.060,-.025]},
+  {name:'星のブローチ',region:'chest',joint:'chest',model:brooch,at:[-.067,.023,.090],tray:[.087,.060,-.025]}
+];
+for (const item of accessories) {
+  item.preview = item.model.clone();
+  item.preview.position.set(...item.tray);
+  item.preview.rotation.x = -Math.PI/2;
+  if (item.region !== 'wrist') item.preview.scale.setScalar(.48);
+  accessoryCase.add(item.preview);
+  item.model.position.set(...item.at);
+  item.model.visible = false;
+  groups[item.joint].add(item.model);
+}
 const braceletAxis = groups.handP.position.clone().normalize();
-wornBracelet.position.copy(braceletAxis).multiplyScalar(.003);
-wornBracelet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),braceletAxis);
-groups.handP.add(wornBracelet);
+bracelet.position.copy(braceletAxis).multiplyScalar(.003);
+bracelet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),braceletAxis);
+let wornAccessory = null;
+
+function wearAccessory(item) {
+  if (wornAccessory) {
+    wornAccessory.model.visible = false;
+    wornAccessory.preview.visible = true;
+  }
+  wornAccessory = item;
+  item.preview.visible = false;
+  item.model.visible = true;
+}
 
 const paintParts = [
   ['face','顔'],['eyes','目',true],['hairTop','髪・頭頂'],['hairFront','髪・前'],['hairBack','髪・後ろ'],
@@ -3128,7 +3195,7 @@ function chooseDestination() {
   }
   if (roam.target !== mirrorTarget && roam.target !== accessoryTarget &&
       mood.seconds >= (mood.nextMirrorAt ?? 0) && Math.random() < .20) {
-    startDestination(Math.random() < .35 ? accessoryTarget : mirrorTarget);
+    startDestination(Math.random() < .60 ? accessoryTarget : mirrorTarget);
     return;
   }
   const social = !reaction && moodSituation() === 'free' && mood.seconds >= Math.max(mood.nextSocialAt,mood.avoidedUntil);
@@ -3320,7 +3387,7 @@ const sofaHeading = Math.PI/2;
 const sofaTarget = {name:'居住区のソファ',point:sofaDock,lookAt:V(0,0,0)};
 const bookTarget = {name:'サイドテーブルの本',point:sofaDock,lookAt:bookHome};
 const mirrorTarget = {name:'姿見',point:V(-4.77,0,-2.775),lookAt:dressingMirror.getWorldPosition(V(0,0,0)),heading:-Math.PI/2};
-const accessoryTarget = {name:'アクセサリーケース',point:V(-5.18,0,-2.115),lookAt:caseBracelet.getWorldPosition(V(0,0,0)),heading:-Math.PI/2};
+const accessoryTarget = {name:'アクセサリーケース',point:V(-5.18,0,-2.115),lookAt:accessoryCase.localToWorld(V(0,.06,.045)),heading:-Math.PI/2};
 const furnitureSitTime = 2.05;
 const furnitureStandTime = 2.45;
 const bedSitUpTime = 1.71;
@@ -3663,7 +3730,11 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
   } else if (target === mirrorTarget || target === accessoryTarget) {
     visit.push(routeTurn(target.heading,message));
-    if (target === accessoryTarget) visit.push({type:'accessory',time:1.8,message:'アクセサリーを手に取っています'});
+    if (target === accessoryTarget) {
+      const choices = accessories.filter(item => item !== wornAccessory);
+      const item = choices[Math.floor(Math.random()*choices.length)];
+      visit.push({type:'accessory',time:2.55,message:item.name+'に付け替えています',item});
+    }
   } else if (target.kind === 'window') {
     visit.push(routeTurn(target.heading,'窓の外を見ています'));
   } else if ((target === sofaTarget || target === bookTarget) && !alreadyAtBookSeat) {
@@ -4381,18 +4452,21 @@ function advanceDestinationRoute(dt) {
     }
     case 'accessory': {
       blendSofaPose(stage.pose,1);
-      const reach = rearRamp(progress,.02,.45)*(1-rearRamp(progress,.55,1));
-      groups.chest.rotateX(.22*reach);
-      groups.head.rotateX(.23*reach);
-      const palm = orientPalm('P',V(-1,0,0),palmDown);
-      const wrist = accessoryTarget.lookAt.clone().add(V(.045,.025,0));
-      wrist.sub(palmRig.P.center.clone().applyQuaternion(palm));
-      reachHand('P',wrist,palm,reach,false,V(.15,-.13,.04));
-      if (!stage.changed && progress >= .5) {
-        wornBracelet.visible = !wornBracelet.visible;
-        caseBracelet.visible = !wornBracelet.visible;
+      const pickup = rearRamp(progress,.02,.33)*(1-rearRamp(progress,.38,.58));
+      const fitting = rearRamp(progress,.48,.70)*(1-rearRamp(progress,.80,1));
+      groups.chest.rotateX(.22*pickup);
+      groups.head.rotateX(.23*pickup);
+      if (pickup > 0) {
+        const palm = orientPalm('P',V(-1,0,0),palmDown);
+        const wrist = stage.item.preview.getWorldPosition(V(0,0,0)).add(V(.045,.025,0));
+        wrist.sub(palmRig.P.center.clone().applyQuaternion(palm));
+        reachHand('P',wrist,palm,pickup,false,V(.15,-.13,.04));
+      }
+      if (!stage.changed && progress >= .73) {
+        wearAccessory(stage.item);
         stage.changed = true;
       }
+      if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
     case 'pressLight':
@@ -4497,12 +4571,37 @@ function stepBackFromMirror(time) {
   for (const {side,ankle} of feet) solveLeg(side,ankle,mirrorTarget.heading);
 }
 
+function showAccessory(item,weight,time) {
+  if (item.region === 'wrist') {
+    const roll = .65*Math.sin(time*2.5);
+    mirrorWrist.copy(root.position).add(V(-.17,.75,.12));
+    mirrorHandForward.set(-.28,.95,.13);
+    mirrorPalmNormal.set(Math.cos(roll),.25,Math.sin(roll));
+    reachHand('P',mirrorWrist,orientPalm('P',mirrorHandForward,mirrorPalmNormal),weight,false,mirrorElbowGuide);
+    return;
+  }
+  // Tilt the worn piece into view, and bring a hand up beside it.
+  const hair = item.region === 'head';
+  const side = item.region === 'chest' ? 'N' : 'P';
+  const sign = side === 'P' ? 1 : -1;
+  const offset = hair ? V(.043,-.014,.018)
+    : item.region === 'neck' ? V(.047,-.014,.027)
+    : item.region === 'tie' ? V(.038,-.041,.027) : V(-.027,-.018,.027);
+  groups.chest.rotateY(sign*(hair ? .17 : .22)*weight);
+  if (hair) groups.head.rotateZ(-.21*weight);
+  if (item.region === 'neck') groups.neck.rotateX(-.23*weight);
+  if (item.region === 'tie') groups.chest.rotateX(.11*weight);
+  groups[item.joint].localToWorld(mirrorWrist.copy(item.model.position).add(offset));
+  const palm = orientPalm(side,V(-.21,.96,.12*sign),V(-1,0,.12*sign));
+  reachHand(side,mirrorWrist,palm,weight,false,V(sign*.19,-.12,.065));
+}
+
 function applyMirrorPose(time) {
   const scan = rearRamp(time,.3,1.1)*(1-rearRamp(time,1.4,2.3));
   const left = rearRamp(time,1.25,2.45)*(1-rearRamp(time,2.95,3.85));
   const right = rearRamp(time,3.0,4.35)*(1-rearRamp(time,4.95,5.85));
-  const wrist = wornBracelet.visible ? rearRamp(time,5.45,6.30)*(1-rearRamp(time,7.15,8.05)) : 0;
-  const stepStart = wornBracelet.visible ? 8.05 : 5.85;
+  const checkAccessory = wornAccessory ? rearRamp(time,5.45,6.30)*(1-rearRamp(time,7.15,8.05)) : 0;
+  const stepStart = wornAccessory ? 8.05 : 5.85;
   const stepTime = time-stepStart;
   if (stepTime > 0) stepBackFromMirror(stepTime);
   const finish = stepTime-1.13;
@@ -4523,24 +4622,20 @@ function applyMirrorPose(time) {
   groups.upperN.rotateZ(-.29*right);
   groups.elbowN.rotateX(-.35*right);
 
-  if (wrist > 0) {
-    const roll = .65*Math.sin((time-6.3)*2.5);
-    mirrorWrist.copy(root.position).add(V(-.17,.75,.12));
-    mirrorHandForward.set(-.28,.95,.13);
-    mirrorPalmNormal.set(Math.cos(roll),.25,Math.sin(roll));
-    reachHand('P',mirrorWrist,orientPalm('P',mirrorHandForward,mirrorPalmNormal),wrist,false,mirrorElbowGuide);
-  }
+  if (checkAccessory > 0) showAccessory(wornAccessory,checkAccessory,time-6.30);
 
   if (pose > 0) alignSupportToFloor(pose);
   if (pose === 1) return;
   const head = groups.head;
   dressingMirror.worldToLocal(head.getWorldPosition(mirrorEye));
   mirrorLook.set(mirrorEye.x,mirrorEye.y-.06-.18*scan,0);
-  if (wrist > 0) {
-    dressingMirror.worldToLocal(wornBracelet.getWorldPosition(mirrorViewer));
+  if (checkAccessory > 0) {
+    wornAccessory.model.getWorldPosition(mirrorViewer);
+    if (wornAccessory.region === 'tie') mirrorViewer.y -= .055;
+    dressingMirror.worldToLocal(mirrorViewer);
     const hit = mirrorEye.z/(mirrorEye.z+mirrorViewer.z);
-    mirrorLook.x = mix(mirrorEye.x,mix(mirrorEye.x,mirrorViewer.x,hit),wrist);
-    mirrorLook.y = mix(mirrorLook.y,mix(mirrorEye.y,mirrorViewer.y,hit),wrist);
+    mirrorLook.x = mix(mirrorLook.x,mix(mirrorEye.x,mirrorViewer.x,hit),checkAccessory);
+    mirrorLook.y = mix(mirrorLook.y,mix(mirrorEye.y,mirrorViewer.y,hit),checkAccessory);
   }
   if (glance > 0) {
     dressingMirror.worldToLocal(mirrorViewer.copy(camera.position));
@@ -4563,7 +4658,7 @@ function applyMirrorPose(time) {
   groups.neck.rotateY(.27*yaw*gazeWeight);
   head.rotateY(.73*yaw*gazeWeight);
   head.rotateX(pitch*gazeWeight);
-  head.rotateZ(.11*wrist*gazeWeight);
+  if (wornAccessory?.region === 'wrist') head.rotateZ(.11*checkAccessory*gazeWeight);
 }
 
 function applyQuietPose() {
@@ -4622,7 +4717,7 @@ function arriveAtDestination() {
     const count = mirrorStandingPoses.length;
     lastMirrorStandingPose = (lastMirrorStandingPose+1+
       Math.floor(Math.random()*(lastMirrorStandingPose < 0 ? count : count-1)))%count;
-    enterQuietRest('mirror','姿見で身だしなみを確認しています',wornBracelet.visible ? 14.6 : 12.4);
+    enterQuietRest('mirror','姿見で身だしなみを確認しています',wornAccessory ? 14.6 : 12.4);
     roam.mirrorStandingPose = lastMirrorStandingPose;
     roam.mirrorStart = root.position.clone();
     roam.mirrorFeet = sofaSides.map(side => ({
