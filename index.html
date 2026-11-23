@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 79 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 80 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 79 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 80 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -4456,27 +4456,33 @@ const mirrorWrist = new T.Vector3();
 const mirrorHandForward = new T.Vector3();
 const mirrorPalmNormal = new T.Vector3();
 const mirrorElbowGuide = new T.Vector3(.17,-.14,.065);
-const mirrorWaistElbow = new T.Vector3(-.21,-.065,.03);
-const mirrorWaistForward = new T.Vector3(-.64,-.75,-.12);
-const mirrorWaistNormal = new T.Vector3(.10,.10,1);
+// Upper-body poses sampled from Female Standing Pose 1–8.
+const mirrorStandingPoses = [
+  {"abdomen":[-0.055435,-0.049593,0.094918,0.992702],"chest":[0.133857,-0.012043,-0.207207,0.969022],"upperP":[-0.237514,-0.478791,-0.456843,0.711085],"elbowP":[0.738985,0.180004,-0.237745,0.604133],"handP":[0.331432,0.179916,0.825781,0.419368],"upperN":[-0.110583,0.089916,0.514633,0.845481],"elbowN":[0.175334,-0.062056,-0.03249,0.982014],"handN":[0.027876,-0.172584,-0.830116,0.529476]},
+  {"abdomen":[-0.093507,-0.012306,-0.013864,0.995446],"chest":[0.136368,-0.058162,-0.022934,0.988683],"upperP":[0.729332,0.274545,-0.589349,0.212995],"elbowP":[0.576403,0.439492,0.098054,0.681903],"handP":[0.363283,-0.001523,0.779637,0.510087],"upperN":[-0.349675,0.36521,0.444769,0.739277],"elbowN":[0.74179,-0.127427,0.281907,0.595011],"handN":[0.364647,-0.254229,-0.607841,0.657974]},
+  {"abdomen":[0.020182,0.064201,-0.068184,0.9954],"chest":[0.043393,0.129039,0.077399,0.987662],"upperP":[-0.270323,-0.456178,-0.549953,0.645274],"elbowP":[-0.747445,-0.196554,0.242211,-0.586538],"handP":[-0.238478,-0.295794,-0.671183,-0.636512],"upperN":[-0.131051,0.674589,0.433191,0.583182],"elbowN":[0.669485,-0.089505,0.187179,0.713262],"handN":[0.154544,-0.079426,-0.291235,0.940739]},
+  {"abdomen":[-0.023911,-0.007949,-0.01191,0.999612],"chest":[0.121433,-0.002712,0.096369,0.987907],"upperP":[0.55624,0.504806,-0.634907,0.180722],"elbowP":[0.729232,0.479782,0.046935,0.48562],"handP":[-0.304043,-0.243364,-0.84329,-0.370397],"upperN":[0.56755,-0.558123,0.6037,0.043946],"elbowN":[0.787926,-0.417914,0.110934,0.438422],"handN":[-0.351564,0.441819,0.719203,-0.404902]},
+  {"abdomen":[-0.055541,0.009595,-0.093235,0.994047],"chest":[0.255178,-0.111511,-0.077207,0.957334],"upperP":[0.307012,-0.361733,-0.383927,0.792144],"elbowP":[0.439459,-0.005537,-0.046873,0.897022],"handP":[-0.181278,0.179994,0.81098,0.526357],"upperN":[0.42939,0.545832,0.335234,0.63664],"elbowN":[-0.383368,-0.11308,-0.034449,-0.915999],"handN":[-0.044511,0.185896,-0.824026,0.533331]},
+  {"abdomen":[0.002405,-0.000894,-0.027992,0.999605],"chest":[0.134367,-0.00478,0.003354,0.990915],"upperP":[0.377583,-0.518327,-0.314053,0.700099],"elbowP":[0.325868,-0.167823,-0.012532,0.930316],"handP":[-0.006802,0.009922,0.800651,0.59901],"upperN":[0.350876,0.392336,0.312391,0.790804],"elbowN":[-0.434843,-0.317501,-0.058806,-0.840622],"handN":[0.022797,-0.160568,-0.87623,0.453783]},
+  {"abdomen":[-0.096856,-0.001133,0.02638,0.994948],"chest":[0.054663,-0.002874,-0.01447,0.998396],"upperP":[-0.214867,-0.503691,-0.439503,0.712015],"elbowP":[0.643139,0.027576,-0.183067,0.743033],"handP":[0.308025,0.047721,0.342945,0.886133],"upperN":[-0.063213,0.0045,0.382309,0.921859],"elbowN":[0.166218,0.063534,-0.012149,0.983965],"handN":[-0.126458,0.001129,-0.861834,0.491171]},
+  {"abdomen":[-0.044433,-0.021508,-0.010638,0.998724],"chest":[0.124299,-0.053674,0.049063,0.989576],"upperP":[0.639238,0.405377,-0.643665,-0.112866],"elbowP":[-0.640676,-0.575486,-0.278793,-0.424999],"handP":[0.37182,0.107325,0.827332,0.407128],"upperN":[-0.133563,0.665655,0.45947,0.57267],"elbowN":[0.687611,-0.119604,0.19487,0.689138],"handN":[0.145038,-0.089611,-0.315441,0.933505]}
+].map(pose => Object.entries(pose).map(([joint,rotation]) =>
+  [groups[joint],new T.Quaternion(...rotation).normalize()]));
+let lastMirrorStandingPose = -1;
 
 function applyMirrorPose(time) {
-  const pose = rearRamp(time,.35,1.25)*(1-rearRamp(time,3.05,3.85));
-  const left = rearRamp(time,3.20,4.15)*(1-rearRamp(time,4.80,5.55));
-  const right = rearRamp(time,5.00,6.05)*(1-rearRamp(time,6.60,7.45));
-  const wrist = wornBracelet.visible ? rearRamp(time,7.10,8.10)*(1-rearRamp(time,9.35,10.25)) : 0;
-  const glance = rearRamp(time,10,10.75)*(1-rearRamp(time,11.45,12.2));
-  const turn = left-right;
-  groups.abdomen.rotateZ(-.13*pose);
-  groups.chest.rotateY(.23*pose);
-  if (pose > 0) {
-    // Hold a hand on the waist and lift the other beside the face.
-    mirrorWrist.copy(root.position).add(V(-.055,.655,-.118));
-    reachHand('N',mirrorWrist,orientPalm('N',mirrorWaistForward,mirrorWaistNormal),pose,false,mirrorWaistElbow);
-    mirrorWrist.copy(root.position).add(V(-.095,.835,.16));
-    mirrorHandForward.set(-.14,.98,.10);
-    mirrorPalmNormal.set(-1,0,.10);
-    reachHand('P',mirrorWrist,orientPalm('P',mirrorHandForward,mirrorPalmNormal),pose,false,mirrorElbowGuide);
+  const scan = rearRamp(time,.3,1.1)*(1-rearRamp(time,1.4,2.3));
+  const left = rearRamp(time,1.25,2.45)*(1-rearRamp(time,2.95,3.85));
+  const right = rearRamp(time,3.0,4.35)*(1-rearRamp(time,4.95,5.85));
+  const wrist = wornBracelet.visible ? rearRamp(time,5.45,6.30)*(1-rearRamp(time,7.15,8.05)) : 0;
+  const poseStart = wornBracelet.visible ? 7.80 : 5.65;
+  const finish = time-poseStart;
+  const pose = rearRamp(finish,0,1.0)*(1-rearRamp(finish,3.35,4.35));
+  const glance = rearRamp(finish,2.75,3.35)*(1-rearRamp(finish,4.30,5.0));
+  const turn = .55*left-right;
+  groups.chest.rotateX(.055*scan);
+  for (const [joint,rotation] of mirrorStandingPoses[roam.mirrorStandingPose]) {
+    joint.quaternion.slerp(rotation,.92*pose);
   }
   groups.abdomen.rotateY(.25*turn);
   groups.chest.rotateY(.52*turn);
@@ -4487,7 +4493,7 @@ function applyMirrorPose(time) {
   groups.elbowN.rotateX(-.35*right);
 
   if (wrist > 0) {
-    const roll = .65*Math.sin((time-8.1)*2.5);
+    const roll = .65*Math.sin((time-6.3)*2.5);
     mirrorWrist.copy(root.position).add(V(-.17,.75,.12));
     mirrorHandForward.set(-.28,.95,.13);
     mirrorPalmNormal.set(Math.cos(roll),.25,Math.sin(roll));
@@ -4496,7 +4502,7 @@ function applyMirrorPose(time) {
 
   const head = groups.head;
   dressingMirror.worldToLocal(head.getWorldPosition(mirrorEye));
-  mirrorLook.set(mirrorEye.x,mirrorEye.y-.06,0);
+  mirrorLook.set(mirrorEye.x,mirrorEye.y-.06-.18*scan,0);
   if (wrist > 0) {
     dressingMirror.worldToLocal(wornBracelet.getWorldPosition(mirrorViewer));
     const hit = mirrorEye.z/(mirrorEye.z+mirrorViewer.z);
@@ -4518,7 +4524,7 @@ function applyMirrorPose(time) {
   dressingMirror.localToWorld(mirrorLook);
   gazeDirection.copy(mirrorLook).sub(head.getWorldPosition(jokeHeadPosition))
     .applyQuaternion(head.getWorldQuaternion(headWorld).invert());
-  const gazeWeight = rearRamp(time,0,.65)*(1-rearRamp(time,12.25,13));
+  const gazeWeight = rearRamp(time,0,.65)*(1-rearRamp(finish,4.5,5.25));
   const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.3,1.3);
   const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.65,.65);
   groups.neck.rotateY(.27*yaw*gazeWeight);
@@ -4580,7 +4586,11 @@ function arriveAtDestination() {
   }
   if (roam.target === mirrorTarget) {
     mood.nextMirrorAt = mood.seconds+65;
-    enterQuietRest('mirror','姿見で身だしなみを確認しています',13.2);
+    const count = mirrorStandingPoses.length;
+    lastMirrorStandingPose = (lastMirrorStandingPose+1+
+      Math.floor(Math.random()*(lastMirrorStandingPose < 0 ? count : count-1)))%count;
+    enterQuietRest('mirror','姿見で身だしなみを確認しています',wornBracelet.visible ? 13.2 : 11.05);
+    roam.mirrorStandingPose = lastMirrorStandingPose;
     return;
   }
   if (roam.target === lightSwitchTarget) {
