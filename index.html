@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 71 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 72 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 71 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 72 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -1470,6 +1470,10 @@ function respondToContact(action, current) {
   if (handlingBook()) {
     if (roam.phase === 'reading' && action === 'tap') {
       cueReading(currentMood() === 'affectionate' ? 'pause' : 'glance');
+    } else if (roam.phase === 'reading' && action === 'drag' &&
+        /^(crown|face|cheek|temple|backHead)/.test(current.path[0].id)) {
+      const feeling = currentMood();
+      cueReading(feeling === 'happy' || feeling === 'affectionate' ? 'stroke' : 'strokeGlance');
     }
     return;
   }
@@ -1633,9 +1637,13 @@ function updateDrag(event, current, finish = false) {
     clearTimeout(current.timer);
     current.action = 'drag';
     reportTouch('drag', current);
-    if (!finish) current.timer = setTimeout(() => {
-      if (contact === current) respondToContact('drag', current);
-    }, touchHold);
+    if (mode === 'roam' && roam.phase === 'reading') {
+      respondToContact('drag', current);
+    } else if (!finish) {
+      current.timer = setTimeout(() => {
+        if (contact === current) respondToContact('drag', current);
+      }, touchHold);
+    }
   }
   if (!finish && event.timeStamp-current.lastSample < 32) return;
   current.lastSample = event.timeStamp;
@@ -3774,7 +3782,7 @@ function cueReading(kind) {
     return;
   }
   roam.pendingBookCue = null;
-  roam.bookCue = {kind,elapsed:0,duration:kind === 'glance' ? 1.6 : kind === 'show' ? 3.5 : 2.7};
+  roam.bookCue = {kind,elapsed:0,duration:kind === 'strokeGlance' ? 1.25 : kind === 'glance' ? 1.6 : kind === 'show' ? 3.5 : 2.7};
   $('destination').textContent = kind === 'show' ? '本の表紙を見せています'
     : kind === 'pause' ? '本を膝に置いてこちらを向いています' : '本からちらっと目を上げました';
 }
@@ -3884,7 +3892,8 @@ function advanceReading(dt) {
     if (roam.pendingBookCue) cueReading(roam.pendingBookCue);
   }
   poseReadingBook(1,1,roam.readTime,cue?.kind === 'show' ? weight : 0,
-    cue?.kind === 'pause' ? weight : 0,cue?.kind === 'glance' ? weight : 0);
+    cue?.kind === 'pause' ? weight : 0,
+    cue?.kind === 'strokeGlance' ? weight*.58 : ['stroke','glance'].includes(cue?.kind) ? weight : 0);
   if (!roam.bookCue && !roam.pendingBookCue && roam.readTime >= roam.pause && bookPageReach(roam.readTime) === 0) chooseDestination();
 }
 
