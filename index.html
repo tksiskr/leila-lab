@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 77 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 78 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 77 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 78 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -301,7 +301,7 @@ dressingArea.add(mirrorFrame);
 block(mirrorFrame,dressingWood,0,.54,0,.65,1.04,.065);
 block(mirrorFrame,dressingWood,0,.025,0,.70,.05,.23);
 const dressingMirror = new Reflector(new T.PlaneGeometry(.59,.98),{
-  color:0xc3c9d0,textureWidth:384,textureHeight:640,multisample:0,clipBias:.003
+  color:0xc3c9d0,textureWidth:768,textureHeight:1280,multisample:0,clipBias:.003
 });
 dressingMirror.position.set(0,.54,.034);
 mirrorFrame.add(dressingMirror);
@@ -326,9 +326,13 @@ block(accessoryCase,dressingWood,0,.117,-.109,.31,.164,.018);
 block(accessoryCase,caseLining,0,.119,-.097,.284,.14,.008);
 for (const x of [-.148,.148]) block(accessoryCase,dressingWood,x,.055,0,.014,.020,.23);
 for (const z of [-.108,.108]) block(accessoryCase,dressingWood,0,.055,z,.31,.020,.014);
-const braceletGeometry = new T.TorusGeometry(.023,.004,8,24);
+const braceletGeometry = new T.LatheGeometry([
+  [.025,-.011],[.029,-.011],[.032,-.008],[.032,.008],[.029,.011],
+  [.025,.011],[.024,.008],[.024,-.008],[.025,-.011]
+].map(([radius,height]) => new T.Vector2(radius,height)),32);
+braceletGeometry.rotateX(Math.PI/2);
 const caseBracelet = new T.Mesh(braceletGeometry,braceletMetal);
-caseBracelet.position.set(0,.058,.075);
+caseBracelet.position.set(0,.061,.070);
 caseBracelet.rotation.x = -Math.PI/2;
 accessoryCase.add(caseBracelet);
 const dressingBounds = new T.Box3(new T.Vector3(-5.90,-1,-4.08),new T.Vector3(-5.24,1,-1.78));
@@ -525,7 +529,7 @@ function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new 
 const wornBracelet = new T.Mesh(braceletGeometry,braceletMetal);
 wornBracelet.visible = false;
 const braceletAxis = groups.handP.position.clone().normalize();
-wornBracelet.position.copy(braceletAxis).multiplyScalar(-.012);
+wornBracelet.position.copy(braceletAxis).multiplyScalar(.003);
 wornBracelet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),braceletAxis);
 groups.handP.add(wornBracelet);
 
@@ -4445,6 +4449,71 @@ function settleStandingFeet() {
   for (const {side,ankle} of feet) solveLeg(side,ankle,heading);
 }
 
+const mirrorEye = new T.Vector3();
+const mirrorLook = new T.Vector3();
+const mirrorViewer = new T.Vector3();
+const mirrorWrist = new T.Vector3();
+const mirrorHandForward = new T.Vector3();
+const mirrorPalmNormal = new T.Vector3();
+const mirrorElbowGuide = new T.Vector3(.17,-.14,.065);
+
+function applyMirrorPose(time) {
+  const left = rearRamp(time,.45,1.65)*(1-rearRamp(time,2.45,3.55));
+  const right = rearRamp(time,2.65,3.85)*(1-rearRamp(time,4.65,5.75));
+  const pose = rearRamp(time,4.85,5.75)*(1-rearRamp(time,6.55,7.45));
+  const wrist = wornBracelet.visible ? rearRamp(time,7.10,8.10)*(1-rearRamp(time,9.35,10.25)) : 0;
+  const glance = rearRamp(time,10,10.75)*(1-rearRamp(time,11.45,12.2));
+  const turn = left-right;
+  if (pose > 0) blendGesture(jokes[roam.mirrorPose].pose,0,.55*pose,true);
+  groups.abdomen.rotateY(.25*turn);
+  groups.chest.rotateY(.52*turn);
+  groups.chest.rotateZ(.09*turn);
+  groups.upperP.rotateZ(.29*left);
+  groups.elbowP.rotateX(-.35*left);
+  groups.upperN.rotateZ(-.29*right);
+  groups.elbowN.rotateX(-.35*right);
+
+  if (wrist > 0) {
+    const roll = .65*Math.sin((time-8.1)*2.5);
+    mirrorWrist.copy(root.position).add(V(-.17,.75,.12));
+    mirrorHandForward.set(-.28,.95,.13);
+    mirrorPalmNormal.set(Math.cos(roll),.25,Math.sin(roll));
+    reachHand('P',mirrorWrist,orientPalm('P',mirrorHandForward,mirrorPalmNormal),wrist,false,mirrorElbowGuide);
+  }
+
+  const head = groups.head;
+  dressingMirror.worldToLocal(head.getWorldPosition(mirrorEye));
+  mirrorLook.set(mirrorEye.x,mirrorEye.y-.06,0);
+  if (wrist > 0) {
+    dressingMirror.worldToLocal(wornBracelet.getWorldPosition(mirrorViewer));
+    const hit = mirrorEye.z/(mirrorEye.z+mirrorViewer.z);
+    mirrorLook.x = mix(mirrorEye.x,mix(mirrorEye.x,mirrorViewer.x,hit),wrist);
+    mirrorLook.y = mix(mirrorLook.y,mix(mirrorEye.y,mirrorViewer.y,hit),wrist);
+  }
+  if (glance > 0) {
+    dressingMirror.worldToLocal(mirrorViewer.copy(camera.position));
+    if (mirrorViewer.z > 0 && mirrorEye.z > 0) {
+      const hit = mirrorEye.z/(mirrorEye.z+mirrorViewer.z);
+      const x = mix(mirrorEye.x,mirrorViewer.x,hit);
+      const y = mix(mirrorEye.y,mirrorViewer.y,hit);
+      if (Math.abs(x) < .295 && Math.abs(y) < .49) {
+        mirrorLook.x = mix(mirrorLook.x,x,glance);
+        mirrorLook.y = mix(mirrorLook.y,y,glance);
+      }
+    }
+  }
+  dressingMirror.localToWorld(mirrorLook);
+  gazeDirection.copy(mirrorLook).sub(head.getWorldPosition(jokeHeadPosition))
+    .applyQuaternion(head.getWorldQuaternion(headWorld).invert());
+  const gazeWeight = rearRamp(time,0,.65)*(1-rearRamp(time,12.25,13));
+  const yaw = T.MathUtils.clamp(Math.atan2(gazeDirection.x,gazeDirection.z),-1.3,1.3);
+  const pitch = T.MathUtils.clamp(-Math.atan2(gazeDirection.y,Math.hypot(gazeDirection.x,gazeDirection.z)),-.65,.65);
+  groups.neck.rotateY(.27*yaw*gazeWeight);
+  head.rotateY(.73*yaw*gazeWeight);
+  head.rotateX(pitch*gazeWeight);
+  head.rotateZ((.14*pose+.11*wrist)*gazeWeight);
+}
+
 function applyQuietPose() {
   blendSofaPose(roam.quietPose,1);
   const time = roam.elapsed;
@@ -4455,12 +4524,7 @@ function applyQuietPose() {
   const breathe = Math.sin(time*1.7)*.014*fade;
   groups.chest.rotateX(breathe);
   if (roam.phase === 'mirror') {
-    const examine = rearRamp(time,.45,1.8)*(1-rearRamp(time,3.8,5.8));
-    groups.chest.rotateY(.22*examine);
-    groups.neck.rotateY(-.15*examine);
-    groups.head.rotateY(-.07*examine);
-    groups.head.rotateZ(.14*examine);
-    groups.head.rotateX(.09*examine);
+    applyMirrorPose(time);
   } else if (roam.phase === 'window') {
     // Gently scan the horizon, then look a little higher.
     groups.neck.rotateY(.09*Math.sin(time*.7)*fade);
@@ -4503,7 +4567,8 @@ function arriveAtDestination() {
   }
   if (roam.target === mirrorTarget) {
     mood.nextMirrorAt = mood.seconds+65;
-    enterQuietRest('mirror','姿見で身だしなみを確認しています',7);
+    enterQuietRest('mirror','姿見で身だしなみを確認しています',13.2);
+    roam.mirrorPose = Math.floor(Math.random()*2);
     return;
   }
   if (roam.target === lightSwitchTarget) {
