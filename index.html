@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 76 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 77 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +16,7 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 76 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+</style><header>LEILA / LAB 77 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -47,7 +47,8 @@
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
   <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
-import * as T from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import * as T from 'three';
+import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(path + ' を読み込めません（HTTP ' + response.status + '）');
@@ -284,6 +285,54 @@ const bedTarget = {
 };
 const bedBounds = new T.Box3(bedCenter.clone().add(new T.Vector3(-.70,-1,-.85)),
   bedCenter.clone().add(new T.Vector3(.70,1,.84)));
+const dressingArea = new T.Group();
+floorGroup.add(dressingArea);
+dressingArea.position.set(-11.44,0,-5.55);
+dressingArea.scale.setScalar(2);
+dressingArea.rotation.y = Math.PI/2;
+
+const dressingWood = mat(0x554136,.76);
+const dressingDoor = mat(0x846954,.71);
+const dressingMetal = mat(0xb5a27f,.35);
+const caseLining = mat(0x324b57,.92);
+const braceletMetal = mat(0xd5ad62,.30);
+const mirrorFrame = new T.Group();
+dressingArea.add(mirrorFrame);
+block(mirrorFrame,dressingWood,0,.54,0,.65,1.04,.065);
+block(mirrorFrame,dressingWood,0,.025,0,.70,.05,.23);
+const dressingMirror = new Reflector(new T.PlaneGeometry(.59,.98),{
+  color:0xc3c9d0,textureWidth:384,textureHeight:640,multisample:0,clipBias:.003
+});
+dressingMirror.position.set(0,.54,.034);
+mirrorFrame.add(dressingMirror);
+
+block(dressingArea,dressingWood,.86,.54,.16,.76,1.08,.40);
+for (const offset of [-.177,.177]) {
+  block(dressingArea,dressingDoor,.86+offset,.56,.369,.345,.98,.032);
+}
+for (const offset of [-.033,.033]) {
+  block(dressingArea,dressingMetal,.86+offset,.57,.398,.012,.11,.020);
+}
+block(dressingArea,dressingDoor,-.66,.265,.14,.55,.51,.35);
+block(dressingArea,dressingWood,-.66,.523,.14,.58,.028,.38);
+block(dressingArea,dressingMetal,-.66,.39,.324,.16,.014,.016);
+
+const accessoryCase = new T.Group();
+dressingArea.add(accessoryCase);
+accessoryCase.position.set(-.66,.537,.17);
+block(accessoryCase,dressingWood,0,.021,0,.31,.042,.23);
+block(accessoryCase,caseLining,0,.045,0,.287,.010,.207);
+block(accessoryCase,dressingWood,0,.117,-.109,.31,.164,.018);
+block(accessoryCase,caseLining,0,.119,-.097,.284,.14,.008);
+for (const x of [-.148,.148]) block(accessoryCase,dressingWood,x,.055,0,.014,.020,.23);
+for (const z of [-.108,.108]) block(accessoryCase,dressingWood,0,.055,z,.31,.020,.014);
+const braceletGeometry = new T.TorusGeometry(.023,.004,8,24);
+const caseBracelet = new T.Mesh(braceletGeometry,braceletMetal);
+caseBracelet.position.set(0,.058,.075);
+caseBracelet.rotation.x = -Math.PI/2;
+accessoryCase.add(caseBracelet);
+const dressingBounds = new T.Box3(new T.Vector3(-5.90,-1,-4.08),new T.Vector3(-5.24,1,-1.78));
+
 const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
 let seed=26;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
 const cityMats=[mat(0x7d94a5),mat(0xb3c4ce),mat(0x596d80)];
@@ -421,6 +470,7 @@ for (const wallGroup of wallGroups) {
 }
 sofa.traverse(enableShadowCasting);
 bed.traverse(enableShadowCasting);
+dressingArea.traverse(object => { if (object !== dressingMirror) enableShadowCasting(object); });
 // LAB 26.1: full orbit and two-finger dolly/pan; cut away crossed architectural surfaces.
 orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
 orbit.enablePan=true;orbit.screenSpacePanning=true;
@@ -472,6 +522,13 @@ for (const [name,x,z,color] of [
 
 const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
+const wornBracelet = new T.Mesh(braceletGeometry,braceletMetal);
+wornBracelet.visible = false;
+const braceletAxis = groups.handP.position.clone().normalize();
+wornBracelet.position.copy(braceletAxis).multiplyScalar(-.012);
+wornBracelet.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),braceletAxis);
+groups.handP.add(wornBracelet);
+
 const paintParts = [
   ['face','顔'],['eyes','目',true],['hairTop','髪・頭頂'],['hairFront','髪・前'],['hairBack','髪・後ろ'],
   ['hairSide','髪・横',true],['chest','胸部'],['chestFront','胸部・前面装甲'],['abdomen','腹部'],['pelvis','腰'],
@@ -1124,7 +1181,7 @@ function pickSurface(x, y) {
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
-    if (destination === sofaTarget || destination === bedTarget) return floorGroup.visible;
+    if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget) return wallGroups[0].visible;
     return true;
   });
@@ -1712,6 +1769,10 @@ function endPointer(event) {
       requestLightSwitch();
     } else if (destination === bookTarget) {
       requestBook();
+    } else if (destination === mirrorTarget || destination === accessoryTarget) {
+      restoreReactionPose();
+      if (mode !== 'roam') beginRoam();
+      if (roam.phase !== 'route' || roam.target !== destination) requestDestination(destination,true);
     } else if (destination === bedTarget) {
       restoreReactionPose();
       if (mode !== 'roam') beginRoam();
@@ -3018,7 +3079,7 @@ function advanceRoam(dt) {
     sitAtSofa(1,roam.elapsed);
   } else if (roam.phase === 'bed') {
     updateBedRest();
-  } else if (roam.phase === 'window' || roam.phase === 'linger') {
+  } else if (roam.phase === 'window' || roam.phase === 'linger' || roam.phase === 'mirror') {
     applyQuietPose();
   } else if (roam.phase === 'wait') {
     blendSofaPose(roam.waitPose,1);
@@ -3059,6 +3120,11 @@ function chooseDestination() {
   const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
   if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
     startDestination(bookTarget);
+    return;
+  }
+  if (roam.target !== mirrorTarget && roam.target !== accessoryTarget &&
+      mood.seconds >= (mood.nextMirrorAt ?? 0) && Math.random() < .20) {
+    startDestination(Math.random() < .35 ? accessoryTarget : mirrorTarget);
     return;
   }
   const social = !reaction && moodSituation() === 'free' && mood.seconds >= Math.max(mood.nextSocialAt,mood.avoidedUntil);
@@ -3249,6 +3315,8 @@ const sofaSeat = V(0,0,0);
 const sofaHeading = Math.PI/2;
 const sofaTarget = {name:'居住区のソファ',point:sofaDock,lookAt:V(0,0,0)};
 const bookTarget = {name:'サイドテーブルの本',point:sofaDock,lookAt:bookHome};
+const mirrorTarget = {name:'姿見',point:V(-4.77,0,-2.775),lookAt:dressingMirror.getWorldPosition(V(0,0,0)),heading:-Math.PI/2};
+const accessoryTarget = {name:'アクセサリーケース',point:V(-5.18,0,-2.115),lookAt:caseBracelet.getWorldPosition(V(0,0,0)),heading:-Math.PI/2};
 const furnitureSitTime = 2.05;
 const furnitureStandTime = 2.45;
 const bedSitUpTime = 1.71;
@@ -3307,6 +3375,11 @@ function initializeSofaMotion() {
   if (restClips) bed.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,bedTarget);
   });
+  for (const [prop,target] of [[mirrorFrame,mirrorTarget],[accessoryCase,accessoryTarget]]) {
+    prop.traverse(object => {
+      if (object.isMesh) destinationMeshes.set(object,target);
+    });
+  }
   walkTargets.push(sofaTarget);
   pickableDestinations = [...destinationMeshes.keys()];
   travelPose(0);
@@ -3342,7 +3415,7 @@ function clearOfPoles(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds] : [tableBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds] : [tableBounds,dressingBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -3393,7 +3466,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds] : [tableBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds] : [tableBounds,dressingBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -3584,6 +3657,9 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   } else if (target === lightSwitchTarget) {
     visit.push(routeTurn(target.heading,'壁のスイッチの前に立っています'),
       {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
+  } else if (target === mirrorTarget || target === accessoryTarget) {
+    visit.push(routeTurn(target.heading,message));
+    if (target === accessoryTarget) visit.push({type:'accessory',time:1.8,message:'アクセサリーを手に取っています'});
   } else if (target.kind === 'window') {
     visit.push(routeTurn(target.heading,'窓の外を見ています'));
   } else if ((target === sofaTarget || target === bookTarget) && !alreadyAtBookSeat) {
@@ -4299,6 +4375,22 @@ function advanceDestinationRoute(dt) {
       }
       break;
     }
+    case 'accessory': {
+      blendSofaPose(stage.pose,1);
+      const reach = rearRamp(progress,.02,.45)*(1-rearRamp(progress,.55,1));
+      groups.chest.rotateX(.22*reach);
+      groups.head.rotateX(.23*reach);
+      const palm = orientPalm('P',V(-1,0,0),palmDown);
+      const wrist = accessoryTarget.lookAt.clone().add(V(.045,.025,0));
+      wrist.sub(palmRig.P.center.clone().applyQuaternion(palm));
+      reachHand('P',wrist,palm,reach,false,V(.15,-.13,.04));
+      if (!stage.changed && progress >= .5) {
+        wornBracelet.visible = !wornBracelet.visible;
+        caseBracelet.visible = !wornBracelet.visible;
+        stage.changed = true;
+      }
+      break;
+    }
     case 'pressLight':
       pressWallSwitch(stage,progress);
       roam.switchPressed=stage.pressed;
@@ -4362,7 +4454,14 @@ function applyQuietPose() {
   const fade = smooth(Math.min(1,time/1.25));
   const breathe = Math.sin(time*1.7)*.014*fade;
   groups.chest.rotateX(breathe);
-  if (roam.phase === 'window') {
+  if (roam.phase === 'mirror') {
+    const examine = rearRamp(time,.45,1.8)*(1-rearRamp(time,3.8,5.8));
+    groups.chest.rotateY(.22*examine);
+    groups.neck.rotateY(-.15*examine);
+    groups.head.rotateY(-.07*examine);
+    groups.head.rotateZ(.14*examine);
+    groups.head.rotateX(.09*examine);
+  } else if (roam.phase === 'window') {
     // Gently scan the horizon, then look a little higher.
     groups.neck.rotateY(.09*Math.sin(time*.7)*fade);
     groups.head.rotateY(.23*Math.sin(time*.7)*fade);
@@ -4395,6 +4494,16 @@ function arriveAtDestination() {
     roam.pause = 22+Math.random()*11;
     mood.nextBookAt = mood.seconds+70;
     $('destination').textContent = '本を読んでいます';
+    return;
+  }
+  if (roam.target === accessoryTarget) {
+    enterQuietRest('linger','アクセサリーケースの前にいます',4);
+    startDestination(mirrorTarget);
+    return;
+  }
+  if (roam.target === mirrorTarget) {
+    mood.nextMirrorAt = mood.seconds+65;
+    enterQuietRest('mirror','姿見で身だしなみを確認しています',7);
     return;
   }
   if (roam.target === lightSwitchTarget) {
