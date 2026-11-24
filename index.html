@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 90｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 91｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -110,7 +110,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #waveReplyHint[hidden]{display:none}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 90</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 91</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -2392,7 +2392,7 @@ function armWaveReply(event,x,y){
 }
 function answerWaveReply(){
   closeWaveReply();
-  if(reaction && (reaction.kind==='smallWave' || reaction.kind==='largeWave')){
+  if(reaction && (reaction.kind==='smallWave' || reaction.kind==='largeWave' || reaction.kind==='cameraWave')){
     // Ease naturally out of the first wave before the special return wave.
     reaction.duration=Math.min(reaction.duration,reaction.elapsed+.32);
     reaction.next='waveReply';
@@ -2727,6 +2727,7 @@ const reactions = {
   nod: {label:'うなずいています',duration:1.24,clip:'nod'},
   smallWave: {label:'小さく手を振っています',duration:1.70,clip:'greeting'},
   largeWave: {label:'大きく手を振っています',duration:2.22,clip:'greeting'},
+  cameraWave: {label:'こっちに気づいたみたいです',duration:2.36,clip:'greeting'},
   waveReply: {label:'レイラがうれしそうに手を振り返しました',duration:2.22,clip:'greeting'},
   beckon: {label:'手招きしています',duration:1.67,clip:'beckon'},
   welcome: {label:'近づいたあなたに、うれしそうにうなずきました',duration:1.32,clip:'nod'}
@@ -3712,6 +3713,28 @@ function applyReaction(dt) {
     applyTouchPose(reaction.pose,side,yaw,pitch,time,weight);
     return;
   }
+  if(kind==='cameraWave'){
+    // Eyes and shoulders lead the motion; the hand starts after the glance.
+    const notice=smooth(Math.min(1,time/.40,(duration-time)/.34));
+    groups.chest.rotateY(.28*yaw*notice);
+    groups.neck.rotateY(.20*yaw*notice);
+    head.rotateY(.52*yaw*notice);
+    head.rotateX((pitch+.056)*notice);
+    head.rotateZ((side==='P'?-1:1)*.094*notice);
+    if(time>=.44){
+      if(!reaction.waveInvitationOpened){
+        reaction.waveInvitationOpened=true;
+        $('reactionStatus').textContent='レイラがこちらに手を振っています';
+        openWaveReply();
+        if(activeCameraGreeting?.entry===reaction)activeCameraGreeting.invitation=waveReplyUntil;
+      }
+      const waveTime=(time-.44)/(reactions.cameraWave.duration-.44);
+      const arm=smooth(Math.min(1,(time-.44)/.31,(duration-time)/.32));
+      sampleReaction(gestureClips[clip],waveTime,side==='P');
+      applyCapturedArm('smallWave',side,arm);
+    }
+    return;
+  }
   // Use the authored clip timing even if a tap shortens the fade-out.
   sampleReaction(gestureClips[clip],time/reactions[kind].duration,side === 'P' && clip !== 'nod' && clip !== 'look');
   let turn = yaw, chin = pitch, tilt = 0;
@@ -3874,6 +3897,60 @@ function applyJokePose(joke,time) {
   }
 }
 
+// With a quiet standing base, occasionally notice the viewer before waving.
+const cameraGreetingScreen=new T.Vector3();
+let nextCameraGreetingAt=3.6+Math.random()*1.7;
+let activeCameraGreeting=null;
+function cameraGreetingIdle(){
+  return mode==='roam' && roam &&
+    (roam.phase==='wait' || roam.phase==='linger' || roam.phase==='rest' && !roam.idle?.joke);
+}
+function canSeeGreeting(){
+  const dx=camera.position.x-root.position.x,dz=camera.position.z-root.position.z;
+  const range=Math.hypot(dx,dz);
+  if(range<.7 || range>7.5) return false;
+  const facing=Math.atan2(dx,dz)-root.rotation.y;
+  if(Math.abs(Math.atan2(Math.sin(facing),Math.cos(facing)))>1.62) return false;
+  camera.updateMatrixWorld(true);
+  groups.head.getWorldPosition(cameraGreetingScreen).project(camera);
+  return Math.abs(cameraGreetingScreen.x)<.87 && Math.abs(cameraGreetingScreen.y)<.9 &&
+    cameraGreetingScreen.z>-1 && cameraGreetingScreen.z<1;
+}
+function cancelCameraGreeting(){
+  const g=activeCameraGreeting;
+  if(!g)return;
+  if(reaction===g.entry){
+    reaction=null;
+    $('reactionStatus').hidden=true;
+  }
+  if(g.invitation && waveReplyUntil===g.invitation) closeWaveReply();
+  activeCameraGreeting=null;
+}
+function advanceCameraGreeting(dt){
+  const g=activeCameraGreeting;
+  if(g && g.owner===roam){
+    if(reaction===g.entry || reaction?.kind==='waveReply')return true;
+    // Do not pre-empt a touch or other reaction that replaced this greeting.
+    if(reaction){activeCameraGreeting=null;return false;}
+    g.after+=dt;
+    if(g.after<.56)return true;
+    activeCameraGreeting=null;
+  }
+  if(!cameraGreetingIdle() || roam.attention || roam.handRelease || handLink || reaction ||
+      trackedPointers.size || contact || document.hidden || performance.now()<waveReplyUntil ||
+      currentMood()==='annoyed' || mood.seconds<Math.max(nextCameraGreetingAt,mood.avoidedUntil,mood.nextSocialAt) ||
+      mood.seconds-mood.lastContact<2.6 || roam.elapsed<.72 || roam.elapsed>=roam.pause ||
+      (roam.phase==='rest' && roam.glanceAt-roam.elapsed<.66) || !canSeeGreeting()) return false;
+  nextCameraGreetingAt=mood.seconds+34+Math.random()*27;
+  mood.nextSocialAt=Math.max(mood.nextSocialAt,mood.seconds+20);
+  beginReaction('cameraWave');
+  activeCameraGreeting={owner:roam,entry:reaction,after:0,invitation:0};
+  return true;
+}
+function pruneCameraGreeting(){
+  if(activeCameraGreeting && (!cameraGreetingIdle() || activeCameraGreeting.owner!==roam || document.hidden)) cancelCameraGreeting();
+}
+
 function advanceRoam(dt) {
   if (roam.phase === 'route') {
     advanceDestinationRoute(dt);
@@ -3906,7 +3983,7 @@ function advanceRoam(dt) {
     reaction?.pose === 'face' || reaction?.pose === 'torso' || reaction?.pose === 'leg'
     || reaction?.touchFollowUp
     || mood.seconds < touchPause.until;
-  if (!lingeringReaction) roam.elapsed += dt;
+  if (!lingeringReaction && !activeCameraGreeting) roam.elapsed += dt;
   if (roam.phase === 'rest') {
     applyRestPose();
     if (!lingeringReaction && roam.elapsed >= roam.glanceAt) {
@@ -3931,6 +4008,7 @@ function advanceRoam(dt) {
     if (settle < 1) alignSupportToFloor();
     else roam.handRelease = null;
   }
+  if (!lingeringReaction && advanceCameraGreeting(dt)) return;
   if (!lingeringReaction && roam.elapsed >= roam.pause) {
     if (!reaction && mood.seconds >= mood.avoidedUntil && mood.seconds >= mood.followUpAt) {
       mood.followUpAt = Infinity;
@@ -4005,7 +4083,7 @@ function chooseDestination() {
     const gesture = weightedChoice(feeling === 'affectionate' || feeling === 'bored'
       ? [['beckon',5],['offerHand',2]]
       : feeling === 'playful' ? [['look',4],['beckon',1]]
-      : [['smallWave',4],['largeWave',2],['beckon',1]]);
+      : [['look',4],['beckon',2]]);
     startDestination({kind:'greeting',name:'ユーザー',heading,gesture});
     return;
   }
@@ -6810,7 +6888,7 @@ if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
   alignSupportToFloor(1-cur.step,true);
 }
-sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}applyReaction(dt);
+sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
 updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
