@@ -1,4 +1,6 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 85 研究施設</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 900｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+#lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
+#worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -16,7 +18,123 @@
 #paintMarker {pointer-events:none;position:absolute;top:50%;left:50%;width:15px;height:15px;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px black;transform:translate(-50%,-50%)}
 #paintStatus {font-size:.78rem;color:#c4d9ed;min-height:1.2em;margin-top:5px}
 @media(max-width:630px) {.paintBody {grid-template-columns:minmax(0,1.2fr) minmax(125px,1fr)}.paintSaved {grid-column:1/-1}}
-</style><header>LEILA / LAB 85 — 研究施設 <span id="fps"></span> / <span id="worldClock"></span></header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div id="reactionStatus" role="status" hidden></div><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+/* LAB 900: observation photographs */
+.lab900PhotoBar{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;padding:0;border:0;min-width:0}
+.lab900PhotoBar button,.lab900PhotoPanel button,.lab900PhotoPanel a{min-height:44px;margin:0;box-sizing:border-box}
+.lab900PhotoBar button{background:#253953;border-color:#557394}
+.lab900PhotoBar button:first-child{font-weight:650;color:#e1f4ff}
+.lab900PhotoFeedback{color:#b0c2d7;font-size:.81rem;overflow-wrap:anywhere}
+.lab900PhotoPanel{box-sizing:border-box;width:min(92vw,660px);max-height:min(81dvh,740px);border:1px solid #6383a9;border-radius:16px;color:#ecf4fd;background:#172333;padding:0;box-shadow:0 24px 80px #05090ed9}
+.lab900PhotoPanel::backdrop{background:#0a101cce}
+.lab900PhotoPanel[open]{display:block}
+.lab900PhotoHead{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#172333;padding:14px 16px;border-bottom:1px solid #4a617b}
+.lab900PhotoHead h2{margin:0;font-size:1.25rem}
+.lab900PhotoEyebrow{display:block;margin-bottom:3px;color:#a6d1e9;font-size:.64rem;letter-spacing:.17em}
+.lab900PhotoContent{display:grid;gap:12px;padding:14px 16px 16px;overflow-wrap:anywhere}
+.lab900PhotoContent p{margin:0;color:#afc5db;font-size:.85rem}
+.lab900PhotoList{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
+.lab900PhotoTile{display:block;width:100%;padding:0!important;overflow:hidden;background:#24354b!important;text-align:left}
+.lab900PhotoTile[aria-pressed="true"]{border-color:#a9def6;box-shadow:0 0 0 1px #a9def6 inset}
+.lab900PhotoTile img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#0d1724}
+.lab900PhotoTile span{display:block;padding:6px 7px;color:#d6e7f8;font-size:.75rem}
+.lab900PhotoPreview{display:grid;gap:8px;margin:0;background:#101a2a;border-radius:12px;padding:8px;min-width:0}
+.lab900PhotoPreview[hidden],.lab900PhotoEmpty[hidden]{display:none}
+.lab900PhotoPreview img{width:100%;display:block;max-height:38dvh;object-fit:contain;border-radius:6px}
+.lab900PhotoActions{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.lab900PhotoActions a{display:inline-flex;align-items:center;padding:0 10px;border:1px solid #6e92b8;border-radius:8px;background:#263e5b;color:#eef7ff;text-decoration:none;font-size:.87rem}
+.lab900PhotoActions button{font-size:.84rem}
+.lab900PhotoTile:focus-visible,.lab900PhotoBar button:focus-visible,.lab900PhotoPanel button:focus-visible,.lab900PhotoPanel a:focus-visible{outline:3px solid #b3e5f9;outline-offset:2px}
+@media(max-width:420px){.lab900PhotoHead,.lab900PhotoContent{padding-inline:12px}.lab900PhotoHead h2{font-size:1.08rem}}
+#lab900Life{min-width:0;font-size:.88rem;color:#dce8f7;border:1px solid #4c617b;border-radius:12px;background:#202b3b;max-width:46rem}
+#lab900Life>summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:.62rem;padding:.55rem .8rem;color:#e4edf8;user-select:none}
+#lab900Life>summary::-webkit-details-marker{display:none}
+#lab900Life>summary::before{content:'▸';color:#9db9d7}
+#lab900Life[open]>summary::before{content:'▾'}
+#lab900LifeCount{margin-left:auto;color:#abc5df;font-size:.76rem;white-space:nowrap}
+#lab900LifeBody{border-top:1px solid #415671;padding:.15rem .8rem .65rem}
+#lab900LifeList{margin:.35rem 0;padding:0;list-style:none;max-height:13rem;overflow:auto;overscroll-behavior:contain}
+#lab900LifeList>li{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:.45rem;padding:.46rem .1rem;border-bottom:1px solid #354760;line-height:1.4}
+#lab900LifeList>li:last-child{border-bottom:0}
+#lab900LifeList time{font-size:.74rem;color:#abc5df;white-space:nowrap}
+#lab900LifeEmpty,#lab900LifeStorage{color:#abc5df;font-size:.78rem;margin:.6rem 0}
+#lab900LifeEmpty[hidden],#lab900LifeStorage[hidden],#lab900LifeClear[hidden],#lab900LifeKeep[hidden]{display:none}
+#lab900LifeActions{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.3rem}
+#lab900LifeActions button{margin:0;padding:.42rem .68rem;min-height:38px;font-size:.79rem}
+#lab900LifeClear[data-armed=true]{background:#693c4a;border-color:#be8299}
+@media(max-width:450px){#lab900LifeList>li{grid-template-columns:4.95rem minmax(0,1fr);gap:.3rem}}
+
+/* LAB 900 shell; application controls and viewport retain their original hooks. */
+:root{color-scheme:dark;--lab900-bg:#0b1020;--lab900-panel:#111b2d;--lab900-edge:#2c405e;--lab900-text:#edf2ff;--lab900-muted:#b1bfd8;--lab900-cyan:#a9e7ec;--lab900-amber:#f3c891}
+body{background:var(--lab900-bg);color:var(--lab900-text)}
+.lab900Header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px max(12px,env(safe-area-inset-right)) 9px max(12px,env(safe-area-inset-left));background:linear-gradient(120deg,#14253f,#10182c 57%,#191a34);border-bottom:1px solid #304867}
+.lab900Identity{display:flex;align-items:center;min-width:0;gap:9px}
+.lab900Mark{width:32px;height:32px;flex:0 0 auto;display:grid;place-items:center;border:1px solid #52658b;border-radius:9px;background:#192943;color:var(--lab900-cyan);box-shadow:inset 0 0 9px #7cc1e223}
+.lab900Mark svg{width:19px;height:19px}
+.lab900TitleGroup{display:grid;gap:1px;min-width:0}
+.lab900Tag{color:var(--lab900-cyan);font:700 .63rem/1.2 ui-monospace,monospace;letter-spacing:.12em;white-space:nowrap}
+.lab900Title{margin:0;color:var(--lab900-text);font-size:clamp(.91rem,2.6vw,1.13rem);font-weight:700;line-height:1.25;letter-spacing:.07em}
+.lab900Telemetry{display:flex;align-items:flex-end;flex-direction:column;gap:2px;flex:none;font:inherit;font-variant-numeric:tabular-nums;font-size:.74rem;line-height:1.3;white-space:nowrap;color:var(--lab900-muted)}
+.lab900Telemetry #worldClock{color:var(--lab900-amber);font-size:.86rem;font-weight:650}
+.lab900Telemetry span:empty{display:none}
+#view{box-shadow:0 1px 0 #405677}
+body>section{width:min(100%,72rem);margin-inline:auto;gap:8px;padding:11px max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+body>section #destination:empty{display:none}
+body>section #destination:not(:empty){color:var(--lab900-cyan);padding:3px 1px}
+body>section #status:not(:empty),body>section #reactionStatus:not([hidden]):not(:empty){color:var(--lab900-amber);padding:3px 1px}
+body>section>.cameraButtons,body>section>.actionButtons{gap:7px}
+body>section>.cameraButtons button,body>section>.actionButtons button,body>section>#roomLights,body>section>#paintOpen{min-height:44px;border:1px solid #506785;border-radius:9px;background:#17273e;color:var(--lab900-text);padding:8px 7px;line-height:1.25;font-weight:600}
+body>section>.actionButtons #autoWait{background:#274868;border-color:#5e91a5;color:#f1fdff}
+body>section>.cameraButtons #loungeView{background:#26354e;border-color:#677697;color:#f4f2ff}
+body>section>.actionButtons button:active,body>section>.cameraButtons button:active,body>section>#roomLights:active,body>section>#paintOpen:active{background:#314c6c}
+body>section button:focus-visible,body>section select:focus-visible,body>section summary:focus-visible{outline:2px solid var(--lab900-cyan);outline-offset:2px}
+body>section>#paintOpen{justify-self:start}
+#lab900Toolbar{display:flex;align-items:stretch;gap:7px;flex-wrap:wrap;min-width:0}
+#lab900Toolbar:empty{display:none}
+#lab900Toolbar>*{max-width:100%;min-width:0}
+#lab900Toolbar>button,#lab900Toolbar select,#lab900Toolbar>details>summary{min-height:44px}
+#lab900Toolbar>button{margin:0}
+.lab900Hint{margin:1px 0 2px;padding:8px 10px;line-height:1.5;color:var(--lab900-muted);background:#111d30;border:1px solid #263d5a;border-radius:9px;font-size:.78rem}
+.lab900Hint strong{color:var(--lab900-amber);font-weight:700;margin-inline-end:.5em}
+body>section>#developer{margin-top:1px;border-top:1px solid var(--lab900-edge)}
+body>section>#developer>summary{min-height:44px;font-size:.86rem}
+#developer button,#developer select{min-height:44px}
+@media(max-width:360px){.lab900Header{gap:7px}.lab900Identity{gap:6px}.lab900Mark{width:27px;height:27px}.lab900Mark svg{width:16px;height:16px}.lab900Telemetry #worldClock{font-size:.76rem}.lab900Telemetry #fps{font-size:.66rem}}
+@media(min-width:740px){body>section>.actionButtons{grid-template-columns:repeat(4,minmax(0,1fr))}.lab900Header{padding-inline:max(16px,calc((100vw - 72rem)/2 + 12px))}}
+</style><header class="lab900Header">
+  <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 900</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+  </div>
+  <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
+</header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+  <button type="button" id="lab900PhotoCapture" disabled>撮影</button>
+  <button type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
+  <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
+</div>
+<dialog class="lab900PhotoPanel" id="lab900PhotoDialog" aria-labelledby="lab900PhotoTitle">
+  <div class="lab900PhotoHead"><h2 id="lab900PhotoTitle"><span class="lab900PhotoEyebrow">FIELD ALBUM / LEILA</span>研究施設の思い出</h2><button type="button" id="lab900PhotoClose">閉じる</button></div>
+  <div class="lab900PhotoContent">
+    <p id="lab900PhotoStorage">このブラウザに最新8枚を保存。残したい写真はダウンロードしてね。</p>
+    <p class="lab900PhotoEmpty" id="lab900PhotoEmpty">まだ写真はありません。部屋に戻って「撮影」を押してみて。</p>
+    <figure class="lab900PhotoPreview" id="lab900PhotoPreview" hidden>
+      <img id="lab900PhotoImage" alt="選択中のレイラの写真">
+      <figcaption id="lab900PhotoCaption" class="lab900PhotoFeedback"></figcaption>
+      <div class="lab900PhotoActions"><a id="lab900PhotoDownload" download="LEILA.jpg" href="#">画像を保存</a><button type="button" id="lab900PhotoDelete">写真を削除</button><span id="lab900PhotoActionStatus" class="lab900PhotoFeedback" role="status"></span></div>
+    </figure>
+    <div class="lab900PhotoList" id="lab900PhotoList" aria-label="保存した写真"></div>
+  </div>
+</dialog>
+<div id="reactionStatus" role="status" hidden></div><div id="lab900Toolbar" role="group" aria-label="LAB 900の機能"></div><details id="lab900Life">
+  <summary><strong>レイラの生活ログ</strong><span id="lab900LifeCount">まだ記録なし</span></summary>
+  <div id="lab900LifeBody">
+    <p id="lab900LifeEmpty">ラジオを聴いたり、絵を描いたり。レイラが過ごした時間が、ここに少しずつ残ります。</p>
+    <ol id="lab900LifeList" aria-label="レイラが最近したこと"></ol>
+    <div id="lab900LifeActions"><p id="lab900LifeStorage">このブラウザーにだけ保存します。</p><div>
+      <button id="lab900LifeKeep" type="button" hidden>消さない</button>
+      <button id="lab900LifeClear" type="button" hidden>記録を消す…</button>
+    </div></div>
+  </div>
+</details>
+<button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -42,7 +160,10 @@
       <div id="paintStatus" role="status"></div>
     </div>
   </div>
-</aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+</aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><label id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
+  <option value="live">実時刻</option><option value="day">晴れた昼</option>
+  <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
+</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><button id="radioPreview" type="button">ラジオを試す</button> <button id="radioSound" type="button" aria-pressed="false">ラジオ音：OFF</button><button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
@@ -56,6 +177,98 @@ async function loadAsset(path) {
 }
 const $=id=>document.getElementById(id), view=$('view');try{
 const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
+// LAB 900: bounded on-device log of completed or observable activities only.
+const lab900LifeNote=(()=>{
+  const key='leila.lab900.life.v1', cap=24;
+  const lines=Object.freeze({
+    read:'ソファで本を読んだ',
+    radio:'卓上ラジオの局を合わせた',
+    paint:'キャンバスに筆を入れた',
+    paintDone:'風景画を描き上げた',
+    sleep:'ベッドでうとうとした',
+    dance:'ダンスを始めた',
+    terrarium:'光る小さな生き物を観察した'
+  });
+  const list=$('lab900LifeList'), count=$('lab900LifeCount'), empty=$('lab900LifeEmpty');
+  const status=$('lab900LifeStorage'), clear=$('lab900LifeClear'), keep=$('lab900LifeKeep');
+  const panel=$('lab900Life'), toolbar=$('lab900Toolbar');
+  if (toolbar) toolbar.append(panel);
+  const dateFmt=new Intl.DateTimeFormat('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+  let entries=[], armed=false, storeOk=true;
+  const isKind=value=>typeof value==='string' && Object.prototype.hasOwnProperty.call(lines,value);
+  try {
+    const raw=window.localStorage.getItem(key);
+    const saved=raw && JSON.parse(raw);
+    if(Array.isArray(saved)) entries=saved.slice(0,cap).filter(x=>x && isKind(x.kind)
+      && Number.isFinite(x.when) && x.when>=0 && x.when<=Date.now()+60_000);
+  } catch(error) {
+    storeOk=false;
+  }
+  function label() {
+    count.textContent=entries.length ? '直近 '+entries.length+'件' : 'まだ記録なし';
+    status.textContent=storeOk ? 'このブラウザーにだけ保存します。' : '保存できないため、このページを開いている間だけ表示します。';
+    empty.hidden=entries.length>0;
+    clear.hidden=entries.length===0;
+    keep.hidden=!armed;
+    clear.dataset.armed=String(armed);
+    clear.textContent=armed?'このブラウザーの記録を消す':'記録を消す…';
+  }
+  function listEntry(entry) {
+    const row=document.createElement('li'), time=document.createElement('time'), event=document.createElement('span');
+    const date=new Date(entry.when);
+    time.dateTime=date.toISOString();
+    time.textContent=dateFmt.format(date);
+    event.textContent=lines[entry.kind];
+    row.append(time,event);
+    return row;
+  }
+  function refresh() {
+    label();
+    if(panel.open) list.replaceChildren(...entries.map(listEntry));
+  }
+  function save() {
+    try {
+      if(entries.length) window.localStorage.setItem(key,JSON.stringify(entries));
+      else window.localStorage.removeItem(key);
+      storeOk=true;
+    } catch(error) {
+      storeOk=false;
+    }
+  }
+  clear.onclick=()=>{
+    if(!entries.length) return;
+    if(!armed) {
+      armed=true;
+      label();
+      return;
+    }
+    armed=false;
+    entries=[];
+    save();
+    refresh();
+    panel.querySelector('summary').focus();
+  };
+  keep.onclick=()=>{
+    armed=false;
+    label();
+    clear.focus();
+  };
+  panel.addEventListener('toggle',()=>{
+    if(!panel.open) armed=false;
+    refresh();
+  });
+  refresh();
+  return kind=>{
+    if(!isKind(kind)) return;
+    const now=Date.now();
+    const recent=entries.find(x=>x.kind===kind);
+    if(recent && now>=recent.when && now-recent.when<7000) return;
+    entries=[{kind,when:now},...entries].slice(0,cap);
+    save();
+    refresh();
+  };
+})();
+
 const facility = new T.Group(); facility.name='Facility'; scene.add(facility);
 r.shadowMap.enabled = true;
 r.shadowMap.type = T.PCFSoftShadowMap;
@@ -333,6 +546,240 @@ const braceletGeometry = new T.LatheGeometry([
 braceletGeometry.rotateX(Math.PI/2);
 const dressingBounds = new T.Box3(new T.Vector3(-5.90,-1,-4.08),new T.Vector3(-5.24,1,-1.78));
 
+// LAB 86: small tabletop radio; dimensions are in character/world scale.
+const roomRadio=new T.Group();
+roomRadio.name='Tabletop radio';
+const radioCenter=new T.Vector3(-1.35,0,-4.10);
+roomRadio.position.copy(radioCenter).multiplyScalar(2);
+roomRadio.scale.setScalar(2);
+floorGroup.add(roomRadio);
+const radioWood=mat(0x775241,.76), radioTrim=mat(0xe3ba8c,.49);
+const radioDark=mat(0x2e3a3c,.79), radioCloth=mat(0x434b47,.94);
+const radioBlack=mat(0x21272a,.69);
+function radioCylinder(r1,r2,depth,material,parent) {
+  const mesh=new T.Mesh(new T.CylinderGeometry(r1,r2,depth,24),material);
+  parent.add(mesh);
+  return mesh;
+}
+for(const x of [-.155,.155]) for(const z of [-.104,.104]){
+  block(roomRadio,radioDark,x,.224,z,.035,.448,.035);
+}
+block(roomRadio,radioDark,0,.269,0,.338,.029,.020);
+block(roomRadio,radioWood,0,.442,0,.409,.052,.300);
+block(roomRadio,radioTrim,0,.460,.151,.409,.012,.005);
+block(roomRadio,radioBlack,0,.476,0,.276,.018,.135);
+block(roomRadio,radioWood,0,.566,0,.331,.171,.167);
+block(roomRadio,radioTrim,0,.562,.084,.301,.137,.008);
+block(roomRadio,radioDark,0,.561,.091,.285,.121,.011);
+block(roomRadio,radioCloth,-.060,.561,.100,.150,.095,.011);
+for(let row=0;row<7;row++) {
+  block(roomRadio,radioBlack,-.060,.529+row*.0105,.106,.144,.0027,.004);
+}
+block(roomRadio,radioBlack,.074,.594,.1,.100,.033,.011);
+const radioDisplay=new T.MeshBasicMaterial({color:0x324139});
+block(roomRadio,radioDisplay,.074,.594,.108,.091,.024,.004);
+const radioMarker=new T.MeshBasicMaterial({color:0xceffb7});
+const radioNeedle=block(roomRadio,radioMarker,.044,.594,.112,.003,.019,.002);
+radioNeedle.visible=false;
+for(let n=0;n<9;n++) {
+  block(roomRadio,radioTrim,.038+n*.009,.587,.111,.0012,.003,.002);
+}
+const radioPower=new T.MeshBasicMaterial({color:0x61705a});
+block(roomRadio,radioPower,.109,.545,.108,.007,.007,.004);
+const radioKnob=new T.Group();
+roomRadio.add(radioKnob);
+radioKnob.position.set(.054,.548,.105);
+const dial=radioCylinder(.020,.021,.018,radioBlack,radioKnob);
+dial.rotation.x=Math.PI/2;
+const dialFace=radioCylinder(.016,.016,.005,radioTrim,radioKnob);
+dialFace.rotation.x=Math.PI/2;
+dialFace.position.z=.011;
+block(radioKnob,radioBlack,0,.009,.014,.003,.009,.002);
+const radioAntenna=new T.Group();
+roomRadio.add(radioAntenna);
+radioAntenna.position.set(.131,.647,-.045);
+radioAntenna.rotation.z=-.34;
+radioCylinder(.003,.004,.169,radioTrim,radioAntenna).position.y=.0845;
+radioCylinder(.006,.003,.019,radioDark,radioAntenna).position.y=.171;
+const radioBounds=new T.Box3(radioCenter.clone().add(new T.Vector3(-.31,-1,-.27)),
+  radioCenter.clone().add(new T.Vector3(.31,1,.27)));
+const radioTarget={kind:'radio',name:'卓上ラジオ',heading:Math.PI,
+  point:radioCenter.clone().add(new T.Vector3(.14,0,.325)),
+  lookAt:radioKnob.localToWorld(new T.Vector3(0,.008,.018))};
+
+// Freestanding artist's corner. All geometry and the painted surface are local.
+const easelCenter=new T.Vector3(-2.30,0,-3.52);
+const artistEasel=new T.Group();
+artistEasel.name='Artist easel';
+floorGroup.add(artistEasel);
+artistEasel.position.copy(easelCenter).multiplyScalar(2);
+artistEasel.scale.setScalar(2);
+const easelWood=mat(0x9b6946),easelDark=mat(0x614633),easelCloth=mat(0xded1b7,.98);
+function easelBeam(a,b,material,width=.027) {
+  const start=new T.Vector3(...a),end=new T.Vector3(...b),middle=start.clone().lerp(end,.5);
+  const beam=block(artistEasel,material,...middle.toArray(),width,start.distanceTo(end),width);
+  beam.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),end.sub(start).normalize());
+}
+for (const sign of [-1,1]) easelBeam([sign*.224,.009,.095],[sign*.082,1.005,-.042],easelWood);
+easelBeam([0,.009,-.225],[0,.94,-.052],easelDark);
+easelBeam([-.16,.33,.045],[0,.33,-.153],easelDark,.021);
+easelBeam([-.18,.33,.045],[.18,.33,.045],easelDark,.021);
+block(artistEasel,easelWood,0,.602,.057,.498,.035,.106);
+block(artistEasel,easelDark,0,1.007,-.024,.12,.036,.099);
+const easelWidth=.414,easelHeight=.384,easelFaceY=.806,easelFaceZ=.077;
+block(artistEasel,easelCloth,0,easelFaceY,easelFaceZ-.015,easelWidth,easelHeight,.027);
+const easelPixels=document.createElement('canvas');
+easelPixels.width=384; easelPixels.height=356;
+const easelInk=easelPixels.getContext('2d');
+const easelTexture=new T.CanvasTexture(easelPixels);
+easelTexture.colorSpace=T.SRGBColorSpace;
+const easelSurface=new T.Mesh(new T.PlaneGeometry(easelWidth,easelHeight),
+  new T.MeshStandardMaterial({map:easelTexture,roughness:.97}));
+easelSurface.position.set(0,easelFaceY,easelFaceZ);
+artistEasel.add(easelSurface);
+function clearEaselSurface() {
+  easelInk.fillStyle='#f7edda'; easelInk.fillRect(0,0,easelPixels.width,easelPixels.height);
+  for (let y=0;y<easelPixels.height;y+=3) {
+    easelInk.fillStyle=y%6 ? 'rgba(75,55,35,.03)' : 'rgba(255,255,255,.21)';
+    easelInk.fillRect(0,y,easelPixels.width,1);
+  }
+  easelTexture.needsUpdate=true;
+}
+clearEaselSurface();
+block(artistEasel,easelDark,-.295,.49,.035,.168,.025,.176);
+block(artistEasel,easelWood,-.31,.245,.02,.027,.49,.032);
+const paletteWood=mat(0xb48761,.92);
+const paletteDish=new T.Mesh(new T.CylinderGeometry(.064,.064,.009,24),paletteWood);
+paletteDish.position.set(-.301,.510,.043); paletteDish.scale.x=1.17; artistEasel.add(paletteDish);
+const easelPaints=['#7eb8d4','#f2ba59','#a76d82','#665b8e','#52768a','#6b947c','#36676d','#e9cba1'];
+easelPaints.forEach((color,i)=>{
+  const angle=i*Math.PI/4;
+  const paint=new T.Mesh(new T.SphereGeometry(.011,8,6),mat(color,.72));
+  paint.position.set(-.301+.043*Math.sin(angle),.517,.043+.042*Math.cos(angle));
+  paint.scale.y=.32; artistEasel.add(paint);
+});
+const rinseCup=new T.Mesh(new T.CylinderGeometry(.022,.016,.041,16),mat(0x718d97,.72));
+rinseCup.position.set(-.315,.523,-.016); artistEasel.add(rinseCup);
+const easelBrush=new T.Group();
+scene.add(easelBrush); easelBrush.visible=false;
+const easelBrushLength=.102;
+const brushHandle=new T.Mesh(new T.CylinderGeometry(.004,.003,.089,8),easelDark);
+brushHandle.position.y=.035; easelBrush.add(brushHandle);
+const brushFerrule=new T.Mesh(new T.CylinderGeometry(.0048,.004,.012,8),mat(0xc8ae89,.43));
+brushFerrule.position.y=.081; easelBrush.add(brushFerrule);
+const easelBristles=mat(0x8a7558,.95);
+const brushBristles=new T.Mesh(new T.ConeGeometry(.0047,.018,8),easelBristles);
+brushBristles.position.y=easelBrushLength-.009; easelBrush.add(brushBristles);
+artistEasel.traverse(enableShadowCasting);
+const easelBounds=new T.Box3(easelCenter.clone().add(new T.Vector3(-.43,-1,-.30)),
+  easelCenter.clone().add(new T.Vector3(.30,1,.161)));
+const easelTarget={kind:'easel',name:'イーゼル',heading:Math.PI,
+  point:easelCenter.clone().add(new T.Vector3(-.060,0,.330)),
+  lookAt:easelSurface.getWorldPosition(new T.Vector3())};
+
+// LAB900 terrarium: each rail, plant and lamp is modeled locally.
+const terrariumCenter=new T.Vector3(-2.02,0,.32),terrariumAngle=.70;
+const labTerrarium=new T.Group();
+labTerrarium.name='Lab Terrarium • HF-01';
+floorGroup.add(labTerrarium);
+labTerrarium.position.copy(terrariumCenter).multiplyScalar(2);
+labTerrarium.scale.setScalar(2);
+labTerrarium.rotation.y=terrariumAngle;
+const terraMetal=mat(0x263e43,.48),terraEdge=mat(0x698181,.37),terraOak=mat(0x99734d,.84);
+const terraSoil=mat(0x534a3e,.97),terraMoss=[mat(0x547856,.95),mat(0x72916a,.97),mat(0x416353,.93)];
+const terraGlass=new T.MeshBasicMaterial({color:0xc4f0ef,opacity:.082,transparent:true,depthWrite:false,side:T.DoubleSide});
+const terraLightLine=new T.MeshBasicMaterial({color:0xc9f8ed});
+for (const x of [-.203,.203]) for (const z of [-.103,.103]) {
+  block(labTerrarium,terraMetal,x,.276,z,.028,.548,.028);
+  block(labTerrarium,terraEdge,x,.014,z,.035,.024,.037);
+}
+block(labTerrarium,terraOak,0,.532,0,.503,.039,.304);
+block(labTerrarium,terraMetal,0,.557,0,.421,.019,.257);
+block(labTerrarium,terraSoil,0,.572,0,.390,.021,.222);
+for (const x of [-.202,.202]) for (const z of [-.12,.12]) {
+  block(labTerrarium,terraMetal,x,.693,z,.013,.245,.013);
+}
+for(const z of [-.122,.122]){
+  block(labTerrarium,terraEdge,0,.810,z,.414,.014,.015);
+  block(labTerrarium,terraGlass,0,.693,z,.395,.218,.002);
+}
+for(const x of [-.203,.203]){
+  block(labTerrarium,terraEdge,x,.810,0,.013,.014,.245);
+  block(labTerrarium,terraGlass,x,.693,0,.002,.218,.225);
+}
+block(labTerrarium,terraMetal,0,.820,0,.420,.017,.261);
+block(labTerrarium,terraLightLine,0,.809,.047,.279,.004,.014);
+block(labTerrarium,terraLightLine,0,.809,-.054,.279,.004,.014);
+const terraLabelCanvas=document.createElement('canvas');
+terraLabelCanvas.width=256;terraLabelCanvas.height=72;
+const tlc=terraLabelCanvas.getContext('2d');
+tlc.fillStyle='#263e43';tlc.fillRect(0,0,256,72);
+tlc.strokeStyle='#89b9a2';tlc.lineWidth=3;tlc.strokeRect(3,3,250,66);
+tlc.font='bold 39px monospace';tlc.textAlign='center';tlc.textBaseline='middle';tlc.fillStyle='#dcf5cc';
+tlc.fillText('HF–01',128,37);
+const terraLabelTex=new T.CanvasTexture(terraLabelCanvas);
+terraLabelTex.colorSpace=T.SRGBColorSpace;
+const terraLabel=new T.Mesh(new T.PlaneGeometry(.133,.036),new T.MeshBasicMaterial({map:terraLabelTex}));
+terraLabel.position.set(0,.353,.110);labTerrarium.add(terraLabel);
+block(labTerrarium,terraMetal,0,.353,.101,.151,.046,.016);
+const terraGround=new T.Group();labTerrarium.add(terraGround);
+function terraRock(x,z,y,sx,sy,sz,material){
+  const bud=new T.Mesh(new T.IcosahedronGeometry(1,1),material);
+  bud.position.set(x,y,z);bud.scale.set(sx,sy,sz);bud.rotation.y=(x-z)*7;
+  terraGround.add(bud);return bud;
+}
+for(const [x,z,y,sx,sy,sz,m] of [
+  [-.144,-.060,.589,.052,.038,.040,0],[-.104,-.032,.585,.058,.035,.051,1],
+  [-.068,.063,.585,.052,.022,.041,0],[.021,-.059,.581,.051,.024,.037,1],
+  [.139,-.057,.585,.048,.039,.039,1],[.150,.062,.582,.043,.026,.040,0],
+  [.085,.073,.583,.064,.030,.036,2],[-.158,.040,.582,.039,.030,.044,2]
+]) terraRock(x,z,y,sx,sy,sz,terraMoss[m]);
+terraRock(-.116,.032,.597,.050,.035,.038,mat(0x766e5f,.93));
+terraRock(.115,.016,.593,.036,.030,.048,mat(0x928973,.91));
+for(const [x,z] of [[-.14,-.072],[.135,-.066],[.152,.066]]) {
+  for(let i=0;i<5;i++){
+    const dir=i*Math.PI*2/5;
+    const tip=terraRock(x+Math.sin(dir)*.009,z+Math.cos(dir)*.009,.631,.008,.036,.005,terraMoss[1]);
+    tip.rotation.set(Math.cos(dir)*.47,0,-Math.sin(dir)*.47);
+  }
+}
+const terraCreature=new T.Group();terraCreature.name='HF-01 Firefly';labTerrarium.add(terraCreature);
+const terraShell=mat(0x334347,.31),terraJoints=mat(0x789e9f,.42);
+const terraTailLight=new T.MeshStandardMaterial({color:0xffdda3,emissive:0xffbc6f,emissiveIntensity:.9,roughness:.31});
+const terraWingMat=new T.MeshBasicMaterial({color:0xb2edec,transparent:true,opacity:.58,depthWrite:false});
+function terraBodyPiece(radius,detail,material,sx,sy,sz,x,y,z,parent=terraCreature) {
+  const mesh=new T.Mesh(new T.IcosahedronGeometry(radius,detail),material);
+  mesh.scale.set(sx,sy,sz);mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+}
+terraBodyPiece(.021,1,terraShell,.82,.70,1.47,0,0,.009);
+terraBodyPiece(.017,1,terraJoints,.93,.75,1.02,0,.004,.033);
+terraBodyPiece(.020,1,terraTailLight,.91,.61,1.29,0,-.004,-.025);
+for(const x of [-.009,.009]){
+  terraBodyPiece(.0048,0,terraLightLine,1,.62,1,x,.008,.046);
+  block(terraCreature,terraMetal,x,.019,.032,.002,.019,.004).rotation.z=x>0?-.27:.27;
+}
+const terraWings=[];
+for(const side of [-1,1]){
+  const joint=new T.Group();joint.position.set(side*.013,.005,.010);terraCreature.add(joint);
+  terraBodyPiece(.017,1,terraWingMat,1.66,.092,.67,side*.022,0,-.012,joint);
+  terraWings.push(joint);
+}
+const terraHaloLight=new T.MeshBasicMaterial({color:0xffcc86,transparent:true,opacity:.08,depthWrite:false,blending:T.AdditiveBlending});
+const terraHalo=terraBodyPiece(.030,1,terraHaloLight,1,1,1,0,-.004,-.025);
+for(const prop of [terraCreature,terraGround]) prop.traverse(object=>{
+  if(object.isMesh && !object.material.transparent) enableShadowCasting(object);
+});
+labTerrarium.traverse(object=>{
+  if(object.isMesh && [terraMetal,terraEdge,terraOak,terraSoil].includes(object.material)) enableShadowCasting(object);
+});
+const terrariumBounds=new T.Box3(terrariumCenter.clone().add(new T.Vector3(-.41,-1,-.38)),
+  terrariumCenter.clone().add(new T.Vector3(.41,1,.38)));
+const terrariumTarget={
+  kind:'terrarium',name:'ホタルのテラリウム',heading:terrariumAngle+Math.PI,
+  point:labTerrarium.localToWorld(new T.Vector3(0,0,.590)),
+  lookAt:labTerrarium.localToWorld(new T.Vector3(0,.72,.02))
+};
+
 const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
 let seed=26;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
 const cityMats=[mat(0x7d94a5),mat(0xb3c4ce),mat(0x596d80)];
@@ -360,6 +807,8 @@ const skyMaterial=new T.ShaderMaterial({
   depthWrite:false,
   uniforms:{
     daylight:{value:1}, sunset:{value:0},
+    solarGlow:{value:0}, lunarGlow:{value:0},
+    solarDir:{value:new T.Vector3(1,0,0)}, lunarDir:{value:new T.Vector3(0,.3,-.95)},
     dayHorizon:{value:new T.Color(0xd0e4ef)}, dayZenith:{value:new T.Color(0x77a8d5)},
     nightHorizon:{value:new T.Color(0x233957)}, nightZenith:{value:new T.Color(0x101c36)},
     westHorizon:{value:new T.Color(0xffa16e)}, westZenith:{value:new T.Color(0x655287)},
@@ -374,7 +823,8 @@ const skyMaterial=new T.ShaderMaterial({
     }
   `,
   fragmentShader:`
-    uniform float daylight, sunset;
+    uniform float daylight, sunset, solarGlow, lunarGlow;
+    uniform vec3 solarDir, lunarDir;
     uniform vec3 dayHorizon, dayZenith, nightHorizon, nightZenith;
     uniform vec3 westHorizon, westZenith, eastHorizon, eastZenith;
     varying vec3 skyDirection;
@@ -385,7 +835,11 @@ const skyMaterial=new T.ShaderMaterial({
       vec3 base = mix(mix(nightHorizon, nightZenith, height), mix(dayHorizon, dayZenith, height), daylight);
       vec3 west = mix(westHorizon, westZenith, smoothstep(-0.04, 0.45, direction.y));
       vec3 eastBlue = mix(eastHorizon, eastZenith, height);
-      gl_FragColor = vec4(mix(base, mix(west, eastBlue, east), sunset), 1.0);
+      vec3 sky = mix(base, mix(west, eastBlue, east), sunset);
+      float solar = pow(max(0.0, dot(direction, solarDir)), 12.0) * solarGlow;
+      float lunar = pow(max(0.0, dot(direction, lunarDir)), 60.0) * lunarGlow;
+      sky += vec3(0.48, 0.13, 0.035) * solar + vec3(0.055, 0.11, 0.23) * lunar;
+      gl_FragColor = vec4(sky, 1.0);
       #include <colorspace_fragment>
     }
   `
@@ -394,6 +848,25 @@ const skyDome = new T.Mesh(new T.SphereGeometry(12,32,20),skyMaterial);
 skyDome.frustumCulled = false;
 skyDome.renderOrder = -1000;
 scene.add(skyDome);
+// One static draw call for the sky beyond the windows. No post-processing pass.
+const lab900StarCoordinates=[];
+let lab900StarSeed=900;
+function lab900StarRandom() {
+  lab900StarSeed=(Math.imul(lab900StarSeed,1664525)+1013904223)>>>0;
+  return lab900StarSeed/4294967296;
+}
+for(let i=0;i<380;i++){
+  const az=lab900StarRandom()*Math.PI*2, y=.062+lab900StarRandom()*.918;
+  const xz=Math.sqrt(1-y*y)*104;
+  lab900StarCoordinates.push(Math.cos(az)*xz,y*104,Math.sin(az)*xz);
+}
+const lab900StarGeometry=new T.BufferGeometry();
+lab900StarGeometry.setAttribute('position',new T.Float32BufferAttribute(lab900StarCoordinates,3));
+const lab900StarMaterial=new T.PointsMaterial({color:0xb9cfff,size:.17,transparent:true,opacity:0,depthWrite:false});
+const lab900Stars=new T.Points(lab900StarGeometry,lab900StarMaterial);
+lab900Stars.renderOrder=50;
+lab900Stars.visible=false;
+scene.add(lab900Stars);
 const roomLightDirection=new T.Vector3(-.46,1,.52).normalize();
 const roomLightColor=new T.Color(0xe5efff);
 const unlitFixtureColor=new T.Color(0x9ca9b1);
@@ -402,9 +875,17 @@ const morningLightColor=new T.Color(0xffc38c);
 const middayLightColor=new T.Color(0xfff3df);
 const moonlightColor=new T.Color(0x9ebaff);
 const sunDirection=new T.Vector3(), moonDirection=new T.Vector3();
+const lab900GroundDay=new T.Color(0x657e69),lab900GroundNight=new T.Color(0x303d51);
+const lab900CoolAir=new T.Color(0xa8baf7),lab900DayAir=new T.Color(0xe1edff);
+const lab900NightGround=new T.Color(0x343953),lab900DayGround=new T.Color(0x87919f);
+const lab900SunsetKey=new T.Color(0xffa567),lab900MoonKey=new T.Color(0x739aff);
+const lab900FixtureWarm=new T.Color(0xffdeb1),lab900FixtureNeutral=new T.Color(0xe6f1ff);
+const lab900SkyControl=$('lab900Sky');
+const lab900SkyHours={day:12*60+44,sunset:17*60+52,moon:23*60+42};
+let lab900SceneMinute=-1,lab900WorldKey='',lab900ClockPoll=0,lab900Frame=null,lab900Goal=null;
 const keyDirection=new T.Vector3(), sunlightColor=new T.Color();
-const sunDisc=new T.Mesh(new T.SphereGeometry(1.2,16,12),new T.MeshBasicMaterial({color:0xffedba}));scene.add(sunDisc);
-const moonDisc=new T.Mesh(new T.SphereGeometry(.85,16,12),new T.MeshBasicMaterial({color:0xdce7ff}));scene.add(moonDisc);
+const sunDisc=new T.Mesh(new T.SphereGeometry(1.2,16,12),new T.MeshBasicMaterial({color:0xffedba,transparent:true,depthWrite:false}));scene.add(sunDisc);
+const moonDisc=new T.Mesh(new T.SphereGeometry(.85,16,12),new T.MeshBasicMaterial({color:0xdce7ff,transparent:true,depthWrite:false}));scene.add(moonDisc);
 let lastWorldMinute=-1;
 let roomLightsOverride=null;
 let roomLightsOn=false;
@@ -412,52 +893,98 @@ const roomLightsButton=$('roomLights');
 roomLightsButton.onclick=()=>requestLightSwitch();
 function toggleRoomLights() {
   roomLightsOverride=!roomLightsOn;
-  lastWorldMinute=-1;
-  updateWorld();
+  updateWorld(0,true);
 }
-function updateWorld(){
-  const now=new Date(), minute=now.getHours()*60+now.getMinutes();
-  if(minute===lastWorldMinute)return;
-  lastWorldMinute=minute;
-  // Use local time for the sun arc. The room light takes over gradually at dusk.
-  const angle=(minute/60-6)*Math.PI/12;
-  const altitude=Math.sin(angle);
-  const daylight=T.MathUtils.smoothstep(altitude,-.12,.25);
-  const directSun=T.MathUtils.smoothstep(altitude,.04,.43);
-  const night=1-T.MathUtils.smoothstep(altitude,-.04,.34);
-  const electricLight=roomLightsOverride === null ? night : Number(roomLightsOverride);
-  roomLightsOn=electricLight>=.08;
-  switchRocker.rotation.x=roomLightsOn ? -.19 : .19;
-  switchIndicator.material.color.setHex(roomLightsOn ? 0x91e3b1 : 0x566675);
-  roomLightsButton.hidden=night<.08;
-  roomLightsButton.textContent=roomLightsOn ? '電灯を消す' : '電灯をつける';
-  skyMaterial.uniforms.daylight.value=daylight;
-  skyMaterial.uniforms.sunset.value=Math.cos(angle)<0
-    ? T.MathUtils.smoothstep(altitude,-.34,-.075)*(1-T.MathUtils.smoothstep(altitude,.10,.40)) : 0;
-  sunDirection.set(Math.cos(angle),altitude,.56*Math.max(0,altitude)).normalize();
-  const moonAltitude=Math.max(0,-altitude);
-  moonDirection.set(-Math.cos(angle),Math.max(.10,moonAltitude),-.48*Math.max(.10,moonAltitude)).normalize();
-  sunDisc.position.copy(sunDirection).multiplyScalar(75);
-  sunDisc.visible=altitude>0;
-  moon.position.copy(moonDirection).multiplyScalar(50);
-  moonDisc.position.copy(moonDirection).multiplyScalar(75);
-  moonDisc.visible=altitude<0;
-  moon.intensity=roomLightsOn ? .34*moonAltitude : 0;
-  for (const light of ceilingLights) light.intensity=7.5*electricLight;
-  lamp.color.copy(unlitFixtureColor).lerp(litFixtureColor,electricLight);
+lab900SkyControl.onchange=()=>updateWorld(0,true);
 
-  keyDirection.copy(roomLightsOverride === false ? moonDirection : roomLightDirection).lerp(sunDirection,directSun).normalize();
-  keyLight.position.copy(keyLight.target.position).addScaledVector(keyDirection,15);
-  sunlightColor.copy(morningLightColor).lerp(middayLightColor,T.MathUtils.smoothstep(altitude,.12,.9));
-  keyLight.color.copy(roomLightsOverride === false ? moonlightColor : roomLightColor).lerp(sunlightColor,directSun);
-  const nightKey=roomLightsOverride === false ? .56+.33*moonAltitude : 1.28;
-  keyLight.intensity=nightKey+(2.07-nightKey)*directSun;
-  const nightAmbient=roomLightsOverride === false ? .38 : .76;
-  ambient.intensity=nightAmbient+(1.18-nightAmbient)*daylight;
-  scene.background.copy(nightSky).lerp(daySky,daylight);
-  $('worldClock').textContent=now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' / '+(daylight>.5?'昼':'夜');
+function lab900LightProfile(minute,preview,manual){
+  const angle=(minute/60-6)*Math.PI/12, altitude=Math.sin(angle), azimuth=Math.cos(angle);
+  const ease=T.MathUtils.smoothstep;
+  const day=ease(altitude,-.12,.25);
+  const dusk=azimuth<0 ? ease(altitude,-.28,-.08)*(1-ease(altitude,.05,.33)) : 0;
+  const night=1-ease(altitude,-.04,.34);
+  const sunPower=ease(altitude,.02,.43);
+  // Preserve existing automatic ceiling lights in live mode. In previews,
+  // Moon is deliberately lights-off, unless the physical wall switch was used.
+  const electric=manual !== null ? Number(manual) : preview==='moon' ? 0 : preview==='sunset' ? .20 : night;
+  const sun=new T.Vector3(azimuth,Math.max(.012,altitude),.35+.25*Math.max(.015,altitude)).normalize();
+  const moonBeam=new T.Vector3(-.67,.40,-.50).normalize();
+  const moonnight=night*(1-electric)*(1-.90*dusk);
+  const flame=T.MathUtils.clamp(dusk*.92*(1-electric*.57),0,1);
+  const contrast=moonnight*.86;
+  const key=roomLightDirection.clone().lerp(moonBeam,contrast)
+    .lerp(sun,Math.max(sunPower,dusk*.64)).normalize();
+  const keyColor=roomLightColor.clone().lerp(lab900MoonKey,contrast)
+    .lerp(sunlightColor.copy(morningLightColor).lerp(middayLightColor,ease(altitude,.12,.9)),sunPower)
+    .lerp(lab900SunsetKey,flame);
+  const ambi=.58+.58*day+(night*.13*electric);
+  return {day,dusk,night,electric,moonStrength:night*.44*(1-electric*.60),sun,moonBeam,key,keyColor,
+    solar:dusk*.93, lunar:night*.79, ambi,
+    ambientColor:lab900CoolAir.clone().lerp(lab900DayAir,Math.max(day,electric*.66)),
+    ambientGround:lab900NightGround.clone().lerp(lab900DayGround,Math.max(day,electric*.60)),
+    keyIntensity:1.05+1.03*sunPower+.33*dusk-.19*contrast,
+    sunDisc:ease(altitude,-.025,.105),moonDisc:ease(night,.24,.97),
+    stars:ease(night,.42,.97)*.90};
 }
-updateWorld();
+function lab900BlendLight(current,goal,a){
+  for(const k of Object.keys(goal)){
+    if(typeof goal[k]==='number') current[k]+=(goal[k]-current[k])*a;
+    else current[k].lerp(goal[k],a);
+  }
+}
+function updateWorld(dt=0,force=false){
+  lab900ClockPoll-=dt;
+  if(force || lab900ClockPoll<=0){
+    lab900ClockPoll=.40;
+    const now=new Date();
+    lastWorldMinute=now.getHours()*60+now.getMinutes();
+    const preview=lab900SkyControl.value;
+    lab900SceneMinute=lab900SkyHours[preview] ?? lastWorldMinute;
+    const key=preview+':'+lab900SceneMinute+':'+roomLightsOverride;
+    if(key!==lab900WorldKey){
+      lab900WorldKey=key;
+      lab900Goal=lab900LightProfile(lab900SceneMinute,preview,roomLightsOverride);
+      if(!lab900Frame) lab900Frame=lab900LightProfile(lab900SceneMinute,preview,roomLightsOverride);
+      // Status is the destination state, so the wall-switch animation does
+      // not report the prior state while the light itself eases.
+      roomLightsOn=lab900Goal.electric>=.08;
+      switchRocker.rotation.x=roomLightsOn ? -.19 : .19;
+      switchIndicator.material.color.setHex(roomLightsOn ? 0x91e3b1 : 0x566675);
+      roomLightsButton.hidden=lab900Goal.night<.08 && roomLightsOverride===null;
+      roomLightsButton.textContent=roomLightsOn ? '電灯を消す' : '電灯をつける';
+      const label=preview==='moon'?'月夜':preview==='sunset'?'夕暮れ':
+        lab900Goal.dusk>.40?'夕暮れ':lab900Goal.day>.53?'昼':'夜';
+      const pad=n=>String(n).padStart(2,'0');
+      $('worldClock').textContent=pad(Math.floor(lab900SceneMinute/60))+':'+pad(lab900SceneMinute%60)+' / '+label;
+    }
+  }
+  if(dt>0) lab900BlendLight(lab900Frame,lab900Goal,1-Math.exp(-Math.min(.05,dt)*3.1));
+  const p=lab900Frame,u=skyMaterial.uniforms;
+  u.daylight.value=p.day; u.sunset.value=p.dusk;
+  u.solarGlow.value=p.solar;u.lunarGlow.value=p.lunar;
+  u.solarDir.value.copy(p.sun).normalize();u.lunarDir.value.copy(p.moonBeam);
+  sunDirection.copy(p.sun).normalize();
+  sunDisc.position.copy(sunDirection).multiplyScalar(75);
+  sunDisc.material.opacity=p.sunDisc;sunDisc.visible=p.sunDisc>.008;
+  moonDirection.copy(p.moonBeam);
+  moon.position.copy(moonDirection).multiplyScalar(50);
+  moon.intensity=p.moonStrength;
+  moonDisc.position.copy(moonDirection).multiplyScalar(72);
+  moonDisc.material.opacity=p.moonDisc;moonDisc.visible=p.moonDisc>.008;
+  lab900StarMaterial.opacity=p.stars;lab900Stars.visible=p.stars>.008;
+  for(const light of ceilingLights){
+    light.intensity=7.5*p.electric;
+    light.color.copy(lab900FixtureNeutral).lerp(lab900FixtureWarm,p.night*.74);
+  }
+  lamp.color.copy(unlitFixtureColor).lerp(litFixtureColor,p.electric);
+  keyDirection.copy(p.key).normalize();
+  keyLight.position.copy(keyLight.target.position).addScaledVector(keyDirection,15);
+  keyLight.color.copy(p.keyColor);keyLight.intensity=p.keyIntensity;
+  ambient.intensity=p.ambi;ambient.color.copy(p.ambientColor);ambient.groundColor.copy(p.ambientGround);
+  outsideGround.material.color.copy(lab900GroundNight).lerp(lab900GroundDay,p.day);
+  scene.background.copy(nightSky).lerp(daySky,p.day);
+}
+updateWorld(0,true);
 
 function enableShadowCasting(mesh) {
   if (!mesh.isMesh) return;
@@ -471,6 +998,7 @@ for (const wallGroup of wallGroups) {
 sofa.traverse(enableShadowCasting);
 bed.traverse(enableShadowCasting);
 dressingArea.traverse(object => { if (object !== dressingMirror) enableShadowCasting(object); });
+roomRadio.traverse(enableShadowCasting);
 // LAB 26.1: full orbit and two-finger dolly/pan; cut away crossed architectural surfaces.
 orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
 orbit.enablePan=true;orbit.screenSpacePanning=true;
@@ -1364,7 +1892,7 @@ function pickSurface(x, y) {
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
-    if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget) return floorGroup.visible;
+    if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget) return wallGroups[0].visible;
     return true;
   });
@@ -1952,6 +2480,12 @@ function endPointer(event) {
       requestLightSwitch();
     } else if (destination === bookTarget) {
       requestBook();
+    } else if (destination === terrariumTarget) {
+      requestTerrarium();
+    } else if (destination === easelTarget) {
+      requestEasel();
+    } else if (destination === radioTarget) {
+      requestRadio();
     } else if (destination === mirrorTarget || destination === accessoryTarget) {
       restoreReactionPose();
       if (mode !== 'roam') beginRoam();
@@ -3310,6 +3844,27 @@ function chooseDestination() {
     startDestination(Math.random() < .60 ? accessoryTarget : mirrorTarget);
     return;
   }
+  const terraChance=feeling==='annoyed' ? 0 : feeling==='playful' || feeling==='happy' ? .18 : .075;
+  if (terraChance && roam.target !== terrariumTarget && !reaction && moodSituation()==='free' &&
+      mood.seconds >= (mood.nextTerrariumAt ?? 18) && Math.random()<terraChance) {
+    mood.nextTerrariumAt=mood.seconds+66;
+    startDestination(terrariumTarget);
+    return;
+  }
+  const easelChance=feeling==='annoyed' ? 0 : feeling==='bored' || feeling==='playful' ? .16 : .08;
+  if (easelChance && roam.target !== easelTarget && !reaction && moodSituation()==='free' &&
+      mood.seconds >= (mood.nextEaselAt ?? 28) && Math.random()<easelChance) {
+    mood.nextEaselAt=mood.seconds+74;
+    startDestination(easelTarget);
+    return;
+  }
+  const radioChance = feeling === 'annoyed' ? 0 : feeling === 'happy' ? .15 : .08;
+  if (radioChance && roam.target !== radioTarget && !reaction && moodSituation() === 'free' &&
+      mood.seconds >= (mood.nextRadioAt ?? 20) && Math.random() < radioChance) {
+    mood.nextRadioAt = mood.seconds+65;
+    startDestination(radioTarget);
+    return;
+  }
   const social = !reaction && moodSituation() === 'free' && mood.seconds >= Math.max(mood.nextSocialAt,mood.avoidedUntil);
   const approachChance = feeling === 'affectionate' ? .42 : feeling === 'annoyed' ? .04 : .16;
   const greetingChance = feeling === 'annoyed' ? .04 : feeling === 'happy' ? .23 : .11;
@@ -3558,7 +4113,7 @@ function initializeSofaMotion() {
   if (restClips) bed.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,bedTarget);
   });
-  for (const [prop,target] of [[mirrorFrame,mirrorTarget],[accessoryCase,accessoryTarget]]) {
+  for (const [prop,target] of [[mirrorFrame,mirrorTarget],[accessoryCase,accessoryTarget],[roomRadio,radioTarget],[artistEasel,easelTarget],[labTerrarium,terrariumTarget]]) {
     prop.traverse(object => {
       if (object.isMesh) destinationMeshes.set(object,target);
     });
@@ -3598,7 +4153,7 @@ function clearOfPoles(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds] : [tableBounds,dressingBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -3649,7 +4204,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds] : [tableBounds,dressingBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -3756,6 +4311,15 @@ $('approachPreview').onclick = () => {
   requestDestination({kind:'user',name:'ユーザー'});
 };
 
+function requestRadio() {
+  if (mode === 'roam' && roam.phase === 'route' &&
+      (roam.pending ? roam.pending.target === radioTarget : roam.target === radioTarget)) return;
+  restoreReactionPose();
+  if (mode !== 'roam') beginRoam();
+  requestDestination(radioTarget,true);
+}
+$('radioPreview').onclick = requestRadio;
+
 function requestLightSwitch() {
   if (mode === 'roam' && roam.phase === 'route' &&
       (roam.target === lightSwitchTarget || roam.pending?.target === lightSwitchTarget)) return;
@@ -3765,6 +4329,24 @@ function requestLightSwitch() {
   $('reactionStatus').hidden = true;
   if (mode !== 'roam') beginRoam();
   requestDestination(lightSwitchTarget,true);
+}
+
+$('easelPreview').onclick=requestEasel;
+function requestEasel() {
+  if (mode==='roam' && roam.phase==='route' &&
+      (roam.pending ? roam.pending.target===easelTarget : roam.target===easelTarget)) return;
+  restoreReactionPose();
+  if (mode!=='roam') beginRoam();
+  requestDestination(easelTarget,true);
+}
+
+$('terrariumPreview').onclick=requestTerrarium;
+function requestTerrarium() {
+  if (mode==='roam' && roam.phase==='route' &&
+      (roam.pending ? roam.pending.target===terrariumTarget : roam.target===terrariumTarget)) return;
+  restoreReactionPose();
+  if (mode!=='roam') beginRoam();
+  requestDestination(terrariumTarget,true);
 }
 
 function requestDestination(target, acknowledge=false) {
@@ -3840,6 +4422,15 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   } else if (target === lightSwitchTarget) {
     visit.push(routeTurn(target.heading,'壁のスイッチの前に立っています'),
       {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
+  } else if (target === terrariumTarget) {
+    visit.push(routeTurn(target.heading,'テラリウムの前に立っています'),
+      {type:'terrariumVisit',time:5.65,message:'小さなホタルを観察しています'});
+  } else if (target === easelTarget) {
+    visit.push(routeTurn(target.heading,'イーゼルの前に立っています'),
+      {type:'paintEasel',time:7.2,message:'キャンバスに絵を描いています'});
+  } else if (target === radioTarget) {
+    visit.push(routeTurn(target.heading,'卓上ラジオの前に立っています'),
+      {type:'radioTune',time:3.60,message:'ラジオの選局ダイヤルに手を伸ばしています'});
   } else if (target === mirrorTarget || target === accessoryTarget) {
     visit.push(routeTurn(target.heading,message));
     if (target === accessoryTarget) {
@@ -4408,6 +4999,7 @@ function updateBedRest() {
     roam.bedPose=roam.bedPose==='sleep'
       ? (Math.random()<.55 ? 'sleepAlternate' : 'lounge')
       : 'sleep';
+    if (roam.bedPose==='sleep') lab900LifeNote('sleep');
     $('destination').textContent=roam.bedPose==='lounge' ? 'ベッドでくつろいでいます' : 'ベッドでうとうとしています';
   }
   layOnBed(roam.bedPose,roam.elapsed-roam.bedChangedAt);
@@ -4499,6 +5091,287 @@ function pressWallSwitch(stage,progress) {
   $('destination').textContent = roomLightsOn ? 'レイラが電灯をつけました' : 'レイラが電灯を消しました';
 }
 
+const radioStations=[
+  {label:'83.4',color:0xd0a556,marks:-.025,angle:-.62,liked:false,bpm:96},
+  {label:'89.1',color:0x8acf83,marks:0,angle:.28,liked:true,bpm:112},
+  {label:'96.7',color:0x79bcca,marks:.028,angle:1.20,liked:false,bpm:84}
+];
+let radioStation=-1;
+const radioSoundButton=$('radioSound');
+const RadioAudioContext=window.AudioContext || window.webkitAudioContext;
+let radioAudioContext,radioSoundEnabled=false,activeRadioAudio=null;
+const radioMelodies=[
+  [220,277.18,329.63],
+  [261.63,329.63,392,523.25],
+  [293.66,261.63,196]
+];
+function stopRadioAudio(){
+  const playing=activeRadioAudio;
+  if (!playing) return;
+  activeRadioAudio=null;
+  const now=radioAudioContext.currentTime;
+  playing.gain.gain.cancelScheduledValues(now);
+  playing.gain.gain.setValueAtTime(0,now);
+  for(const note of playing.nodes){
+    try { note.stop(now); } catch {}
+  }
+  playing.gain.disconnect();
+}
+function startRadioAudio(stage){
+  if (!radioSoundEnabled || radioAudioContext?.state!=='running' || document.hidden) return;
+  stopRadioAudio();
+  const ctx=radioAudioContext;
+  // A tiny original four-note-at-most pattern. No sample, microphone, or stream.
+  const gain=ctx.createGain();
+  gain.gain.value=.063;
+  gain.connect(ctx.destination);
+  const notes=radioMelodies[radioStation];
+  const nodes=[];
+  const playing={gain,nodes,stage};
+  activeRadioAudio=playing;
+  const step=Math.min(.24,30/stage.tuned.bpm);
+  const start=ctx.currentTime+.013;
+  for(const [i,frequency] of notes.entries()){
+    const at=start+i*step;
+    const tone=ctx.createOscillator(),level=ctx.createGain();
+    tone.type=stage.tuned.liked?'triangle':'sine';
+    tone.frequency.value=frequency;
+    tone.connect(level);level.connect(gain);
+    level.gain.setValueAtTime(0,at);
+    level.gain.linearRampToValueAtTime(i===0?.57:.43,at+.028);
+    level.gain.exponentialRampToValueAtTime(.001,at+step*.82);
+    level.gain.linearRampToValueAtTime(0,at+step*.93);
+    tone.onended=()=>{
+      tone.disconnect();level.disconnect();
+      if(i===notes.length-1 && activeRadioAudio===playing){
+        activeRadioAudio=null;
+        gain.disconnect();
+      }
+    };
+    nodes.push(tone);
+    tone.start(at);
+    tone.stop(at+step);
+  }
+}
+function stopStaleRadioAudio(){
+  if(activeRadioAudio && (mode!=='roam' || roam.phase!=='route' || roam.pending ||
+      roam.visit[roam.visitIndex]!==activeRadioAudio.stage)) stopRadioAudio();
+}
+radioSoundButton.onclick=()=>{
+  if(!RadioAudioContext) return;
+  if(radioSoundEnabled){
+    radioSoundEnabled=false;
+    stopRadioAudio();
+  }else{
+    try{
+      radioAudioContext??=new RadioAudioContext();
+      // iOS requires this to run inside the opt-in click, not at arrival.
+      if(radioAudioContext.state!=='running') radioAudioContext.resume().catch(()=>{});
+      radioSoundEnabled=true;
+    }catch{return}
+  }
+  radioSoundButton.setAttribute('aria-pressed',String(radioSoundEnabled));
+  radioSoundButton.textContent=radioSoundEnabled?'ラジオ音：ON':'ラジオ音：OFF';
+};
+if(!RadioAudioContext){
+  radioSoundButton.disabled=true;
+  radioSoundButton.title='このブラウザーでは再生できません';
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden) stopRadioAudio();});
+function tuneRoomRadio(stage,progress) {
+  blendSofaPose(stage.pose,1);
+  const weight=rearRamp(progress,.08,.36)*(1-rearRamp(progress,.59,.78));
+  const lean=rearRamp(progress,0,.27)*(1-rearRamp(progress,.53,.78));
+  groups.chest.rotateX(.17*lean);
+  groups.head.rotateX(.23*lean);
+  groups.head.rotateZ(.075*lean);
+  if (weight) {
+    const touch=rearRamp(progress,.28,.44)*(1-rearRamp(progress,.58,.74));
+    const tip=radioTarget.lookAt.clone().add(V(0,.035*(1-touch),.069*(1-touch)));
+    const rotation=orientPalm('P',V(0,-.28,-1).normalize(),V(0,-1,.28).normalize());
+    const wrist=tip.clone().sub(middleFingertip.P.clone().applyQuaternion(rotation));
+    reachHand('P',wrist,rotation,weight,false,V(.14,-.14,.10));
+    const fingertip=groups.handP.localToWorld(middleFingertip.P.clone());
+    if (!stage.tuned && !roam.pending && progress >= .43 && progress <= .59 &&
+        fingertip.distanceTo(radioTarget.lookAt) < .035) {
+      radioStation=(radioStation+1)%radioStations.length;
+      stage.tuned=radioStations[radioStation];
+      lab900LifeNote('radio');
+      stage.dialFrom=radioKnob.rotation.z;
+      stage.tunedAt=progress;
+      radioNeedle.visible=true;
+      radioDisplay.color.setHex(stage.tuned.color).multiplyScalar(.62);
+      radioPower.color.setHex(0xffe9a2);
+      $('destination').textContent='ラジオで '+stage.tuned.label+' MHz に合わせています';
+    }
+  }
+  if (stage.tuned) {
+    const p=rearRamp(progress,stage.tunedAt,Math.min(.73,stage.tunedAt+.12));
+    radioKnob.rotation.z=mix(stage.dialFrom,stage.tuned.angle,p);
+    radioNeedle.position.x=.074+stage.tuned.marks;
+    if(progress>=.70 && !stage.audioTried){
+      stage.audioTried=true;
+      if(!roam.pending) startRadioAudio(stage);
+    }
+    if (stage.tuned.liked && !roam.pending) {
+      const listen=rearRamp(progress,.70,.78)*(1-rearRamp(progress,.92,1));
+      const beat=(progress-.70)*stage.time*stage.tuned.bpm/60;
+      groups.head.rotateX(listen*(.06+.11*Math.sin(2*Math.PI*beat)));
+      groups.head.rotateZ(listen*.07*Math.cos(2*Math.PI*beat));
+    }
+  }
+}
+
+// Each visit lays down part of one composition; subsequent visits continue it.
+const easelPicture=[
+  [0,.13,.23,.31,.18,.79,.22,26],[0,.16,.34,.50,.23,.87,.33,30],
+  [0,.15,.39,.46,.34,.86,.42,31],[1,.69,.35,.73,.30,.78,.34,18],
+  [1,.68,.39,.72,.35,.80,.39,19],[2,.16,.62,.30,.38,.44,.49,20],
+  [2,.42,.48,.52,.54,.63,.61,17],[3,.25,.65,.43,.41,.55,.54,19],
+  [3,.55,.54,.66,.58,.80,.65,19],[4,.14,.70,.39,.64,.85,.69,30],
+  [5,.16,.74,.37,.67,.82,.77,26],[5,.18,.79,.49,.75,.85,.80,23],
+  [6,.15,.85,.34,.75,.78,.81,22],[6,.24,.89,.54,.81,.84,.87,29],
+  [7,.23,.73,.41,.77,.57,.73,6],[7,.45,.77,.64,.79,.77,.76,5]
+];
+let easelPictureIndex=0,easelPictureNumber=0,easelStrokeProgress=0;
+function easelSample(line,p) {
+  const q=1-p;
+  return [q*q*line[1]+2*q*p*line[3]+p*p*line[5],
+    q*q*line[2]+2*q*p*line[4]+p*p*line[6]];
+}
+function layEaselInk(line,start,end) {
+  let [x,y]=easelSample(line,start);
+  easelInk.beginPath();
+  easelInk.moveTo(x*easelPixels.width,y*easelPixels.height);
+  const segments=Math.max(1,Math.ceil((end-start)*24));
+  for (let i=1;i<=segments;i++) {
+    [x,y]=easelSample(line,mix(start,end,i/segments));
+    easelInk.lineTo(x*easelPixels.width,y*easelPixels.height);
+  }
+  easelInk.lineWidth=line[7]; easelInk.lineCap='round'; easelInk.lineJoin='round';
+  easelInk.strokeStyle=easelPaints[(line[0]+easelPictureNumber)%easelPaints.length];
+  easelInk.stroke(); easelTexture.needsUpdate=true;
+}
+function easelStrokeTip(line,p,lift) {
+  const [x,y]=easelSample(line,p);
+  return artistEasel.localToWorld(V((x-.5)*easelWidth,easelFaceY+(.5-y)*easelHeight,easelFaceZ+lift));
+}
+function paintAtEasel(stage,progress) {
+  if (stage.startIndex===undefined) {
+    if (easelPictureIndex>=easelPicture.length) {
+      if (roam.pending || progress<.11) return;
+      easelPictureIndex=0; easelStrokeProgress=0; easelPictureNumber++; clearEaselSurface();
+    }
+    stage.startIndex=easelPictureIndex;
+    stage.resume=easelStrokeProgress;
+  }
+  blendSofaPose(stage.pose,1);
+  const drawTime=T.MathUtils.clamp((progress-.11)/.79,0,.99999)*4;
+  const pass=Math.floor(drawTime), within=drawTime-pass;
+  const index=stage.startIndex+pass;
+  const line=easelPicture[Math.min(index,easelPicture.length-1)];
+  const begin=pass===0 ? stage.resume : 0;
+  const p=mix(begin,1,rearRamp(within,.14,.84));
+  const contact=rearRamp(within,.02,.14)*(1-rearRamp(within,.84,.98));
+  const action=rearRamp(progress,.035,.15)*(1-rearRamp(progress,.87,.995));
+  const cancel=stage.cancelAt===undefined ? 1 : 1-rearRamp(roam.elapsed,stage.cancelAt,stage.cancelAt+.35);
+  const weight=action*cancel;
+  groups.chest.rotateX(.075*weight);
+  groups.head.rotateX(.14*weight);
+  groups.head.rotateY(.105*(.5-easelSample(line,p)[0])*weight);
+  easelBrush.visible=weight>.075 && index<easelPicture.length;
+  if (!easelBrush.visible) return;
+  const tip=easelStrokeTip(line,p,.031*(1-contact));
+  if (pass>0 && within<.14) {
+    const previousTip=easelStrokeTip(easelPicture[index-1],1,.031);
+    tip.lerp(previousTip,1-rearRamp(within,0,.13));
+  }
+  const dir=V(0,-.12,-1).normalize();
+  const palm=orientPalm('N',dir,V(-1,0,0));
+  const grip=tip.clone().addScaledVector(dir,-easelBrushLength);
+  const wrist=grip.clone().sub(palmRig.N.center.clone().applyQuaternion(palm));
+  reachHand('N',wrist,palm,weight,false,V(-.20,-.12,.08));
+  const held=groups.handN.localToWorld(palmRig.N.center.clone());
+  easelBrush.position.copy(held);
+  easelBrush.quaternion.setFromUnitVectors(palmUp,dir);
+  easelBristles.color.set(easelPaints[(line[0]+easelPictureNumber)%easelPaints.length]);
+  // Commit ink only during the loaded stroke, or on reaching its exact end point.
+  if (roam.pending || progress<.11 || progress>=.91 || index<easelPictureIndex || p<=begin) return;
+  // Keyboard backgrounding can skip frames: complete any skipped strokes first.
+  while (easelPictureIndex<index) {
+    layEaselInk(easelPicture[easelPictureIndex++],easelStrokeProgress,1);
+    easelStrokeProgress=0;
+  }
+  if (p>easelStrokeProgress) {
+    layEaselInk(line,easelStrokeProgress,p);
+    if (!stage.lab900LifeLogged) { stage.lab900LifeLogged=true; lab900LifeNote('paint'); }
+    easelStrokeProgress=p;
+    if (p>=.99999) {
+      easelPictureIndex++; easelStrokeProgress=0;
+      if (easelPictureIndex===easelPicture.length) lab900LifeNote('paintDone');
+    }
+  }
+}
+
+// The lamp warms and the firefly flies a small greeting loop only during visits.
+let terraClock=0,terraPhase=0,terraInterest=0,terraVisitCounter=0,terraLastResponse=0;
+function updateTerrarium(dt) {
+  terraClock+=dt;
+  const stage=mode==='roam' && roam.phase==='route' ? roam.visit[roam.visitIndex] : null;
+  const interacting=stage?.type==='terrariumVisit' && stage.signaled && !roam.pending;
+  if (interacting) terraLastResponse=stage.response ?? 0;
+  const response=terraLastResponse;
+  const responseAmount=interacting ? 1-rearRamp(roam.elapsed/stage.time,.78,.99) : 0;
+  terraInterest=mix(terraInterest,responseAmount,1-Math.exp(-dt*4));
+  const t=terraClock;
+  const errand=terraInterest*(response===1 ? .82 : 1);
+  // Integrate the orbit phase rather than multiplying elapsed time by an evolving
+  // speed; late-night visits stay every bit as smooth as the first one.
+  terraPhase=(terraPhase+dt*(1.06+errand*(response===1 ? 1.37 : 1.90)))%(Math.PI*2);
+  const phase=terraPhase;
+  const radiusX=.119-errand*.038,radiusZ=.052+errand*.017;
+  const y=.644+.017*Math.sin(t*2.2);
+  terraCreature.position.set(
+    radiusX*Math.sin(phase),
+    y+errand*(.068+.016*Math.sin(phase*2)),
+    radiusZ*Math.cos(phase));
+  terraCreature.rotation.y=Math.atan2(Math.cos(phase)*radiusX,-Math.sin(phase)*radiusZ);
+  terraCreature.rotation.z=.13*Math.sin(t*4.4);
+  const flutter=.34+Math.sin(t*(28+errand*9))*.39;
+  terraWings[0].rotation.z=-flutter;
+  terraWings[1].rotation.z=flutter;
+  terraHalo.scale.setScalar(1+errand*.42);
+  terraHaloLight.opacity=.059+.11*errand;
+  terraTailLight.emissive.setHex(0xffbc6f).lerp(terraMintSignal,response===1 ? Math.min(1,terraInterest*1.25) : 0);
+  terraTailLight.emissiveIntensity=.76+.22*Math.sin(t*3)+errand*1.36;
+  terraLightLine.color.setHex(0xc9f8ed).lerp(terraMoodLamp,errand*.58);
+}
+const terraMoodLamp=new T.Color(0xd8f4a1),terraMintSignal=new T.Color(0x94efc1);
+function viewTerrarium(stage,progress) {
+  blendSofaPose(stage.pose,1);
+  if (roam.pending && stage.cancelAt===undefined) stage.cancelAt=roam.elapsed;
+  const cancel=stage.cancelAt===undefined ? 1 : 1-rearRamp(roam.elapsed,stage.cancelAt,stage.cancelAt+.34);
+  const inspect=rearRamp(progress,.03,.25)*(1-rearRamp(progress,.79,1))*cancel;
+  if (!stage.signaled && progress>=.40 && !roam.pending) {
+    stage.signaled=true;roam.terrariumSignaled=true;
+    lab900LifeNote('terrarium');
+    stage.response=terraVisitCounter++%2;
+    $('destination').textContent=stage.response ? 'ホタルがミント色に光りました' : 'ホタルが光の輪を描いています';
+  }
+  groups.chest.rotateX(.105*inspect);
+  const head=groups.head;
+  const gaze=labTerrarium.localToWorld(terraCreature.position.clone())
+    .sub(head.getWorldPosition(V(0,0,0))).applyQuaternion(head.getWorldQuaternion(new T.Quaternion()).invert());
+  const pitch=T.MathUtils.clamp(-Math.atan2(gaze.y,Math.hypot(gaze.x,gaze.z)),-.40,.46);
+  const yaw=T.MathUtils.clamp(Math.atan2(gaze.x,gaze.z),-.55,.55);
+  groups.neck.rotateY(yaw*.25*inspect);
+  head.rotateY(yaw*.75*inspect);
+  head.rotateX(pitch*inspect);
+  const greeting=stage.signaled ? rearRamp(progress,.55,.65)*(1-rearRamp(progress,.70,.85))*cancel : 0;
+  head.rotateZ((stage.response ? -.12 : .09)*greeting);
+  head.rotateX(.08*greeting);
+}
+
 function advanceDestinationRoute(dt) {
   const stage = roam.visit[roam.visitIndex];
   roam.elapsed = Math.min(stage.time,roam.elapsed+dt);
@@ -4581,12 +5454,25 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'terrariumVisit':
+      viewTerrarium(stage,stage.cancelAt===undefined ? progress : stage.cancelAt/stage.time);
+      break;
+    case 'paintEasel':
+      if (roam.pending && stage.cancelAt===undefined) stage.cancelAt=roam.elapsed;
+      paintAtEasel(stage,stage.cancelAt===undefined ? progress : stage.cancelAt/stage.time);
+      break;
+    case 'radioTune':
+      tuneRoomRadio(stage,progress);
+      break;
     case 'pressLight':
       pressWallSwitch(stage,progress);
       roam.switchPressed=stage.pressed;
       break;
   }
-  if (progress < 1) return;
+  if (progress < 1 && !(
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit') &&
+      stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
+  if (stage.type==='paintEasel') easelBrush.visible=false;
   if (stage.type === 'bookPut') placeBookOnTable();
   if (roam.pending && stage.type !== 'bedSit') {
     const {target,acknowledge} = roam.pending;
@@ -4836,6 +5722,7 @@ function arriveAtDestination() {
   if (roam.target === bookTarget) {
     roam.phase = 'reading';
     roam.readTime = 0;
+    lab900LifeNote('read');
     roam.pause = 22+Math.random()*11;
     mood.nextBookAt = mood.seconds+70;
     $('destination').textContent = '本を読んでいます';
@@ -4857,6 +5744,21 @@ function arriveAtDestination() {
     roam.mirrorFeet = sofaSides.map(side => ({
       side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))
     }));
+    return;
+  }
+  if (roam.target === terrariumTarget) {
+    mood.nextTerrariumAt=mood.seconds+66;
+    enterQuietRest('linger','テラリウムのそばでひと休みしています',3.6);
+    return;
+  }
+  if (roam.target === easelTarget) {
+    mood.nextEaselAt=mood.seconds+74;
+    enterQuietRest('linger','描いた絵を眺めています',3.2);
+    return;
+  }
+  if (roam.target === radioTarget) {
+    mood.nextRadioAt=mood.seconds+65;
+    enterQuietRest('linger','ラジオのそばでひと休みしています',4);
     return;
   }
   if (roam.target === lightSwitchTarget) {
@@ -5096,6 +5998,10 @@ function advanceDance(dt) {
   dance.elapsed+=dt;
   dance.entryElapsed+=dt;
   const clip=danceClips[dance.id];
+  if (clip && !dance.lab900LifeLogged && dance.entryElapsed>=.4) {
+    dance.lab900LifeLogged=true;
+    lab900LifeNote('dance');
+  }
   const overlapStart=clip.duration-danceCrossfade;
   const nextTime=dance.elapsed-overlapStart;
   const sample=sampleDance(clip,dance.elapsed);
@@ -5677,8 +6583,9 @@ $('standWait').onclick = () => beginStandingWait(false);
 $('offerHandButton').onclick = () => beginStandingWait(true);
 
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);stopStaleRadioAudio();updateTerrarium(dt);
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
+if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
 if (handLink) {advanceHandLink(dt);sync();}
 else if(mode==='roam'){
@@ -5700,6 +6607,136 @@ if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
   alignSupportToFloor(1-cur.step,true);
 }
-sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}applyReaction(dt);updateWorld();updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}applyReaction(dt);
+if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
+updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+
+try {
+// Observation Album: no continuous capture/rendering, and no network or cloud storage.
+function lab900PhotoInit() {
+  const capture = $('lab900PhotoCapture'), open = $('lab900PhotoOpen');
+  const dialog = $('lab900PhotoDialog'), close = $('lab900PhotoClose');
+  const storage = $('lab900PhotoStorage'), empty = $('lab900PhotoEmpty');
+  const list = $('lab900PhotoList'), preview = $('lab900PhotoPreview');
+  const image = $('lab900PhotoImage'), caption = $('lab900PhotoCaption');
+  const download = $('lab900PhotoDownload'), remove = $('lab900PhotoDelete');
+  const action = $('lab900PhotoActionStatus'), feedback = $('lab900PhotoFeedback');
+  const toolbar = $('lab900Toolbar');
+  if (toolbar) toolbar.append(capture.parentElement);
+  const key = 'leila.lab900.album.v1', limit = 8;
+  const stamp = new Intl.DateTimeFormat('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  let albums = [], picked = null, durable = true, armed = null;
+  const jpeg = /^data:image\/jpeg;base64,[a-z0-9+/=]+$/i;
+  function storageState() {
+    storage.textContent = durable
+      ? 'このブラウザに最新8枚を保存。残したい写真はダウンロードしてね。'
+      : 'ブラウザに保存できないため、追加や削除はこのページを開いている間だけ反映されます。残したい写真はダウンロードしてね。';
+  }
+  try {
+    const raw = localStorage.getItem(key), items = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(items)) albums = items.filter(x => x && typeof x.id === 'string' &&
+      typeof x.image === 'string' && x.image.length <= 230000 && jpeg.test(x.image) &&
+      Number.isFinite(x.time) && x.time > 0 && x.time < 8640000000000000).slice(0,limit);
+  } catch { durable = false; }
+  function persist() {
+    try { localStorage.setItem(key,JSON.stringify(albums)); durable = true; }
+    catch { durable = false; }
+    storageState();
+  }
+  function disarm() { armed = null; remove.textContent = '写真を削除'; action.textContent = ''; }
+  function update() {
+    const item = albums.find(x => x.id === picked) || albums[0];
+    picked = item ? item.id : null;
+    $('lab900PhotoCount').textContent = '(' + albums.length + ')';
+    empty.hidden = !!item;
+    preview.hidden = !item;
+    if (item) {
+      image.src = item.image;
+      caption.textContent = stamp.format(item.time);
+      download.href = item.image;
+      download.download = 'LEILA-' + new Date(item.time).toISOString().replace(/[:.]/g,'-') + '.jpg';
+    } else {
+      image.removeAttribute('src'); download.setAttribute('href','#');
+    }
+    list.replaceChildren(...albums.map(x => {
+      const tile = document.createElement('button'); tile.type = 'button'; tile.className = 'lab900PhotoTile';
+      tile.setAttribute('aria-pressed',String(x.id === picked)); tile.dataset.photo = x.id;
+      const thumb = document.createElement('img'); thumb.alt = ''; thumb.src = x.image;
+      const title = document.createElement('span'); title.textContent = stamp.format(x.time);
+      tile.append(thumb,title);
+      tile.addEventListener('click',() => {
+        picked = x.id; disarm(); update();
+        Array.from(list.children).find(el => el.dataset.photo === picked)?.focus();
+      });
+      return tile;
+    }));
+  }
+  remove.addEventListener('click',() => {
+    if (!picked) return;
+    if (armed !== picked) {
+      armed = picked;
+      remove.textContent = 'もう一度押して削除';
+      action.textContent = '選んだ写真だけを削除します。';
+      return;
+    }
+    albums = albums.filter(x => x.id !== picked);
+    picked = null;
+    disarm();
+    persist();
+    update();
+    if (!albums.length) close.focus();
+  });
+  dialog.addEventListener('close',() => { disarm(); open.focus(); });
+  function openAlbum() {
+    disarm();
+    try {
+      if (!dialog.open) {
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open','');
+      }
+      close.focus();
+    } catch { feedback.textContent = 'アルバムを開けませんでした。'; }
+  }
+  close.addEventListener('click',() => {
+    if (typeof dialog.close === 'function') dialog.close();
+    else { dialog.removeAttribute('open'); disarm(); open.focus(); }
+  });
+  open.addEventListener('click',openAlbum);
+  capture.addEventListener('click',() => {
+    try {
+      const source = r.domElement;
+      const width = source.width, height = source.height;
+      if (!width || !height || r.getContext().isContextLost()) throw Error('scene unavailable');
+      const copy = document.createElement('canvas');
+      const context = copy.getContext('2d',{alpha:false});
+      if (!context) throw Error('photo context unavailable');
+      // WebGL may clear its drawing buffer between frames. Capture immediately, in
+      // this same event, after an explicit render and before yielding to the browser.
+      r.render(scene,camera);
+      let output = '';
+      for (const [edge,quality] of [[860,.85],[720,.78],[540,.72],[420,.68]]) {
+        const size = Math.min(1,edge/Math.max(width,height));
+        copy.width = Math.max(1,Math.round(width*size));
+        copy.height = Math.max(1,Math.round(height*size));
+        context.drawImage(source,0,0,copy.width,copy.height);
+        output = copy.toDataURL('image/jpeg',quality);
+        if (output.length <= 230000 && jpeg.test(output)) break;
+      }
+      if (!jpeg.test(output) || output.length > 230000) throw Error('image unavailable');
+      const time = Date.now();
+      picked = time.toString(36) + '-' + Math.random().toString(36).slice(2,10);
+      albums = [{id:picked,time,image:output},...albums].slice(0,limit);
+      disarm();
+      persist();
+      update();
+      feedback.textContent = durable ? '撮影しました。' : '撮影しました（このページのみ）。';
+    } catch { feedback.textContent = '撮影できませんでした。画面が表示されてから、もう一度試してね。'; }
+  });
+  update(); storageState(); feedback.textContent = '';
+  capture.disabled = false; open.disabled = false;
+}
+lab900PhotoInit();
+
+} catch (error) { console.warn('観測アルバムを開けません',error); }
 }catch(e){$('status').textContent='読み込みエラー: '+e.message;console.error(e)}
 </script></html>
