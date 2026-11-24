@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 900.1｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 90｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -105,12 +105,15 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 .labMusic label{margin:0;justify-content:start}
 .labMusic small{color:#abc5df;flex:1 0 100%;padding:.1rem .2rem .35rem}
 .labMusic button[aria-pressed=true]{background:#284754;border-color:#8bbfc7}
+#view{position:relative}
+#waveReplyHint{position:absolute;z-index:2;bottom:10px;right:max(10px,env(safe-area-inset-right));margin:0;pointer-events:none;background:#101c2dec;color:#f0f6ff;border:1px solid #7a9abc;border-radius:14px;padding:7px 12px;font-size:.79rem;font-weight:650;box-shadow:0 2px 10px #0007}
+#waveReplyHint[hidden]{display:none}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 900</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 90</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
-</header><div id="view"></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -2366,11 +2369,100 @@ function respondToContact(action, current) {
   beginReaction(weightedChoice(choices),true,side,action === 'drag');
 }
 
+// One brief, one-shot hand-wave invitation. Body contact always takes priority.
+const waveReplyHint=$('waveReplyHint');
+let waveReplyUntil=0,waveReplyTimer=0,waveReplyFinger=null,waveReplyConsumed=null;
+function closeWaveReply(keepFinger=false){
+  waveReplyUntil=0;
+  clearTimeout(waveReplyTimer);
+  waveReplyTimer=0;
+  waveReplyHint.hidden=true;
+  if(!keepFinger) waveReplyFinger=null;
+}
+function openWaveReply(){
+  clearTimeout(waveReplyTimer);
+  waveReplyUntil=performance.now()+4000;
+  waveReplyHint.hidden=false;
+  waveReplyTimer=setTimeout(()=>closeWaveReply(true),4000);
+}
+function armWaveReply(event,x,y){
+  if(!waveReplyUntil || performance.now()>=waveReplyUntil || event.pointerType!=='touch') return;
+  const leg=Math.max(12,Math.min(19,canvas.clientWidth*.023 || 13));
+  waveReplyFinger={id:event.pointerId,x,y,time:event.timeStamp,until:waveReplyUntil,leg,dir:0,extreme:x,turns:0};
+}
+function answerWaveReply(){
+  closeWaveReply();
+  if(reaction && (reaction.kind==='smallWave' || reaction.kind==='largeWave')){
+    // Ease naturally out of the first wave before the special return wave.
+    reaction.duration=Math.min(reaction.duration,reaction.elapsed+.32);
+    reaction.next='waveReply';
+    reaction.nextSide=reaction.side;
+    reaction.nextStroke=null;
+    reaction.nextFromStroke=false;
+  }else{
+    restoreReactionPose();
+    beginReaction('waveReply');
+  }
+}
+function yieldWaveReplyMove(event,g){
+  waveReplyFinger=null;
+  if(trackedPointers.size!==1) return;
+  // OrbitControls r169 still owns this pointer. Seed one bounded sample at the
+  // handoff so a big first swipe still turns the camera without a delayed snap.
+  const step=d=>Math.max(-18,Math.min(18,d));
+  orbit._handleTouchStartRotate?.({
+    pageX:(event.pageX??event.clientX)-step(event.clientX-(g.lastX??g.x)),
+    pageY:(event.pageY??event.clientY)-step(event.clientY-(g.lastY??g.y))
+  });
+}
+function gateWaveReplyMove(event){
+  if(event.pointerId===waveReplyConsumed){
+    orbit._trackPointer?.(event);
+    event.stopImmediatePropagation();
+    return;
+  }
+  const g=waveReplyFinger;
+  if(!g || g.id!==event.pointerId) return;
+  const x=event.clientX,dy=Math.abs(event.clientY-g.y),dx=x-g.x;
+  if(trackedPointers.size!==1 || performance.now()>=Math.min(waveReplyUntil,g.until) ||
+     event.timeStamp-g.time>900 || dy>g.leg*1.8 || Math.abs(dx)>g.leg*4.1){
+    yieldWaveReplyMove(event,g);
+    return; // The original OrbitControls pointer is still alive; this same event rotates normally.
+  }
+  if(!g.dir && Math.abs(dx)>=g.leg){
+    g.dir=Math.sign(dx);
+    g.extreme=x;
+  }else if(g.dir && (x-g.extreme)*g.dir>0){
+    g.extreme=x;
+  }else if(g.dir && (x-g.extreme)*g.dir<=-g.leg){
+    g.dir=-g.dir;
+    g.extreme=x;
+    g.turns++;
+    if(g.turns>=2){
+      waveReplyConsumed=event.pointerId;
+      backgroundTap=null;
+      answerWaveReply();
+    }
+  }
+  g.lastX=x;
+  g.lastY=event.clientY;
+  // Keep OrbitControls' touch-position cache fresh for a potential second finger,
+  // but don't move the camera while deciding whether this is a short wave.
+  orbit._trackPointer?.(event);
+  event.stopImmediatePropagation();
+}
+canvas.addEventListener('pointermove',gateWaveReplyMove,true);
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){closeWaveReply();waveReplyConsumed=null;}
+});
+
 // Capture phase lets OrbitControls keep tracking both fingers for pinch while
 // disabling its single-finger rotation when the first finger touches Leila.
 canvas.addEventListener('pointerdown', event => {
   trackedPointers.add(event.pointerId);
   if (trackedPointers.size > 1) {
+    waveReplyFinger=null;
+    waveReplyConsumed=null;
     clearContact();
     backgroundTap = null;
     return;
@@ -2379,6 +2471,7 @@ canvas.addEventListener('pointerdown', event => {
   const {clientX:x, clientY:y, pointerId:id} = event;
   const {leila} = pickSurface(x, y);
   if (!leila) {
+    armWaveReply(event,x,y);
     backgroundTap = {id,x,y};
     return;
   }
@@ -2472,6 +2565,8 @@ canvas.addEventListener('pointermove', event => {
 
 function endPointer(event) {
   trackedPointers.delete(event.pointerId);
+  if(waveReplyFinger?.id===event.pointerId) waveReplyFinger=null;
+  if(waveReplyConsumed===event.pointerId) waveReplyConsumed=null;
   const current = contact?.id === event.pointerId ? contact : null;
   const origin = backgroundTap?.id === event.pointerId ? backgroundTap : null;
   if (origin) backgroundTap = null;
@@ -2517,6 +2612,8 @@ for (const type of ['pointerup','pointercancel','lostpointercapture']) {
 }
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 window.addEventListener('blur', () => {
+  closeWaveReply();
+  waveReplyConsumed=null;
   trackedPointers.clear();
   backgroundTap = null;
   clearContact();
@@ -2630,6 +2727,7 @@ const reactions = {
   nod: {label:'うなずいています',duration:1.24,clip:'nod'},
   smallWave: {label:'小さく手を振っています',duration:1.70,clip:'greeting'},
   largeWave: {label:'大きく手を振っています',duration:2.22,clip:'greeting'},
+  waveReply: {label:'レイラがうれしそうに手を振り返しました',duration:2.22,clip:'greeting'},
   beckon: {label:'手招きしています',duration:1.67,clip:'beckon'},
   welcome: {label:'近づいたあなたに、うれしそうにうなずきました',duration:1.32,clip:'nod'}
 };
@@ -2764,6 +2862,10 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   const status = $('reactionStatus');
   status.textContent = reaction.label;
   status.hidden = false;
+  if((kind==='smallWave' || kind==='largeWave') && !handlingBook()){
+    reaction.waveInvitationOpened=true;
+    openWaveReply();
+  }
 }
 
 function sampleReaction(clip, progress, mirror) {
@@ -3556,6 +3658,10 @@ function applyLegReaction(entry,time,weight,yaw,pitch) {
 function applyReaction(dt) {
   if (!reaction || handlingBook()) return;
   const {kind,duration,side,clip} = reaction;
+  if((kind==='smallWave' || kind==='largeWave') && !reaction.waveInvitationOpened){
+    reaction.waveInvitationOpened=true;
+    openWaveReply();
+  }
   const contactMotion = reaction.pose === 'face' || reaction.pose === 'torso' || reaction.pose === 'leg';
   const time = reaction.elapsed = contactMotion ? advanceContactElapsed(reaction,dt) : reaction.elapsed+dt;
   if (time >= duration) {
@@ -3632,6 +3738,12 @@ function applyReaction(dt) {
     const greeting = smooth(Math.min(1,time/.46,(duration-time)/.55));
     tilt = (side === 'P' ? -1 : 1)*.10*greeting;
     chin += .038*greeting;
+    if(kind==='waveReply'){
+      groups.chest.rotateY(.18*yaw*weight*greeting);
+      turn=yaw*(.78+.18*greeting);
+      tilt*=1.4;
+      chin+=.045*Math.sin(Math.PI*greeting);
+    }
   }
   groups.neck.rotateY(.23*turn*weight);
   head.rotateY(.77*turn*weight);
