@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 93｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 94｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -110,7 +110,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #waveReplyHint[hidden]{display:none}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 93</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 94</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -6254,7 +6254,6 @@ function beginCapoeira(id,requested) {
   const sequence=id ? [id] : capoeiraProgram;
   if (requested) {
     invitation=null;
-    followLeila=true;
     orbit.target.copy(root.position).y=.50;
     camera.position.copy(root.position).add(capoeiraViewOffset);
     orbit.update();
@@ -6262,7 +6261,9 @@ function beginCapoeira(id,requested) {
   const [first,...queue]=sequence;
   dance={
     capoeira:true,id:first,queue,heading:capoeiraHeading,anchor:capoeiraFloor.position.clone(),
-    elapsed:0,entryElapsed:0,entry:captureSofaPose()
+    elapsed:0,entryElapsed:0,entry:captureSofaPose(),
+    cameraGuide:root.position.clone(),
+    clearance:0
   };
   mode='dance';
   showDanceTitle();
@@ -6369,7 +6370,10 @@ function advanceDance(dt) {
     const weight=fadeAmount(outro.elapsed/.5);
     blendSofaPose(outro.standing,1);
     blendSofaPose(outro.pose,1-weight);
-    if (dance.capoeira) alignCapoeiraSupport(0);
+    if (dance.capoeira) {
+      alignCapoeiraSupport(dance.clearance*(1-weight));
+      followCapoeira(dt);
+    }
     else alignSupportToFloor();
     if (weight>=1) {
       mode='roam';
@@ -6439,39 +6443,138 @@ function alignCapoeiraSupport(clearance) {
   if (Number.isFinite(lowest)) groups.pelvis.position.y+=.003+clearance-lowest;
 }
 
-function advanceCapoeira(dt) {
-  dance.elapsed+=dt;
-  dance.entryElapsed+=dt;
-  const clip=capoeiraClips[dance.id];
-  const nextTime=dance.elapsed-(clip.duration-danceCrossfade);
-  // Sample in the rig's forward frame, then turn the complete pose to face the mat.
+function followCapoeira(dt) {
+  const guide=dance.cameraGuide;
+  const x=guide.x,z=guide.z;
+  guide.lerp(root.position,1-Math.exp(-dt*8));
+  camera.position.x+=guide.x-x;
+  camera.position.z+=guide.z-z;
+  orbit.target.x+=guide.x-x;
+  orbit.target.z+=guide.z-z;
+}
+
+function capoeiraFeet() {
+  return Object.fromEntries(sofaSides.map(side=>[
+    side,groups['foot'+side].getWorldPosition(V(0,0,0))
+  ]));
+}
+
+function sampleCapoeira(clip,time,anchor,entryWeight=1,heading=dance.heading) {
   root.rotation.y=0;
-  const sample=sampleDance(clip,dance.elapsed,true);
-  if (dance.queue.length && nextTime>=0) {
-    const outgoing=captureSofaPose();
-    const incoming=sampleDance(capoeiraClips[dance.queue[0]],nextTime,true);
-    const weight=fadeAmount(nextTime/danceCrossfade);
-    blendSofaPose(outgoing,1-weight);
-    sample.offset.lerp(incoming.offset,weight);
-    sample.ground=mix(sample.ground,incoming.ground,weight);
+  const {offset,ground}=sampleDance(clip,time,true);
+  offset.applyAxisAngle(turnAxis,heading-dance.heading);
+  root.rotation.y=heading;
+  if (entryWeight<1) blendSofaPose(dance.entry,1-entryWeight);
+  setTravelPosition(anchor.x+offset.x*entryWeight,anchor.z+offset.z*entryWeight,true);
+  dance.clearance=ground*entryWeight;
+  alignCapoeiraSupport(dance.clearance);
+}
+
+function startCapoeiraStep() {
+  const from=root.position.clone();
+  const pose=captureSofaPose();
+  const feet=capoeiraFeet();
+  const ground=dance.clearance;
+  const next=capoeiraClips[dance.queue[0]];
+  sampleCapoeira(next,0,dance.anchor);
+  const startingFeet=capoeiraFeet();
+  // Prefer the foot already bearing weight at both ends of the transition.
+  const score=side=>feet[side].y+startingFeet[side].y;
+  const support=score('P')<score('N') ? 'P' : 'N';
+  const startHip=next.hips[0];
+  const footOffset=startingFeet[support].clone().sub(root.position)
+    .applyAxisAngle(turnAxis,-dance.heading);
+  const origin=capoeiraFloor.position;
+  const relative=V(0,0,0);
+  let bestCost=Infinity, turn=0;
+  // Turn at the planted foot when the next technique would run off the mat.
+  for (let i=-8;i<8;i++) {
+    const delta=i*Math.PI/8;
+    const heading=dance.heading+delta;
+    let excess=0;
+    for (const hip of next.hips) {
+      relative.copy(hip).sub(startHip).multiplyScalar(transferScale)
+        .sub(footOffset).applyAxisAngle(turnAxis,heading).add(feet[support]);
+      excess=Math.max(excess,Math.abs(relative.x-origin.x)-1.74,Math.abs(relative.z-origin.z)-1.54);
+    }
+    relative.copy(next.hips.at(-1)).sub(startHip).multiplyScalar(transferScale)
+      .sub(footOffset).applyAxisAngle(turnAxis,heading).add(feet[support]);
+    const cost=excess*75+Math.abs(delta)*.26+Math.hypot(relative.x-origin.x,relative.z-origin.z)*1.6;
+    if (cost<bestCost) {
+      bestCost=cost;
+      turn=delta;
+    }
   }
+  const heading=dance.heading+turn;
+  sampleCapoeira(next,0,dance.anchor,1,heading);
+  const targetFoot=groups['foot'+support].getWorldPosition(V(0,0,0));
+  const shift=feet[support].clone().sub(targetFoot);
+  shift.y=0;
+  dance.step={
+    elapsed:0,from,pose,feet,ground,support,heading,turn,
+    to:root.position.clone().add(shift),targetPose:captureSofaPose(),startingGround:dance.clearance,
+    anchor:dance.anchor.clone().add(shift)
+  };
   root.rotation.y=dance.heading;
-  const entryWeight=fadeAmount(dance.entryElapsed/danceEntryTime);
-  if (entryWeight<1) {
-    blendSofaPose(dance.entry,1-entryWeight);
-    sample.offset.multiplyScalar(entryWeight);
-    sample.ground*=entryWeight;
+  setTravelPosition(from.x,from.z,true);
+  blendSofaPose(pose,1);
+  dance.clearance=ground;
+}
+
+function advanceCapoeiraStep(dt) {
+  const step=dance.step;
+  step.elapsed+=dt;
+  const progress=Math.min(1,step.elapsed/(.52+Math.abs(step.turn)*.14));
+  const weight=fadeAmount(progress);
+  blendSofaPose(step.pose,1);
+  blendSofaPose(step.targetPose,weight);
+  root.rotation.y=dance.heading+step.turn*weight;
+  setTravelPosition(mix(step.from.x,step.to.x,weight),mix(step.from.z,step.to.z,weight),true);
+
+  // Keep the supporting ankle over its contact point as the bent leg changes shape.
+  const ankle=groups['foot'+step.support].getWorldPosition(V(0,0,0));
+  const plant=step.feet[step.support];
+  setTravelPosition(root.position.x+plant.x-ankle.x,root.position.z+plant.z-ankle.z,true);
+
+  // Give the other foot clearance to step into the next stance.
+  const swing=step.support==='P' ? 'N' : 'P';
+  const lift=Math.sin(Math.PI*progress)**2;
+  if (lift>.0001) {
+    const thigh=groups['thigh'+swing],knee=groups['knee'+swing],foot=groups['foot'+swing];
+    const rotation=foot.quaternion.clone();
+    const goal=foot.getWorldPosition(V(0,0,0));
+    goal.y+=.075*lift;
+    const thighPose=thigh.quaternion.clone(),kneePose=knee.quaternion.clone();
+    solveLeg(swing,goal,root.rotation.y);
+    thigh.quaternion.slerp(thighPose,1-lift);
+    knee.quaternion.slerp(kneePose,1-lift);
+    foot.quaternion.copy(rotation);
   }
-  setTravelPosition(dance.anchor.x+sample.offset.x,dance.anchor.z+sample.offset.z,true);
-  alignCapoeiraSupport(sample.ground);
-  if (dance.elapsed<clip.duration) return;
-  if (dance.queue.length) {
-    dance.id=dance.queue.shift();
-    dance.elapsed=nextTime;
-    showDanceTitle();
+  dance.clearance=mix(step.ground,step.startingGround,weight);
+  alignCapoeiraSupport(dance.clearance);
+  if (progress<1) return;
+  dance.anchor.copy(step.anchor);
+  dance.heading=step.heading;
+  dance.id=dance.queue.shift();
+  dance.elapsed=0;
+  dance.step=null;
+  showDanceTitle();
+}
+
+function advanceCapoeira(dt) {
+  if (dance.step) {
+    advanceCapoeiraStep(dt);
   } else {
-    beginDanceOutro();
+    dance.elapsed+=dt;
+    dance.entryElapsed+=dt;
+    const clip=capoeiraClips[dance.id];
+    sampleCapoeira(clip,dance.elapsed,dance.anchor,fadeAmount(dance.entryElapsed/danceEntryTime));
+    if (dance.elapsed>=clip.duration) {
+      if (dance.queue.length) startCapoeiraStep();
+      else beginDanceOutro();
+    }
   }
+  followCapoeira(dt);
 }
 
 const gestureData = await (await loadAsset('./gestures.json')).json();
