@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 92｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 93｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -110,7 +110,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #waveReplyHint[hidden]{display:none}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 92</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 93</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -176,11 +176,11 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 </aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><label id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
   <option value="live">実時刻</option><option value="day">晴れた昼</option>
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
-</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><button id="radioPreview" type="button">ラジオを試す</button> <button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><button id="radioPreview" type="button">ラジオを試す</button> <button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
-  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';
 import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
@@ -1036,6 +1036,22 @@ const markerCap = new T.CylinderGeometry(.054,.054,.022,16);
 const markerBaseMaterial = new T.MeshStandardMaterial({color:0x263644});
 const walkTargets = [];
 const destinationMeshes = new Map();
+const capoeiraFloor = new T.Group();
+capoeiraFloor.position.set(3.45,0,5.85);
+facility.add(capoeiraFloor);
+const capoeiraMat = block(capoeiraFloor,mat(0x253e46,.92),0,.0015,0,4.25,.003,3.85);
+capoeiraMat.receiveShadow=true;
+const capoeiraLine = mat(0x7aa49e,.88);
+for (const side of [-1,1]) {
+  block(capoeiraFloor,capoeiraLine,side*2.04,.0035,0,.025,.001,3.70);
+  block(capoeiraFloor,capoeiraLine,0,.0035,side*1.85,4.08,.001,.025);
+}
+const capoeiraRing = new T.Mesh(new T.RingGeometry(1.37,1.39,64),
+  new T.MeshStandardMaterial({color:0x628982,roughness:.9}));
+capoeiraRing.rotation.x=-Math.PI/2;
+capoeiraRing.position.y=.004;
+capoeiraFloor.add(capoeiraRing);
+
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
 for (const [name,x,z,color] of [
   ['緑のポール',.85,-2.60,0x49b8a9],
@@ -4022,6 +4038,12 @@ function advanceRoam(dt) {
       beginReaction('offerHand');
       return;
     }
+    if ((roam.phase==='wait' || roam.phase==='linger') && !reaction &&
+        mood.seconds>=nextCapoeiraAt && ['bored','playful','happy'].includes(currentMood()) &&
+        Object.keys(capoeiraClips).length && Math.random()<.20) {
+      requestCapoeira(null,false);
+      return;
+    }
     const danceChance = currentMood() === 'bored' ? .52 : currentMood() === 'affectionate' ? .10 : .26;
     if ((roam.phase==='wait' || roam.phase==='linger') && canDanceHere() && Math.random()<danceChance) {
       beginDance('auto');
@@ -4623,7 +4645,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       }
     }
   }
-  if (target.kind === 'greeting') {
+  if (target.kind === 'capoeira' || target.kind === 'greeting') {
     visit.push(routeTurn(target.heading,message));
   } else if (target === lightSwitchTarget) {
     visit.push(routeTurn(target.heading,'壁のスイッチの前に立っています'),
@@ -5435,7 +5457,7 @@ function labTrackPump(key,wanted,variant,volume){
   }
 }
 function updateLabMusic(){
-  const dancing=Boolean(danceSoundEnabled && mode==='dance' && dance && !dance.outro && !dance.finished);
+  const dancing=Boolean(danceSoundEnabled && mode==='dance' && dance && !dance.capoeira && !dance.outro && !dance.finished);
   labTrackPump('dance',dancing,0,.16);
   labTrackPump('radio',radioSoundEnabled,Math.max(0,radioStation),dancing?.039:.115);
 }
@@ -6178,6 +6200,74 @@ const danceClips = Object.fromEntries(Object.entries(danceSources).map(([id,sour
   id,{...prepareTransition(source),joints:source.joints,ground:source.frames.map(frame=>frame.ground)}
 ]));
 const danceIds = Object.keys(danceClips);
+const capoeiraClips = await loadAsset('./capoeira.json')
+  .then(response=>response.json())
+  .then(sources=>Object.fromEntries(Object.entries(sources).map(([id,source])=>[
+    id,{...prepareTransition(source),joints:source.joints,ground:source.frames.map(frame=>frame.ground)}
+  ])))
+  .catch(error=>{
+    $('capoeiraPlay').textContent='カポエイラ素材を読み込めません';
+    console.warn(error);
+    return {};
+  });
+const capoeiraProgram = [
+  'Capoeira idle','Capoeira','Meia Lua De Frente','Armada','Au To Role',
+  'Chapa Giratoria 2','Martelo Do Chau','Martelo Do Chau Sem Mao',
+  'Chapaeu De Couro','Macaco Side','Capoeira idle'
+].filter(id=>capoeiraClips[id]);
+let nextCapoeiraAt=70;
+const capoeiraViewOffset=V(-1.56,1.47,2.72);
+const capoeiraHeading=Math.atan2(capoeiraViewOffset.x,capoeiraViewOffset.z);
+const capoeiraHandPoint=V(0,0,0);
+for (const id of Object.keys(capoeiraClips)) $('capoeiraClip').add(new Option(id,id));
+if (capoeiraProgram.length) {
+  $('capoeiraPlay').disabled=false;
+  $('capoeiraPreview').disabled=false;
+  $('capoeiraPlay').onclick=()=>requestCapoeira(null,true);
+  $('capoeiraPreview').onclick=()=>requestCapoeira($('capoeiraClip').value,true);
+}
+
+function requestCapoeira(id,requested) {
+  if (mode==='dance' && dance.capoeira && !dance.outro) return;
+  if (mode==='roam' && roam.phase==='route' &&
+      (roam.pending?.target ?? roam.target).kind==='capoeira') return;
+  if (mode!=='roam') {
+    endHandLink(false);
+    restoreReactionPose();
+    mode='roam';
+    roam={phase:'wait'};
+  }
+  restoreReactionPose();
+  reaction=null;
+  mood.offeredHand=null;
+  $('reactionStatus').hidden=true;
+  closeWaveReply();
+  nextCapoeiraAt=mood.seconds+120;
+  const point=capoeiraFloor.position;
+  requestDestination({
+    kind:'capoeira',name:'運動場',point,heading:capoeiraHeading,
+    onArrival:()=>beginCapoeira(id,requested)
+  });
+}
+
+function beginCapoeira(id,requested) {
+  const sequence=id ? [id] : capoeiraProgram;
+  if (requested) {
+    invitation=null;
+    followLeila=true;
+    orbit.target.copy(root.position).y=.50;
+    camera.position.copy(root.position).add(capoeiraViewOffset);
+    orbit.update();
+  }
+  const [first,...queue]=sequence;
+  dance={
+    capoeira:true,id:first,queue,heading:capoeiraHeading,anchor:capoeiraFloor.position.clone(),
+    elapsed:0,entryElapsed:0,entry:captureSofaPose()
+  };
+  mode='dance';
+  showDanceTitle();
+}
+
 const danceCrossfade = .48;
 const danceEntryTime = .55;
 let dance;
@@ -6222,6 +6312,10 @@ function beginDance(kind,id=null) {
 }
 
 function showDanceTitle() {
+  if (dance.capoeira) {
+    $('destination').textContent='カポエイラ演舞 · '+dance.id;
+    return;
+  }
   const title = 'Hip Hop Dancing ' + dance.id;
   $('destination').textContent = dance.kind==='auto' ? '気分でダンス · '+title : title;
 }
@@ -6237,14 +6331,16 @@ $('danceLoop').onclick = () => {
   if (mode!=='dance' || dance.kind!=='loop' || dance.outro) beginDance('loop');
 };
 
-function sampleDance(clip,time) {
+function sampleDance(clip,time,isCapoeira=false) {
   const {fps,joints,rotations,hips,ground}=clip;
   const [a,b,weight] = sampleIndices(Math.min(time,clip.duration)*fps,hips.length,false);
   for (const key in groups) {
     groups[key].position.copy(base[key]);
     groups[key].quaternion.identity();
   }
-  const displacement=hips[a].clone().lerp(hips[b],weight).sub(hips[0]).multiplyScalar(transferScale);
+  const displacement=hips[a].clone().lerp(hips[b],weight);
+  if (!isCapoeira) displacement.sub(hips[0]);
+  displacement.multiplyScalar(transferScale);
   displacement.applyAxisAngle(turnAxis,dance.heading);
   groups.pelvis.position.y += displacement.y;
   for (const [index,key] of joints.entries()) {
@@ -6263,7 +6359,7 @@ function beginDanceOutro() {
   settleStandingFeet();
   dance.outro = {pose,standing:captureSofaPose(),elapsed:0};
   blendSofaPose(pose,1);
-  $('destination').textContent = 'ダンスを終えています';
+  $('destination').textContent = dance.capoeira ? '演舞を終えています' : 'ダンスを終えています';
 }
 
 function advanceDance(dt) {
@@ -6273,12 +6369,17 @@ function advanceDance(dt) {
     const weight=fadeAmount(outro.elapsed/.5);
     blendSofaPose(outro.standing,1);
     blendSofaPose(outro.pose,1-weight);
-    alignSupportToFloor();
+    if (dance.capoeira) alignCapoeiraSupport(0);
+    else alignSupportToFloor();
     if (weight>=1) {
       mode='roam';
       roam = {phase:'linger',target:null};
       chooseDestination();
     }
+    return;
+  }
+  if (dance.capoeira) {
+    advanceCapoeira(dt);
     return;
   }
   if (dance.finished) return;
@@ -6323,6 +6424,53 @@ function advanceDance(dt) {
   } else {
     dance.finished=true;
     $('destination').textContent = 'ダンス試演終了';
+  }
+}
+
+function alignCapoeiraSupport(clearance) {
+  let lowest=Math.min(...shoeContactGeometry.map(shoe=>shoeFloorHeight(shoe)));
+  for (const side of sofaSides) {
+    const wrist=groups['hand'+side];
+    for (const [x,y,z] of [[0,0,0],[side==='P'?.022:-.022,-.053,.002]]) {
+      wrist.localToWorld(capoeiraHandPoint.set(x,y,z));
+      lowest=Math.min(lowest,capoeiraHandPoint.y-.012);
+    }
+  }
+  if (Number.isFinite(lowest)) groups.pelvis.position.y+=.003+clearance-lowest;
+}
+
+function advanceCapoeira(dt) {
+  dance.elapsed+=dt;
+  dance.entryElapsed+=dt;
+  const clip=capoeiraClips[dance.id];
+  const nextTime=dance.elapsed-(clip.duration-danceCrossfade);
+  // Sample in the rig's forward frame, then turn the complete pose to face the mat.
+  root.rotation.y=0;
+  const sample=sampleDance(clip,dance.elapsed,true);
+  if (dance.queue.length && nextTime>=0) {
+    const outgoing=captureSofaPose();
+    const incoming=sampleDance(capoeiraClips[dance.queue[0]],nextTime,true);
+    const weight=fadeAmount(nextTime/danceCrossfade);
+    blendSofaPose(outgoing,1-weight);
+    sample.offset.lerp(incoming.offset,weight);
+    sample.ground=mix(sample.ground,incoming.ground,weight);
+  }
+  root.rotation.y=dance.heading;
+  const entryWeight=fadeAmount(dance.entryElapsed/danceEntryTime);
+  if (entryWeight<1) {
+    blendSofaPose(dance.entry,1-entryWeight);
+    sample.offset.multiplyScalar(entryWeight);
+    sample.ground*=entryWeight;
+  }
+  setTravelPosition(dance.anchor.x+sample.offset.x,dance.anchor.z+sample.offset.z,true);
+  alignCapoeiraSupport(sample.ground);
+  if (dance.elapsed<clip.duration) return;
+  if (dance.queue.length) {
+    dance.id=dance.queue.shift();
+    dance.elapsed=nextTime;
+    showDanceTitle();
+  } else {
+    beginDanceOutro();
   }
 }
 
