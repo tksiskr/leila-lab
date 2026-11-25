@@ -7817,6 +7817,124 @@ function createShepherd() {
     head.rotation.y+= (yaw-head.rotation.y)*Math.min(1,dt*8);
     head.rotation.x+= (pitch+offset-head.rotation.x)*Math.min(1,dt*8);
   }
+  function solveDogLeg(hip,foot,knee,front,s){
+    const l1=front?.254:.239,l2=front?.235:.248;
+    axis.copy(foot).sub(hip);const actual=axis.length();axis.normalize();
+    const reach=clamp(actual,.075,l1+l2-.005);
+    foot.copy(hip).addScaledVector(axis,reach);
+    const along=(l1*l1-l2*l2+reach*reach)/(2*reach);
+    bend.set(s*.14,0,front?-1:1);bend.addScaledVector(axis,-bend.dot(axis)).normalize();
+    knee.copy(hip).addScaledVector(axis,along).addScaledVector(bend,Math.sqrt(Math.max(0,l1*l1-along*along)));
+  }
+  let updateModelPose=()=>{};
+  function loadShepherdModel(){
+    new GLTFLoader().load('./Shepherd.glb',asset=>{
+      let source;
+      asset.scene.traverse(object=>{if(object.isSkinnedMesh&&!source)source=object;});
+      if(!source)return;
+
+      // The export contains a humanoid skeleton. Keep the geometry and
+      // textures, and bind them to the existing quadruped pose instead.
+      const geometry=source.geometry.clone();
+      geometry.rotateY(T.MathUtils.degToRad(48));
+      geometry.deleteAttribute('skinIndex');
+      geometry.deleteAttribute('skinWeight');
+      const model=new T.SkinnedMesh(geometry,source.material);
+      model.name='Shepherd.glb';
+      model.frustumCulled=false;
+      model.receiveShadow=true;
+      const bones=[],drivers=[];
+      function bone(pivot,driver){
+        const joint=new T.Bone();
+        joint.position.copy(pivot);
+        model.add(joint);
+        bones.push(joint);
+        drivers.push(driver);
+        return bones.length-1;
+      }
+      const bindHead=V(0,.698,.376), bindTail=V(0,.490,-.407);
+      const bindTip=bindTail.clone().add(tailTip.position);
+      const bodyIndex=bone(V(0,0,0),joint=>{
+        joint.position.copy(body.position);
+        joint.quaternion.copy(body.quaternion);
+      });
+      const headIndex=bone(bindHead,joint=>{
+        joint.position.copy(head.position);
+        joint.quaternion.copy(head.quaternion);
+      });
+      const tailIndex=bone(bindTail,joint=>{
+        joint.position.copy(tail.position);
+        joint.quaternion.copy(tail.quaternion);
+        joint.position.applyQuaternion(body.quaternion).add(body.position);
+        joint.quaternion.premultiply(body.quaternion);
+      });
+      const tipIndex=bone(bindTip,joint=>{
+        joint.position.copy(tailTip.position).applyQuaternion(tail.quaternion).add(tail.position);
+        joint.position.applyQuaternion(body.quaternion).add(body.position);
+        joint.quaternion.copy(body.quaternion).multiply(tail.quaternion).multiply(tailTip.quaternion);
+      });
+      function segmentBone(part,start,end){
+        const restCenter=start.clone().lerp(end,.5);
+        const restDirection=start.clone().sub(end).normalize();
+        const restRotation=new T.Quaternion().setFromUnitVectors(anyUp,restDirection).invert();
+        return bone(restCenter,joint=>{
+          joint.position.copy(part.position);
+          joint.quaternion.copy(part.quaternion).multiply(restRotation);
+        });
+      }
+      const limbIndices=legs.map(({front,s,upper,lower,paw})=>{
+        const hipZ=front?.228:-.306;
+        const hip=V(s*(front?.108:.112),front?.502:.460,hipZ);
+        const foot=V(s*.128,.035,hipZ+(front?.021:-.08));
+        const knee=V(0,0,0);
+        solveDogLeg(hip,foot,knee,front,s);
+        const pawRest=foot.clone().add(V(0,0,.018));
+        return [
+          segmentBone(upper[0],hip,knee),
+          segmentBone(lower[0],knee,foot),
+          bone(pawRest,joint=>{
+            joint.position.copy(paw.position);
+            joint.quaternion.copy(paw.quaternion);
+          })
+        ];
+      });
+      const positions=geometry.getAttribute('position');
+      const indices=new Uint16Array(positions.count*4);
+      const weights=new Float32Array(indices.length);
+      const fade=(value,start,end)=>T.MathUtils.smoothstep(value,start,end);
+      for(let i=0;i<positions.count;i++){
+        const x=positions.getX(i),y=positions.getY(i),z=positions.getZ(i);
+        const h=fade(y,.48,.68)*fade(z,.20,.35);
+        const t=fade(-z,.37,.48);
+        const tip=fade(-z,.46,.57);
+        const front=z>.08;
+        const limb=limbIndices[(front?0:2)+(x>0?1:0)];
+        const leg=(1-fade(y,.29,.49))*(1-t);
+        const upper=fade(y,front?.16:.13,front?.32:.27);
+        const paw=1-fade(y,.045,.115);
+        const influences=t>0
+          ? [[bodyIndex,1-t],[tailIndex,t*(1-tip)],[tipIndex,t*tip]]
+          : [[bodyIndex,1-h-leg],[headIndex,h],[limb[0],leg*upper],
+             [limb[1],leg*(1-upper-paw)],[limb[2],leg*paw]];
+        const strongest=influences.filter(([,weight])=>weight>0).sort((a,b)=>b[1]-a[1]).slice(0,4);
+        const total=strongest.reduce((sum,[,weight])=>sum+weight,0);
+        strongest.forEach(([index,weight],slot)=>{
+          indices[4*i+slot]=index;
+          weights[4*i+slot]=weight/total;
+        });
+      }
+      geometry.setAttribute('skinIndex',new T.Uint16BufferAttribute(indices,4));
+      geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
+      model.bind(new T.Skeleton(bones));
+      dog.add(model);
+      // Keep the lightweight tap targets. Their materials no longer render.
+      for(const mesh of hitMeshes){
+        for(const material of [].concat(mesh.material))material.visible=false;
+      }
+      updateModelPose=()=>bones.forEach((joint,index)=>drivers[index](joint));
+    },undefined,error=>console.warn('Shepherd.glb could not load. Using the original dog.',error));
+  }
+  loadShepherdModel();
   function pose(dt,move,focus,running=false){
     const sleeping=d.state==='curl'||d.state==='couchCurl', inJump=d.state==='up'||d.state==='down';
     dogDream.step(d,sleeping);
@@ -7873,13 +7991,7 @@ function createShepherd() {
       B.z=mix(B.z,front?.345:-.21,c);
       B.x-=c*.027;
       if(front)B.z+=d.bow*.083;
-      const l1=front?.254:.239,l2=front?.235:.248;
-      axis.copy(B).sub(A);const actual=axis.length();axis.normalize();
-      const reach=clamp(actual,.075,l1+l2-.005);
-      B.copy(A).addScaledVector(axis,reach);
-      const along=(l1*l1-l2*l2+reach*reach)/(2*reach);
-      bend.set(s*.14,0,front?-1:1);bend.addScaledVector(axis,-bend.dot(axis)).normalize();
-      C.copy(A).addScaledVector(axis,along).addScaledVector(bend,Math.sqrt(Math.max(0,l1*l1-along*along)));
+      solveDogLeg(A,B,C,front,s);
       // Tuck the joints in front of the body, never underneath the mattress.
       C.lerp(V(s*(front?.128:.155)-.022,front?.086:.102,front?.238:-.205),c);
       B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408:-.073),c);
@@ -7892,6 +8004,7 @@ function createShepherd() {
       paw.rotation.x=-.18*w*(swing?1:0)-.17*dreamPaw;
       for(const [toe,x] of toes)toe.position.copy(paw.position).add(V(x,-.011,.047));
     }
+    updateModelPose();
     shadow.visible=floorGroup.visible&&dog.position.y<.22;
     shadow.position.set(dog.position.x,.007,dog.position.z);
     shadow.rotation.y=dog.rotation.y;
