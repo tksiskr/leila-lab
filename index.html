@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.1｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.1</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -7872,7 +7872,7 @@ function createShepherd() {
         targetNeck.z+=Math.max(0,-targetNeck.y)*.54;
         targetNeck.add(neckRest);
         if(d.lapPoint){
-          const restWeight=rearRamp(d.t,.30,1.75);
+          const restWeight=rearRamp(d.t,.86,1.95);
           lapOffset.copy(chinOffset).applyQuaternion(lapRotation);
           lapSkull.copy(d.lapPoint).sub(lapOffset);
           lapOffset.copy(lapSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase);
@@ -7891,7 +7891,7 @@ function createShepherd() {
           clamp(head.rotation.y,-.72,.72),clamp(head.rotation.z,-.20,.20),'YXZ');
         joint.quaternion.setFromEuler(headTurn);
         if(d.lapPoint){
-          const restWeight=rearRamp(d.t,.30,1.75);
+          const restWeight=rearRamp(d.t,.86,1.95);
           joint.quaternion.slerp(lapRotation,restWeight);
           lapOffset.copy(chinOffset).applyQuaternion(joint.quaternion);
           lapOffset.copy(d.lapPoint).sub(lapOffset).sub(movedSkull).clampLength(0,.13);
@@ -7929,16 +7929,21 @@ function createShepherd() {
         const proxyPawRest=proxyFoot.add(V(0,0,.018));
         const hip=V(0,0,0),knee=V(0,0,0),ankle=V(0,0,0);
         const direction=V(0,0,0),bendDirection=V(0,0,0),segment=V(0,0,0);
+        const foldedAnkle=V(hipRest.x+(front?-.006:s*.027),.080,
+          hipRest.z+(front?.015:-.045));
+        const foldedBend=V(s*.18,0,front?-1:1);
         function solveVisibleLeg(){
           hip.copy(hipRest).applyQuaternion(body.quaternion).add(body.position);
           ankle.copy(paw.position).sub(proxyPawRest);
           ankle.z*=mix(front?.56:.68,1,d.curl);
           ankle.add(ankleRest);
+          const fold=front?d.sofaForeFold:d.sofaHindFold;
+          ankle.lerp(foldedAnkle,fold);
           direction.copy(ankle).sub(hip);
           const length=clamp(direction.length(),Math.abs(thigh-shin)+.001,thigh+shin-.0001);
           direction.normalize();
           ankle.copy(hip).addScaledVector(direction,length);
-          bendDirection.copy(kneePlane).applyQuaternion(body.quaternion);
+          bendDirection.copy(kneePlane).lerp(foldedBend,fold).applyQuaternion(body.quaternion);
           bendDirection.addScaledVector(direction,-bendDirection.dot(direction)).normalize();
           const along=(thigh*thigh-shin*shin+length*length)/(2*length);
           knee.copy(hip).addScaledVector(direction,along)
@@ -8029,14 +8034,19 @@ function createShepherd() {
     const fetchLower=threeWayFetch.loweredMuzzle(p),meal=d.mealLower??0;
     blend('bow',p&&p.phase==='ready'?.8:rival?.68*notice:petted?.20:.19*meal,dt,6);
     blend('wag',sleeping?0:p||petted||rival||d.bond?.ready>0?1:.24,dt,5);
-    const c=d.curl,w=d.walk, lap=couch&&d.lapPoint?rearRamp(d.t,.30,1.75):0, snowLean=d.snowLean??0;
+    const c=d.curl,w=d.walk, snowLean=d.snowLean??0;
+    const lap=couch&&d.lapPoint?rearRamp(d.t,.86,1.95):0;
+    const fore=couch?rearRamp(d.t,.12,.96):0;
+    const hind=couch?rearRamp(d.t,.40,1.28):0;
+    d.sofaForeFold=fore;
+    d.sofaHindFold=hind;
     const bond=d.state==='bond'&&d.bond?.ready>0 ? rearRamp(d.bond.ready,0,.85) : 0;
     d.stride += move/(.51*shepherdScale);
     const cycle=d.stride;
     body.position.set(.011*Math.sin(cycle*2*Math.PI)*w+.070*snowLean,
-      -.322*c+Math.sin(d.time*(sleeping?2.5:3.15))*(sleeping?.007:.004)
+      -.322*c+(couch?.322*c-.299*fore:0)+Math.sin(d.time*(sleeping?2.5:3.15))*(couch?.003:sleeping?.007:.004)
        +.017*Math.cos(cycle*4*Math.PI)*w-.098*d.bow-.17*fetchLower,0);
-    body.rotation.set(.13*d.bow, -.13*c*(1-lap), .065*c*(1-lap)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
+    body.rotation.set(.13*d.bow+.12*(fore-hind), -.13*c*(1-fore), .065*c*(1-fore)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
     const sleepOffset=d.state==='curl' ? .082*c*rearRamp(d.t,1,4.8) : 0;
     head.position.set(.109*snowLean+.035*c+sleepOffset-(d.bond?.side??0)*.073*bond,.698-.208*c-.042*bond-.043*snowLean,.376-.006*c);
     if(!sleeping&&focus){
@@ -8049,6 +8059,11 @@ function createShepherd() {
     }
     if(lap>0){
       head.position.y-=.085*lap;
+      if(!d.petPoint){
+        // Align the procedural dog's underside of the muzzle with the same thigh target.
+        const offset=V(0,-.089,.176).applyEuler(head.rotation);
+        head.position.lerp(V(0,0,0).copy(d.lapPoint).sub(offset),lap);
+      }
       head.rotation.x=mix(head.rotation.x,.12,lap);
       head.rotation.y=mix(head.rotation.y,0,lap);
     }
@@ -8081,7 +8096,12 @@ function createShepherd() {
       solveDogLeg(A,B,C,front,s);
       // Tuck the joints in front of the body, never underneath the mattress.
       C.lerp(V(s*(front?.128:.155)-.022,front?.086:.102,front?.238:-.205),c);
-      B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408-.117*lap:-.073),c);
+      B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408:-.073),c);
+      const fold=front?fore:hind;
+      if(fold>0){
+        C.lerp(V(s*(front?.104:.137),front?.068:.082,front?.071:-.122),fold);
+        B.lerp(V(s*(front?.103:.139),.037,front?.251:-.235),fold);
+      }
       // Dream flutters only add flex and lift, so the tucked paws never dip below the cushion.
       const dreamPaw=dogDream.paw(i)*c;
       B.y+=.021*dreamPaw;B.z-=.027*dreamPaw;
@@ -8830,12 +8850,12 @@ const dogDream = (() => {
 function petDogFromSofa(){
   const d=shepherd;
   if(mode!=='roam'||roam.phase!=='seated'||reaction||contact||roam.attention||handLink||
-    mood.seconds<leilaUserPriorityUntil||d.state!=='couchCurl'||!d.lapPoint||d.t<1.55)return;
-  if(d.t>13&&!d.sofaReadingStarted){
+    mood.seconds<leilaUserPriorityUntil||d.state!=='couchCurl'||!d.lapPoint||d.t<1.98)return;
+  if(d.t>13.4&&!d.sofaReadingStarted){
     d.sofaReadingStarted=true;
     if(!document.hidden&&currentMood()!=='annoyed'&&startSofaReading())return;
   }
-  const side='P', cycle=(d.t-1.55)%11, stroke=Math.sin(cycle*2.9);
+  const side='P', cycle=(d.t-1.98)%11, stroke=Math.sin(cycle*2.9);
   const back=cycle>=5.4&&cycle<10.6&&!!d.backPoint;
   const point=back?d.backPoint(stroke*.67):d.petPoint?.(stroke)??d.head.localToWorld(V(0,.076,-.012));
   const time=back?cycle-5.4:cycle;
