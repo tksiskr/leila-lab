@@ -7852,15 +7852,40 @@ function createShepherd() {
         drivers.push(driver);
         return bones.length-1;
       }
-      const bindHead=V(0,.698,.376), bindTail=V(0,.490,-.407);
+      const proxyHeadRest=V(0,.698,.376);
+      const neckBase=V(-.055,.475,.285), skull=V(-.103,.651,.414);
+      const neckRest=skull.clone().sub(neckBase);
+      const neckDirection=neckRest.clone().normalize();
+      const targetNeck=V(0,0,0), movedSkull=V(0,0,0);
+      const bodyInverse=new T.Quaternion(), neckBend=new T.Quaternion();
+      const headTurn=new T.Euler(0,0,0,'YXZ');
+      const bindTail=V(0,.490,-.407);
       const bindTip=bindTail.clone().add(tailTip.position);
       const bodyIndex=bone(V(0,0,0),joint=>{
         joint.position.copy(body.position);
         joint.quaternion.copy(body.quaternion);
       });
-      const headIndex=bone(bindHead,joint=>{
-        joint.position.copy(head.position);
-        joint.quaternion.copy(head.quaternion);
+      const neckIndex=bone(neckBase,joint=>{
+        bodyInverse.copy(body.quaternion).invert();
+        // Use the old head target to aim the neck along an arc of fixed length.
+        targetNeck.copy(head.position).sub(body.position).applyQuaternion(bodyInverse)
+          .sub(proxyHeadRest);
+        targetNeck.x=clamp(targetNeck.x,-.085,.085);
+        targetNeck.y=clamp(targetNeck.y,-.23,.095);
+        targetNeck.z=clamp(targetNeck.z,-.055,.075);
+        targetNeck.z+=Math.max(0,-targetNeck.y)*.54;
+        targetNeck.add(neckRest).normalize();
+        neckBend.setFromUnitVectors(neckDirection,targetNeck);
+        joint.position.copy(neckBase).applyQuaternion(body.quaternion).add(body.position);
+        joint.quaternion.copy(body.quaternion).multiply(neckBend);
+        movedSkull.copy(neckRest).applyQuaternion(neckBend).add(neckBase)
+          .applyQuaternion(body.quaternion).add(body.position);
+      });
+      const headIndex=bone(skull,joint=>{
+        joint.position.copy(movedSkull);
+        headTurn.set(clamp(head.rotation.x,-.38,.58),
+          clamp(head.rotation.y,-.72,.72),clamp(head.rotation.z,-.20,.20),'YXZ');
+        joint.quaternion.setFromEuler(headTurn);
       });
       const tailIndex=bone(bindTail,joint=>{
         joint.position.copy(tail.position);
@@ -7904,18 +7929,27 @@ function createShepherd() {
       const fade=(value,start,end)=>T.MathUtils.smoothstep(value,start,end);
       for(let i=0;i<positions.count;i++){
         const x=positions.getX(i),y=positions.getY(i),z=positions.getZ(i);
-        const h=fade(y,.48,.68)*fade(z,.20,.35);
-        const t=fade(-z,.37,.48);
+        // Diagonal cuts follow the shoulder and the underside of the jaw.
+        // The muzzle and ears keep a single rigid transform.
+        const neck=fade(y+.64*(z-.30),.43,.60)*(fade(z,.16,.30));
+        const headShare=fade(y+.95*(z-.38),.55,.635);
+        const tailShare=fade(-z,.355,.456);
         const tip=fade(-z,.46,.57);
         const front=z>.08;
-        const limb=limbIndices[(front?0:2)+(x>0?1:0)];
-        const leg=(1-fade(y,.29,.49))*(1-t);
+        const limb=limbIndices[(front?0:2)+(x>-.033?1:0)];
+        const legZone=front?fade(z,.21,.29):fade(-z,.095,.19);
+        const side=fade(Math.abs(x+.033),.014,.053);
+        const leg=(1-fade(y,.26,.47))*legZone*mix(1,side,fade(y,.15,.30));
         const upper=fade(y,front?.16:.13,front?.32:.27);
         const paw=1-fade(y,.045,.115);
-        const influences=t>0
-          ? [[bodyIndex,1-t],[tailIndex,t*(1-tip)],[tipIndex,t*tip]]
-          : [[bodyIndex,1-h-leg],[headIndex,h],[limb[0],leg*upper],
-             [limb[1],leg*(1-upper-paw)],[limb[2],leg*paw]];
+        const legShare=(1-tailShare)*(1-neck)*leg;
+        const influences=[
+          [bodyIndex,(1-tailShare)*(1-neck)*(1-leg)],
+          [neckIndex,(1-tailShare)*neck*(1-headShare)],
+          [headIndex,(1-tailShare)*neck*headShare],
+          [tailIndex,tailShare*(1-tip)],[tipIndex,tailShare*tip],
+          [limb[0],legShare*upper],[limb[1],legShare*(1-upper-paw)],[limb[2],legShare*paw]
+        ];
         const strongest=influences.filter(([,weight])=>weight>0).sort((a,b)=>b[1]-a[1]).slice(0,4);
         const total=strongest.reduce((sum,[,weight])=>sum+weight,0);
         strongest.forEach(([index,weight],slot)=>{
