@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.5｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.6｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.5</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.6</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -890,9 +890,11 @@ const kitchenScene=(()=>{
     cyl(group,iron,x,.637,-.151,.044,.044,.016,16);
   }
   const board={x:-.21,z:.215};
-  const cuttingBoard=block(group,wood,board.x,.535,board.z,.343,.032,.237);
+  const cuttingBoard=new T.Group();cuttingBoard.name='Movable cutting board';kitchenRoot.add(cuttingBoard);
+  block(cuttingBoard,wood,0,.016,0,.343,.032,.237);
   for(const [i,w] of [[-.074,.25],[.023,.30],[.066,.23]])
-    block(group,edge,board.x,.552,board.z+i,w,.0013,.004);
+    block(cuttingBoard,edge,0,.033,i,w,.0013,.004);
+  cuttingBoard.rotation.y=group.rotation.y;
   const pot={x:.194,z:.205};
   block(group,iron,.223,.53,.099,.436,.017,.421);
   torus(group,amber,pot.x,.542,pot.z,.100,.008);
@@ -926,19 +928,19 @@ const kitchenScene=(()=>{
     }
   }
   const pad=vec(4.63,0,-1.57), worker=vec(4.61,0,-3.51), handler=vec(4.43,0,-1.79);
-  // Serving bay to the left of the cutting board, with a full rim-width of clear counter.
-  const bowlHome=group.localToWorld(vec(-.56,.520,.185));
-  const servingPoint=vec(worker.x,0,bowlHome.z+.014);
-  const boardTop=group.localToWorld(vec(board.x,.553,board.z));
+  const boardHome=group.localToWorld(vec(board.x,.519,board.z));
+  const bowlHome=boardHome.clone();
+  cuttingBoard.position.copy(boardHome);
+  const boardTop=boardHome.clone().add(vec(0,.034,0));
   const potTop=group.localToWorld(vec(pot.x,.690,pot.z));
   const matFloor=new T.Group();matFloor.name='Dog feeding mat';matFloor.position.copy(pad);kitchenRoot.add(matFloor);
   block(matFloor,iron,0,.007,0,.48,.013,.60);
   block(matFloor,bowlColor,0,.014,0,.414,.006,.514);
   block(matFloor,iron,0,.019,.063,.410,.004,.012);
   block(matFloor,iron,0,.019,-.145,.410,.004,.012);
-  const blank=new T.Group(); blank.name='Ingredients on board';group.add(blank);
+  const blank=new T.Group(); blank.name='Ingredients on board';cuttingBoard.add(blank);
   for(let i=0;i<14;i++){
-    const piece=bite(blank,i);piece.position.set(board.x-.105+(i%6)*.039,.559,board.z-.035+Math.floor(i/6)*.030);
+    const piece=bite(blank,i);piece.position.set(-.105+(i%6)*.039,.040,-.035+Math.floor(i/6)*.030);
     piece.scale.set(.018,.012,.014);piece.rotation.y=i*1.1;
     piece.userData.s=piece.scale.clone();
   }
@@ -972,16 +974,17 @@ const kitchenScene=(()=>{
   }
   function restTools(){
     utensil.position.copy(boardTop).add(vec(.04,.016,.103));utensil.rotation.set(Math.PI/2,0,-.17);
-    utensil.visible=true;knife.visible=true;ladle.visible=false;falling.visible=false;transfer.forEach(p=>{p.visible=false;});
+    cuttingBoard.visible=false;cuttingBoard.position.copy(boardHome);largeBowl.visible=true;
+    utensil.visible=false;knife.visible=true;ladle.visible=false;falling.visible=false;transfer.forEach(p=>{p.visible=false;});
     blank.children.forEach(p=>{p.visible=true;p.scale.copy(p.userData.s);});
     steam(0,0);
   }
   largeBowl.position.copy(matFloor.position).setY(.022);fill(0);restTools();
-  [group,matFloor,largeBowl].forEach(obj=>obj.traverse(enableShadowCasting));
+  [group,matFloor,largeBowl,cuttingBoard].forEach(obj=>obj.traverse(enableShadowCasting));
   const bounds=new T.Box3(vec(4.70,-1,-4.65),vec(5.59,2,-2.27));
   const target={kind:'kitchen',name:'キッチン',point:worker,heading:Math.PI/2,lookAt:boardTop};
   return {kitchenRoot,group,counter,matFloor,largeBowl,food,blank,utensil,knife,ladle,falling,transfer,
-    fill,steam,restTools,boardTop,potTop,bowlHome,servingPoint,cuttingBoard,pad,handler,target,bounds};
+    fill,steam,restTools,boardTop,boardHome,cuttingBoard,potTop,bowlHome,pad,handler,target,bounds};
 })();
 const kitchenBounds=kitchenScene.bounds,kitchenTarget=kitchenScene.target;
 
@@ -6247,7 +6250,6 @@ function advanceDestinationRoute(dt) {
       paintAtEasel(stage,stage.cancelAt===undefined ? progress : stage.cancelAt/stage.time);
       break;
     case 'kitchenCook':
-    case 'kitchenServe':
       if(!roam.pending)dogKitchen.cook(stage,progress);
       break;
     case 'kitchenLower':
@@ -6261,7 +6263,7 @@ function advanceDestinationRoute(dt) {
       roam.switchPressed=stage.pressed;
       break;
   }
-  if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenServe','kitchenLower'].includes(stage.type)) && !(
+  if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
       (stage.type==='paintEasel' || stage.type==='terrariumVisit') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -9349,13 +9351,28 @@ const windowSnow=(()=>{
 })();
 
 // LAB 101 | Recipe choreography, bowl handoff and safely interruptible meal.
+// Bring the prop forward of the cabinet, lift clear of the counter, then slide it into place.
+// Reversing the same route stows the board without passing through the worktop.
+function counterPropPath(home,weight,lift){
+  const p=home.clone();
+  const near=home.x-.275;
+  const pick=rearRamp(weight,0,.44);
+  const slide=rearRamp(weight,.44,.84);
+  const settle=rearRamp(weight,.84,1);
+  p.x=mix(near,home.x,slide);
+  p.y=home.y-.169*(1-pick)+lift*pick*(1-settle);
+  return p;
+}
+
 const dogKitchen=(()=>{
   const k=kitchenScene,d=shepherd;
   const mealNote='犬は自分の器からごはんを食べています。';
   const floorBowl=k.pad.clone().setY(.022), dogDock=k.pad.clone().add(V(-.502,0,.012));
   const mealTarget=V(0,0,0);
   const floorEye=k.pad.clone().setY(.066);
-  const config={cook:12.8,pauseForServing:9.55,lower:3.65,eat:shepherdMealMotion.finish};
+  const prepLead=1.53, transferEnd=5.27, exchangeTime=2.90;
+  const exchangeAt=prepLead+transferEnd;
+  const config={cook:12.8+prepLead+exchangeTime,lower:3.65,eat:shepherdMealMotion.finish};
   const at=(p,a,b)=>rearRamp(p,a,b);
   const easeBetween=(p,a,b,c,e)=>at(p,a,b)*(1-at(p,c,e));
   const up=V(0,1,0), forward=V(1,0,0);
@@ -9409,12 +9426,8 @@ const dogKitchen=(()=>{
   }
   function decorate(visit,target){
     visit.push(routeTurn(target.heading,'キッチンの作業台に向いています'),
-      {type:'kitchenCook',time:config.pauseForServing,message:'犬のごはんの下ごしらえをしています'});
-    if(!appendWalk(visit,target.point,k.servingPoint,'おたまを持って盛り付け台に移動しています',true))return;
-    visit.push(routeTurn(target.heading,'餌皿の横に向き直っています'),
-      {type:'kitchenServe',time:config.cook-config.pauseForServing,from:config.pauseForServing,
-        message:'まな板の横で犬のごはんを盛り付けています'});
-    if(!appendWalk(visit,k.servingPoint,k.handler,'ごはんの器を床まで運んでいます'))return;
+      {type:'kitchenCook',time:config.cook,message:'犬のごはんの下ごしらえをしています'});
+    if(!appendWalk(visit,target.point,k.handler,'ごはんの器を床まで運んでいます'))return;
     visit.push(routeTurn(headingTo(k.handler,k.pad),'犬のごはんを置く場所に向き直っています'),
       {type:'kitchenLower',time:config.lower,message:'マットに犬のごはんを置いています'});
   }
@@ -9423,15 +9436,11 @@ const dogKitchen=(()=>{
       cancelRun();
       run={phase:'cook',oldNote:$('dogNote').textContent,served:false,bowlAt:null,grip:0,
         floorFeet:null,dogTime:0,chew:0};
-      k.largeBowl.position.copy(k.bowlHome);k.fill(0);k.restTools();
+      k.fill(0);k.restTools();
+      k.largeBowl.visible=false;
       if(roam.target.manual){
         dogFollowCamera(k.boardTop.clone().add(V(-.16,.035,.18)),V(-2.23,1.16,1.36));
       }
-    }else if(stage.type==='kitchenServe'&&run){
-      run.phase='serve';
-      run.serveFeet=sofaSides.map(side=>({
-        side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0)).setY(standingAnkleHeights[side])
-      }));
     }else if(stage.type==='kitchenLower'&&run){
       const a=run;
       a.phase='lower';a.floorFeet=sofaSides.map(side=>({
@@ -9452,28 +9461,61 @@ const dogKitchen=(()=>{
     const a=run;
     blendSofaPose(stage.pose,1);
     if(!a)return;
-    const t=(stage.from??0)+u*stage.time;
+    const clock=u*stage.time;
+    if(clock<prepLead){
+      const intoPlace=at(clock,.10,1.31);
+      k.cuttingBoard.visible=clock>.10;
+      const place=counterPropPath(k.boardHome,intoPlace,.050);
+      k.cuttingBoard.position.copy(place);
+      setStatus('レイラがまな板を取り出しています');
+      guideBoard(place,easeBetween(clock,.02,.24,1.29,1.51));
+      return;
+    }
+    if(clock>=exchangeAt&&clock<exchangeAt+exchangeTime){
+      const handoff=clock-exchangeAt;
+      k.transfer.forEach(piece=>{piece.visible=false;});
+      k.blank.children.forEach(piece=>{piece.visible=false;});
+      k.utensil.visible=false;k.falling.visible=false;k.fill(0);
+      k.steam(clock,.34+.36*at(handoff,0,exchangeTime));
+      if(handoff<1.31){
+        const away=at(handoff,.12,1.19);
+        const place=counterPropPath(k.boardHome,1-away,.050);
+        k.cuttingBoard.visible=away<1;
+        k.cuttingBoard.position.copy(place);
+        guideBoard(place,easeBetween(handoff,.02,.15,1.12,1.31));
+        setStatus('材料を鍋に入れ終え、まな板を片づけています');
+      }else{
+        k.cuttingBoard.visible=false;
+        const placeTime=handoff-1.31;
+        const intoPlace=at(placeTime,.10,1.34);
+        k.largeBowl.visible=placeTime>.10;
+        const place=counterPropPath(k.bowlHome,intoPlace,.058);
+        const weight=easeBetween(placeTime,.02,.24,1.37,1.59);
+        leanToProp(place,weight);
+        holdBowl(place,weight);
+        setStatus('まな板を片づけた場所に、犬の器を置いています');
+      }
+      return;
+    }
+    const t=clock-prepLead-(clock>=exchangeAt+exchangeTime?exchangeTime:0);
+    if(t<transferEnd){
+      k.cuttingBoard.visible=true;k.cuttingBoard.position.copy(k.boardHome);
+    }else{
+      k.cuttingBoard.visible=false;k.largeBowl.visible=true;
+    }
+    k.utensil.visible=true;
     const cutting=easeBetween(t,.12,.76,3.48,4.08);
     const stirring=easeBetween(t,4.08,5.21,8.98,9.63);
     const serving=easeBetween(t,9.0,9.42,10.86,11.44);
-    a.grip=at(t,11.18,12.11);a.phase=t>=11.38?'carry':stage.from?'serve':t>=9.42?'ladleWalk':'cook';
+    a.grip=at(t,11.18,12.11);a.phase=t>=11.38?'carry':'cook';
     const steam=easeBetween(t,4.5,6,9.3,11.8);
     k.steam(t,steam);
     groups.abdomen.rotateX(.105*(1-a.grip));
     groups.chest.rotateX((.11+.045*cutting)*(1-a.grip));
     groups.head.rotateX(.30*(1-a.grip));
     groups.neck.rotateY(-.12*cutting+.11*stirring);
-    if(stage.from&&a.serveFeet){
-      const leaning=at(t,9.55,9.92)*(1-at(t,11.65,12.25));
-      groups.pelvis.position.addScaledVector(V(0,0,1),.042*leaning);
-      groups.pelvis.position.y-=.027*leaning;
-      groups.abdomen.rotateX(.19*leaning);
-      groups.chest.rotateX(.13*leaning);
-      lowerPelvisForFeet(a.serveFeet);
-      for(const {side,ankle} of a.serveFeet)solveLeg(side,ankle,root.rotation.y);
-    }
     if(t<4.05){
-      if(t>1)setStatus('トントンと、犬のごはんの材料を刻んでいます');
+      setStatus('トントンと、まな板の上で材料を刻んでいます');
       const pulse=(1+Math.cos(t*15))/2;
       const chopOrder=Math.min(1,Math.max(0,(t-.90)/3.52));
       const grip=k.boardTop.clone().add(V(-.084,.047+.062*pulse,-.071+chopOrder*.122));
@@ -9495,9 +9537,7 @@ const dogKitchen=(()=>{
       const scoop=at(t,9.08,9.52), pour=at(t,9.55,10.19), rest=at(t,10.86,11.25);
       const transferAt=at(t,4.03,5.18);
       const take=k.boardTop.clone().add(V(-.049,.113,.047));
-      const potGrip=k.potTop.clone().add(V(-.063,.079,0));
-      const carriedLadle=root.position.clone().add(V(-.107,.657,.184).applyAxisAngle(up,root.rotation.y));
-      const grip=stage.from?carriedLadle:take.lerp(stirred,transferAt).lerp(potGrip,scoop);
+      const grip=take.lerp(stirred,transferAt).lerp(k.potTop.clone().add(V(-.063,.079,0)),scoop);
       k.transfer.forEach((piece,i)=>{
         const f=(t-4.28-i*.104)/.54;
         piece.visible=f>0&&f<1;
@@ -9508,10 +9548,10 @@ const dogKitchen=(()=>{
         }
       });
       grip.lerp(k.bowlHome.clone().add(V(-.028,.177,.036)),pour)
-        .lerp(k.bowlHome.clone().add(V(-.142,.086,.071)),rest);
+        .lerp(k.boardTop.clone().add(V(-.014,.058,.110)),rest);
       const brace=k.bowlHome.clone().add(V(.005,.046,-.108));
       palm('N',grip,V(.91,-.41,0),V(0,0,-1),Math.max(stirring,serving));
-      palm('P',brace,V(1,-.22,0),V(0,-1,0),Math.max(stirring*.20,serving*.78));
+      if(t>=transferEnd)palm('P',brace,V(1,-.22,0),V(0,-1,0),serving*.78);
       k.utensil.position.copy(actualGrip('N'));
       k.utensil.rotation.set(.10*Math.sin(a0)*stirring+.96*pour,.22,.48*stirring+.26*pour);
       const tipped=(t-10.10)/.59;
@@ -9522,7 +9562,7 @@ const dogKitchen=(()=>{
       }
       k.fill(at(t,10.12,10.76));
       k.blank.children.forEach((piece,i)=>{piece.visible=t<4.27+i*.065;});
-      if(t<5.21)setStatus('刻んだ材料を鍋に入れています');
+      if(t<transferEnd)setStatus('刻んだ材料をまな板から鍋に移しています');
       else if(t<9.2)setStatus('湯気の立つ鍋を、おたまで混ぜています');
       else if(t<11.18)setStatus('できたごはんを犬の器によそっています');
       else setStatus('犬のごはんを、両手で持ち上げています');
@@ -9530,6 +9570,28 @@ const dogKitchen=(()=>{
     if(a.grip>.005){
       const lift=k.bowlHome.clone().lerp(carryCenter(),a.grip);
       holdBowl(lift,a.grip);
+    }
+  }
+  function leanToProp(center,weight){
+    if(weight<.001)return;
+    const feet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
+    const low=(1-rearRamp(center.y,.38,.57))*weight;
+    const extend=rearRamp(center.x,4.68,4.93)*weight;
+    groups.pelvis.position.y-=.144*low+.060*extend;
+    groups.pelvis.position.z+=.073*extend;
+    groups.pelvis.position.x+=.050*weight;
+    groups.abdomen.rotateX(.31*low+.15*extend);
+    groups.chest.rotateX(.20*low+.16*extend);
+    groups.head.rotateX(.27*weight);
+    lowerPelvisForFeet(feet);
+    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
+  }
+  function guideBoard(center,weight){
+    leanToProp(center,weight);
+    for(const side of ['P','N']){
+      const sign=side==='P'?-1:1;
+      const edge=center.clone().add(V(-.037,.016,sign*.153));
+      palm(side,edge,V(1,-.12,0),V(0,0,-sign),weight);
     }
   }
   function carryCenter(){
@@ -9549,18 +9611,9 @@ const dogKitchen=(()=>{
   }
   function holdOnWalk(){
     const a=run;
-    if(!a||mode!=='roam'||roam.phase!=='route')return;
+    if(!a||a.phase!=='carry'||mode!=='roam'||roam.phase!=='route')return;
     const stage=roam.visit[roam.visitIndex];
-    if(['kitchenCook','kitchenServe','kitchenLower'].includes(stage?.type))return;
-    if(a.phase==='ladleWalk'){
-      const heading=root.rotation.y;
-      const grip=root.position.clone().add(V(-.107,.657,.184).applyAxisAngle(up,heading));
-      const pointing=V(0,-.24,1).applyAxisAngle(up,heading);
-      palm('N',grip,pointing,V(-1,0,0).applyAxisAngle(up,heading),1);
-      k.utensil.position.copy(actualGrip('N'));k.utensil.rotation.set(.12,heading,.14);
-      return;
-    }
-    if(a.phase!=='carry')return;
+    if(stage?.type==='kitchenCook'||stage?.type==='kitchenLower')return;
     k.utensil.visible=false;
     groups.head.rotateX(.105);
     const center=carryCenter();center.y+=.007*Math.sin(roam.elapsed*16);
