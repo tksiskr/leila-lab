@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 101.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 101.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -414,13 +414,14 @@ for (const side of [-1, 1]) {
   block(lounge, edging,0,.004,side*deckLength/2,deckWidth,.006,.025);
 }
 
-// Two-seat sofa, dimensioned in the same units as the architecture.
+// Three equal cushions share one frame and two end arms.
 const sofa = new T.Group();
-sofa.name = 'Sofa';
+sofa.name = 'Three-seat sofa';
 sofa.position.set(-3.72,0,2.80);
 sofa.rotation.y = Math.PI / 2;
 sofa.scale.set(.88,.92,.90);
 lounge.add(sofa);
+const sofaMiddle=.46, sofaWidth=2.77, sofaDepth=.98, sofaCushionTop=.45;
 const upholstery = mat(0x577779, .96);
 const cushionFabric = mat(0x729393, .98);
 const sofaLeg = mat(0x3c3028);
@@ -446,26 +447,18 @@ function sofaPad(material, x, y, z, width, height, depth, radius) {
   mesh.position.set(x, y, z);
   sofa.add(mesh);
 }
-sofaPad(upholstery, 0, .21, 0, 1.88, .29, .86, .04);
-sofaPad(upholstery, 0, .52, -.35, 1.9, .73, .21, .055);
-for (const side of [-1, 1]) {
-  sofaPad(upholstery, side * .85, .41, .025, .19, .48, .83, .06);
-  sofaPad(cushionFabric, side * .378, .39, .085, .744, .12, .65, .04);
-  sofaPad(cushionFabric, side * .378, .647, -.223, .744, .43, .13, .045);
-  for (const z of [-.31, .31]) {
-    block(sofa, sofaLeg, side * .74, .045, z, .09, .09, .09);
-  }
+sofaPad(upholstery,sofaMiddle,.21,0,sofaWidth,.29,sofaDepth,.04);
+sofaPad(upholstery,sofaMiddle,.52,-.38,sofaWidth,.73,.22,.055);
+for(const seat of [-1,0,1]){
+  const x=sofaMiddle+seat*.838;
+  sofaPad(cushionFabric,x,.39,.086,.824,.12,.788,.045);
+  sofaPad(cushionFabric,x,.645,-.251,.824,.43,.16,.05);
 }
-// Extend the far cushion for the dog without moving Leila's usual seat or the table.
-const chaiseBase=sofaPadExtension();
-function sofaPadExtension(){
-  sofaPad(upholstery,1.65,.225,.245,2.33,.285,1.42,.07);
-  sofaPad(cushionFabric,1.65,.39,.245,2.33,.12,1.42,.06);
-  sofaPad(upholstery,1.63,.453,-.423,2.32,.57,.17,.05);
-  for(const x of [.70,2.58])for(const z of [-.30,.74])
-    block(sofa,sofaLeg,x,.049,z,.11,.093,.11);
-  return new T.Box3();
+for(const side of [-1,1]){
+  sofaPad(upholstery,sofaMiddle+side*1.276,.41,.027,.218,.48,.926,.06);
+  for(const z of [-.36,.35])block(sofa,sofaLeg,sofaMiddle+side*1.19,.045,z,.09,.09,.09);
 }
+const sofaBounds=new T.Box3();
 
 // A cantilevered top brings the book within reach from the near sofa cushion.
 const sideTable = new T.Group();
@@ -3530,8 +3523,7 @@ function startRearFootwork(entry, side) {
   const sign = side === 'P' ? 1 : -1;
   const delta = V(-sign*.045,0,entry.step ?? 0).applyAxisAngle(turnAxis,angle);
   const to = from.clone().add(delta);
-  const couch = new T.Box3(sofaTarget.lookAt.clone().add(V(-.522,-2,-.704)),
-    sofaTarget.lookAt.clone().add(V(.522,2,.704)));
+  const couch = sofaWalkingBounds();
   if (!entry.step || to.x < -5.65 || to.x > 5.65 || to.z < -5.65 || to.z > 8.65 ||
       !clearOfPoles(from,to) || couch.containsPoint(to) || couch.containsPoint(from)) delta.set(0,0,0);
   const turn = entry.turn && !couch.containsPoint(from)
@@ -4789,10 +4781,13 @@ function blendSofaPose(pose, weight) {
 }
 
 function initializeSofaMotion() {
-  sofaSeat.copy(sofa.localToWorld(V(-.378,.45,.08)));
+  sofaSeat.copy(sofa.localToWorld(V(-.378,sofaCushionTop,.08)));
   sofaDock.copy(sofa.localToWorld(V(-.378,0,.69)));
-  sofa.getWorldPosition(sofaTarget.lookAt);
-  chaiseBase.setFromPoints([sofa.localToWorld(V(.48,-2,-.515)),sofa.localToWorld(V(2.815,2,.955))]);
+  sofaTarget.lookAt.copy(sofa.localToWorld(V(sofaMiddle,sofaCushionTop,0)));
+  sofaBounds.setFromPoints([
+    sofa.localToWorld(V(sofaMiddle-sofaWidth/2,-2,-sofaDepth/2)),
+    sofa.localToWorld(V(sofaMiddle+sofaWidth/2,2,sofaDepth/2))
+  ]);
   sofaTarget.lookAt.y = sofaSeat.y;
   sofa.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,sofaTarget);
@@ -4843,7 +4838,7 @@ function clearOfPoles(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -4857,8 +4852,7 @@ function clearOfPoles(from,to) {
 }
 
 function sofaWalkingBounds() {
-  return new T.Box3(sofaTarget.lookAt.clone().add(V(-.27,-2,-.5104)),
-    sofaTarget.lookAt.clone().add(V(.27,2,.5104)));
+  return sofaBounds.clone().expandByScalar(.075);
 }
 
 function walkingClearance(couch) {
@@ -4894,7 +4888,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -4978,9 +4972,7 @@ function userApproachTarget() {
   direction.divideScalar(distance);
   // Use a direct segment so each step closes the distance to the viewer.
   const stride = Math.min(1.10,distance-.76);
-  const couchMin = sofaTarget.lookAt.clone().add(V(-.405,-1,-.5984));
-  const couchMax = sofaTarget.lookAt.clone().add(V(.405,1,.5984));
-  const couch = new T.Box3(couchMin,couchMax);
+  const couch = sofaWalkingBounds();
   const ray = new T.Ray(from,direction);
   const couchHit = ray.intersectBox(couch,V(0,0,0));
   for (const fraction of [1,.8,.6,.4]) {
@@ -7245,8 +7237,7 @@ function shouldLeaveHandBrace(link,dt,stretch,fastPull) {
 }
 
 function handLinkCouch() {
-  return new T.Box3(sofaTarget.lookAt.clone().add(V(-.513,-2,-.6952)),
-    sofaTarget.lookAt.clone().add(V(.513,2,.6952)));
+  return sofaWalkingBounds();
 }
 
 function walkWithHeldHand(link,dt,stretch,fastPull) {
@@ -7614,9 +7605,11 @@ $('standWait').onclick = () => beginStandingWait(false);
 $('offerHandButton').onclick = () => {prioritizeLeilaUser();beginStandingWait(true);};
 
 // LAB 95 — companion. All geometry and movement are local; no new assets.
+const shepherdScale=.57;
+const shepherdChin=V(-.075,.548,.535);
 function createShepherd() {
   const dog = new T.Group(), body = new T.Group(), head = new T.Group();
-  dog.name='German shepherd'; dog.add(body); body.add(head); scene.add(dog);
+  dog.name='German shepherd'; dog.scale.setScalar(shepherdScale); dog.add(body); body.add(head); scene.add(dog);
   const coat=(color)=>new T.MeshStandardMaterial({color,roughness:.87});
   const tan=coat(0xb37c49), ochre=coat(0xd8a46c), brown=coat(0x805334);
   const saddle=coat(0x302925), ink=coat(0x261f1d), noseMat=coat(0x191619), inner=coat(0x976353);
@@ -7749,7 +7742,7 @@ function createShepherd() {
   function navigate(to){
     if(d.destination?.distanceToSquared(to)<.0001)return;
     d.destination=to.clone();d.path=[];
-    const boxen=[sofaWalkingBounds(),chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds];
+    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds];
     if(bed.visible)boxen.push(bedBounds);
     const boxes=boxen.map(b=>b.clone().expandByScalar(.34));
     const poles=walkTargets.filter(e=>e!==sofaTarget).map(e=>V(e.lookAt.x,0,e.lookAt.z));
@@ -7800,7 +7793,7 @@ function createShepherd() {
     dog.position.addScaledVector(desired,step/dist);
     return step;
   }
-  function change(state){d.state=state;d.t=0;}
+  function change(state){d.state=state;d.t=0;if(state!=='couchCurl')d.lapPoint=null;}
   function cancelPlay(){
     d.play=null;toy.visible=false;
     if(d.state==='play'){d.destination=null;d.path=[];change('idle');d.wait=d.time+4;}
@@ -7859,6 +7852,9 @@ function createShepherd() {
       const targetNeck=V(0,0,0), movedSkull=V(0,0,0);
       const bodyInverse=new T.Quaternion(), neckBend=new T.Quaternion();
       const headTurn=new T.Euler(0,0,0,'YXZ');
+      const chinOffset=shepherdChin.clone().sub(skull);
+      const lapSkull=V(0,0,0), lapOffset=V(0,0,0);
+      const lapRotation=new T.Quaternion().setFromEuler(new T.Euler(.12,0,0,'YXZ'));
       const bindTail=V(0,.490,-.407);
       const bindTip=bindTail.clone().add(tailTip.position);
       const bodyIndex=bone(V(0,0,0),joint=>{
@@ -7874,7 +7870,15 @@ function createShepherd() {
         targetNeck.y=clamp(targetNeck.y,-.23,.095);
         targetNeck.z=clamp(targetNeck.z,-.055,.075);
         targetNeck.z+=Math.max(0,-targetNeck.y)*.54;
-        targetNeck.add(neckRest).normalize();
+        targetNeck.add(neckRest);
+        if(d.lapPoint){
+          const restWeight=rearRamp(d.t,.30,1.75);
+          lapOffset.copy(chinOffset).applyQuaternion(lapRotation);
+          lapSkull.copy(d.lapPoint).sub(lapOffset);
+          lapOffset.copy(lapSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase);
+          targetNeck.lerp(lapOffset,restWeight);
+        }
+        targetNeck.normalize();
         neckBend.setFromUnitVectors(neckDirection,targetNeck);
         joint.position.copy(neckBase).applyQuaternion(body.quaternion).add(body.position);
         joint.quaternion.copy(body.quaternion).multiply(neckBend);
@@ -7886,6 +7890,13 @@ function createShepherd() {
         headTurn.set(clamp(head.rotation.x,-.38,.58),
           clamp(head.rotation.y,-.72,.72),clamp(head.rotation.z,-.20,.20),'YXZ');
         joint.quaternion.setFromEuler(headTurn);
+        if(d.lapPoint){
+          const restWeight=rearRamp(d.t,.30,1.75);
+          joint.quaternion.slerp(lapRotation,restWeight);
+          lapOffset.copy(chinOffset).applyQuaternion(joint.quaternion);
+          lapOffset.copy(d.lapPoint).sub(lapOffset).sub(movedSkull).clampLength(0,.13);
+          joint.position.addScaledVector(lapOffset,restWeight);
+        }
       });
       const tailIndex=bone(bindTail,joint=>{
         joint.position.copy(tail.position);
@@ -7994,6 +8005,10 @@ function createShepherd() {
         for(const material of [].concat(mesh.material))material.visible=false;
       }
       updateModelPose=()=>bones.forEach((joint,index)=>drivers[index](joint));
+      d.backPoint=stroke=>{
+        const y=stroke<0?mix(.542,.548,-stroke):mix(.542,.553,stroke);
+        return bones[bodyIndex].localToWorld(V(-.027,y,.105+stroke*.055));
+      };
       d.petPoint=stroke=>{
         const t=clamp(stroke,-1,1);
         const crown=V(-.10,t<0?mix(.736,.730,-t):mix(.736,.738,t),.410+t*.020);
@@ -8003,8 +8018,8 @@ function createShepherd() {
   }
   loadShepherdModel();
   function pose(dt,move,focus,running=false){
-    const sleeping=d.state==='curl'||d.state==='couchCurl', inJump=d.state==='up'||d.state==='down';
-    dogDream.step(d,sleeping);
+    const couch=d.state==='couchCurl', sleeping=d.state==='curl'||couch, inJump=d.state==='up'||d.state==='down';
+    dogDream.step(d,d.state==='curl');
     const rival=d.state==='rival'&&d.rivalPose>0;
     const petted=d.petEnds>d.time&&!sleeping;
     const notice=rival?Math.sin(Math.min(1,d.rivalPose/1.7)*Math.PI):0;
@@ -8014,14 +8029,14 @@ function createShepherd() {
     const fetchLower=threeWayFetch.loweredMuzzle(p),meal=d.mealLower??0;
     blend('bow',p&&p.phase==='ready'?.8:rival?.68*notice:petted?.20:.19*meal,dt,6);
     blend('wag',sleeping?0:p||petted||rival||d.bond?.ready>0?1:.24,dt,5);
-    const c=d.curl,w=d.walk, snowLean=d.snowLean??0;
+    const c=d.curl,w=d.walk, lap=couch&&d.lapPoint?rearRamp(d.t,.30,1.75):0, snowLean=d.snowLean??0;
     const bond=d.state==='bond'&&d.bond?.ready>0 ? rearRamp(d.bond.ready,0,.85) : 0;
-    d.stride += move/.51;
+    d.stride += move/(.51*shepherdScale);
     const cycle=d.stride;
     body.position.set(.011*Math.sin(cycle*2*Math.PI)*w+.070*snowLean,
       -.322*c+Math.sin(d.time*(sleeping?2.5:3.15))*(sleeping?.007:.004)
        +.017*Math.cos(cycle*4*Math.PI)*w-.098*d.bow-.17*fetchLower,0);
-    body.rotation.set(.13*d.bow, -.13*c, .065*c+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
+    body.rotation.set(.13*d.bow, -.13*c*(1-lap), .065*c*(1-lap)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
     const sleepOffset=d.state==='curl' ? .082*c*rearRamp(d.t,1,4.8) : 0;
     head.position.set(.109*snowLean+.035*c+sleepOffset-(d.bond?.side??0)*.073*bond,.698-.208*c-.042*bond-.043*snowLean,.376-.006*c);
     if(!sleeping&&focus){
@@ -8031,6 +8046,11 @@ function createShepherd() {
     else{
       head.rotation.x+=(.43*c+.078*Math.sin(d.time*1.1)*(1-c)-head.rotation.x)*Math.min(1,dt*4);
       head.rotation.y+=(.54*c+.19*Math.sin(d.time*.72)*(1-c)-head.rotation.y)*Math.min(1,dt*4);
+    }
+    if(lap>0){
+      head.position.y-=.085*lap;
+      head.rotation.x=mix(head.rotation.x,.12,lap);
+      head.rotation.y=mix(head.rotation.y,0,lap);
     }
     head.rotation.z=-.135*snowLean+.09*c+.22*notice+.16*(d.bond?.side??0)*bond+.15*Math.sin(d.time*7)*Math.max(0,Math.min(1,(d.petEnds-d.time)/1.2));
     const blink=(d.time+1.2)%4.7;
@@ -8042,9 +8062,9 @@ function createShepherd() {
     jaw.rotation.x=p||w>.58 ? .13+.07*Math.sin(d.time*11) : sleeping ? .072*dogDream.muzzle() : meal*(.08+.08*Math.sin(d.time*23));
     tongue.visible=jaw.rotation.x>.13&&c<.4;
     tail.position.set(.035*c,.490+.162*c,-.407+.098*c);
-    tail.rotation.y=(.17+1.03*c)+.72*d.wag*Math.sin(d.time*(p||petted||rival?13:5));
+    tail.rotation.y=(.17+1.03*c*(1-.62*lap))+.72*d.wag*Math.sin(d.time*(p||petted||rival?13:5));
     tail.rotation.x=1.12*c-.26*d.wag;
-    tailTip.rotation.y=1.55*c+.32*d.wag*Math.sin(d.time*9-.55);
+    tailTip.rotation.y=1.55*c*(1-.56*lap)+.32*d.wag*Math.sin(d.time*9-.55);
     tailTip.rotation.x=.44*c+.12*Math.sin(d.time*4)*d.wag;
     for(let i=0;i<legs.length;i++){
       const {front,s,paw,anklePiece,toes,upper,lower}=legs[i];
@@ -8061,7 +8081,7 @@ function createShepherd() {
       solveDogLeg(A,B,C,front,s);
       // Tuck the joints in front of the body, never underneath the mattress.
       C.lerp(V(s*(front?.128:.155)-.022,front?.086:.102,front?.238:-.205),c);
-      B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408:-.073),c);
+      B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408-.117*lap:-.073),c);
       // Dream flutters only add flex and lift, so the tucked paws never dip below the cushion.
       const dreamPaw=dogDream.paw(i)*c;
       B.y+=.021*dreamPaw;B.z-=.027*dreamPaw;
@@ -8075,7 +8095,7 @@ function createShepherd() {
     shadow.visible=floorGroup.visible&&dog.position.y<.22;
     shadow.position.set(dog.position.x,.007,dog.position.z);
     shadow.rotation.y=dog.rotation.y;
-    shadow.scale.set(.40,1,1.08);
+    shadow.scale.set(.40*shepherdScale,1,1.08*shepherdScale);
     shadow.material.opacity=.22*Math.exp(-dog.position.y*8);
   }
   Object.assign(d,{navigate,follow,rotate,change,startJump,pose,cancelPlay,
@@ -8089,7 +8109,7 @@ function createShepherd() {
       if(u>=1){
         dog.position.copy(j.b);d.jump=null;change(j.finish);
         if(j.finish==='curl'){lab900LifeNote('dogSleep');$('dogNote').textContent='レイラの隣で丸くなっています。';}
-        else if(j.finish==='couchCurl'){lab900LifeNote('dogSofa');$('dogNote').textContent='犬もソファに上がって身を寄せました。';}
+        else if(j.finish==='couchCurl'){d.sofaReadingStarted=false;lab900LifeNote('dogSofa');$('dogNote').textContent='犬が隣の座面に伏せました。';}
         else $('dogNote').textContent='犬をタップすると、こちらに気づきます。';
       }
     }
@@ -8246,7 +8266,8 @@ function updateShepherd(dt){
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
     ['bedSit','bedLie'].includes(roam.visit?.[roam.visitIndex]?.type);
   const bedMood=onBed||ontoBed;
-  const couchMood=mode==='roam'&&['seated','reading'].includes(roam.phase);
+  const couchMood=mode==='roam'&&(['seated','reading'].includes(roam.phase)||
+    (roam.phase==='route'&&roam.target===bookTarget&&roam.visit?.[roam.visitIndex]?.type==='bookPick'));
   if(d.bond&&!(mode==='roam'&&roam.phase==='dogBond'))dropDogBond();
   if(!d.jump&&(d.state==='couchCurl'||
      (couchMood&&d.state!=='curl'&&d.state!=='rival'&&!d.rivalQueued&&!d.play))){
@@ -8597,8 +8618,22 @@ $('dogPlayThree').disabled=false;
 // LAB 97 — close companions. User attention, motion and furniture transitions take precedence.
 const dogBondPoint=V(-1.52,0,.54);
 const dogBondTarget={kind:'dogBond',name:'犬をなでる',point:dogBondPoint,lookAt:dogBondPoint,heading:0};
-const sofaDogSeat=sofa.localToWorld(V(1.52,.45,.244));
-const sofaDogFoot=sofaDogSeat.clone().add(V(.92,-sofaDogSeat.y,0));
+const sofaDogSeat=sofa.localToWorld(V(.33,sofaCushionTop,.225));
+const sofaDogFoot=sofaDogSeat.clone().add(V(.68,-sofaDogSeat.y,0));
+const sofaDogHeading=.24;
+const sofaLapRay=new T.Raycaster(V(0,0,0),V(0,-1,0),0,.25);
+const sofaLapHits=[];
+const sofaLapMeshes=parts.filter(mesh=>rigKeys.get(mesh.parent)==='thighP');
+function sofaLapPoint(){
+  const thigh=groups.thighP;
+  const center=thigh.getWorldPosition(V(0,0,0))
+    .lerp(groups.kneeP.getWorldPosition(V(0,0,0)),.57);
+  sofaLapHits.length=0;
+  sofaLapRay.ray.origin.copy(center).y+=.17;
+  for(const mesh of sofaLapMeshes)mesh.updateWorldMatrix(true,false);
+  sofaLapRay.intersectObjects(sofaLapMeshes,false,sofaLapHits);
+  return sofaLapHits.length?sofaLapHits[0].point.add(V(0,.002,0)):center.add(V(0,.045,0));
+}
 let nextDogBondAt=6;
 
 function privateDogBondAllowed(){
@@ -8682,6 +8717,7 @@ function advanceDogBond(){
 }
 function advanceCouchCompanion(d,dt,canStay){
   const obj=d.object;
+  d.lapPoint=null;
   if(d.state==='couchCurl'){
     if(!canStay){
       const to=headingTo(obj.position,sofaDogFoot);
@@ -8690,9 +8726,13 @@ function advanceCouchCompanion(d,dt,canStay){
         d.startJump(false,{b:sofaDogFoot,yaw:to,finish:'idle'});
     }else{
       const tuck=rearRamp(d.t,0,1.75);
-      // Settle across the extended cushion, muzzle just beside Leila.
-      d.rotate(.29,dt,2.3);
-      obj.position.z=sofaDogSeat.z+.053*tuck;
+      const lap=sofaLapPoint();
+      d.rotate(sofaDogHeading,dt,2.3);
+      const desired=lap.clone().sub(V(shepherdChin.x,0,shepherdChin.z).multiplyScalar(shepherdScale)
+        .applyAxisAngle(turnAxis,sofaDogHeading));
+      obj.position.x=mix(sofaDogSeat.x,T.MathUtils.clamp(desired.x,sofaDogSeat.x-.10,sofaDogSeat.x+.12),tuck);
+      obj.position.z=mix(sofaDogSeat.z,T.MathUtils.clamp(desired.z,sofaDogSeat.z-.11,sofaDogSeat.z+.13),tuck);
+      d.lapPoint=obj.worldToLocal(lap);
     }
     return 0;
   }
@@ -8702,7 +8742,7 @@ function advanceCouchCompanion(d,dt,canStay){
   if(obj.position.distanceTo(sofaDogFoot)<.045){
     d.rotate(-Math.PI/2,dt,5.0);
     if(Math.abs(headingDelta(obj.rotation.y,-Math.PI/2))<.14)
-      d.startJump(true,{b:sofaDogSeat,yaw:.29,finish:'couchCurl'});
+      d.startJump(true,{b:sofaDogSeat,yaw:sofaDogHeading,finish:'couchCurl'});
   }
   return moved;
 }
@@ -8751,17 +8791,16 @@ const dogDream = (() => {
        document.hidden||mood.seconds<leilaUserPriorityUntil||shepherd.state!==scene||
        shepherd.jump) return false;
     const bed=scene==='curl'&&roam.phase==='bed'&&!roam.bedBlendFrom;
-    const sofa=scene==='couchCurl'&&roam.phase==='seated';
     // Keep Leila's hands on the book while reading, and don't interfere with a bed roll.
-    if(!bed&&!sofa)return false;
+    if(!bed)return false;
     const weight=rearRamp(elapsed,.37,.91)*(1-rearRamp(elapsed,2.0,2.65));
     if(weight<.001)return false;
     const dog=shepherd.head;
-    const options=bed?[[.042,-.015,.190],[.045,.003,.151],[.052,.008,.115],[0,-.020,.222]]: [[-.034,-.005,.195],[-.050,-.004,.155],[-.045,.004,.135],[-.038,.060,.023]];
+    const options=[[.042,-.015,.190],[.045,.003,.151],[.052,.008,.115],[0,-.020,.222]];
     let reach=null;
     for(const [index,point] of options.entries()){
       const spot=dog.localToWorld(V(...point));
-      for(const side of sofa?['P']:['P','N']){
+      for(const side of ['P','N']){
         const shoulder=groups['upper'+side].getWorldPosition(V(0,0,0));
         const dir=spot.clone().sub(shoulder);dir.y=0;
         if(dir.lengthSq()<.0001)continue;
@@ -8771,7 +8810,7 @@ const dogDream = (() => {
         wrist.sub(palmRig[side].center.clone().applyQuaternion(q));
         const distance=wrist.distanceTo(shoulder);
         const arm=base['elbow'+side].length()+base['hand'+side].length();
-        if(distance>arm+(sofa?.038:.020))continue;
+        if(distance>arm+.020)continue;
         const score=distance+index*.035;
         if(!reach||score<reach.score)reach={side,dir,q,wrist,score};
       }
@@ -8780,9 +8819,9 @@ const dogDream = (() => {
     const {side,wrist,q}=reach;
     const sign=side==='P'?1:-1;
     // Only an arm and a restrained glance; no reset of either character's sleep pose.
-    groups.head.rotateY(sign*(sofa?.16:.10)*weight);
+    groups.head.rotateY(sign*.10*weight);
     groups.head.rotateX(.085*weight);
-    reachHand(side,wrist,q,weight,false,V(.19*sign,bed?.04:-.11,.12));
+    reachHand(side,wrist,q,weight,false,V(.19*sign,.04,.12));
     return true;
   }
   return {step,paw,muzzle,comfort};
@@ -8790,26 +8829,43 @@ const dogDream = (() => {
 
 function petDogFromSofa(){
   const d=shepherd;
-  if(mode!=='roam'||roam.phase!=='seated'||reaction||contact||mood.seconds<leilaUserPriorityUntil||
-    d.state!=='couchCurl'||d.t<1)return;
-  const side='P', headPoint=d.petPoint?.(Math.sin(d.t*4.4))??d.head.localToWorld(V(0,.076,-.012));
+  if(mode!=='roam'||roam.phase!=='seated'||reaction||contact||roam.attention||handLink||
+    mood.seconds<leilaUserPriorityUntil||d.state!=='couchCurl'||!d.lapPoint||d.t<1.55)return;
+  if(d.t>13&&!d.sofaReadingStarted){
+    d.sofaReadingStarted=true;
+    if(!document.hidden&&currentMood()!=='annoyed'&&startSofaReading())return;
+  }
+  const side='P', cycle=(d.t-1.55)%11, stroke=Math.sin(cycle*2.9);
+  const back=cycle>=5.4&&cycle<10.6&&!!d.backPoint;
+  const point=back?d.backPoint(stroke*.67):d.petPoint?.(stroke)??d.head.localToWorld(V(0,.076,-.012));
+  const time=back?cycle-5.4:cycle;
+  const weight=rearRamp(time,0,.75)*(1-rearRamp(time,3.55,4.9));
+  if(weight<.01)return;
+  const reachingBack=back?weight:0;
+  groups.abdomen.rotateZ(-.24*reachingBack);
+  groups.chest.rotateZ(-.24*reachingBack);
+  groups.chest.rotateX(.12*weight);
+  groups.head.rotateY(.25*weight);
+  groups.head.rotateX(.20*weight);
   const shoulder=groups.upperP.getWorldPosition(V(0,0,0));
-  if(shoulder.distanceTo(headPoint)>.49)return;
-  const weight=rearRamp(d.t,1,2.1)*(1-rearRamp(d.t%7.4,5.1,7.0));
-  const dir=V(.65,0,-.68);
-  const q=orientPalm(side,dir,palmDown);
-  if(!d.petPoint)headPoint.addScaledVector(dir,.025*Math.sin(d.t*4.4));
-  headPoint.y+=.006;
-  headPoint.sub(palmRig[side].center.clone().applyQuaternion(q));
-  groups.head.rotateY(.24*weight);groups.head.rotateX(.18*weight);
-  reachHand(side,headPoint,q,weight*.85,false,V(.21,-.10,-.11));
+  const dir=point.clone().sub(shoulder);dir.y=0;dir.normalize();
+  const palm=orientPalm(side,dir,palmDown);
+  point.y+=.004;
+  point.sub(palmRig[side].center.clone().applyQuaternion(palm));
+  reachHand(side,point,palm,weight,false,V(.19,-.13,.08));
+}
+
+function startSofaReading(){
+  if(root.position.distanceTo(sofaDock)>.025)return false;
+  requestDestination(bookTarget);
+  return true;
 }
 
 let dogSofaRequested=false;
 $('dogSofa').disabled=false;
 $('dogSofa').onclick=()=>{
-  if(mode==='roam'&&roam.phase==='seated'){
-    roam.pause=Math.max(roam.pause,roam.elapsed+28);
+  if(mode==='roam'&&['seated','reading'].includes(roam.phase)){
+    roam.pause=Math.max(roam.pause,(roam.phase==='reading'?roam.readTime:roam.elapsed)+28);
     dogFollowCamera(sofaSeat.clone().add(V(.15,.21,-.28)),V(1.95,1.06,1.35));
     return;
   }
