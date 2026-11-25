@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 94｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 101｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -98,6 +98,12 @@ body>section>#paintOpen{justify-self:start}
 body>section>#developer{margin-top:1px;border-top:1px solid var(--lab900-edge)}
 body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #developer button,#developer select{min-height:44px}
+#seasonPreview{min-inline-size:0;margin:.5rem 0;padding:.3rem .5rem .45rem;border:1px solid #495b74;border-radius:9px}
+#seasonPreview legend{padding:0 .33rem;font-size:.82rem;color:#dbe7f6}
+#seasonPreview .seasonButtons{display:flex;flex-wrap:wrap;gap:.28rem}
+#seasonPreview button{min-width:44px;margin:0;padding:0 .55rem}
+#seasonPreview button[aria-pressed="true"]{background:#345d72;color:#eff9ff;border-color:#8bbdc7}
+#seasonStatus,#snowDevStatus{margin:.32rem 0 0;font-size:.76rem;color:#b7cbdf}
 @media(max-width:360px){.lab900Header{gap:7px}.lab900Identity{gap:6px}.lab900Mark{width:27px;height:27px}.lab900Mark svg{width:16px;height:16px}.lab900Telemetry #worldClock{font-size:.76rem}.lab900Telemetry #fps{font-size:.66rem}}
 @media(min-width:740px){body>section>.actionButtons{grid-template-columns:repeat(4,minmax(0,1fr))}.lab900Header{padding-inline:max(16px,calc((100vw - 72rem)/2 + 12px))}}
 .labMusic{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -108,12 +114,21 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #view{position:relative}
 #waveReplyHint{position:absolute;z-index:2;bottom:10px;right:max(10px,env(safe-area-inset-right));margin:0;pointer-events:none;background:#101c2dec;color:#f0f6ff;border:1px solid #7a9abc;border-radius:14px;padding:7px 12px;font-size:.79rem;font-weight:650;box-shadow:0 2px 10px #0007}
 #waveReplyHint[hidden]{display:none}
+.dogBar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 8px;background:#111d30;border:1px solid #263d5a;border-radius:9px}
+.dogBar button{margin:0;min-height:44px}
+.dogBar strong{font-size:.79rem;color:#ebc48c;margin-inline:3px 6px}
+.dogBar small{flex:1 1 100%;padding:1px 4px;color:#abc5df;line-height:1.35}
+@media(max-width:460px){.dogBar strong{flex:1 1 100%}.dogBar button{flex:1 1 auto}}
+#threeFetchCue{position:absolute;z-index:3;bottom:12px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;max-width:calc(100% - 20px);width:max-content;padding:4px;background:#142238f5;border:1px solid #8ca8c5;border-radius:13px;box-shadow:0 3px 12px #0009}
+#threeFetchCue[hidden]{display:none}
+#threeFetchPad,#threeFetchFallback{margin:0;padding:7px 10px;min-height:44px;line-height:1.2;font-size:.81rem}
+#threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 94</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 101</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
-</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -131,7 +146,10 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
     <div class="lab900PhotoList" id="lab900PhotoList" aria-label="保存した写真"></div>
   </div>
 </dialog>
-<div id="reactionStatus" role="status" hidden></div><div class="labMusic" role="group" aria-label="音楽">
+<div class="dogBar" role="group" aria-label="シェパード">
+<strong>シェパード</strong><button id="dogView" type="button" disabled>犬を見る</button><button id="dogPlay" type="button" disabled>犬と遊ぶ</button><button id="dogPlayThree" type="button" disabled>3人で遊ぶ</button><button id="dogMeal" type="button" disabled>ごはんを作る</button><button id="dogBond" type="button" disabled>なでる</button><button id="dogSofa" type="button" disabled>ソファで休む</button><button id="dogBed" type="button" disabled>添い寝</button>
+<small id="dogNote" role="status">犬をタップすると、こちらに気づきます。</small>
+</div><div id="reactionStatus" role="status" hidden></div><div class="labMusic" role="group" aria-label="音楽">
 <button id="danceSound" type="button" aria-pressed="false">ダンス音：OFF</button>
 <button id="radioSound" type="button" aria-pressed="false">ラジオBGM：OFF</button>
 <label>放送局 <select id="labRadioStation"><option value="0">83.4 / チル</option><option value="1">89.1 / グルーヴ</option><option value="2">96.7 / 深夜</option></select></label>
@@ -176,7 +194,22 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 </aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><label id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
   <option value="live">実時刻</option><option value="day">晴れた昼</option>
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
-</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div><button id="radioPreview" type="button">ラジオを試す</button> <button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div>
+<fieldset id="seasonPreview">
+  <legend>窓の外の四季</legend>
+  <div class="seasonButtons">
+    <button type="button" data-season="live" aria-pressed="true">実際の季節</button>
+    <button type="button" data-season="spring" aria-pressed="false">春</button>
+    <button type="button" data-season="summer" aria-pressed="false">夏</button>
+    <button type="button" data-season="autumn" aria-pressed="false">秋</button>
+    <button type="button" data-season="winter" aria-pressed="false">冬</button>
+    <button id="seasonWindowView" type="button">窓を正面から</button>
+    <button id="snowVisitPreview" type="button" disabled>雪の窓辺を試す</button>
+  </div>
+  <div id="seasonStatus" role="status" aria-live="polite"></div>
+  <div id="snowDevStatus" role="status"></div>
+</fieldset>
+<button id="radioPreview" type="button">ラジオを試す</button> <button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
@@ -195,10 +228,16 @@ const lab900LifeNote=(()=>{
   const key='leila.lab900.life.v1', cap=24;
   const lines=Object.freeze({
     read:'ソファで本を読んだ',
+    snowWindow:'犬と雪の窓辺に立ち寄った',
+    dogMeal:'キッチンで犬のごはんを作った',
     radio:'卓上ラジオの局を合わせた',
     paint:'キャンバスに筆を入れた',
     paintDone:'風景画を描き上げた',
     sleep:'ベッドでうとうとした',
+    dogPlay:'犬をボール遊びに誘った',
+    dogSleep:'犬とベッドで添い寝した',
+    dogBond:'そばに来た犬をなでた',
+    dogSofa:'犬とソファで寄り添った',
     dance:'ダンスを始めた',
     terrarium:'光る小さな生き物を観察した'
   });
@@ -417,6 +456,16 @@ for (const side of [-1, 1]) {
     block(sofa, sofaLeg, side * .74, .045, z, .09, .09, .09);
   }
 }
+// Extend the far cushion for the dog without moving Leila's usual seat or the table.
+const chaiseBase=sofaPadExtension();
+function sofaPadExtension(){
+  sofaPad(upholstery,1.65,.225,.245,2.33,.285,1.42,.07);
+  sofaPad(cushionFabric,1.65,.39,.245,2.33,.12,1.42,.06);
+  sofaPad(upholstery,1.63,.453,-.423,2.32,.57,.17,.05);
+  for(const x of [.70,2.58])for(const z of [-.30,.74])
+    block(sofa,sofaLeg,x,.049,z,.11,.093,.11);
+  return new T.Box3();
+}
 
 // A cantilevered top brings the book within reach from the near sofa cushion.
 const sideTable = new T.Group();
@@ -496,21 +545,21 @@ lounge.add(bed);
 const bedFabric = mat(0xb7cbd0,.92);
 const bedLinen = mat(0x5f8192,.94);
 const bedFrame = mat(0x46505a,.72);
-block(bed,bedFrame,0,.128,0,1.22,.128,1.58);
-block(bed,bedFrame,0,.325,-.755,1.22,.42,.07);
-block(bed,bedFabric,0,.244,0,1.18,.185,1.52);
-block(bed,bedLinen,0,.335,.28,1.19,.006,.91);
+block(bed,bedFrame,.112,.128,0,1.444,.128,1.58);
+block(bed,bedFrame,.112,.325,-.755,1.444,.42,.07);
+block(bed,bedFabric,.112,.244,0,1.404,.185,1.52);
+block(bed,bedLinen,.112,.335,.28,1.414,.006,.91);
 const bedPillow = block(bed,mat(0xe6e3dc,.96),0,.333,-.575,.62,.040,.26);
 const bedPillowBounds = new T.Box3().setFromObject(bedPillow);
 const bedHeadBounds = new T.Box3();
-for (const x of [-.51,.51]) for (const z of [-.66,.66]) block(bed,bedFrame,x,.043,z,.082,.086,.084);
+for (const x of [-.51,.734]) for (const z of [-.66,.66]) block(bed,bedFrame,x,.043,z,.082,.086,.084);
 const bedHeight = .337;
 const bedTarget = {
   kind:'bed',name:'ベッド',point:bedCenter.clone().add(new T.Vector3(-.85,0,0)),
   lookAt:bedCenter.clone().add(new T.Vector3(-.22,bedHeight,0)),heading:-Math.PI/2
 };
 const bedBounds = new T.Box3(bedCenter.clone().add(new T.Vector3(-.70,-1,-.85)),
-  bedCenter.clone().add(new T.Vector3(.70,1,.84)));
+  bedCenter.clone().add(new T.Vector3(.924,1,.84)));
 const dressingArea = new T.Group();
 floorGroup.add(dressingArea);
 dressingArea.position.set(-11.44,0,-5.55);
@@ -793,6 +842,153 @@ const terrariumTarget={
   lookAt:labTerrarium.localToWorld(new T.Vector3(0,.72,.02))
 };
 
+// LAB 101 | East-wall kitchenette and separate dog feeding station.
+const kitchenScene=(()=>{
+  const vec=(x,y,z)=>new T.Vector3(x,y,z);
+  const kitchenRoot=new T.Group();kitchenRoot.name='Kitchen and feeding area';facility.add(kitchenRoot);
+  const group=new T.Group();group.name='Kitchenette';group.position.set(5.16,0,-3.45);
+  group.rotation.y=-Math.PI/2;kitchenRoot.add(group);
+  const stone=mat(0xdfd9cc,.48), cabinet=mat(0x3e6967,.72), panels=mat(0x517e77,.57);
+  const wood=mat(0xad7e51,.76), edge=mat(0x704a34,.82), metal=mat(0x8eacae,.30);
+  const iron=mat(0x303c43,.58), bowlColor=mat(0x65aba3,.30), enamel=mat(0xf4e7c9,.36);
+  const amber=new T.MeshStandardMaterial({color:0x502d23,emissive:0xe56d37,emissiveIntensity:.02});
+  const potLid=new T.MeshStandardMaterial({color:0x344d5b,metalness:.45,roughness:.38});
+  const foodMats=[mat(0xd99b62),mat(0xf6aa52),mat(0x84a360),mat(0xc07755)];
+  const cyl=(parent,m,x,y,z,a,b,h,n=28)=>{
+    const mesh=new T.Mesh(new T.CylinderGeometry(a,b,h,n),m);
+    mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+  };
+  const shape=(parent,m,points,x,y,z)=>{
+    const mesh=new T.Mesh(new T.LatheGeometry(points.map(([a,b])=>new T.Vector2(a,b)),36),m);
+    mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+  };
+  const torus=(parent,m,x,y,z,r,t)=>{
+    const mesh=new T.Mesh(new T.TorusGeometry(r,t,7,34),m);
+    mesh.rotation.x=-Math.PI/2;mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+  };
+  block(group,cabinet,0,.257,0,2.12,.47,.60);
+  block(group,iron,0,.05,-.015,2.01,.073,.53);
+  for(let i=0;i<4;i++){
+    const x=-.79+i*.527;
+    block(group,panels,x,.286,.309,.496,.36,.027);
+    block(group,metal,x,.408,.339,.125,.019,.034);
+    block(group,edge,x,.108,.323,.465,.012,.008);
+  }
+  const counter=block(group,stone,-.23,.492,0,1.70,.054,.665);
+  block(group,stone,.85,.492,-.245,.47,.054,.175);
+  block(group,stone,.85,.492,.255,.47,.054,.155);
+  block(group,stone,1.02,.492,0,.13,.054,.335);
+  block(group,metal,.805,.453,.012,.367,.043,.345); // recessed sink and a dark drain
+  block(group,iron,.802,.476,.005,.288,.006,.269);
+  cyl(group,metal,.80,.481,.002,.035,.035,.012);
+  cyl(group,metal,.812,.576,-.253,.022,.029,.195);
+  block(group,metal,.812,.671,-.193,.043,.036,.155);
+  cyl(group,metal,.812,.643,-.124,.019,.019,.05);
+  for(const i of [-1,1])cyl(group,metal,.812+i*.081,.532,-.246,.026,.03,.035);
+  block(group,stone,0,.557,-.31,2.12,.091,.040);
+  block(group,cabinet,-.76,.845,-.285,.52,.34,.134);
+  block(group,panels,-.76,.852,-.213,.476,.307,.025);
+  block(group,metal,-.596,.815,-.190,.024,.087,.026);
+  block(group,new T.MeshBasicMaterial({color:0xffdeb0}),-.71,.673,-.210,.47,.011,.054);
+  const jars=[[-.98,0x809d59],[-.876,0xc07d4c],[-.779,0xd7bb7e]];
+  for(const [x,c] of jars){
+    cyl(group,mat(c,.38),x,.578,-.151,.041,.041,.104,16);
+    cyl(group,iron,x,.637,-.151,.044,.044,.016,16);
+  }
+  const board={x:-.21,z:.215};
+  block(group,wood,board.x,.535,board.z,.343,.032,.237);
+  for(const [i,w] of [[-.074,.25],[.023,.30],[.066,.23]])
+    block(group,edge,board.x,.552,board.z+i,w,.0013,.004);
+  const pot={x:.194,z:.205};
+  block(group,iron,.223,.53,.099,.436,.017,.421);
+  torus(group,amber,pot.x,.542,pot.z,.100,.008);
+  shape(group,potLid,[[0,0],[.083,0],[.105,.024],[.106,.132],[.09,.139],[.089,.028],[0,.026]],pot.x,.548,pot.z);
+  torus(group,metal,pot.x,.684,pot.z,.100,.008);
+  for(const k of [-1,1])block(group,iron,pot.x+k*.119,.643,pot.z,.055,.021,.062);
+  cyl(group,mat(0xa87547),pot.x,.604,pot.z,.089,.086,.010);
+  for(const x of [.13,.21,.28])cyl(group,amber,x,.536,-.074,.012,.012,.012,12);
+  const largeBowl=new T.Group();largeBowl.name='Dog meal bowl';kitchenRoot.add(largeBowl);
+  shape(largeBowl,bowlColor,[[0,0],[.101,.002],[.130,.012],[.137,.050],[.128,.062],[.111,.060],[.104,.026],[0,.022]],0,0,0);
+  torus(largeBowl,enamel,0,.058,0,.123,.006);
+  cyl(largeBowl,enamel,0,.022,0,.109,.103,.010);
+  const food=new T.Group();food.name='Meal pieces';largeBowl.add(food);
+  const biteGeometry=new T.IcosahedronGeometry(1,0);
+  function bite(parent,k){
+    const mesh=new T.Mesh(biteGeometry,foodMats[k%foodMats.length]);parent.add(mesh);return mesh;
+  }
+  for(let i=0;i<27;i++){
+    const a=i*2.399963, radius=Math.sqrt(i/27)*.097;
+    const piece=bite(food,i);
+    const s=.013+(i%5)*.0016;
+    piece.position.set(radius*Math.cos(a),.036+(i%4)*.008,radius*Math.sin(a));
+    piece.scale.set(s*1.2,s*.79,s);piece.rotation.set(i*.7,a,i*1.9);
+    piece.userData.full=piece.scale.clone();
+  }
+  function fill(amount){
+    for(let i=0;i<food.children.length;i++){
+      const piece=food.children[i], s=Math.max(0,Math.min(1,amount*food.children.length-i));
+      piece.visible=s>.001;
+      piece.scale.copy(piece.userData.full).multiplyScalar(Math.max(.001,s));
+    }
+  }
+  const pad=vec(4.63,0,-1.57), worker=vec(4.61,0,-3.51), handler=vec(4.43,0,-1.79);
+  const bowlHome=group.localToWorld(vec(-.08,.523,.238));
+  const boardTop=group.localToWorld(vec(board.x,.553,board.z));
+  const potTop=group.localToWorld(vec(pot.x,.690,pot.z));
+  const matFloor=new T.Group();matFloor.name='Dog feeding mat';matFloor.position.copy(pad);kitchenRoot.add(matFloor);
+  block(matFloor,iron,0,.007,0,.48,.013,.60);
+  block(matFloor,bowlColor,0,.014,0,.414,.006,.514);
+  block(matFloor,iron,0,.019,.063,.410,.004,.012);
+  block(matFloor,iron,0,.019,-.145,.410,.004,.012);
+  const blank=new T.Group(); blank.name='Ingredients on board';group.add(blank);
+  for(let i=0;i<14;i++){
+    const piece=bite(blank,i);piece.position.set(board.x-.105+(i%6)*.039,.559,board.z-.035+Math.floor(i/6)*.030);
+    piece.scale.set(.018,.012,.014);piece.rotation.y=i*1.1;
+    piece.userData.s=piece.scale.clone();
+  }
+  const utensil=new T.Group();utensil.name='Knife and ladle';kitchenRoot.add(utensil);
+  const knife=new T.Group(),ladle=new T.Group();utensil.add(knife,ladle);
+  block(knife,iron,0,0,-.015,.024,.026,.096);
+  block(knife,metal,0,-.017,-.098,.008,.048,.116);
+  block(knife,metal,0,-.020,-.155,.007,.029,.030).rotation.x=.40;
+  cyl(ladle,wood,0,-.059,0,.010,.009,.142,10);
+  shape(ladle,metal,[[0,-.156],[.031,-.149],[.038,-.132],[.035,-.126],[.030,-.136],[0,-.146]],0,0,0);
+  const falling=bite(kitchenRoot,0);falling.name='Food going into the bowl';falling.scale.set(.024,.016,.026);
+  const transfer=Array.from({length:5},(_,i)=>{
+    const piece=bite(kitchenRoot,i);piece.name='Chopped food into pot';piece.scale.set(.013,.010,.015);return piece;
+  });
+  const wisps=Array.from({length:7},(_,i)=>{
+    const mesh=new T.Mesh(new T.SphereGeometry(1,7,5),new T.MeshBasicMaterial({
+      color:0xf8f4e9,transparent:true,opacity:0,depthWrite:false
+    }));
+    mesh.name='Stove steam';
+    kitchenRoot.add(mesh);return mesh;
+  });
+  function steam(t,amount){
+    amber.emissiveIntensity=.03+amount*1.7;
+    wisps.forEach((mesh,i)=>{
+      const p=(t*.72+i*.18)%1, a=i*2.39996+p*4.5;
+      mesh.visible=amount>.001;
+      mesh.material.opacity=Math.sin(p*Math.PI)*.23*amount;
+      mesh.position.copy(potTop).add(vec(Math.cos(a)*(.03+.06*p),.033+p*.225,Math.sin(a)*(.025+.061*p)));
+      mesh.scale.set(.017+.035*p,.010+.020*p,.021+.028*p);
+    });
+  }
+  function restTools(){
+    utensil.position.copy(boardTop).add(vec(.04,.016,.103));utensil.rotation.set(Math.PI/2,0,-.17);
+    utensil.visible=true;knife.visible=true;ladle.visible=false;falling.visible=false;transfer.forEach(p=>{p.visible=false;});
+    blank.children.forEach(p=>{p.visible=true;p.scale.copy(p.userData.s);});
+    steam(0,0);
+  }
+  largeBowl.position.copy(matFloor.position).setY(.022);fill(0);restTools();
+  [group,matFloor,largeBowl].forEach(obj=>obj.traverse(enableShadowCasting));
+  const bounds=new T.Box3(vec(4.70,-1,-4.65),vec(5.59,2,-2.27));
+  const target={kind:'kitchen',name:'キッチン',point:worker,heading:Math.PI/2,lookAt:boardTop};
+  return {kitchenRoot,group,counter,matFloor,largeBowl,food,blank,utensil,knife,ladle,falling,transfer,
+    fill,steam,restTools,boardTop,potTop,bowlHome,pad,handler,target,bounds};
+})();
+const kitchenBounds=kitchenScene.bounds,kitchenTarget=kitchenScene.target;
+
 const outsideGround=block(outside,mat(0x657e69),0,-.19,0,180,.1,180);
 let seed=26;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
 const cityMats=[mat(0x7d94a5),mat(0xb3c4ce),mat(0x596d80)];
@@ -888,7 +1084,228 @@ const morningLightColor=new T.Color(0xffc38c);
 const middayLightColor=new T.Color(0xfff3df);
 const moonlightColor=new T.Color(0x9ebaff);
 const sunDirection=new T.Vector3(), moonDirection=new T.Vector3();
-const lab900GroundDay=new T.Color(0x657e69),lab900GroundNight=new T.Color(0x303d51);
+// LAB 99 | Seasonal exterior. Fixed layout, local calendar, no remote assets.
+const seasonalOutdoors=(()=>{
+  const land=new T.Group(); land.name='Seasonal exterior'; outside.add(land);
+  const palettes={
+    spring:{lawn:[0x799967,0x354951],patch:[0x91a66d,0x82975f,0x6e945f],
+      cherry:[0xffb4cf,0xed8cad,0xffd5e1,0xf7a9bf,0xffe7ee],maple:[0x8dab50,0x96b759,0x71a15b,0xb0c86a]},
+    summer:{lawn:[0x499059,0x203d41],patch:[0x5a9a5a,0x40834e,0x66a565],
+      cherry:[0x387851,0x548b46,0x65995a,0x468655],maple:[0x40863d,0x77a840,0x629a3d,0x558649]},
+    autumn:{lawn:[0xa68351,0x4f4246],patch:[0xba9256,0x92704a,0xc4a067],
+      cherry:[0xbb884b,0xca9d56,0x9a6941,0xd2a76c],maple:[0xbb3e36,0xd95838,0xe08039,0xc64241,0xec9a43]},
+    winter:{lawn:[0xdce8ef,0x637b97],patch:[0xf1f6f9,0xc9dce9,0xe4eef3]}
+  };
+  const seasons=['spring','summer','autumn','winter'];
+  const labels={spring:'春',summer:'夏',autumn:'秋',winter:'冬'};
+  const trees=[
+    // The paired trees outside the north windows frame the check camera.
+    ['cherry',-2.48,-9.4,1.03],['maple',2.60,-10.05,1.05],
+    ['maple',-8.5,-4.65,.92],['cherry',-9.15,2.45,1.05],['maple',-10.2,8.0,1.08],
+    ['cherry',-4.55,13.25,1.0],['maple',1.05,13.9,.92],['cherry',6.15,13.95,.88],
+    ['maple',9.25,7.7,.98],['cherry',8.75,1.35,1.06],['maple',10.1,-4.05,1.09],
+    ['cherry',-6.7,-15.7,.79],['maple',5.25,-16.15,.82]
+  ];
+  const earth=-.138;
+  let seed=990327;
+  const rnd=()=>((seed=(Math.imul(1664525,seed)+1013904223)>>>0)/4294967296);
+  const spread=(a,b)=>a+(b-a)*rnd();
+  const bark=[],snow=[],petal=[],fallen=[],field=[];
+  const crowns={cherry:[],maple:[]};
+  const q=new T.Quaternion(), pos=new T.Vector3(), scale=new T.Vector3(), matrix=new T.Matrix4();
+  const eul=new T.Euler(), up=new T.Vector3(0,1,0), delta=new T.Vector3(), tone=new T.Color();
+  const row=(x,y,z,a,b,c,rx=0,ry=0,rz=0)=>({x,y,z,a,b,c,rx,ry,rz,k:rnd()});
+  function segment(rows,a,b,base){
+    const av=new T.Vector3(...a), bv=new T.Vector3(...b);
+    delta.subVectors(bv,av);
+    rows.push({...row((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2,base,delta.length()*1.04,base),
+      q:new T.Quaternion().setFromUnitVectors(up,delta.normalize())});
+  }
+  for(const [species,x,z,s] of trees){
+    const cherry=species==='cherry';
+    const angle0=spread(0,Math.PI*2);
+    const root=(a,b,c)=>[x+a*s,earth+b*s,z+c*s];
+    const knee=root(.07,.95,.04), neck=root(-.02,1.72,-.035);
+    segment(bark,root(0,-.04,0),knee,s*(cherry?.20:.17));
+    segment(bark,knee,neck,s*(cherry?.155:.132));
+    segment(bark,neck,root(.03,cherry?2.8:3.5,.09),s*.075);
+    const tips=[root(.03,cherry?2.9:3.48,.09)];
+    for(let i=0;i<7;i++){
+      const a=angle0+i*Math.PI*2/7+spread(-.22,.22), dirx=Math.cos(a), dirz=Math.sin(a);
+      const h=spread(2.18,cherry?2.75:3.27), span=spread(cherry?1.02:.72,cherry?1.64:1.28);
+      const A=root(dirx*.48,1.64+(i%3)*.18,dirz*.48);
+      const B=root(dirx*span,h,dirz*span);
+      segment(bark,i%2?neck:knee,A,(.095-i*.004)*s);
+      segment(bark,A,B,spread(.033,.058)*s);
+      tips.push(B);
+      for(const sign of [-1,1]){
+        const C=root(dirx*(span+spread(.03,.25))-sign*dirz*spread(.23,.47),
+          h+spread(.17,.60),dirz*(span+spread(.03,.25))+sign*dirx*spread(.22,.43));
+        segment(bark,[A[0]*.36+B[0]*.64,A[1]*.36+B[1]*.64,A[2]*.36+B[2]*.64],C,spread(.013,.024)*s);
+        if(!cherry || i%2===0)tips.push(C);
+      }
+      if(i%2===0){
+        const D=[A[0]*.4+B[0]*.6,A[1]*.4+B[1]*.6+.024,A[2]*.4+B[2]*.6];
+        const E=[B[0],B[1]+.022,B[2]];
+        segment(snow,D,E,.029*s);
+      }
+    }
+    for(const [tx,ty,tz] of tips){
+      const a=spread(.37,.66)*s, b=a*(cherry?.57:.77), c=a*spread(.75,1.14);
+      crowns[species].push(row(tx,ty+.10*s,tz,a,b,c,spread(-.3,.3),spread(0,6.28)));
+      for(let i=0;i<(cherry?9:4);i++){
+        const a0=spread(0,Math.PI*2), rr=spread(.29,.98), sz=spread(.08,cherry?.155:.25)*s;
+        const detail=row(tx+a*rr*Math.cos(a0),ty+.10*s+b*Math.sqrt(1-rr*rr)*spread(.3,1.16),
+          tz+c*rr*Math.sin(a0),sz,sz,sz,spread(-2,2),spread(0,6.28),spread(-2,2));
+        if(cherry) petal.push(detail); else fallen.push({...detail,k:rnd()});
+      }
+    }
+    for(let i=0;i<30;i++){
+      const a=spread(0,Math.PI*2), dist=spread(.32,2.4)*s, sz=spread(.045,.13)*s;
+      const dots=row(x+Math.cos(a)*dist,earth+.018,z+Math.sin(a)*dist,sz,sz,sz,-Math.PI/2,0,a);
+      if(cherry) petal.push(dots); else fallen.push(dots);
+    }
+  }
+  // Flat, irregular color islands suggest grass, dry leaf litter or drifts.
+  for(let i=0;i<108;i++){
+    const side=i%4,x=side<2?spread(-17,17):(side===2?-1:1)*spread(7.6,18);
+    const z=side===0?spread(-22,-7.55):side===1?spread(10.6,25):spread(-6.7,10.7);
+    field.push(row(x,earth+.007,z,spread(.54,1.7),spread(.008,.018),spread(.67,2.15),0,spread(0,6.28)));
+  }
+  const twig=new T.CylinderGeometry(.51,1,1,7);
+  const tuft=new T.IcosahedronGeometry(1,1);
+  const drift=new T.IcosahedronGeometry(1,0);
+  const flat=new T.MeshStandardMaterial({roughness:1,flatShading:true});
+  const relief=new T.MeshStandardMaterial({roughness:1,side:T.DoubleSide});
+  function batch(name,geometry,material,rows){
+    const mesh=new T.InstancedMesh(geometry,material,rows.length);
+    mesh.name=name;
+    rows.forEach((p,i)=>{
+      pos.set(p.x,p.y,p.z);
+      scale.set(p.a,p.b,p.c);
+      if(p.q)q.copy(p.q); else q.setFromEuler(eul.set(p.rx,p.ry,p.rz));
+      mesh.setMatrixAt(i,matrix.compose(pos,q,scale));
+    });
+    mesh.computeBoundingSphere();
+    land.add(mesh);
+    return mesh;
+  }
+  function colorize(mesh,rows,hexes){
+    rows.forEach((p,i)=>mesh.setColorAt(i,tone.setHex(hexes[Math.floor(p.k*hexes.length)])));
+    mesh.instanceColor.needsUpdate=true;
+  }
+  function motif(kind){
+    const shape=new T.Shape();
+    if(kind==='flower'){
+      for(let i=0;i<=40;i++){
+        const a=Math.PI*2*i/40, rad=.86+.14*Math.cos(5*a);
+        shape[i===0?'moveTo':'lineTo'](rad*Math.cos(a),rad*Math.sin(a));
+      }
+    } else {
+      const outline=[[0,1],[-.18,.43],[-.38,.51],[-.36,.24],[-.80,.47],[-.66,.12],[-.93,.01],[-.47,-.24],[-.54,-.40],[-.083,-.45],[-.06,-.88],[.06,-.88],[.083,-.45],[.54,-.40],[.47,-.24],[.93,.01],[.66,.12],[.80,.47],[.36,.24],[.38,.51],[.18,.43]];
+      outline.forEach(([x,y],i)=>shape[i===0?'moveTo':'lineTo'](x,y));
+    }
+    shape.closePath();
+    return new T.ShapeGeometry(shape);
+  }
+  const bloom=batch('Cherry blossoms',motif('flower'),relief,petal);
+  const leaves=batch('Maple leaves and leaf litter',motif('leaf'),relief,fallen);
+  const cherryCanopy=batch('Cherry canopy',tuft,flat,crowns.cherry);
+  const mapleCanopy=batch('Maple canopy',tuft,flat,crowns.maple);
+  const trunks=batch('Trunks and bare branches',twig,flat,bark);
+  const frost=batch('Snow on branches',twig,flat,snow);
+  const mottles=batch('Garden ground cover',drift,flat,field);
+  colorize(bloom,petal,[0xffe2f0,0xffc3d9,0xffd5e8,0xf49bbd]);
+  colorize(leaves,fallen,[0xd95338,0xf09741,0xa93634,0xd86a2f,0xf2b551]);
+  colorize(trunks,bark,[0x58443a,0x614b42,0x634b41,0x6e5145,0x795b4d]);
+  colorize(frost,snow,[0xe4edf4,0xf4f8fc,0xd5e6ec]);
+
+  // Just a few drifting flakes/petals; one batched draw call, no shadows.
+  const flakes=new T.InstancedMesh(drift,new T.MeshBasicMaterial({color:0xffffff}),120);
+  flakes.name='Seasonal garden drift';
+  flakes.frustumCulled=false; // particles move beyond their initial bounds
+  flakes.instanceMatrix.setUsage(T.DynamicDrawUsage);
+  land.add(flakes);
+  const particleSeeds=Array.from({length:flakes.count},(_,i)=>({
+    x:i%4===0?spread(-6.1,6.1):spread(-19,19), z:i%4===0?spread(-13,-6.9):spread(-20,23),
+    y:spread(0,6),phase:spread(0,6.28),pace:spread(.62,1.24)
+  }));
+  
+  // The first flurry gathers outside the north panes, without changing the chosen season.
+  let localFlurry=0;
+  const flurrySeeds=Array.from({length:96},()=>({
+    x:spread(-5.4,5.4),z:spread(-13.2,-6.85),y:spread(0,6),phase:spread(0,6.28),pace:spread(.69,1.17)
+  }));
+  function setFlurry(amount){localFlurry=amount;}
+  let active=null, requested='live', month=-1,clock=0;
+  const colorDay=new T.Color(),colorNight=new T.Color();
+  const status=$('seasonStatus'), options=[...$('seasonPreview').querySelectorAll('button[data-season]')];
+  // getMonth() is zero-based and in the device's local timezone.
+  const forMonth=m=>seasons[Math.floor(((m+10)%12)/3)];
+  function refreshStatus(){
+    for(const b of options) b.setAttribute('aria-pressed',String(b.dataset.season===requested));
+    const label=labels[active];
+    const message=requested==='live'?'現在：'+label+'（端末の日付）':'プレビュー：'+label;
+    if(status.textContent!==message)status.textContent=message;
+  }
+  function setSeason(next){
+    if(next===active)return;
+    active=next;
+    const p=palettes[next];
+    cherryCanopy.visible=mapleCanopy.visible=next!=='winter';
+    bloom.visible=next==='spring'; leaves.visible=next==='autumn'; frost.visible=next==='winter';
+    flakes.visible=next==='spring'||next==='autumn'||next==='winter';
+    if(p.cherry)colorize(cherryCanopy,crowns.cherry,p.cherry);
+    if(p.maple)colorize(mapleCanopy,crowns.maple,p.maple);
+    colorize(mottles,field,p.patch);
+    colorDay.setHex(p.lawn[0]);colorNight.setHex(p.lawn[1]);
+  }
+  function sync(date){
+    const m=date.getMonth();
+    if(m===month)return;
+    month=m;
+    setSeason(requested==='live'?forMonth(month):requested);
+    refreshStatus();
+  }
+  function paint(dt,day){
+    outsideGround.material.color.copy(colorNight).lerp(colorDay,day);
+    flakes.visible=localFlurry>.02||active!=='summer';
+    if(!flakes.visible)return;
+    clock+=Math.min(.05,dt);
+    const extraSnow=localFlurry>.02;
+    const snowy=extraSnow||active==='winter';
+    flakes.count=extraSnow||active==='winter'?120:active==='spring'?42:26;
+    const velocity=snowy?.67:active==='spring'?.34:.47;
+    const radius=snowy?.034+.014*localFlurry:.049;
+    const dim=.42+.58*day;
+    flakes.material.color.setHex(snowy?0xf2f8ff:active==='autumn'?0xf38342:0xffb9d4).multiplyScalar(dim);
+    for(let i=0;i<flakes.count;i++){
+      const p=extraSnow&&i<96 ? flurrySeeds[i] : particleSeeds[i], phase=clock*(snowy?1.25:1.62)+p.phase;
+      const x=p.x+Math.sin(phase)*.55, z=p.z+Math.cos(phase*.73)*.53;
+      // Never draw flakes or leaves across a window on the interior side.
+      const outdoors=Math.abs(x)>6.45 || z<-6.45 || z>9.45;
+      const strength=extraSnow&&i<96 ? Math.min(1,localFlurry*1.85) : 1;
+      const s=outdoors?radius*p.pace*strength:0;
+      pos.set(x,earth+((p.y-velocity*clock*p.pace)%6+6)%6,z);
+      scale.set(s,snowy?s:s*.30,s*.68);
+      q.setFromEuler(eul.set(phase,phase*.73,p.phase));
+      flakes.setMatrixAt(i,matrix.compose(pos,q,scale));
+    }
+    flakes.instanceMatrix.needsUpdate=true;
+  }
+  function setGroundVisible(visible){mottles.visible=visible;}
+  for(const b of options)b.onclick=()=>{
+    const next=b.dataset.season;
+    if(next!=='live'&&!Object.hasOwn(palettes,next))return;
+    requested=next;
+    const now=new Date();
+    month=now.getMonth();
+    setSeason(next==='live'?forMonth(month):next);
+    refreshStatus();
+    updateWorld(0,true);
+  };
+  return {sync,paint,setGroundVisible,setFlurry,isLive:()=>requested==='live'};
+})();
 const lab900CoolAir=new T.Color(0xa8baf7),lab900DayAir=new T.Color(0xe1edff);
 const lab900NightGround=new T.Color(0x343953),lab900DayGround=new T.Color(0x87919f);
 const lab900SunsetKey=new T.Color(0xffa567),lab900MoonKey=new T.Color(0x739aff);
@@ -950,6 +1367,7 @@ function updateWorld(dt=0,force=false){
   if(force || lab900ClockPoll<=0){
     lab900ClockPoll=.40;
     const now=new Date();
+    seasonalOutdoors.sync(now);
     lastWorldMinute=now.getHours()*60+now.getMinutes();
     const preview=lab900SkyControl.value;
     lab900SceneMinute=lab900SkyHours[preview] ?? lastWorldMinute;
@@ -994,10 +1412,13 @@ function updateWorld(dt=0,force=false){
   keyLight.position.copy(keyLight.target.position).addScaledVector(keyDirection,15);
   keyLight.color.copy(p.keyColor);keyLight.intensity=p.keyIntensity;
   ambient.intensity=p.ambi;ambient.color.copy(p.ambientColor);ambient.groundColor.copy(p.ambientGround);
-  outsideGround.material.color.copy(lab900GroundNight).lerp(lab900GroundDay,p.day);
+  seasonalOutdoors.paint(dt,p.day);
   scene.background.copy(nightSky).lerp(daySky,p.day);
 }
 updateWorld(0,true);
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden)updateWorld(0,true);
+});
 
 function enableShadowCasting(mesh) {
   if (!mesh.isMesh) return;
@@ -1020,7 +1441,9 @@ function updateCutaway(){
  const {x,y,z}=camera.position;
  floorGroup.visible=y>0.005;
  book.visible=floorGroup.visible;
+ kitchenScene.kitchenRoot.visible=floorGroup.visible;
  outsideGround.visible=y>0.005;
+ seasonalOutdoors.setGroundVisible(outsideGround.visible);
  ceilingGroup.visible=y<3.85;
  wallGroups[0].visible=z>-5.85;
  wallGroups[1].visible=z<8.85;
@@ -1052,6 +1475,7 @@ capoeiraRing.rotation.x=-Math.PI/2;
 capoeiraRing.position.y=.004;
 capoeiraFloor.add(capoeiraRing);
 
+destinationMeshes.set(kitchenScene.counter,kitchenTarget);
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
 for (const [name,x,z,color] of [
   ['緑のポール',.85,-2.60,0x49b8a9],
@@ -1740,6 +2164,15 @@ fitAccessoriesToArmor();
 scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
 function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+chinViewHeight,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(characterViewDistance*Math.sin(heading),.12,characterViewDistance*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
+$('seasonWindowView').onclick=()=>{
+  // Stay inside the room. Step back on narrow displays to frame both trees.
+  invitation=null;
+  followLeila=false;
+  orbit.target.set(0,1.64,-6.9);
+  camera.position.set(0,1.72,T.MathUtils.clamp(7.3-(camera.aspect-.56)*6.5,4.2,7.3));
+  orbit.update();
+  updateCutaway();
+};
 $('loungeView').onclick = () => {
   invitation = null;
   followLeila = false;
@@ -1918,13 +2351,17 @@ function pickSurface(x, y) {
   root.updateWorldMatrix(true, true);
   touchRay.setFromCamera(touchPoint, camera);
   const leila = touchRay.intersectObjects(parts, false)[0];
+  shepherd.object.updateWorldMatrix(true,true);
+  const dogHit=touchRay.intersectObjects(shepherd.hitMeshes.filter(mesh=>mesh.visible),false)[0];
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
+    if (destination === kitchenTarget) return floorGroup.visible;
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget) return wallGroups[0].visible;
     return true;
   });
+  if(dogHit&&(!leila||dogHit.distance<leila.distance)&&(!target||dogHit.distance<target.distance))return {dog:true};
   return target && (!leila || target.distance < leila.distance)
     ? {destination:destinationMeshes.get(target.object)} : {leila};
 }
@@ -2275,6 +2712,7 @@ function legReactionKind(part,action,feeling,rear,moving) {
 }
 
 function respondToContact(action, current) {
+  prioritizeLeilaUser();
   if (handlingBook()) {
     if (roam.phase === 'reading' && action === 'tap') {
       cueReading(currentMood() === 'affectionate' ? 'pause' : 'glance');
@@ -2409,6 +2847,7 @@ function armWaveReply(event,x,y){
     leg,half:width/2,minX:x,maxX:x,dir:0,extreme:x,turns:0};
 }
 function answerWaveReply(){
+  prioritizeLeilaUser();
   closeWaveReply();
   if(reaction && (reaction.kind==='smallWave' || reaction.kind==='largeWave' || reaction.kind==='cameraWave')){
     // Ease naturally out of the first wave before the special return wave.
@@ -2491,9 +2930,9 @@ canvas.addEventListener('pointerdown', event => {
   }
   if (!event.isPrimary || event.button !== 0) return;
   const {clientX:x, clientY:y, pointerId:id} = event;
-  const {leila} = pickSurface(x, y);
+  const {leila,dog} = pickSurface(x, y);
   if (!leila) {
-    armWaveReply(event,x,y);
+    if(!dog)armWaveReply(event,x,y);
     backgroundTap = {id,x,y};
     return;
   }
@@ -2602,8 +3041,16 @@ function endPointer(event) {
     }
   } else if (origin &&
       Math.hypot(event.clientX-origin.x,event.clientY-origin.y) <= touchMotion) {
-    const {destination} = pickSurface(event.clientX, event.clientY);
-    if (destination === lightSwitchTarget) {
+    const {destination,dog} = pickSurface(event.clientX, event.clientY);
+    if(dog){
+      const asleep=['curl','couchCurl'].includes(shepherd.state);
+      if(!asleep)shepherd.rub();
+      $('dogNote').textContent=asleep ? 'すやすや眠っています。' : 'ちらっとこちらを見て、またレイラのほうを見ました。';
+      return;
+    }
+    if (destination === kitchenTarget) {
+      dogKitchen.start(true);
+    } else if (destination === lightSwitchTarget) {
       requestLightSwitch();
     } else if (destination === bookTarget) {
       requestBook();
@@ -3974,6 +4421,15 @@ function pruneCameraGreeting(){
 }
 
 function advanceRoam(dt) {
+  if(windowSnow.advance(dt))return;
+  if(dogKitchen.advanceLeila()||dogKitchen.maybeStart())return;
+  if(roam.phase==='dogPlay'){advanceSharedDogPlay(dt);return;}
+  if(roam.phase==='dogBond'){advanceDogBond();return;}
+  if(roam.elapsed>=1.5&&mood.seconds>=nextDogBondAt&&currentMood()!=='annoyed'&&
+     privateDogBondAllowed()){
+    if(startDogBond())return;
+    nextDogBondAt=mood.seconds+3.8;
+  }
   if (roam.phase === 'route') {
     advanceDestinationRoute(dt);
     return;
@@ -4043,6 +4499,11 @@ function advanceRoam(dt) {
         Object.keys(capoeiraClips).length && Math.random()<.20) {
       requestCapoeira(null,false);
       return;
+    }
+    if((roam.phase==='wait'||roam.phase==='linger'||roam.phase==='rest')&&!reaction&&!contact&&
+       mood.seconds>=Math.max(nextDogPlay,leilaUserPriorityUntil)&&!shepherd.jump&&shepherd.state!=='curl'&&
+       currentMood()!=='annoyed'&&Math.random() < (currentMood()==='playful'?.59:.28)){
+      requestDogPlay(false);return;
     }
     const danceChance = currentMood() === 'bored' ? .52 : currentMood() === 'affectionate' ? .10 : .26;
     if ((roam.phase==='wait' || roam.phase==='linger') && canDanceHere() && Math.random()<danceChance) {
@@ -4331,6 +4792,7 @@ function initializeSofaMotion() {
   sofaSeat.copy(sofa.localToWorld(V(-.378,.45,.08)));
   sofaDock.copy(sofa.localToWorld(V(-.378,0,.69)));
   sofa.getWorldPosition(sofaTarget.lookAt);
+  chaiseBase.setFromPoints([sofa.localToWorld(V(.48,-2,-.515)),sofa.localToWorld(V(2.815,2,.955))]);
   sofaTarget.lookAt.y = sofaSeat.y;
   sofa.traverse(object => {
     if (object.isMesh) destinationMeshes.set(object,sofaTarget);
@@ -4381,7 +4843,7 @@ function clearOfPoles(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -4432,7 +4894,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds] : [chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -4578,6 +5040,8 @@ function requestTerrarium() {
 }
 
 function requestDestination(target, acknowledge=false) {
+  windowSnow.onOtherTarget(target);
+  dogKitchen.onOtherTarget(target);
   if (roam.phase === 'route') {
     roam.pending = {target,acknowledge};
     const stage = roam.visit[roam.visitIndex];
@@ -4595,6 +5059,11 @@ function requestDestination(target, acknowledge=false) {
 }
 
 function startDestination(target, acknowledge=false, seated=roam.phase==='seated') {
+  windowSnow.onOtherTarget(target);
+  dogKitchen.onOtherTarget(target);
+  if(target!==bedTarget)dogBedRequested=false;
+  if(target!==sofaTarget)dogSofaRequested=false;
+  if(shepherd.bond)dropDogBond();
   if (target.kind === 'user') {
     const approach = userApproachTarget();
     if (!approach) {
@@ -4645,8 +5114,10 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       }
     }
   }
-  if (target.kind === 'capoeira' || target.kind === 'greeting') {
+  if (target.kind === 'capoeira' || target.kind === 'greeting' || target.kind === 'dogPlay' || target.kind === 'dogBond') {
     visit.push(routeTurn(target.heading,message));
+  } else if (target.kind==='kitchen') {
+    dogKitchen.decorate(visit,target);
   } else if (target === lightSwitchTarget) {
     visit.push(routeTurn(target.heading,'壁のスイッチの前に立っています'),
       {type:'pressLight',time:1.52,message:'壁のスイッチに手を伸ばしています',pressed:false});
@@ -4762,6 +5233,7 @@ function startRouteStage() {
   }
   roam.elapsed = 0;
   stage.pose = captureSofaPose();
+  dogKitchen.stageStart(stage);
   if (stage.type === 'bookPut') {
     stage.bookFrom = book.position.clone();
     stage.bookRotation = book.quaternion.clone();
@@ -5093,6 +5565,8 @@ function layOnBed(pose,time) {
   restAnchor.y = bedHeight+clearance+movement*transferScale;
   restAnchor.z = bedCenter.z-.01+T.MathUtils.clamp(bedCenter.z-.555-restAnchor.z,-.28,.10);
   groups.pelvis.position.copy(root.worldToLocal(restAnchor));
+  // Keep Leila's lying poses on the original side of the shared mattress.
+  groups.pelvis.position.add(V(-.155,0,0).applyAxisAngle(V(0,1,0),-root.rotation.y));
   // Give the boots separate tracks on the mattress when the retargeted clips cross the legs.
   if (pose === 'lounge') {
     poseBedLeg('P',V(.022,.085,.202),V(.021,-.044,.283),V(0,1,.10));
@@ -5770,6 +6244,12 @@ function advanceDestinationRoute(dt) {
       if (roam.pending && stage.cancelAt===undefined) stage.cancelAt=roam.elapsed;
       paintAtEasel(stage,stage.cancelAt===undefined ? progress : stage.cancelAt/stage.time);
       break;
+    case 'kitchenCook':
+      if(!roam.pending)dogKitchen.cook(stage,progress);
+      break;
+    case 'kitchenLower':
+      if(!roam.pending)dogKitchen.lower(stage,progress);
+      break;
     case 'radioTune':
       tuneRoomRadio(stage,progress);
       break;
@@ -5778,7 +6258,7 @@ function advanceDestinationRoute(dt) {
       roam.switchPressed=stage.pressed;
       break;
   }
-  if (progress < 1 && !(
+  if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
       (stage.type==='paintEasel' || stage.type==='terrariumVisit') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -6018,12 +6498,21 @@ function arriveAtDestination() {
     roam.target.onArrival();
     return;
   }
+  if(roam.target.kind==='dogPlay'){beginSharedDogPlay(roam.target.manual,roam.target.three);return;}
+  if(roam.target.kind==='dogBond'){
+    if(!startDogBond(true))enterQuietRest('linger','犬が来るのを待っています',4);
+    return;
+  }
   if (roam.target === bedTarget) {
     roam.phase='bed';
     roam.bedPose='lounge';
     roam.bedChangedAt=0;
     roam.bedNext=7+Math.random()*4;
     roam.pause=27+Math.random()*16;
+    if(dogBedRequested){
+      dogBedRequested=false;roam.pause=42;
+      dogFollowCamera(bedCenter.clone().add(V(.06,.44,0)),V(1.22,1.62,2.22));
+    }
     mood.nextBedAt=mood.seconds+72;
     $('destination').textContent='ベッドでくつろいでいます';
     return;
@@ -6095,7 +6584,11 @@ function arriveAtDestination() {
   if (roam.target === sofaTarget) {
     roam.phase = 'seated';
     roam.sofaVariant=Math.random()<.20;
-    roam.pause = 6 + Math.random()*4;
+    roam.pause = 19 + Math.random()*9;
+    if(dogSofaRequested){
+      dogSofaRequested=false;roam.pause=36;
+      dogFollowCamera(sofaSeat.clone().add(V(.15,.21,-.28)),V(1.95,1.06,1.35));
+    }
     $('destination').textContent = 'ソファで休憩中';
     return;
   }
@@ -7118,10 +7611,1599 @@ function advanceHandLink(dt) {
 }
 
 $('standWait').onclick = () => beginStandingWait(false);
-$('offerHandButton').onclick = () => beginStandingWait(true);
+$('offerHandButton').onclick = () => {prioritizeLeilaUser();beginStandingWait(true);};
+
+// LAB 95 — companion. All geometry and movement are local; no new assets.
+function createShepherd() {
+  const dog = new T.Group(), body = new T.Group(), head = new T.Group();
+  dog.name='German shepherd'; dog.add(body); body.add(head); scene.add(dog);
+  const coat=(color)=>new T.MeshStandardMaterial({color,roughness:.87});
+  const tan=coat(0xb37c49), ochre=coat(0xd8a46c), brown=coat(0x805334);
+  const saddle=coat(0x302925), ink=coat(0x261f1d), noseMat=coat(0x191619), inner=coat(0x976353);
+  const iris=coat(0xa17340), pupil=coat(0x15100f);
+  const glint=new T.MeshBasicMaterial({color:0xfff3db});
+  const sphere=new T.SphereGeometry(1,14,10), anyUp=V(0,1,0);
+  const hitMeshes=[];
+  function shape(parent,material,geo,x,y,z,sx=1,sy=1,sz=1){
+    const m=new T.Mesh(geo,material);
+    m.position.set(x,y,z);m.scale.set(sx,sy,sz);parent.add(m);
+    m.receiveShadow=true;hitMeshes.push(m);return m;
+  }
+  const puff=(p,m,x,y,z,sx,sy,sz)=>shape(p,m,sphere,x,y,z,sx,sy,sz);
+  // Cross sections run tail-to-nose. Angular color boundaries form a dark saddle and mask.
+  function loft(parent,rings,materials,pick,n=16){
+    const pos=[],idx=[],sortedMaterials=[];
+    for(const [z,y,w,h] of rings)for(let i=0;i<n;i++){
+      const az=i*2*Math.PI/n;pos.push(w*Math.sin(az),y+h*Math.cos(az),z);
+    }
+    const g=new T.BufferGeometry();
+    for(let j=0;j<rings.length-1;j++)for(let i=0;i<n;i++){
+      const a=j*n+i,b=j*n+(i+1)%n, s=idx.length;
+      idx.push(a,a+n,b,a+n,b+n,b);g.addGroup(s,6,pick(j,i,n));
+    }
+    g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setIndex(idx);
+    g.computeVertexNormals();g.computeBoundingSphere();
+    // Merge triangle runs by material to limit iPad draw calls.
+    const sorted=[];
+    for(let k=0;k<materials.length;k++){
+      const start=sorted.length;
+      for(const group of g.groups)if(group.materialIndex===k)sorted.push(...idx.slice(group.start,group.start+6));
+      if(sorted.length>start)sortedMaterials.push([start,sorted.length-start,k]);
+    }
+    g.clearGroups();g.setIndex(sorted);
+    for(const a of sortedMaterials)g.addGroup(...a);
+    return shape(parent,materials,g,0,0,0);
+  }
+  loft(body,[[-.49,.475,.007,.009],[-.44,.49,.12,.117],[-.32,.49,.147,.14],
+    [-.14,.492,.126,.123],[.065,.49,.156,.155],[.255,.506,.171,.174],
+    [.36,.541,.13,.150],[.412,.575,.012,.024]],
+    [tan,saddle,ochre],(j,i,n)=>{
+      const side=Math.min(i+.5,n-i-.5);
+      return side < [2,3,4,4,3,2,1][j] ? 1 : side>6&&j>=3 ? 2 : 0;
+    });
+  const neck=puff(body,tan,0,.597,.278,.147,.212,.158);neck.rotation.x=.44;
+  const nape=puff(body,saddle,0,.638,.239,.131,.131,.111);nape.rotation.x=.45;
+  const bib=puff(body,ochre,0,.524,.344,.101,.151,.082);bib.rotation.x=.21;
+  head.position.set(0,.698,.376);
+  loft(head,[[-.151,.027,.005,.005],[-.101,.035,.10,.106],[-.026,.031,.124,.123],
+    [.061,.012,.103,.105],[.103,-.024,.081,.065],[.203,-.044,.058,.047],
+    [.247,-.051,.009,.012]],[tan,ink,brown],(j,i,n)=>j>=4?1:j===3&&Math.min(i+.5,n-i-.5)<3?1:j===2&&Math.min(i+.5,n-i-.5)<2?2:0);
+  puff(head,noseMat,0,-.043,.224,.059,.039,.042);
+  const jaw=new T.Group();head.add(jaw);jaw.position.set(0,-.059,.085);
+  puff(jaw,brown,0,-.034,.046,.064,.021,.089);
+  puff(jaw,ink,0,-.009,.065,.058,.013,.076);
+  const tongue=puff(jaw,inner,0,-.006,.117,.026,.011,.052);tongue.visible=false;
+  const eyes=[], ears=[];
+  function earGeo(sign,inset){
+    const x=sign, pts=inset ? [
+      [-.026*x,.029,.028],[.054*x,.034,.023],[.030*x,.161,.011],[.013*x,.117,.033]
+    ]:[
+      [-.064*x,-.018,-.012],[.077*x,.008,-.013],[.041*x,.198,-.010],[.009*x,.091,-.041],[.011*x,.069,.021]
+    ];
+    const g=new T.BufferGeometry();
+    g.setAttribute('position',new T.Float32BufferAttribute(pts.flat(),3));
+    let ind=inset?[0,1,3,1,2,3,2,0,3]:[0,4,1,1,4,2,2,4,0,0,1,3,1,2,3,2,0,3];
+    if(sign===-1)ind=ind.map((v,i)=>ind[i%3===0?i:i%3===1?i+1:i-1]);
+    g.setIndex(ind);g.computeVertexNormals();return g;
+  }
+  const earOuter=new T.MeshStandardMaterial({color:0x483229,roughness:.94,side:T.DoubleSide});
+  const earLining=new T.MeshStandardMaterial({color:0xaa715c,roughness:.92,side:T.DoubleSide});
+  for(const s of [-1,1]){
+    const ear=new T.Group();head.add(ear);ear.position.set(s*.071,.097,-.045);ears.push([ear,s]);
+    shape(ear,earOuter,earGeo(s,false),0,0,0);shape(ear,earLining,earGeo(s,true),0,0,.004);
+    const eye=new T.Group();head.add(eye);eye.position.set(s*.095,.051,.073);eye.rotation.y=s*.93;eye.rotation.z=s*.14;eyes.push(eye);
+    puff(head,tan,s*.089,.070,.054,.020,.011,.032);
+    puff(eye,ink,0,0,0,.025,.014,.009);
+    puff(eye,iris,0,0,.009,.013,.011,.004);
+    puff(eye,pupil,0,.001,.014,.0075,.0075,.0025);
+    puff(eye,glint,-.005,.006,.017,.0036,.004,.002);
+  }
+  const tail=new T.Group(), tailTip=new T.Group();
+  body.add(tail);tail.position.set(0,.490,-.407);tail.add(tailTip);
+  const tailBase=puff(tail,saddle,0,-.113,-.108,.065,.065,.164);tailBase.rotation.x=-.72;
+  tailTip.position.set(0,-.196,-.206);
+  const tailEnd=puff(tailTip,brown,0,-.073,-.101,.046,.042,.142);tailEnd.rotation.x=-.64;
+  puff(tailTip,saddle,0,-.117,-.189,.031,.034,.068).rotation.x=-.42;
+
+  function limbPart(parent,material,top,bottom){
+    const o=new T.Group();parent.add(o);
+    const shapePart=shape(o,material,sphere,0,0,0);
+    shapePart.userData.radius=top;
+    return [o,shapePart];
+  }
+  function putPart([pivot,m],a,b,width=1){
+    pivot.position.copy(a).lerp(b,.5);axis.copy(a).sub(b);
+    pivot.quaternion.setFromUnitVectors(anyUp,axis.clone().normalize());
+    m.scale.set(m.userData.radius*width,axis.length()*.65,m.userData.radius*width);
+  }
+  const legs=[];
+  for(const front of [true,false])for(const s of [-1,1]){
+    const upper=limbPart(dog,front?tan:brown,front?.060:.081,.046);
+    const lower=limbPart(dog,ochre,.037,.025);
+    const anklePiece=puff(dog,tan,0,0,0,.039,.043,.039);
+    const paw=puff(dog,ink,0,0,0,.046,.036,.072);
+    const toes=[-.020,0,.020].map(x=>[puff(dog,brown,0,0,0,.014,.017,.025),x]);
+    const shoulder=puff(body,front?tan:brown,s*.109,front?.493:.468,front?.223:-.300,
+      front?.079:.094,front?.118:.107,front?.090:.117);
+    shoulder.rotation.x=front?-.20:.32;
+    legs.push({upper,lower,anklePiece,paw,toes,s,front});
+  }
+  const shadow=makeContactShadow();
+  const home=V(-.80,0,.15), bedFoot=bedCenter.clone().add(V(.49,0,1.35));
+  const bedSlot=bedCenter.clone().add(V(.52,.337,.20));
+  // The dog faces the headboard; head and tail curl towards the middle of its own lane.
+  const arena=V(-1.47,0,2.05), player=V(-1.47,0,1.25);
+  const tosses=[V(-3.36,0,2.39),V(-2.79,0,3.29)];
+  const toy=puff(scene,coat(0xd96f46),0,0,0,.044,.044,.044);hitMeshes.pop();toy.visible=false;
+  const toySeam=new T.Mesh(new T.TorusGeometry(.040,.003,6,16),coat(0xf1b082));
+  // The ball is already scaled from a unit sphere.
+  toySeam.scale.setScalar(1/.044);toy.add(toySeam);
+  dog.position.copy(home);
+  dog.rotation.y=.39;
+  const d={object:dog, head, hitMeshes, toy, player, arena, bedFoot, bedSlot, home,
+    state:'idle', t:0, time:0, wait:6, roamIndex:0, path:[], destination:null,
+    play:null, curl:0, bow:0, walk:0, stride:0, wag:0, petEnds:0, jump:null,tosses,rivalQueued:false,nextRivalAt:0,rivalPoint:null,rivalPose:0};
+  const A=V(0,0,0),B=V(0,0,0),C=V(0,0,0),axis=V(0,0,0),bend=V(0,0,0),desired=V(0,0,0),local=V(0,0,0);
+  const clamp=T.MathUtils.clamp, mix=T.MathUtils.lerp;
+  function blend(k,n,dt,speed=7){d[k]+= (n-d[k])*(1-Math.exp(-dt*speed));}
+  function navigate(to){
+    if(d.destination?.distanceToSquared(to)<.0001)return;
+    d.destination=to.clone();d.path=[];
+    const boxen=[sofaWalkingBounds(),chaiseBase,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds];
+    if(bed.visible)boxen.push(bedBounds);
+    const boxes=boxen.map(b=>b.clone().expandByScalar(.34));
+    const poles=walkTargets.filter(e=>e!==sofaTarget).map(e=>V(e.lookAt.x,0,e.lookAt.z));
+    const from=dog.position.clone();from.y=0;
+    const line=new T.Line3(), ray=new T.Ray(), near=V(0,0,0);
+    function clear(a,b){
+      if(a.distanceToSquared(b)<1e-6)return true;
+      if(!inWalkingArea(b))return false;
+      ray.origin.copy(a);ray.direction.copy(b).sub(a).normalize();
+      const dist=a.distanceTo(b);
+      if(boxes.some(box=>{
+        if(box.containsPoint(a))return box.containsPoint(b);
+        const found=ray.intersectBox(box,near);
+        return found&&a.distanceTo(found)<dist-.002;
+      }))return false;
+      line.set(a,b);return !poles.some(p=>line.closestPointToPoint(p,true,near).distanceToSquared(p)<.51**2);
+    }
+    if(clear(from,to)){d.path=[to.clone()];return;}
+    const nodes=[from,to.clone(),V(-2.6,0,-3.8),V(-3.25,0,-3.75),V(-2.4,0,0),V(0,0,0),V(-2.4,0,2),V(.4,0,2.3)];
+    for(const box of boxes)for(const x of [box.min.x-.065,box.max.x+.065])
+      for(const z of [box.min.z-.065,box.max.z+.065])nodes.push(V(x,0,z));
+    for(const p of poles)for(let i=0;i<4;i++)nodes.push(p.clone().add(V(.68*Math.cos(i*Math.PI/2),0,.68*Math.sin(i*Math.PI/2))));
+    const dist=nodes.map(()=>Infinity), prev=nodes.map(()=>-1), closed=new Set();dist[0]=0;
+    while(closed.size<nodes.length){
+      let a=-1;for(let i=0;i<nodes.length;i++)if(!closed.has(i)&&Number.isFinite(dist[i])&&(a===-1||dist[i]<dist[a]))a=i;
+      if(a<0||a===1)break;closed.add(a);
+      nodes.forEach((b,i)=>{
+        if(closed.has(i))return;
+        const cost=dist[a]+nodes[a].distanceTo(b);
+        if(cost<dist[i]&&clear(nodes[a],b)){dist[i]=cost;prev[i]=a;}
+      });
+    }
+    if(prev[1]!==-1)for(let i=1;i>0;i=prev[i])d.path.unshift(nodes[i]);
+  }
+  function rotate(to,dt,speed=5.4){
+    dog.rotation.y+=clamp(headingDelta(dog.rotation.y,to),-speed*dt,speed*dt);
+  }
+  function follow(dt,speed=.86){
+    const point=d.path[0];
+    if(!point)return 0;
+    desired.copy(point).sub(dog.position);desired.y=0;
+    const dist=desired.length();
+    if(dist<.012){dog.position.x=point.x;dog.position.z=point.z;d.path.shift();return 0;}
+    const heading=Math.atan2(desired.x,desired.z);
+    rotate(heading,dt,speed>1?7.2:5.5);
+    if(Math.abs(headingDelta(dog.rotation.y,heading))>.74)return 0;
+    const step=Math.min(dist,speed*dt,Math.max(.24,dist*5)*dt);
+    dog.position.addScaledVector(desired,step/dist);
+    return step;
+  }
+  function change(state){d.state=state;d.t=0;}
+  function cancelPlay(){
+    d.play=null;toy.visible=false;
+    if(d.state==='play'){d.destination=null;d.path=[];change('idle');d.wait=d.time+4;}
+  }
+  function startJump(up,seat=null){
+    const a=dog.position.clone(), b=(seat?.b??(up?bedSlot:bedFoot)).clone();
+    d.jump={a,b,up,yaw:dog.rotation.y,target:seat?.yaw??(up?Math.PI:0),finish:seat?.finish??(up?'curl':'idle')};
+    d.path=[];d.destination=null;change(up?'up':'down');
+  }
+  function watch(point,dt,offset=0){
+    local.copy(point).sub(dog.position).applyAxisAngle(anyUp,-dog.rotation.y);
+    const yaw=clamp(Math.atan2(local.x,local.z),-1,1);
+    const pitch=clamp(-Math.atan2(local.y-head.position.y,Math.hypot(local.x,local.z)),-.5,.64);
+    head.rotation.y+= (yaw-head.rotation.y)*Math.min(1,dt*8);
+    head.rotation.x+= (pitch+offset-head.rotation.x)*Math.min(1,dt*8);
+  }
+  function pose(dt,move,focus,running=false){
+    const sleeping=d.state==='curl'||d.state==='couchCurl', inJump=d.state==='up'||d.state==='down';
+    dogDream.step(d,sleeping);
+    const rival=d.state==='rival'&&d.rivalPose>0;
+    const petted=d.petEnds>d.time&&!sleeping;
+    const notice=rival?Math.sin(Math.min(1,d.rivalPose/1.7)*Math.PI):0;
+    blend('curl',sleeping?1:0,dt,sleeping?3.2:8);
+    blend('walk',Math.min(1,move/Math.max(dt,.001)/.6),dt,10);
+    const p=d.play;
+    const fetchLower=threeWayFetch.loweredMuzzle(p),meal=d.mealLower??0;
+    blend('bow',p&&p.phase==='ready'?.8:rival?.68*notice:petted?.20:.19*meal,dt,6);
+    blend('wag',sleeping?0:p||petted||rival||d.bond?.ready>0?1:.24,dt,5);
+    const c=d.curl,w=d.walk, snowLean=d.snowLean??0;
+    const bond=d.state==='bond'&&d.bond?.ready>0 ? rearRamp(d.bond.ready,0,.85) : 0;
+    d.stride += move/.51;
+    const cycle=d.stride;
+    body.position.set(.011*Math.sin(cycle*2*Math.PI)*w+.070*snowLean,
+      -.322*c+Math.sin(d.time*(sleeping?2.5:3.15))*(sleeping?.007:.004)
+       +.017*Math.cos(cycle*4*Math.PI)*w-.098*d.bow-.17*fetchLower,0);
+    body.rotation.set(.13*d.bow, -.13*c, .065*c+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
+    const sleepOffset=d.state==='curl' ? .082*c*rearRamp(d.t,1,4.8) : 0;
+    head.position.set(.109*snowLean+.035*c+sleepOffset-(d.bond?.side??0)*.073*bond,.698-.208*c-.042*bond-.043*snowLean,.376-.006*c);
+    if(!sleeping&&focus){
+      head.position.y-=.29*fetchLower+(.407+.010*Math.sin(d.time*11))*meal;
+      watch(focus,dt,(petted&&!meal?-.23:0)+.39*fetchLower+.23*meal);
+    }
+    else{
+      head.rotation.x+=(.43*c+.078*Math.sin(d.time*1.1)*(1-c)-head.rotation.x)*Math.min(1,dt*4);
+      head.rotation.y+=(.54*c+.19*Math.sin(d.time*.72)*(1-c)-head.rotation.y)*Math.min(1,dt*4);
+    }
+    head.rotation.z=-.135*snowLean+.09*c+.22*notice+.16*(d.bond?.side??0)*bond+.15*Math.sin(d.time*7)*Math.max(0,Math.min(1,(d.petEnds-d.time)/1.2));
+    const blink=(d.time+1.2)%4.7;
+    for(const eye of eyes)eye.scale.y=mix(blink<.16 ? .1+.9*Math.abs(blink-.08)/.08 : 1,.065,c);
+    for(const [ear,s] of ears){
+      ear.rotation.z=-s*(.16+.18*c);
+      ear.rotation.x=-.09-.46*c+.08*Math.sin(d.time*3+s)*(.28+w);
+    }
+    jaw.rotation.x=p||w>.58 ? .13+.07*Math.sin(d.time*11) : sleeping ? .072*dogDream.muzzle() : meal*(.08+.08*Math.sin(d.time*23));
+    tongue.visible=jaw.rotation.x>.13&&c<.4;
+    tail.position.set(.035*c,.490+.162*c,-.407+.098*c);
+    tail.rotation.y=(.17+1.03*c)+.72*d.wag*Math.sin(d.time*(p||petted||rival?13:5));
+    tail.rotation.x=1.12*c-.26*d.wag;
+    tailTip.rotation.y=1.55*c+.32*d.wag*Math.sin(d.time*9-.55);
+    tailTip.rotation.x=.44*c+.12*Math.sin(d.time*4)*d.wag;
+    for(let i=0;i<legs.length;i++){
+      const {front,s,paw,anklePiece,toes,upper,lower}=legs[i];
+      const k=((cycle+(running ? (i===0||i===3?0:.5) : [0,.5,.74,.24][i]))%1+1)%1;
+      const swing=k>=.61;
+      const stride=swing ? mix(-.151,.151,smooth((k-.61)/.39)) : mix(.151,-.151,k/.61);
+      const lift=swing ? Math.sin((k-.61)/.39*Math.PI)*(running?.116:.071) : 0;
+      const hipZ=front?.228:-.306;
+      A.set(s*(front?.108:.112),front?.502:.460,hipZ).applyEuler(body.rotation).add(body.position);
+      B.set(s*mix(.128,.102,c),.035+lift*w+(inJump?.07:0),hipZ+(front?.021:-.08)+stride*w);
+      B.z=mix(B.z,front?.345:-.21,c);
+      B.x-=c*.027;
+      if(front)B.z+=d.bow*.083;
+      const l1=front?.254:.239,l2=front?.235:.248;
+      axis.copy(B).sub(A);const actual=axis.length();axis.normalize();
+      const reach=clamp(actual,.075,l1+l2-.005);
+      B.copy(A).addScaledVector(axis,reach);
+      const along=(l1*l1-l2*l2+reach*reach)/(2*reach);
+      bend.set(s*.14,0,front?-1:1);bend.addScaledVector(axis,-bend.dot(axis)).normalize();
+      C.copy(A).addScaledVector(axis,along).addScaledVector(bend,Math.sqrt(Math.max(0,l1*l1-along*along)));
+      // Tuck the joints in front of the body, never underneath the mattress.
+      C.lerp(V(s*(front?.128:.155)-.022,front?.086:.102,front?.238:-.205),c);
+      B.lerp(V(s*(front?.109:.125)-.022,.037,front?.408:-.073),c);
+      // Dream flutters only add flex and lift, so the tucked paws never dip below the cushion.
+      const dreamPaw=dogDream.paw(i)*c;
+      B.y+=.021*dreamPaw;B.z-=.027*dreamPaw;
+      C.y+=.011*dreamPaw;C.z-=.017*dreamPaw;
+      putPart(upper,A,C);putPart(lower,C,B);paw.position.copy(B).add(V(0,0,.018));
+      anklePiece.position.copy(C);anklePiece.scale.z=front?.038:.053;
+      paw.rotation.x=-.18*w*(swing?1:0)-.17*dreamPaw;
+      for(const [toe,x] of toes)toe.position.copy(paw.position).add(V(x,-.011,.047));
+    }
+    shadow.visible=floorGroup.visible&&dog.position.y<.22;
+    shadow.position.set(dog.position.x,.007,dog.position.z);
+    shadow.rotation.y=dog.rotation.y;
+    shadow.scale.set(.40,1,1.08);
+    shadow.material.opacity=.22*Math.exp(-dog.position.y*8);
+  }
+  Object.assign(d,{navigate,follow,rotate,change,startJump,pose,cancelPlay,
+    rub(){d.petEnds=d.time+1.4;},
+    // Compact bed motion: launch from the footboard side, land on the reserved lane.
+    advanceJump(){
+      const j=d.jump,u=clamp(d.t/(j.up?.77:.69),0,1);
+      dog.position.copy(j.a).lerp(j.b,smooth(u));
+      dog.position.y=mix(j.a.y,j.b.y,j.up?1-(1-u)**2:u*u)+Math.sin(u*Math.PI)*(j.up?.22:.17);
+      dog.rotation.y=j.yaw+headingDelta(j.yaw,j.target)*smooth(u);
+      if(u>=1){
+        dog.position.copy(j.b);d.jump=null;change(j.finish);
+        if(j.finish==='curl'){lab900LifeNote('dogSleep');$('dogNote').textContent='レイラの隣で丸くなっています。';}
+        else if(j.finish==='couchCurl'){lab900LifeNote('dogSofa');$('dogNote').textContent='犬もソファに上がって身を寄せました。';}
+        else $('dogNote').textContent='犬をタップすると、こちらに気づきます。';
+      }
+    }
+  });
+  return d;
+}
+
+const shepherd=createShepherd();
+const dogPlayPoint=shepherd.player, dogLookAt=V(-1.47,.40,2.05);
+const dogPlayTarget={kind:'dogPlay',name:'犬とボール遊び',point:dogPlayPoint,lookAt:dogLookAt,heading:0};
+let dogBedRequested=false, nextDogPlay=12, leilaUserPriorityUntil=0;
+function prioritizeLeilaUser(){
+  const newAttention=mood.seconds>=leilaUserPriorityUntil;
+  leilaUserPriorityUntil=mood.seconds+5.8;
+  if(newAttention)queueRivalNotice();
+  if(mode!=='roam')return;
+  windowSnow.interrupt();
+  dogKitchen.interrupt();
+  if(roam.phase==='dogBond')dropDogBond(true);
+  if(roam.phase==='dogPlay'){
+    threeWayFetch.close();shepherd.cancelPlay();
+    // Settle the arm only when the normal touch reaction takes over.
+    enterQuietRest('linger','レイラは遊びを切り上げて、あなたに応えます',7);
+  }else if(roam.phase==='route'&&roam.target?.kind==='dogPlay'&&!roam.pending){
+    requestDestination({kind:'linger',name:'この場所'});
+  }
+}
+function queueRivalNotice(){
+  const d=shepherd;
+  if(d.time<d.nextRivalAt)return;
+  d.rivalQueued=true;
+}
+function rivalSpot(d){
+  const from=root.position;
+  const angle=headingTo(from,camera.position);
+  const side=d.object.position.x-from.x>=0 ? 1 : -1;
+  for(const flank of [side,-side]){
+    for(const turn of [1.47,1.91]){
+      const pos=from.clone().add(V(Math.sin(angle+flank*turn)*.99,0,Math.cos(angle+flank*turn)*.99));
+      if(!inWalkingArea(pos)||!walkingClearance(sofaWalkingBounds())(from,pos))continue;
+      if(pos.distanceTo(camera.position)<.71)continue;
+      d.destination=null;d.navigate(pos);
+      if(d.path.length||d.object.position.distanceTo(pos)<.13)return pos;
+    }
+  }
+  return null;
+}
+function leilaFaceForDog(){
+  const p=groups.head.getWorldPosition(V(0,0,0));
+  // No fixation on the user: Leila is the dog's reference even during a brief investigation.
+  return p;
+}
+const dogPlayWrist=V(0,0,0);
+function dogFollowCamera(center,offset){
+  invitation=null; followLeila=true;
+  orbit.target.copy(center);camera.position.copy(center).add(offset);orbit.update();
+}
+function dogView(){
+  invitation=null;followLeila=false;
+  const point=shepherd.object.position.clone().add(V(0,.43,0));
+  const offset=V(1.65,1.13,1.91).applyAxisAngle(V(0,1,0),shepherd.object.rotation.y*.53);
+  orbit.target.copy(point);camera.position.copy(point).add(offset);orbit.update();
+}
+function prepareDogCommand(){
+  if(mode!=='roam'){
+    endHandLink(false);restoreReactionPose();
+    const entry=captureSofaPose();
+    mode='roam';roam={phase:'wait',elapsed:0,pause:5,waitPose:entry};
+  }
+  restoreReactionPose();reaction=null;mood.offeredHand=null;
+  $('reactionStatus').hidden=true;closeWaveReply();cancelCameraGreeting();
+}
+function requestDogPlay(manual,three=false){
+  if(mode==='roam'&&roam.phase==='dogPlay'){
+    if(!manual||!!shepherd.play?.tri===three)return;
+    threeWayFetch.close();prepareDogCommand();beginSharedDogPlay(true,three);return;
+  }
+  if(mode==='roam'&&roam.phase==='route'){
+    const target=roam.pending?.target??roam.target;
+    if(target?.kind==='dogPlay'&&(!manual||!!target.three===three))return;
+  }
+  dogBedRequested=false;
+  prepareDogCommand();
+  nextDogPlay=mood.seconds+47;
+  requestDestination(manual ? {...dogPlayTarget,manual:true,three}:dogPlayTarget);
+}
+function requestDogBed(){
+  if(!restClips||!bed.visible)return;
+  if(mode==='roam'&&roam.phase==='bed'){
+    roam.pause=Math.max(roam.pause,roam.elapsed+32);
+    dogFollowCamera(bedCenter.clone().add(V(.06,.46,0)),V(1.22,1.62,2.22));
+    return;
+  }
+  if(mode==='roam'&&roam.phase==='route'&&(roam.pending?.target??roam.target)===bedTarget){
+    dogBedRequested=true;return;
+  }
+  dogBedRequested=true;
+  prepareDogCommand();requestDestination(bedTarget);
+}
+$('dogPlay').onclick=()=>requestDogPlay(true);
+$('dogPlay').disabled=false;$('dogView').disabled=false;
+$('dogBed').onclick=requestDogBed;
+$('dogBed').disabled=!restClips;
+$('dogView').onclick=dogView;
+function beginSharedDogPlay(manual,three=false){
+  const d=shepherd;
+  roam.phase='dogPlay';roam.pause=Infinity;roam.elapsed=0;
+  settleStandingFeet();roam.dogPose=captureSofaPose();
+  d.cancelPlay();
+  d.play={phase:'ready',t:0,round:0,from:V(0,0,0)};
+  d.destination=null;d.path=[];
+  if(!d.jump&&d.state!=='curl')d.change('play');
+  if(manual)dogFollowCamera(V(-1.78,.55,2.13),V(2.06,1.52,2.7));
+  $('destination').textContent='レイラが犬をボール遊びに誘っています';
+  if(three)threeWayFetch.start();
+  lab900LifeNote('dogPlay');
+}
+function advanceSharedDogPlay(dt){
+  const d=shepherd,p=d.play;
+  if(!p){threeWayFetch.close();enterQuietRest('linger','ボール遊びを終えました',5);return;}
+  if(p.tri){threeWayFetch.pose(roam.dogPose);return;}
+  blendSofaPose(roam.dogPose,1);
+  const throwTime=p.phase==='ready'?Math.max(0,p.t-.46):p.phase==='air'?.64+p.t:1.22;
+  const wind=rearRamp(throwTime,0,.29)*(1-rearRamp(throwTime,.49,.66));
+  const push=rearRamp(throwTime,.28,.59)*(1-rearRamp(throwTime,.76,1.15));
+  const greet=p.phase==='return'&&d.object.position.distanceTo(d.arena)<.46
+    ? rearRamp(.46-d.object.position.distanceTo(d.arena),0,.40):p.phase==='thanks'?1-rearRamp(p.t,.55,1.18):0;
+  const crouch=.22*push+.44*greet;
+  groups.pelvis.position.y-=crouch*.21;
+  groups.chest.rotateX(.21*push+.55*greet-.14*wind);
+  groups.head.rotateX(.24+.25*greet-.19*push);
+  groups.upperN.rotateZ(.20*wind-.12*push);
+  groups.upperN.rotateX(.68*wind-1.30*push);
+  groups.elbowN.rotateX(-1.12*wind-.30*push);
+  if(greet>.01){
+    const target=d.head.getWorldPosition(V(0,0,0));
+    target.y+=.045;
+    const palm=orientPalm('N',V(0,0,1),palmDown);
+    target.sub(palmRig.N.center.clone().applyQuaternion(palm));
+    reachHand('N',target,palm,greet,false,V(-.14,-.12,.14));
+  }
+  const feet=sofaSides.map(side=>{
+    const ankle=routeFootTarget(side,root.rotation.y);ankle.y=standingAnkleHeights[side];return {side,ankle};
+  });
+  lowerPelvisForFeet(feet);
+  for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
+  groups.handN.getWorldPosition(dogPlayWrist);
+}
+function updateShepherd(dt){
+  const d=shepherd,obj=d.object, p=d.play;
+  d.t+=dt;d.time+=dt;
+  if(windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
+  const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
+  const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
+    ['bedSit','bedLie'].includes(roam.visit?.[roam.visitIndex]?.type);
+  const bedMood=onBed||ontoBed;
+  const couchMood=mode==='roam'&&['seated','reading'].includes(roam.phase);
+  if(d.bond&&!(mode==='roam'&&roam.phase==='dogBond'))dropDogBond();
+  if(!d.jump&&(d.state==='couchCurl'||
+     (couchMood&&d.state!=='curl'&&d.state!=='rival'&&!d.rivalQueued&&!d.play))){
+    const walking=advanceCouchCompanion(d,dt,couchMood);
+    d.pose(dt,walking,couchMood?leilaFaceForDog():null);
+    return;
+  }
+  let moved=0,focus=null,running=false;
+  if(p&&!(mode==='roam'&&roam.phase==='dogPlay')){threeWayFetch.close();d.cancelPlay();}
+  const rivalSafe=!d.play&&!bedMood&&!d.jump&&d.state!=='curl'&&
+    (mode==='standWait'||mode==='roam'&&['wait','rest','linger','seated','reading'].includes(roam.phase))&&
+    (!handLink||handLink.phase==='planted');
+  if(d.rivalQueued&&mood.seconds>=leilaUserPriorityUntil)d.rivalQueued=false;
+  if(d.rivalQueued&&rivalSafe&&d.state!=='rival'){
+    d.rivalQueued=false;d.nextRivalAt=d.time+27;
+    d.rivalPoint=rivalSpot(d);
+    if(d.rivalPoint){d.rivalPose=0;d.change('rival');}
+  }
+  if(d.state==='rival'&&!rivalSafe){
+    d.rivalPose=0;d.destination=null;d.path=[];d.change('idle');d.wait=d.time+3;
+    $('dogNote').textContent='犬はレイラの様子をうかがっています。';
+  }
+  if(d.jump){
+    d.advanceJump();
+  }else if(d.state==='curl'){
+    if(onBed)obj.position.x=d.bedSlot.x-.033*rearRamp(d.t,1.15,4.9);
+    if(!bedMood&&d.t>.55){
+      // Turn first so the dog jumps forward, not through Leila or the headboard.
+      d.rotate(0,dt,3.5);
+      if(Math.abs(headingDelta(obj.rotation.y,0))<.12)d.startJump(false);
+    }
+  } else if(bedMood){
+    if(d.state!=='bedApproach'){d.change('bedApproach');d.destination=null;}
+    d.navigate(d.bedFoot);moved=d.follow(dt,1.42);
+    if(obj.position.distanceTo(d.bedFoot)<.04){
+      d.rotate(Math.PI,dt);
+      if(onBed&&Math.abs(headingDelta(obj.rotation.y,Math.PI))<.12)d.startJump(true);
+    }
+  }else if(d.state==='bond'&&d.bond){
+    const b=d.bond;b.t+=dt;
+    focus=leilaFaceForDog();
+    if(obj.position.distanceTo(b.point)>.042)moved=d.follow(dt,1.33);
+    else {
+      d.rotate(b.yaw,dt,4.9);
+      if(Math.abs(headingDelta(obj.rotation.y,b.yaw))<.20||b.ready>0){
+        b.ready+=dt;
+        if(!b.logged){
+          b.logged=true;lab900LifeNote('dogBond');
+          $('destination').textContent='犬が体を寄せ、レイラが耳の後ろをなでています';
+        }
+      }
+    }
+  }else if(d.state==='rival'){
+    focus=leilaFaceForDog();
+    if(d.rivalPose>0){
+      d.rivalPose+=dt;d.rotate(headingTo(obj.position,root.position),dt,3.4);
+    }else{
+      moved=d.follow(dt,1.08);
+      if(obj.position.distanceTo(d.rivalPoint)<.045){
+        d.rivalPose=.01;
+        $('dogNote').textContent='レイラに「こっちも見て」と、しっぽを振っています。';
+      }
+    }
+    if(d.rivalPose>1.9||d.t>6.8||obj.position.distanceTo(root.position)<.61){
+      d.rivalPose=0;d.destination=null;d.path=[];d.change('idle');d.wait=d.time+5;
+      $('dogNote').textContent='犬はレイラのそばで落ち着きました。';
+    }
+  }else if(d.play?.tri){
+    ({moved,focus,running}=threeWayFetch.move(dt));
+  }else if(d.play){
+    const p=d.play,ball=d.toy;
+    if(d.state!=='play'){d.change('play');d.destination=null;}
+    const toss=d.tosses[p.round];
+    const reset=(phase)=>{p.phase=phase;p.t=0;};
+    if(p.phase==='ready'){
+      d.navigate(d.arena);moved=d.follow(dt,1.39);
+      if(obj.position.distanceTo(d.arena)<.055){
+        d.rotate(Math.PI,dt);
+        if(Math.abs(headingDelta(obj.rotation.y,Math.PI))<.36)p.t+=dt;
+      }
+      focus=V(root.position.x,.88,root.position.z);
+      ball.visible=true;ball.position.copy(dogPlayWrist).add(V(-.015,.005,.039));
+      if(p.t>1.08||d.t>13){
+        p.from.copy(ball.position);reset('air');
+        $('destination').textContent='レイラがボールを投げました';
+      }
+    }else if(p.phase==='air'){
+      p.t+=dt;focus=ball.position;running=true;
+      const u=Math.min(1,p.t/.72);
+      ball.position.copy(p.from).lerp(toss,u);
+      ball.position.y=mix(p.from.y,.046,u)+Math.sin(u*Math.PI)*.45;
+      ball.rotation.x+=dt*8;
+      d.navigate(toss);moved=d.follow(dt,1.66);
+      if(u>=1&&obj.position.distanceTo(toss)<.11){reset('return');$('destination').textContent='犬がボールをくわえて戻ってきます';}
+      else if(p.t>9){d.cancelPlay();}
+    }else if(p.phase==='return'){
+      p.t+=dt;d.navigate(d.arena);moved=d.follow(dt,1.18);
+      focus=V(root.position.x,.56,root.position.z);ball.position.copy(d.head.localToWorld(V(0,-.093,.205)));
+      if(obj.position.distanceTo(d.arena)<.07){
+        d.rotate(Math.PI,dt);
+        if(Math.abs(headingDelta(obj.rotation.y,Math.PI))<.14){
+          reset('thanks');$('destination').textContent='レイラが「よしよし」と頭を撫でています';d.rub();
+        }
+      }
+      if(p.t>10)d.cancelPlay();
+    }else{
+      p.t+=dt;focus=V(root.position.x,.72,root.position.z);
+      ball.position.copy(d.head.localToWorld(V(0,-.093,.205))).lerp(dogPlayWrist,rearRamp(p.t,.15,.55));
+      if(p.t>1.37){
+        if(++p.round>=2)d.cancelPlay();
+        else{reset('ready');d.t=0;$('destination').textContent='もう一度、ボールを構えています';}
+      }
+    }
+  }else{
+    if(d.state!=='idle'&&d.state!=='wander'){d.change('idle');d.wait=d.time+2.5;d.destination=null;d.path=[];}
+    if(d.petEnds>d.time){
+      d.wait=d.time+2;
+      focus=d.petEnds-d.time>.81 ? camera.position : leilaFaceForDog();
+    }
+    else if(d.state==='wander'){
+      moved=d.follow(dt,.72);
+      if(!d.path.length||d.t>9){d.change('idle');d.wait=d.time+7+Math.random()*6;}
+    }else if(d.time>d.wait){
+      const points=[d.home,V(-2.54,0,-1.35),V(.04,0,1.03),V(-2.54,0,3.48)];
+      for(let i=0;i<points.length;i++){
+        const point=points[++d.roamIndex%points.length];
+        if(obj.position.distanceTo(point)>.55 && root.position.distanceTo(point)>.72){d.navigate(point);break;}
+      }
+      d.change('wander');
+    }else {
+      focus=leilaFaceForDog();
+      if(obj.position.distanceTo(root.position)>1.08&&Math.abs(headingDelta(obj.rotation.y,headingTo(obj.position,root.position)))>.68){
+        d.rotate(headingTo(obj.position,root.position),dt,1.45);
+      }
+    }
+  }
+  d.pose(dt,moved,focus,running);
+}
+
+// LEILA LAB 98 — opt-in three-way fetch. The gesture region is independent from OrbitControls.
+function createThreeWayFetch(d){
+  const cue=$('threeFetchCue'), pad=$('threeFetchPad'), fallback=$('threeFetchFallback');
+  const ball=d.toy;
+  const home=d.player.clone();
+  const nearFeet=home.clone().add(V(.095,.046,.27));
+  const towardUser=home.clone().add(V(.86,.046,.70));
+  const initialBall=home.clone().add(V(-.79,.046,.66));
+  const left=d.tosses[0], right=V(.28,0,1.64);
+  let gesture=null;
+  function current(){
+    return mode==='roam'&&roam.phase==='dogPlay'&&d.play?.tri ? d.play : null;
+  }
+  function setPrompt(visible){
+    if(cue.hidden!==!visible)cue.hidden=!visible;
+    if(!visible&&gesture){
+      const id=gesture.id;gesture=null;
+      if(pad.hasPointerCapture?.(id))pad.releasePointerCapture(id);
+    }
+  }
+  function flight(p,t,land){
+    const u=T.MathUtils.clamp(t/p.flight,0,1);
+    ball.position.lerpVectors(p.from,land,u);
+    ball.position.y+=Math.sin(u*Math.PI)*p.arch;
+    ball.rotation.x+=.16;
+    return u>=1;
+  }
+  function stage(p,name,label){
+    p.phase=name;p.t=0;
+    if(label)$('destination').textContent=label;
+    setPrompt(name==='inviteThree');
+  }
+  function approachBall(p,target){
+    const to=target.clone().setY(0);
+    const from=d.object.position.clone().setY(0);
+    p.gatherYaw=headingTo(from,to);
+    p.gatherStop=from.lerp(to,Math.max(0,1-.53/Math.max(.001,from.distanceTo(to))));
+  }
+  function start(){
+    setPrompt(false);
+    const p=d.play={tri:true,phase:'gatherThree',t:0,round:0,from:V(0,0,0),land:left};
+    approachBall(p,initialBall);
+    ball.visible=true;ball.position.copy(initialBall);ball.rotation.set(0,0,0);
+    $('destination').textContent='犬がボールを拾いに行きます';
+  }
+  function submit(dx=0,rise=88){
+    const p=current();
+    if(!p||p.phase!=='inviteThree')return false;
+    p.from.copy(ball.position);
+    p.land=dx>25?right:left;
+    approachBall(p,p.land);
+    p.arch=T.MathUtils.clamp(.32+rise*.0022,.40,.68);
+    p.flight=T.MathUtils.clamp(.68+rise*.001,.72,.91);
+    stage(p,'throwThree','あなたが投げたボールを、犬が追いかけます');
+    return true;
+  }
+  pad.addEventListener('pointerdown',event=>{
+    if(gesture||event.isPrimary===false||event.button!==0||current()?.phase!=='inviteThree')return;
+    gesture={id:event.pointerId,x:event.clientX,y:event.clientY};
+    event.preventDefault();
+    try{pad.setPointerCapture?.(event.pointerId);}catch{}
+  });
+  pad.addEventListener('pointerup',event=>{
+    if(!gesture||gesture.id!==event.pointerId)return;
+    const dx=event.clientX-gesture.x,dy=gesture.y-event.clientY;
+    gesture=null;
+    if(pad.hasPointerCapture?.(event.pointerId))pad.releasePointerCapture(event.pointerId);
+    if(dy>=26&&Math.abs(dx)<dy*2.25)submit(dx,dy);
+  });
+  for(const type of ['pointercancel','lostpointercapture']){
+    pad.addEventListener(type,event=>{if(gesture?.id===event.pointerId)gesture=null;});
+  }
+  fallback.onclick=()=>submit();
+  function mouth(){
+    return d.head.localToWorld(V(0,-.086,.225));
+  }
+  function move(dt){
+    const p=d.play, obj=d.object;
+    const result={moved:0,focus:ball.position,running:false};
+    if(d.state!=='play'){d.change('play');d.destination=null;}
+    p.t+=dt;
+    ball.visible=true;
+    switch(p.phase){
+      case 'gatherThree':
+        d.navigate(p.gatherStop);result.moved=d.follow(dt,1.24);
+        if(obj.position.distanceTo(p.gatherStop)<.075){
+          d.rotate(p.gatherYaw,dt);
+          if(Math.abs(headingDelta(obj.rotation.y,p.gatherYaw))<.18)stage(p,'pickThree');
+        }
+        if(p.t>11)d.cancelPlay();
+        break;
+      case 'pickThree':
+      case 'pickBackThree':{
+        const first=p.phase==='pickThree';
+        const ground=first?initialBall:p.land.clone().setY(.046);
+        ball.position.lerpVectors(ground,mouth(),rearRamp(p.t,.34,.72));
+        result.focus=ground;
+        if(p.t>.82)stage(p,first?'bringThree':'bringBackThree',first?'犬がボールをレイラの足元へ持っていきます':'ボールをくわえた犬は、レイラのところへ戻ります');
+        break;
+      }
+      case 'bringThree':
+      case 'bringBackThree':
+        d.navigate(d.arena);result.moved=d.follow(dt,1.19);
+        result.focus=nearFeet;
+        ball.position.copy(mouth());
+        if(obj.position.distanceTo(d.arena)<.074){
+          d.rotate(Math.PI,dt);
+          if(Math.abs(headingDelta(obj.rotation.y,Math.PI))<.16){
+            p.from.copy(ball.position);
+            if(p.phase==='bringThree')stage(p,'setThree','犬がレイラの足元にボールを置きます');
+            else {stage(p,'praiseThree','犬はボールをレイラに返しました');d.rub();}
+          }
+        }
+        if(p.t>10)d.cancelPlay();
+        break;
+      case 'setThree':
+        result.focus=nearFeet;
+        ball.position.lerpVectors(p.from,nearFeet,smooth(Math.min(1,p.t/.58)));
+        if(p.t>.74)stage(p,'rollThree','レイラがボールをこちらへ転がしています');
+        break;
+      case 'rollThree': {
+        const u=rearRamp(p.t,.25,1.02);
+        ball.position.lerpVectors(nearFeet,towardUser,u);
+        ball.rotation.x=u*5;
+        result.focus=ball.position;
+        if(p.t>1.12)stage(p,'inviteThree','レイラ「投げてくれる？」');
+        break;
+      }
+      case 'inviteThree':
+        result.focus=leilaFaceForDog();
+        if(p.t>13){
+          p.from.copy(ball.position);
+          stage(p,'passThree','レイラはひと休みして、犬を撫でています');
+        }
+        break;
+      case 'throwThree': {
+        const land=p.land.clone().setY(.046);
+        const down=flight(p,p.t,land);
+        d.navigate(p.gatherStop);result.moved=d.follow(dt,1.66);
+        result.running=true;
+        if(down&&obj.position.distanceTo(p.gatherStop)<.075){
+          d.rotate(p.gatherYaw,dt);
+          if(Math.abs(headingDelta(obj.rotation.y,p.gatherYaw))<.18)stage(p,'pickBackThree');
+        }
+        if(p.t>9)d.cancelPlay();
+        break;
+      }
+      case 'praiseThree':
+        result.focus=leilaFaceForDog();
+        ball.position.lerpVectors(p.from,nearFeet,smooth(Math.min(1,p.t/.65)));
+        if(p.t>2.2)d.cancelPlay();
+        break;
+      case 'passThree':
+        result.focus=leilaFaceForDog();
+        if(p.t>2.05)d.cancelPlay();
+        break;
+    }
+    return result;
+  }
+  function pose(entry){
+    const p=d.play;
+    blendSofaPose(entry,1);
+    const h=root.rotation.y;
+    let pitch=0, tilt=0, arm=0, pet=0, nudge=0;
+    if(p.phase==='setThree')pitch=.25*rearRamp(p.t,0,.55);
+    if(p.phase==='rollThree'){
+      pitch=.25*(1-rearRamp(p.t,.08,.54));
+      nudge=rearRamp(p.t,0,.45)*(1-rearRamp(p.t,.54,.99));
+    }
+    if(p.phase==='inviteThree'){
+      const lift=rearRamp(p.t,0,.47);
+      pitch=.15*lift;tilt=.41*lift;arm=lift*(1-.74*rearRamp(p.t,1.65,2.24));
+    }
+    if(p.phase==='praiseThree'||p.phase==='passThree')pet=rearRamp(p.t,.18,.78)*(1-rearRamp(p.t,1.58,2.12));
+    groups.head.rotateX(pitch+.34*pet);
+    groups.head.rotateY(tilt);
+    groups.chest.rotateX(.34*pet);
+    groups.pelvis.position.y-=.077*pet+.028*nudge;
+    groups.upperN.rotateX(-.45*arm);
+    groups.upperN.rotateZ(-.18*arm);
+    groups.elbowN.rotateX(-.71*arm);
+    const feet=sofaSides.map(side=>{
+      const ankle=routeFootTarget(side,h);ankle.y=standingAnkleHeights[side];
+      if(side==='P')ankle.add(V(.054*nudge,.037*nudge,.233*nudge).applyAxisAngle(turnAxis,h));
+      return {side,ankle};
+    });
+    lowerPelvisForFeet(feet);
+    for(const {side,ankle} of feet)solveLeg(side,ankle,h,side==='P'?-.14*nudge:0);
+    if(pet>.01){
+      const spot=d.head.localToWorld(V(0,.088,.054));
+      spot.z+=Math.sin(p.t*7)*.026;
+      const palm=orientPalm('N',V(0,0,1),palmDown);
+      spot.sub(palmRig.N.center.clone().applyQuaternion(palm));
+      reachHand('N',spot,palm,pet,false,V(-.14,-.12,.14));
+    }
+  }
+  function loweredMuzzle(p){
+    if(!p?.tri)return 0;
+    if(p.phase==='pickThree'||p.phase==='pickBackThree')return rearRamp(p.t,0,.35)*(1-rearRamp(p.t,.52,.82));
+    if(p.phase==='setThree'||p.phase==='praiseThree')return rearRamp(p.t,0,.35)*(1-rearRamp(p.t,.49,.76));
+    return 0;
+  }
+  return {start,move,pose,loweredMuzzle,close:()=>setPrompt(false)};
+}
+const threeWayFetch=createThreeWayFetch(shepherd);
+$('dogPlayThree').onclick=()=>requestDogPlay(true,true);
+$('dogPlayThree').disabled=false;
+
+// LAB 97 — close companions. User attention, motion and furniture transitions take precedence.
+const dogBondPoint=V(-1.52,0,.54);
+const dogBondTarget={kind:'dogBond',name:'犬をなでる',point:dogBondPoint,lookAt:dogBondPoint,heading:0};
+const sofaDogSeat=sofa.localToWorld(V(1.52,.45,.244));
+const sofaDogFoot=sofaDogSeat.clone().add(V(.92,-sofaDogSeat.y,0));
+let nextDogBondAt=6;
+
+function privateDogBondAllowed(){
+  return mode==='roam'&&['wait','rest','linger','window'].includes(roam.phase)&&
+    !reaction&&!contact&&!handLink&&!roam.attention&&!activeCameraGreeting&&
+    !shepherd.play&&!shepherd.jump&&shepherd.state!=='rival'&&shepherd.state!=='curl'&&shepherd.state!=='meal'&&
+    shepherd.object.position.y<.05&&mood.seconds>=leilaUserPriorityUntil;
+}
+function bondNeighbor(){
+  const d=shepherd, yaw=root.rotation.y;
+  const local=d.object.position.clone().sub(root.position).applyAxisAngle(V(0,1,0),-yaw);
+  const preferred=local.x<0?-1:1;
+  for(const s of [preferred,-preferred]){
+    const spot=root.position.clone().add(V(s*.49,0,-.22).applyAxisAngle(V(0,1,0),yaw));
+    if(!inWalkingArea(spot)||!walkingClearance(sofaWalkingBounds())(root.position,spot))continue;
+    if(d.object.position.distanceTo(spot)>3.9)continue;
+    d.destination=null;d.navigate(spot);
+    if(!d.path.length&&d.object.position.distanceTo(spot)>.1)continue;
+    return {point:spot, side:s, yaw:yaw-s*.12, t:0, ready:0, logged:false};
+  }
+  return null;
+}
+function startDogBond(manual=false){
+  const d=shepherd;
+  const bond=bondNeighbor();
+  if(!bond)return false;
+  d.bond=bond;d.change('bond');
+  roam.phase='dogBond';roam.elapsed=0;roam.pause=Infinity;
+  settleStandingFeet();roam.bondPose=captureSofaPose();
+  nextDogBondAt=mood.seconds+17+Math.random()*9;
+  $('destination').textContent='レイラが犬をそばに呼んでいます';
+  if(manual){
+    const center=root.position.clone().add(V(bond.side*.25,.49,0).applyAxisAngle(V(0,1,0),root.rotation.y));
+    dogFollowCamera(center,V(-bond.side*.95,1.0,2.17).applyAxisAngle(V(0,1,0),root.rotation.y));
+  }
+  return true;
+}
+function dropDogBond(interrupted=false){
+  const d=shepherd;
+  if(d.bond){
+    d.bond=null;d.destination=null;d.path=[];
+    if(d.state==='bond'){d.change('idle');d.wait=d.time+4;}
+  }
+  if(mode==='roam'&&roam.phase==='dogBond'){
+    enterQuietRest('linger',interrupted?'レイラがあなたに応えます':'犬がレイラのそばで落ち着きました',interrupted?7:6);
+  }
+}
+function requestDogBond(){
+  if(mode==='roam'&&roam.phase==='dogBond')return;
+  if(privateDogBondAllowed()&&startDogBond(true))return;
+  dogBedRequested=false;
+  prepareDogCommand();
+  if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='dogBond')return;
+  requestDestination(dogBondTarget);
+}
+$('dogBond').onclick=requestDogBond;
+$('dogBond').disabled=false;
+function advanceDogBond(){
+  const d=shepherd,b=d.bond;
+  if(!b){dropDogBond();return;}
+  blendSofaPose(roam.bondPose,1);
+  if(b.t>6.3&&b.ready===0||b.ready>7.9){dropDogBond();return;}
+  const amount=rearRamp(b.ready,.06,1.04)*(1-rearRamp(b.ready,6.7,7.83));
+  const crown=d.head.localToWorld(V(0,.086,-.012));
+  const side=b.side>0?'P':'N';
+  const yaw=root.rotation.y;
+  const down=palmDown;
+  const fore=V(b.side*.73,0,.55).applyAxisAngle(turnAxis,yaw);
+  const palm=orientPalm(side,fore,down);
+  const scratch=Math.sin(b.ready*5.2);
+  crown.y += .012+(1+scratch)*.008;
+  crown.addScaledVector(fore,Math.sin(b.ready*4.9)*.035);
+  crown.sub(palmRig[side].center.clone().applyQuaternion(palm));
+  const curl=.11+.058*Math.sin(b.ready*1.12);
+  groups.chest.rotateZ(-b.side*curl*amount);
+  groups.chest.rotateX(.115*amount);
+  groups.neck.rotateY(b.side*.12*amount);
+  groups.head.rotateY(b.side*.41*amount);
+  groups.head.rotateX(.42*amount);
+  if(amount>.01)reachHand(side,crown,palm,amount,false,V(.15*b.side,-.16,.1));
+}
+function advanceCouchCompanion(d,dt,canStay){
+  const obj=d.object;
+  if(d.state==='couchCurl'){
+    if(!canStay){
+      const to=headingTo(obj.position,sofaDogFoot);
+      d.rotate(to,dt,4.2);
+      if(Math.abs(headingDelta(obj.rotation.y,to))<.14)
+        d.startJump(false,{b:sofaDogFoot,yaw:to,finish:'idle'});
+    }else{
+      const tuck=rearRamp(d.t,0,1.75);
+      // Settle across the extended cushion, muzzle just beside Leila.
+      d.rotate(.29,dt,2.3);
+      obj.position.z=sofaDogSeat.z+.053*tuck;
+    }
+    return 0;
+  }
+  if(d.state!=='couchApproach'){d.change('couchApproach');d.destination=null;}
+  d.navigate(sofaDogFoot);
+  const moved=d.follow(dt,1.28);
+  if(obj.position.distanceTo(sofaDogFoot)<.045){
+    d.rotate(-Math.PI/2,dt,5.0);
+    if(Math.abs(headingDelta(obj.rotation.y,-Math.PI/2))<.14)
+      d.startJump(true,{b:sofaDogSeat,yaw:.29,finish:'couchCurl'});
+  }
+  return moved;
+}
+// LAB98 • 睡眠中の犬 / 犬の夢は家具や入力の状態を変えない。
+const dogDream = (() => {
+  const secondsBetween = () => 12+Math.random()*8;
+  const note = '眠ったまま、犬の足先がぴくぴくしています。';
+  let scene='', nextAt=Infinity, startAt=-Infinity, elapsed=-1, oldNote='';
+  function pulse(t,at,length) {
+    const q=(t-at)/length;
+    return q>0&&q<1 ? Math.sin(q*Math.PI)**2 : 0;
+  }
+  function clearNote() {
+    if($('dogNote').textContent===note)$('dogNote').textContent=oldNote;
+  }
+  function step(d,sleeping) {
+    const key=sleeping&&!d.jump ? d.state : '';
+    if(key!==scene){
+      clearNote();
+      scene=key;elapsed=-1;startAt=-Infinity;
+      nextAt=key ? d.t+2.9+Math.random()*1.5 : Infinity;
+    }
+    if(!scene)return;
+    if(d.t>=nextAt){
+      startAt=d.t;nextAt=d.t+secondsBetween();
+      oldNote=$('dogNote').textContent;
+      $('dogNote').textContent=note;
+    }
+    elapsed=d.t-startAt;
+    if(elapsed>=2.7)clearNote();
+  }
+  function paw(index) {
+    if(!scene||elapsed<0||elapsed>2.6)return 0;
+    // A first forepaw flutters, then a much smaller response in the back paw.
+    if(index===1)return .84*pulse(elapsed,.08,.24)+.59*pulse(elapsed,.42,.25)+.42*pulse(elapsed,.75,.27)+.31*pulse(elapsed,1.26,.34);
+    if(index===2)return .46*pulse(elapsed,.22,.33)+.37*pulse(elapsed,.63,.32)+.27*pulse(elapsed,1.34,.33);
+    if(index===0)return .26*pulse(elapsed,.61,.29)+.18*pulse(elapsed,1.04,.24);
+    return .16*pulse(elapsed,.90,.35);
+  }
+  function muzzle() {
+    return scene && elapsed>=0 && elapsed<2.1
+      ? .45*pulse(elapsed,.19,.24)+.24*pulse(elapsed,.51,.29)+.19*pulse(elapsed,.94,.37) : 0;
+  }
+  function comfort() {
+    if(!scene||elapsed<.37||elapsed>2.65||mode!=='roam'||contact||reaction||handLink||
+       document.hidden||mood.seconds<leilaUserPriorityUntil||shepherd.state!==scene||
+       shepherd.jump) return false;
+    const bed=scene==='curl'&&roam.phase==='bed'&&!roam.bedBlendFrom;
+    const sofa=scene==='couchCurl'&&roam.phase==='seated';
+    // Keep Leila's hands on the book while reading, and don't interfere with a bed roll.
+    if(!bed&&!sofa)return false;
+    const weight=rearRamp(elapsed,.37,.91)*(1-rearRamp(elapsed,2.0,2.65));
+    if(weight<.001)return false;
+    const dog=shepherd.head;
+    const options=bed?[[.042,-.015,.190],[.045,.003,.151],[.052,.008,.115],[0,-.020,.222]]: [[-.034,-.005,.195],[-.050,-.004,.155],[-.045,.004,.135],[-.038,.060,.023]];
+    let reach=null;
+    for(const [index,point] of options.entries()){
+      const spot=dog.localToWorld(V(...point));
+      for(const side of sofa?['P']:['P','N']){
+        const shoulder=groups['upper'+side].getWorldPosition(V(0,0,0));
+        const dir=spot.clone().sub(shoulder);dir.y=0;
+        if(dir.lengthSq()<.0001)continue;
+        dir.normalize();
+        const q=orientPalm(side,dir,palmDown);
+        const wrist=spot.clone().add(V(0,.014,0)).addScaledVector(dir,.014*Math.sin(4.6*elapsed));
+        wrist.sub(palmRig[side].center.clone().applyQuaternion(q));
+        const distance=wrist.distanceTo(shoulder);
+        const arm=base['elbow'+side].length()+base['hand'+side].length();
+        if(distance>arm+(sofa?.038:.020))continue;
+        const score=distance+index*.035;
+        if(!reach||score<reach.score)reach={side,dir,q,wrist,score};
+      }
+    }
+    if(!reach)return false;
+    const {side,wrist,q}=reach;
+    const sign=side==='P'?1:-1;
+    // Only an arm and a restrained glance; no reset of either character's sleep pose.
+    groups.head.rotateY(sign*(sofa?.16:.10)*weight);
+    groups.head.rotateX(.085*weight);
+    reachHand(side,wrist,q,weight,false,V(.19*sign,bed?.04:-.11,.12));
+    return true;
+  }
+  return {step,paw,muzzle,comfort};
+})();
+
+function petDogFromSofa(){
+  const d=shepherd;
+  if(mode!=='roam'||roam.phase!=='seated'||reaction||contact||mood.seconds<leilaUserPriorityUntil||
+    d.state!=='couchCurl'||d.t<1)return;
+  const side='P', headPoint=d.head.localToWorld(V(0,.076,-.012));
+  const shoulder=groups.upperP.getWorldPosition(V(0,0,0));
+  if(shoulder.distanceTo(headPoint)>.49)return;
+  const weight=rearRamp(d.t,1,2.1)*(1-rearRamp(d.t%7.4,5.1,7.0));
+  const dir=V(.65,0,-.68);
+  const q=orientPalm(side,dir,palmDown);
+  headPoint.addScaledVector(dir,.025*Math.sin(d.t*4.4));headPoint.y+=.010;
+  headPoint.sub(palmRig[side].center.clone().applyQuaternion(q));
+  groups.head.rotateY(.24*weight);groups.head.rotateX(.18*weight);
+  reachHand(side,headPoint,q,weight*.85,false,V(.21,-.10,-.11));
+}
+
+let dogSofaRequested=false;
+$('dogSofa').disabled=false;
+$('dogSofa').onclick=()=>{
+  if(mode==='roam'&&roam.phase==='seated'){
+    roam.pause=Math.max(roam.pause,roam.elapsed+28);
+    dogFollowCamera(sofaSeat.clone().add(V(.15,.21,-.28)),V(1.95,1.06,1.35));
+    return;
+  }
+  dogSofaRequested=true;prepareDogCommand();
+  if(roam.phase==='route'&&(roam.pending?.target??roam.target)===sofaTarget)return;
+  requestDestination(sofaTarget);
+};
+
+// LAB 100 | A quiet, optional encounter at the north window.
+const windowSnow=(()=>{
+  const d=shepherd, yearKey='leila.lab100.firstSnow.v1';
+  const stop=V(.68,0,-5.15), dogStop=V(1.36,0,-4.99), snuggle=V(1.11,0,-4.98);
+  const snowView=V(.30,1.55,-8.50), togetherView=V(.82,.55,-5.12);
+  const target={kind:'window',name:'雪の降る北側の窓',point:stop,heading:2.22,onArrival:arrive};
+  const dogMessage='犬が耳を立てて、雪の降る窓へ向かっています。';
+  const lookMessage='犬は窓の外に降る雪を見上げています。';
+  const waitMessage='レイラが窓辺で手招きしています。ピンチで近づくと、一緒に雪を眺められます。';
+  const readyButton=$('snowVisitPreview');
+  const focus=V(0,0,0), delta=V(0,0,0);
+  let event=null, keySeen='', activeWinter='', scheduled=Infinity, firstChanceUntil=-1;
+  let flurry=0, poll=0, previewUntil=0;
+  const devStatus=$('snowDevStatus');
+  const clamp=T.MathUtils.clamp;
+  try {keySeen=localStorage.getItem(yearKey)??'';} catch {}
+  function calendarKey(date) {
+    const m=date.getMonth();
+    if(m!==11&&m>1)return '';
+    return String(date.getFullYear()-(m<2?1:0));
+  }
+  function schedule(first) {return mood.seconds+(first?18+Math.random()*20:480+Math.random()*360);}
+  function free(){
+    return privateDogBondAllowed()&&d.state!=='couchCurl'&&d.state!=='bedApproach'&&
+      d.state!=='couchApproach'&&!d.rivalQueued&&!document.hidden&&currentMood()!=='annoyed'&&
+      !roam.handRelease&&d.petEnds<=d.time&&(!invitation||performance.now()>invitation.expires);
+  }
+  function devView(){
+    invitation=null;followLeila=false;
+    orbit.target.copy(togetherView).setY(.80);
+    camera.position.copy(orbit.target).add(V(1.88,1.04,2.30).multiplyScalar(Math.max(1,.95/camera.aspect)));
+    orbit.update();
+  }
+  function start(manual,first=false){
+    if(event||!free())return false;
+    d.destination=null;
+    d.navigate(dogStop);
+    if(!d.path.length&&d.object.position.distanceTo(dogStop)>.10)return false;
+    invitation=null;
+    event={phase:'notice',time:0,owner:roam,manual,first,oldNote:$('dogNote').textContent,
+      flurry:true,toward:0,legs:null,entry:null};
+    d.change('windowSnow');
+    d.snowLean=0;
+    $('dogNote').textContent=dogMessage;
+    $('destination').textContent=first||manual?'窓の外に雪が舞い始めました':'また雪が降り始めました';
+    if(manual){previewUntil=0;devStatus.textContent='窓辺のプレビュー中';devView();}
+    return true;
+  }
+  function releaseDog(previous){
+    d.snowLean=0;
+    if(d.state==='windowSnow'){
+      d.destination=null;d.path=[];d.change('idle');d.wait=d.time+4;
+    }
+    if([dogMessage,lookMessage].includes($('dogNote').textContent))$('dogNote').textContent=previous.oldNote;
+  }
+  function stopVisit(kind,redirect=false){
+    if(!event)return;
+    const previous=event;
+    event=null;
+    if(previous.manual)devStatus.textContent='窓辺のプレビュー終了';
+    releaseDog(previous);
+    if(previous.phase==='notice'&&previous.owner===roam&&mode==='roam'){
+      $('destination').textContent=roam.quietMessage??'自律行動中・待機中';
+    }
+    if(mode==='roam'&&roam.phase==='snowWindow'){
+      const label=kind==='user'?'レイラがあなたに応えます':
+        previous.joined?'窓辺で一緒に雪を眺めました':'レイラは雪を眺め終えました';
+      const from=captureSofaPose();
+      if(previous.entry)blendSofaPose(previous.entry,1);
+      enterQuietRest('linger',label,kind==='user'?7:6);
+      roam.quietEntryPose=from;
+      blendSofaPose(from,1);
+    }else if(redirect&&mode==='roam'&&roam.phase==='route'&&roam.target===target&&!roam.pending){
+      requestDestination(lingeringTarget());
+    }
+  }
+  function onOtherTarget(next){
+    if(event&&next!==target)stopVisit('command');
+  }
+  function interrupt(){
+    stopVisit('user',true);
+  }
+  function arrive(){
+    if(!event||mode!=='roam'||roam.target!==target){
+      enterQuietRest('window','窓の外を見ています',5);
+      return;
+    }
+    settleStandingFeet();
+    event.entry=captureSofaPose();
+    event.legs=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0)).setY(standingAnkleHeights[side])}));
+    event.phase='settle';event.time=0;event.owner=roam;
+    roam.phase='snowWindow';roam.pause=Infinity;
+    $('destination').textContent='レイラが犬の隣でしゃがみ、外を見ています';
+  }
+  function request(){
+    if(event?.manual){interrupt();return;}
+    if(event)return;
+    if(previewUntil>0){
+      previewUntil=0;devStatus.textContent='プレビューの待機を解除しました';return;
+    }
+    if((mode==='manual'||mode==='standWait')&&!handLink&&!contact)prepareDogCommand();
+    if(start(true))return;
+    if(mode!=='roam'){
+      devStatus.textContent='自律行動中に試せます';return;
+    }
+    previewUntil=mood.seconds+45;
+    devStatus.textContent='レイラが手を空けて、犬が床に降りたら始めます（もう一度押すと解除）';
+  }
+  function update(dt){
+    poll-=dt;
+    if(poll<=0){
+      poll=.45;
+      const winter=calendarKey(new Date());
+      if(winter!==activeWinter){
+        activeWinter=winter;scheduled=winter?schedule(winter!==keySeen):Infinity;
+        firstChanceUntil=winter&&winter!==keySeen?mood.seconds+50:-1;
+      }
+    }
+    if(previewUntil){
+      if(mode!=='roam'||mood.seconds>=previewUntil){
+        previewUntil=0;devStatus.textContent='プレビューは待機中に試せます';
+      }else if(!event&&free())start(true);
+    }
+    const a=event;
+    if(a){
+      const walking=a.phase==='route';
+      if(document.hidden||mode!=='roam'||!a.manual&&(!activeWinter||!seasonalOutdoors.isLive())||
+         (walking?(roam.target!==target||roam.pending):roam!==a.owner)){
+        stopVisit('cancel',true);
+      }else if(walking){
+        a.time+=dt;
+        if(a.time>35)stopVisit('cancel',true);
+      }
+    }else if(activeWinter&&seasonalOutdoors.isLive()&&mood.seconds>=scheduled&&mode==='roam'&&free()){
+      const first=activeWinter!==keySeen;
+      scheduled=mood.seconds+11;
+      start(false,first);
+    }
+    const e=event;
+    const intensity=e&&e.phase!=='rise'?1:0;
+    flurry+= (intensity-flurry)*(1-Math.exp(-dt*(intensity?.7:.48)));
+    if(flurry<.012)flurry=0;
+    seasonalOutdoors.setFlurry(flurry);
+  }
+  function invite(a){
+    a.phase='invite';a.time=0;a.toward=0;
+    a.radius=camera.position.distanceTo(orbit.target);
+    a.lastCam=camera.position.clone();a.lastTarget=orbit.target.clone();
+    $('destination').textContent=waitMessage;
+    if($('dogNote').textContent===dogMessage)$('dogNote').textContent=lookMessage;
+    if(!a.manual&&activeWinter){
+      if(a.first){
+        keySeen=activeWinter;
+        try{localStorage.setItem(yearKey,keySeen);}catch{}
+      }
+      scheduled=schedule(false);
+    }
+    lab900LifeNote('snowWindow');
+    nextDogBondAt=Math.max(nextDogBondAt,mood.seconds+20);
+  }
+  function join(a){
+    a.phase='together';a.time=0;a.joined=true;
+    $('destination').textContent='犬がレイラに身を寄せて、３人で雪を眺めています';
+    d.destination=null;d.navigate(snuggle);
+  }
+  orbit.addEventListener('change',()=>{
+    const a=event;
+    if(a?.phase!=='invite'||mode!=='roam')return;
+    const radial=camera.position.distanceTo(orbit.target);
+    const pull=a.radius-radial;
+    const camStep=a.lastCam.distanceTo(camera.position);
+    const pan=a.lastTarget.distanceTo(orbit.target);
+    const closer=a.lastCam.distanceTo(togetherView)-camera.position.distanceTo(togetherView);
+    // A rotation alone doesn't count, nor does a snap to another camera preset.
+    a.radius=radial;a.lastCam.copy(camera.position);a.lastTarget.copy(orbit.target);
+    if(camStep>.75||pan>.58){a.toward=0;return;}
+    if(pull>.0004||pan>.001) a.toward=Math.max(0,a.toward+Math.min(Math.max(pull,pan),closer));
+    if(a.toward>=.23&&camera.position.distanceTo(togetherView)<5.5&&camera.position.z>-5.98)join(a);
+  });
+  function advance(dt){
+    const a=event;
+    if(!a)return false;
+    if(a.phase==='notice'){
+      blendSofaPose(a.entry??(a.entry=captureSofaPose()),1);
+      a.time+=dt;
+      const progress=rearRamp(a.time,.6,1.42);
+      const angle=clamp(headingDelta(root.rotation.y,headingTo(root.position,d.object.position)),-1.4,1.4);
+      groups.neck.rotateY(.22*angle*progress);
+      groups.head.rotateY(.67*angle*progress);
+      if(a.time>=1.48){
+        a.phase='route';a.time=0;
+        startDestination(target);
+        if(!['route','snowWindow'].includes(roam.phase)||roam.target!==target)stopVisit('cancel');
+      }
+      return true;
+    }
+    if(roam.phase!=='snowWindow')return false;
+    a.time+=dt;
+    if(a.phase==='settle'&&a.time>1.46){
+      if(d.object.position.distanceTo(dogStop)<.22)invite(a);
+      else if(a.time>7.5){a.phase='rise';a.time=0;}
+    }
+    if(a.phase==='invite'&&a.time>1.1&&camera.position.distanceTo(togetherView)<1.05&&camera.position.z>-5.98){
+      const f=focus.copy(togetherView).project(camera);
+      if(Math.abs(f.x)<.75&&Math.abs(f.y)<.75&&f.z<1)join(a);
+    }
+    if((a.phase==='invite'&&a.time>11)||(a.phase==='together'&&a.time>15)){
+      a.phase='rise';a.time=0;
+    }
+    if(a.phase==='rise'&&a.time>1.20){stopVisit('finish');return true;}
+    pose(a);
+    return true;
+  }
+  function pose(a){
+    blendSofaPose(a.entry,1);
+    const t=a.time, h=root.rotation.y;
+    const crouch=a.phase==='settle'?rearRamp(t,.02,1.25):a.phase==='rise'?1-rearRamp(t,0,1.16):1;
+    const turn=a.phase==='invite'?rearRamp(t,.06,.59)*(1-.38*rearRamp(t,4.8,6.0)):
+      a.phase==='together'?(.68*rearRamp(t,0,.32)+.30)*(1-rearRamp(t,1.0,2.5)):0;
+    const lean=a.phase==='together'?rearRamp(t,.45,2.8):a.joined&&a.phase==='rise'?crouch:0;
+    groups.pelvis.position.y-=.183*crouch;
+    groups.pelvis.position.addScaledVector(delta.set(0,0,1).applyAxisAngle(turnAxis,h),-.071*crouch);
+    groups.abdomen.rotateX(.20*crouch);
+    groups.chest.rotateX(.17*crouch);
+    groups.chest.rotateZ(.070*lean);
+    groups.head.rotateX(-.33*crouch+.029*Math.sin((mood.seconds+t)*1.3));
+    const toward=clamp(headingDelta(h,headingTo(root.position,camera.position)),-1.85,1.85);
+    const towardSnow=clamp(headingDelta(h,headingTo(root.position,snowView)),-.97,.97);
+    const yaw=mix(towardSnow*crouch,toward,turn);
+    groups.abdomen.rotateY(yaw*.16);
+    groups.chest.rotateY(yaw*.31);
+    groups.neck.rotateY(yaw*.20);
+    groups.head.rotateY(yaw*.33);
+    if(a.phase==='together')groups.head.rotateX(-.10*Math.sin(Math.PI*rearRamp(t,.29,1.45)));
+    lowerPelvisForFeet(a.legs);
+    for(const {side,ankle} of a.legs)solveLeg(side,ankle,h);
+    if(a.phase==='invite'&&gestureClips?.beckon){
+      const wave=t<5?t-.27:t-5.36;
+      if(wave>=0&&wave<1.67){
+        const side=toward<0?'N':'P';
+        const weight=rearRamp(wave,0,.28)*(1-rearRamp(wave,1.24,1.66));
+        sampleReaction(gestureClips.beckon,wave/1.67,side==='P');
+        applyCapturedArm('beckon',side,weight*.85);
+      }
+    }
+    if(lean>.02&&d.object.position.distanceTo(snuggle)<.16){
+      const wrist=d.head.localToWorld(V(.018,.055,-.048));
+      const palm=orientPalm('N',V(.34,0,-.94).normalize(),palmDown);
+      wrist.sub(palmRig.N.center.clone().applyQuaternion(palm));
+      reachHand('N',wrist,palm,lean*.60,false,V(-.16,-.13,.13));
+    }
+  }
+  function dogStep(dt){
+    const a=event;
+    if(!a||d.state!=='windowSnow')return false;
+    const together=a.phase==='together'||(a.joined===true&&a.phase==='rise');
+    const goal=together?snuggle:dogStop;
+    let moved=0;
+    if(a.phase==='notice'&&a.time<.36){
+      d.rotate(headingTo(d.object.position,snowView),dt,3.6);
+    }else if(d.object.position.distanceTo(goal)>.024){
+      if(!d.path.length&&d.destination?.distanceTo(goal)>.03)d.navigate(goal);
+      moved=d.follow(dt,together?.48:1.44);
+    }else d.rotate(Math.PI,dt,3.8);
+    const rest=together&&d.object.position.distanceTo(goal)<.07&&Math.abs(headingDelta(d.object.rotation.y,Math.PI))<.33;
+    const lean=rest?(a.phase==='rise'?1-rearRamp(a.time,0,1.1):1):0;
+    d.snowLean+=(lean-d.snowLean)*(1-Math.exp(-dt*2.8));
+    const look=rest?snowView:
+      (d.object.position.distanceTo(dogStop)<.25&&(mood.seconds%4.2)<1.2?leilaFaceForDog():snowView);
+    d.pose(dt,moved,look,a.phase==='notice'&&moved>.04);
+    return true;
+  }
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)interrupt();});
+  readyButton.onclick=request;
+  readyButton.disabled=false;
+  return {update,advance,dogStep,onOtherTarget,interrupt,isActive:()=>!!event,
+    hasFirstChance:()=>!!activeWinter&&activeWinter!==keySeen&&seasonalOutdoors.isLive()&&mood.seconds<firstChanceUntil};
+})();
+
+// LAB 101 | Recipe choreography, bowl handoff and safely interruptible meal.
+const dogKitchen=(()=>{
+  const k=kitchenScene,d=shepherd;
+  const mealNote='犬は自分の器からごはんを食べています。';
+  const floorBowl=k.pad.clone().setY(.022), dogDock=k.pad.clone().add(V(-.531,0,0));
+  const floorEye=k.pad.clone().setY(.066);
+  const config={cook:12.8,lower:3.65,eat:8.1};
+  const at=(p,a,b)=>rearRamp(p,a,b);
+  const easeBetween=(p,a,b,c,e)=>at(p,a,b)*(1-at(p,c,e));
+  const up=V(0,1,0), forward=V(1,0,0);
+  let run=null, nextMeal=58, btn=$('dogMeal');
+  function belongs(target){return target?.kind==='kitchen';}
+  function prepTarget(manual){return {...k.target,manual,onArrival:arrive};}
+  function isCooking(){return run&&run.phase!=='meal';}
+  function setStatus(line){
+    if($('destination').textContent!==line)$('destination').textContent=line;
+  }
+  function canStart(){
+    return !run&&privateDogBondAllowed()&&!windowSnow.isActive()&&!d.rivalQueued&&
+      !['bedApproach','couchApproach','couchCurl'].includes(d.state)&&!roam.handRelease;
+  }
+  function start(manual=false){
+    if(run||mode==='roam'&&roam.phase==='route'&&belongs(roam.pending?.target??roam.target))return false;
+    if(!manual&&!canStart())return false;
+    if(manual)prepareDogCommand();
+    requestDestination(prepTarget(manual));
+    if(!belongs(roam.target)&&!belongs(roam.pending?.target))return false;
+    nextMeal=mood.seconds+75;
+    return true;
+  }
+  function maybeStart(){
+    if(mood.seconds<nextMeal||currentMood()==='annoyed'||windowSnow.hasFirstChance())return false;
+    return start();
+  }
+  function cancelRun(){
+    if(!run)return;
+    const a=run;run=null;
+    if(d.state==='meal'){
+      d.change('idle');d.wait=d.time+3;d.destination=null;d.path=[];
+    }
+    d.mealLower=0;
+    if($('dogNote').textContent===mealNote||$('dogNote').textContent==='犬がごはんの器へ向かっています。')
+      $('dogNote').textContent=a.oldNote??'犬をタップすると、こちらに気づきます。';
+    k.largeBowl.position.copy(floorBowl);k.fill(0);k.restTools();
+  }
+  function onOtherTarget(next){
+    if(!belongs(next)&&run)cancelRun();
+  }
+  function interrupt(){
+    nextMeal=Math.max(nextMeal,mood.seconds+16);
+    if(mode!=='roam')return;
+    if(roam.phase==='route'&&belongs(roam.pending?.target??roam.target)){
+      cancelRun();
+      requestDestination(lingeringTarget());
+    }else if(roam.phase==='dogMeal'){
+      enterQuietRest('linger','レイラがあなたに応えます',15);
+    }
+  }
+  function decorate(visit,target){
+    visit.push(routeTurn(target.heading,'キッチンの作業台に向いています'),
+      {type:'kitchenCook',time:config.cook,message:'犬のごはんの下ごしらえをしています'});
+    if(!appendWalk(visit,target.point,k.handler,'ごはんの器を床まで運んでいます'))return;
+    visit.push(routeTurn(headingTo(k.handler,k.pad),'犬のごはんを置く場所に向き直っています'),
+      {type:'kitchenLower',time:config.lower,message:'マットに犬のごはんを置いています'});
+  }
+  function stageStart(stage){
+    if(stage.type==='kitchenCook'){
+      cancelRun();
+      run={phase:'cook',oldNote:$('dogNote').textContent,served:false,bowlAt:null,grip:0,
+        floorFeet:null,dogTime:0,chew:0};
+      k.largeBowl.position.copy(k.bowlHome);k.fill(0);k.restTools();
+      if(roam.target.manual){
+        dogFollowCamera(k.boardTop.clone().add(V(-.16,.035,.18)),V(-2.23,1.16,1.36));
+      }
+    }else if(stage.type==='kitchenLower'&&run){
+      const a=run;
+      a.phase='lower';a.floorFeet=sofaSides.map(side=>({
+        side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0)).setY(standingAnkleHeights[side])
+      }));
+    }
+  }
+  function palm(side,target,pointing,normal,weight){
+    if(weight<=.001)return;
+    const p=pointing.clone().normalize();
+    const n=normal.clone().addScaledVector(p,-normal.dot(p)).normalize();
+    const rot=orientPalm(side,p,n);
+    const wrist=target.clone().sub(palmRig[side].center.clone().applyQuaternion(rot));
+    reachHand(side,wrist,rot,Math.min(1,weight),false,V(side==='P'?.165:-.165,-.106,.095));
+  }
+  function actualGrip(side){return groups['hand'+side].localToWorld(palmRig[side].center.clone());}
+  function cook(stage,u){
+    const a=run;
+    blendSofaPose(stage.pose,1);
+    if(!a)return;
+    const t=u*stage.time;
+    const cutting=easeBetween(t,.12,.76,3.48,4.08);
+    const stirring=easeBetween(t,4.08,5.21,8.98,9.63);
+    const serving=easeBetween(t,9.0,9.42,10.86,11.44);
+    a.grip=at(t,11.18,12.11);a.phase=t>=11.38?'carry':'cook';
+    const steam=easeBetween(t,4.5,6,9.3,11.8);
+    k.steam(t,steam);
+    groups.abdomen.rotateX(.105*(1-a.grip));
+    groups.chest.rotateX((.11+.045*cutting)*(1-a.grip));
+    groups.head.rotateX(.30*(1-a.grip));
+    groups.neck.rotateY(-.12*cutting+.11*stirring);
+    if(t<4.05){
+      if(t>1)setStatus('トントンと、犬のごはんの材料を刻んでいます');
+      const pulse=(1+Math.cos(t*15))/2;
+      const chopOrder=Math.min(1,Math.max(0,(t-.90)/3.52));
+      const grip=k.boardTop.clone().add(V(-.084,.047+.062*pulse,-.071+chopOrder*.122));
+      const guide=k.boardTop.clone().add(V(-.032,.033,.079));
+      palm('P',grip,forward,V(0,0,1),cutting);
+      palm('N',guide,forward,V(0,-1,0),cutting*.68);
+      if(cutting>.005){
+        k.utensil.position.copy(actualGrip('P'));
+        k.utensil.rotation.set(-.09*pulse,-Math.PI/2,.035);
+      }
+      for(const [i,piece] of k.blank.children.entries()){
+        const q=chopOrder>i/k.blank.children.length?.63:1;
+        piece.scale.copy(piece.userData.s).multiplyScalar(q);
+      }
+    }else{
+      k.knife.visible=false;k.ladle.visible=t<11.35;
+      const a0=t*5.3;
+      const stirred=k.potTop.clone().add(V(Math.cos(a0)*.055-.040,.076+Math.sin(a0)*.012,Math.sin(a0)*.057));
+      const scoop=at(t,9.08,9.52), pour=at(t,9.55,10.19), rest=at(t,10.86,11.25);
+      const transferAt=at(t,4.03,5.18);
+      const take=k.boardTop.clone().add(V(-.049,.113,.047));
+      const grip=take.lerp(stirred,transferAt).lerp(k.potTop.clone().add(V(-.063,.079,0)),scoop);
+      k.transfer.forEach((piece,i)=>{
+        const f=(t-4.28-i*.104)/.54;
+        piece.visible=f>0&&f<1;
+        if(piece.visible){
+          piece.position.copy(k.boardTop).add(V(.033,.036,(i-2)*.028)).lerp(k.potTop,f);
+          piece.position.y+=Math.sin(Math.PI*f)*(.112+.013*i);
+          piece.rotation.set(t*4+i,t*3,t*6);
+        }
+      });
+      grip.lerp(k.bowlHome.clone().add(V(-.028,.177,.036)),pour)
+        .lerp(k.boardTop.clone().add(V(-.014,.058,.110)),rest);
+      const brace=k.bowlHome.clone().add(V(.005,.046,-.108));
+      palm('N',grip,V(.91,-.41,0),V(0,0,-1),Math.max(stirring,serving));
+      palm('P',brace,V(1,-.22,0),V(0,-1,0),Math.max(stirring*.20,serving*.78));
+      k.utensil.position.copy(actualGrip('N'));
+      k.utensil.rotation.set(.10*Math.sin(a0)*stirring+.96*pour,.22,.48*stirring+.26*pour);
+      const tipped=(t-10.10)/.59;
+      k.falling.visible=tipped>0&&tipped<1;
+      if(k.falling.visible){
+        k.falling.position.copy(k.bowlHome).add(V(Math.sin(tipped*9)*.041,.133-(tipped*tipped)*.080,Math.cos(tipped*12)*.062));
+        k.falling.rotation.set(t*5,t*6,t*4);
+      }
+      k.fill(at(t,10.12,10.76));
+      k.blank.children.forEach((piece,i)=>{piece.visible=t<4.27+i*.065;});
+      if(t<5.21)setStatus('刻んだ材料を鍋に入れています');
+      else if(t<9.2)setStatus('湯気の立つ鍋を、おたまで混ぜています');
+      else if(t<11.18)setStatus('できたごはんを犬の器によそっています');
+      else setStatus('犬のごはんを、両手で持ち上げています');
+    }
+    if(a.grip>.005){
+      const lift=k.bowlHome.clone().lerp(carryCenter(),a.grip);
+      holdBowl(lift,a.grip);
+    }
+  }
+  function carryCenter(){
+    return root.position.clone().add(V(0,.563,.205).applyAxisAngle(up,root.rotation.y));
+  }
+  function holdBowl(center,weight){
+    const yaw=root.rotation.y;
+    const f=V(0,-.08,1).applyAxisAngle(up,yaw);
+    for(const side of ['P','N']){
+      const sign=side==='P'?1:-1;
+      const x=V(sign*.123,.025,.006).applyAxisAngle(up,yaw);
+      const normal=V(-sign*.89,-.46,0).applyAxisAngle(up,yaw);
+      palm(side,center.clone().add(x),f,normal,weight);
+    }
+    k.largeBowl.position.copy(center);
+    k.largeBowl.rotation.set(0,yaw,0);
+  }
+  function holdOnWalk(){
+    const a=run;
+    if(!a||a.phase!=='carry'||mode!=='roam'||roam.phase!=='route')return;
+    const stage=roam.visit[roam.visitIndex];
+    if(stage?.type==='kitchenCook'||stage?.type==='kitchenLower')return;
+    k.utensil.visible=false;
+    groups.head.rotateX(.105);
+    const center=carryCenter();center.y+=.007*Math.sin(roam.elapsed*16);
+    holdBowl(center,1);
+  }
+  function lower(stage,u){
+    const a=run;
+    blendSofaPose(stage.pose,1);
+    if(!a)return;
+    const bend=easeBetween(u,0,.58,.68,.99);
+    const settle=at(u,.09,.59);
+    const hold=1-at(u,.61,.72);
+    const h=root.rotation.y;
+    const toward=V(0,0,1).applyAxisAngle(up,h);
+    groups.pelvis.position.y-=.462*bend;
+    groups.pelvis.position.addScaledVector(toward,-.064*bend);
+    groups.abdomen.rotateX(.76*bend);
+    groups.chest.rotateX(.53*bend);
+    groups.head.rotateX(-.43*bend);
+    if(a.floorFeet){
+      lowerPelvisForFeet(a.floorFeet);
+      for(const {side,ankle} of a.floorFeet)solveLeg(side,ankle,h);
+    }
+    const center=carryCenter().lerp(floorBowl,settle);
+    holdBowl(center,hold);
+    if(settle>=.99){
+      k.largeBowl.position.copy(floorBowl);
+      if(!a.served){
+        a.served=true;
+        lab900LifeNote('dogMeal');
+      }
+    }
+  }
+  function arrive(){
+    if(!run?.served){
+      cancelRun();
+      enterQuietRest('linger','キッチンでひと休みしています',6);
+      return;
+    }
+    run.phase='meal';
+    run.grip=0;k.restTools();nextMeal=mood.seconds+245+Math.random()*105;
+    enterQuietRest('dogMeal','レイラが器を置いて、犬を呼びました',Infinity);
+    $('dogNote').textContent='犬がごはんの器へ向かっています。';
+  }
+  function advanceLeila(){
+    if(roam.phase!=='dogMeal')return false;
+    if(!run){enterQuietRest('linger','レイラが犬のごはんを見届けました',6);return true;}
+    blendSofaPose(roam.quietPose,1);
+    roam.elapsed=Math.min(1,run.dogTime);
+    const call=easeBetween(run.dogTime,.05,.42,1.1,1.55);
+    const desired=T.MathUtils.clamp(headingDelta(root.rotation.y,headingTo(root.position,d.object.position)),-1.05,1.05);
+    groups.chest.rotateY(.24*desired*call);
+    groups.head.rotateY(.60*desired*call);
+    groups.head.rotateX(.22);
+    const point=k.pad.clone().add(V(-.21,.53,-.21));
+    palm('N',point,V(.92,0,.39),V(0,1,0),call*.55);
+    return true;
+  }
+  function dogStep(dt){
+    const a=run;
+    if(a?.phase!=='meal')return false;
+    a.dogTime+=dt;
+    if(d.jump||d.object.position.y>.08||['curl','couchCurl'].includes(d.state))return false;
+    if(d.state!=='meal'){d.change('meal');d.destination=null;d.path=[];d.rivalQueued=false;}
+    d.navigate(dogDock);
+    const close=d.object.position.distanceTo(dogDock)<.038;
+    const moved=close?0:d.follow(dt,1.29);
+    if(close){
+      const h=headingTo(dogDock,k.pad);
+      d.rotate(h,dt,5);
+      if(Math.abs(headingDelta(d.object.rotation.y,h))<.18){
+        a.chew+=dt;
+        d.mealLower=at(a.chew,0,.55);
+        setMealNote();
+        k.fill(1-at(a.chew,.60,config.eat));
+      }
+    }
+    d.pose(dt,moved,close?floorEye:leilaFaceForDog());
+    if(a.chew>config.eat+.62||a.dogTime>28){
+      const done=a.chew>config.eat;
+      cancelRun();
+      if(mode==='roam'&&roam.phase==='dogMeal'){
+        enterQuietRest('linger',done?'犬がごはんを食べ終えました':'レイラが器を片づけました',6);
+        if(done)$('dogNote').textContent='犬はごはんを食べ終えて、満足そうです。';
+      }
+    }
+    return true;
+  }
+  function setMealNote(){
+    if($('dogNote').textContent!==mealNote)$('dogNote').textContent=mealNote;
+    if(mode==='roam'&&roam.phase==='dogMeal')setStatus('レイラが、犬の食べる様子を見守っています');
+  }
+  function reconcile(){
+    if(!run)return;
+    if(isCooking()&&(mode!=='roam'||roam.phase!=='route'||!belongs(roam.target)||roam.pending))cancelRun();
+    else if(run.phase==='meal'&&mode==='roam'&&(roam.phase==='bed'||roam.phase==='reading'||roam.phase==='dogPlay'))cancelRun();
+  }
+  btn.onclick=()=>start(true);btn.disabled=false;
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&isCooking())interrupt();});
+  return {start,maybeStart,decorate,stageStart,cook,lower,holdOnWalk,advanceLeila,dogStep,
+    onOtherTarget,interrupt,reconcile,isBusyDog:()=>run?.phase==='meal'};
+})();
 
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);updateTerrarium(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
@@ -7145,9 +9227,9 @@ if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
   alignSupportToFloor(1-cur.step,true);
 }
-sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();applyReaction(dt);
+sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();petDogFromSofa();dogDream.comfort();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
