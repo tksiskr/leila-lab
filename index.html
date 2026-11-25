@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.4｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.4</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -7669,6 +7669,36 @@ function shepherdTouchSurface(model){
   };
 }
 
+// Mouth choreography is driven by the serving clock, not by frame count or the proxy dog.
+const shepherdMealMotion=(()=>{
+  const spacing=[.82,1.00,.89,1.03,.91,1.06,.91];
+  const entry=.68;
+  let end=entry;
+  const portions=spacing.map(length=>{const start=end;end+=length;return {start,length};});
+  const finish=end+.85;
+  function sample(t){
+    let index=portions.findIndex(b=>t<b.start+b.length);
+    if(index<0)index=portions.length;
+    const b=portions[index];
+    const u=b?T.MathUtils.clamp((t-b.start)/b.length,0,1):1;
+    const ease=(a,z)=>rearRamp(u,a,z);
+    const open=b?(ease(.09,.29)*(1-ease(.30,.46))*.26+
+      ease(.52,.63)*(1-ease(.65,.73))*.125+ease(.77,.84)*(1-ease(.86,.95))*.093):0;
+    const scoop=b?ease(.03,.27)*(1-ease(.39,.64)):0;
+    const lifts=b?ease(.43,.68)*(1-ease(.91,1)) :0;
+    const rise=rearRamp(t,end+.09,finish);
+    return {
+      lower:rearRamp(t,.03,.80)*(1-rise), jaw:open,
+      height:.128-.041*scoop+.037*lifts,
+      forward:-.016+.029*scoop-.018*lifts,
+      side:Math.sin(index*1.51)*.022*scoop,
+      pitch:.89+.17*scoop-.11*lifts,
+      swallowed:index+(b&&u>=.48?1:0), total:portions.length,
+    };
+  }
+  return {sample,finish};
+})();
+
 function createShepherd() {
   const dog = new T.Group(), body = new T.Group(), head = new T.Group();
   dog.name='German shepherd'; dog.scale.setScalar(shepherdScale); dog.add(body); body.add(head); scene.add(dog);
@@ -7921,6 +7951,10 @@ function createShepherd() {
       const headTurn=new T.Euler(0,0,0,'YXZ');
       const chinOffset=shepherdChin.clone().sub(skull);
       const lapSkull=V(0,0,0), lapOffset=V(0,0,0);
+      const mealUpperLip=V(-.042,.578,.575).sub(skull);
+      const hinge=V(-.089,.576,.466), lowerHinge=hinge.clone().sub(skull);
+      const mealSkull=V(0,0,0),mealOffset=V(0,0,0),mealRotation=new T.Quaternion();
+      const jawTurn=new T.Quaternion(), jawAxis=V(1,0,-.18).normalize();
       const lapRotation=new T.Quaternion().setFromEuler(new T.Euler(.12,0,0,'YXZ'));
       const pillowRotation=new T.Quaternion().setFromEuler(new T.Euler(.32,-.035,.05,'YXZ'));
       // Work in the actual GLB's rest geometry, never the proxy tail's pivots.
@@ -7949,6 +7983,13 @@ function createShepherd() {
           lapOffset.copy(lapSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase);
           targetNeck.lerp(lapOffset,restWeight);
         }
+        if(d.mealPose?.lower){
+          const {pitch,lower}=d.mealPose;
+          mealRotation.setFromEuler(headTurn.set(pitch,-.25,0,'YXZ'));
+          mealOffset.copy(mealUpperLip).applyQuaternion(mealRotation);
+          mealSkull.copy(d.mealPoint).sub(mealOffset);
+          targetNeck.lerp(mealOffset.copy(mealSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase),lower);
+        }
         targetNeck.normalize();
         neckBend.setFromUnitVectors(neckDirection,targetNeck);
         joint.position.copy(neckBase).applyQuaternion(body.quaternion).add(body.position);
@@ -7968,6 +8009,13 @@ function createShepherd() {
           lapOffset.copy(chinOffset).applyQuaternion(joint.quaternion);
           lapSkull.copy(chinRest).sub(lapOffset).sub(movedSkull).clampLength(0,d.pillowPoint?.18:.13);
           joint.position.addScaledVector(lapSkull,restWeight);
+        }
+        if(d.mealPose?.lower){
+          const lower=d.mealPose.lower;
+          joint.quaternion.slerp(mealRotation,lower);
+          mealOffset.copy(mealUpperLip).applyQuaternion(joint.quaternion);
+          mealSkull.copy(d.mealPoint).sub(mealOffset).sub(movedSkull).clampLength(0,.118);
+          joint.position.addScaledVector(mealSkull,lower);
         }
       });
       const tailIndex=bone(bindTail,joint=>{
@@ -8039,6 +8087,14 @@ function createShepherd() {
           })
         ];
       });
+      // The imported jaw is one closed mesh. Bind the underside to a separate hinge,
+      // with a narrow soft lip seam and a wider blend into the cheeks.
+      const jawIndex=bone(hinge,joint=>{
+        const h=bones[headIndex];
+        joint.position.copy(lowerHinge).applyQuaternion(h.quaternion).add(h.position);
+        joint.quaternion.copy(h.quaternion).multiply(jawTurn.setFromAxisAngle(
+          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)));
+      });
       const positions=geometry.getAttribute('position');
       const indices=new Uint16Array(positions.count*4);
       const weights=new Float32Array(indices.length);
@@ -8060,10 +8116,14 @@ function createShepherd() {
         const upper=front?fade(y,.211,.286):fade(y,.242,.335);
         const paw=1-fade(y,.052,.108);
         const legShare=(1-tailShare)*(1-neck)*leg;
+        const lipLine=.568+(.019/.14)*clamp(z-.468,0,.14);
+        const jawShare=fade(z,.455,.503)*(1-fade(y,lipLine-.006,lipLine+.008))
+          *fade(y,.504,.535);
+        const rigidHead=(1-tailShare)*neck*headShare;
         const influences=[
           [bodyIndex,(1-tailShare)*(1-neck)*(1-leg)],
           [neckIndex,(1-tailShare)*neck*(1-headShare)],
-          [headIndex,(1-tailShare)*neck*headShare],
+          [headIndex,rigidHead*(1-jawShare)],[jawIndex,rigidHead*jawShare],
           [tailIndex,tailShare],
           [limb[0],legShare*upper],[limb[1],legShare*(1-upper-paw)],[limb[2],legShare*paw]
         ];
@@ -8084,6 +8144,7 @@ function createShepherd() {
       }
       updateModelPose=()=>bones.forEach((joint,index)=>drivers[index](joint));
       d.touchSurface=shepherdTouchSurface(model);
+      d.visibleMealLip=()=>bones[headIndex].localToWorld(mealUpperLip.clone());
       d.backPoint=stroke=>{
         const y=stroke<0?mix(.542,.548,-stroke):mix(.542,.553,stroke);
         return bones[bodyIndex].localToWorld(V(-.027,y,.105+stroke*.055));
@@ -8121,7 +8182,8 @@ function createShepherd() {
     body.position.set(.011*Math.sin(cycle*2*Math.PI)*w+.070*snowLean,
       -.322*c+(couch?.322*c-.316*fore:0)+Math.sin(d.time*(sleeping?2.5:3.15))*(couch?.003:sleeping?.007:.004)
        +.017*Math.cos(cycle*4*Math.PI)*w-.098*d.bow-.17*fetchLower,0);
-    body.rotation.set(.13*d.bow+.12*(fore-hind)-.060*pillow, -.13*c*(1-fore), .065*c*(1-fore)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
+    body.position.y-=.051*meal;
+    body.rotation.set(.13*d.bow+.102*meal+.12*(fore-hind)-.060*pillow, -.13*c*(1-fore), .065*c*(1-fore)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
     const sleepOffset=d.state==='curl' ? .082*c*rearRamp(d.t,1,4.8) : 0;
     head.position.set(.109*snowLean+.035*c+sleepOffset-(d.bond?.side??0)*.073*bond,.698-.208*c-.042*bond-.043*snowLean,.376-.006*c);
     if(!sleeping&&focus){
@@ -8153,7 +8215,12 @@ function createShepherd() {
       ear.rotation.z=-s*(.16+.18*c);
       ear.rotation.x=-.09-.46*c+.08*Math.sin(d.time*3+s)*(.28+w);
     }
-    jaw.rotation.x=p||w>.58 ? .13+.07*Math.sin(d.time*11) : sleeping ? .072*dogDream.muzzle() : meal*(.08+.08*Math.sin(d.time*23));
+    if(meal>0&&!d.visibleMealLip){
+      const bite=d.mealPose;
+      head.rotation.set(mix(head.rotation.x,bite.pitch,meal),mix(head.rotation.y,0,meal),0,'YXZ');
+      head.position.lerp(d.mealPoint.clone().sub(body.position).applyQuaternion(body.quaternion.clone().invert()).sub(V(0,-.068,.193).applyEuler(head.rotation)),meal);
+    }
+    jaw.rotation.x=p||w>.58 ? .13+.07*Math.sin(d.time*11) : sleeping ? .072*dogDream.muzzle() : (d.mealPose?.jaw??0)*meal;
     tongue.visible=jaw.rotation.x>.13&&c<.4;
     tail.position.set(.035*c,.490+.162*c,-.407+.098*c);
     tail.rotation.y=(.17+1.03*c*(1-.62*lap))+.72*d.wag*Math.sin(d.time*(p||petted||rival?13:5));
@@ -9282,9 +9349,10 @@ const windowSnow=(()=>{
 const dogKitchen=(()=>{
   const k=kitchenScene,d=shepherd;
   const mealNote='犬は自分の器からごはんを食べています。';
-  const floorBowl=k.pad.clone().setY(.022), dogDock=k.pad.clone().add(V(-.531,0,0));
+  const floorBowl=k.pad.clone().setY(.022), dogDock=k.pad.clone().add(V(-.502,0,.012));
+  const mealTarget=V(0,0,0);
   const floorEye=k.pad.clone().setY(.066);
-  const config={cook:12.8,lower:3.65,eat:8.1};
+  const config={cook:12.8,lower:3.65,eat:shepherdMealMotion.finish};
   const at=(p,a,b)=>rearRamp(p,a,b);
   const easeBetween=(p,a,b,c,e)=>at(p,a,b)*(1-at(p,c,e));
   const up=V(0,1,0), forward=V(1,0,0);
@@ -9318,7 +9386,7 @@ const dogKitchen=(()=>{
     if(d.state==='meal'){
       d.change('idle');d.wait=d.time+3;d.destination=null;d.path=[];
     }
-    d.mealLower=0;
+    d.mealLower=0;d.mealPose=null;d.mealPoint=null;
     if($('dogNote').textContent===mealNote||$('dogNote').textContent==='犬がごはんの器へ向かっています。')
       $('dogNote').textContent=a.oldNote??'犬をタップすると、こちらに気づきます。';
     k.largeBowl.position.copy(floorBowl);k.fill(0);k.restTools();
@@ -9533,9 +9601,16 @@ const dogKitchen=(()=>{
       d.rotate(h,dt,5);
       if(Math.abs(headingDelta(d.object.rotation.y,h))<.18){
         a.chew+=dt;
-        d.mealLower=at(a.chew,0,.55);
+        const bite=shepherdMealMotion.sample(a.chew);
+        d.mealPose=bite;d.mealLower=bite.lower;
+        const yaw=d.object.rotation.y;
+        mealTarget.set(bite.side,0,bite.forward).applyAxisAngle(up,yaw).add(floorBowl);
+        mealTarget.y=bite.height;
+        d.mealPoint=d.object.worldToLocal(mealTarget);
         setMealNote();
-        k.fill(1-at(a.chew,.60,config.eat));
+        if(a.swallowed!==bite.swallowed){
+          a.swallowed=bite.swallowed;k.fill(1-bite.swallowed/bite.total);
+        }
       }
     }
     d.pose(dt,moved,close?floorEye:leilaFaceForDog());
