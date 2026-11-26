@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103.1｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103.2｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103.1</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103.2</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -148,7 +148,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 </dialog>
 <div class="dogBar" role="group" aria-label="シェパード">
 <strong>シェパード</strong><button id="dogView" type="button" disabled>犬を見る</button><button id="dogPlay" type="button" disabled>犬と遊ぶ</button><button id="dogPlayThree" type="button" disabled>3人で遊ぶ</button><button id="dogMeal" type="button" disabled>ごはんを作る</button><button id="dogBond" type="button" disabled>なでる</button><button id="dogSofa" type="button" disabled>ソファで休む</button><button id="dogBed" type="button" disabled>添い寝</button>
-<small id="dogNote" role="status">犬をタップすると、こちらに気づきます。</small>
+<small id="dogNote" role="status">犬のモデルを読み込み中…</small><button id="dogRetry" type="button" hidden>犬を再読み込み</button>
 </div><div id="reactionStatus" role="status" hidden></div><div class="labMusic" role="group" aria-label="音楽">
 <button id="danceSound" type="button" aria-pressed="false">ダンス音：OFF</button>
 <button id="radioSound" type="button" aria-pressed="false">ラジオBGM：OFF</button>
@@ -194,7 +194,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 </aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><label id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
   <option value="live">実時刻</option><option value="day">晴れた昼</option>
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
-</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><div id="meshInfo"></div>
+</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><small id="devLoopStatus" role="status"></small><div id="meshInfo"></div>
 <fieldset id="seasonPreview">
   <legend>窓の外の四季</legend>
   <div class="seasonButtons">
@@ -213,7 +213,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label>ダンス <select id="danceClip">
-  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button id="dogTumbleFront" type="button">じゃれ合い：正面</button><button id="dogTumbleRear" type="button">じゃれ合い：背後</button></div><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>移動テストは一度再生して停止。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button id="dogTumbleFront" type="button">じゃれ合い：正面</button><button id="dogTumbleRear" type="button">じゃれ合い：背後</button></div><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>開発者用の動作は、別の動作か「自律行動」まで続きます。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';
 import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
@@ -2303,6 +2303,142 @@ const jokeReactionStart = 1.85;
 const jokeDuration = 4.5;
 $('jokePreview').value = '';
 
+// Development actions own the scene until an explicit action replaces them.
+// View, paint, lighting/season controls don't count as choreography commands.
+let previewSerial=0, developerPreview=null;
+const devOriginal={};
+const devGestures={
+  nodPreview:'nod',lookPreview:'look',smallWavePreview:'smallWave',
+  largeWavePreview:'largeWave',beckonPreview:'beckon'
+};
+const devTimed=new Set(['autoWalk','wanderPreview','radioPreview','easelPreview','terrariumPreview','jokePreview']);
+const devHolds={sofaPreview:'seated',windowPreview:'window',lingerPreview:'linger',approachPreview:'linger'};
+function clearDevPreview(){
+  previewSerial++;
+  developerPreview=null;
+  $('devLoopStatus').textContent='';
+  for(const button of $('developer').querySelectorAll('[data-dev-active]'))button.removeAttribute('data-dev-active');
+}
+function previewHas(id){return developerPreview?.id===id;}
+function devOwned(){return !!developerPreview;}
+function runDevPreview(a){
+  if(developerPreview!==a)return;
+  a.delay=null;
+  if(a.id==='jokePreview'){
+    $('jokePreview').value=a.option;
+    if(mode!=='roam')beginRoam();
+    requestDestination({kind:'previewJoke',name:'ジョーク'});
+  }else devOriginal[a.id].call($(a.id));
+}
+function devAfterScene(){
+  const a=developerPreview;
+  if(!a||!devTimed.has(a.id))return;
+  if(a.delay===null)a.delay=.45;
+}
+function devNextDestination(){
+  const a=developerPreview;
+  if(!a)return false;
+  if(devTimed.has(a.id))devAfterScene();
+  if(mode==='roam'&&roam.phase!=='route')roam.pause=Infinity;
+  return true;
+}
+function stepDevPreview(dt){
+  const a=developerPreview;
+  if(!a||a.waiting||document.hidden)return;
+  if(a.id==='snowVisitPreview'){
+    if(!shepherd.ready||windowSnow.isActive()||windowSnow.isQueued()||mode==='roam'&&roam.phase==='route')return;
+    if(a.delay===null)a.delay=.85;
+  }
+  if(a.id in devGestures){
+    if(reaction||contact||handlingBook()||mode==="roam"&&roam.phase==="route")return;
+    if(a.delay===null)a.delay=.68;
+  }
+  if(a.delay!==null){
+    a.delay-=dt;
+    if(a.delay<=0)runDevPreview(a);
+  }
+}
+function devTravelFrame(dt){
+  const a=developerPreview;
+  if(a?.id!=='travel')return false;
+  const p=a.travel, walkEnd=startEnd+cruiseDuration+clipStop.duration;
+  p.t+=dt;
+  travelPose(Math.min(p.t,walkEnd),cruiseDuration,p.origin,p.yaw);
+  alignSupportToFloor(walkingContactWeight({duration:cruiseDuration},Math.min(p.t,walkEnd)),true);
+  if(p.t>walkEnd+.35){
+    const u=smooth(clampPreview((p.t-walkEnd-.35)/.85));
+    root.rotation.y=p.yaw+(p.yaw===0?1:-1)*Math.PI*u;
+    if(u>=1){p.origin=root.position.z;p.yaw=p.yaw===0?Math.PI:0;p.t=0;}
+  }
+  return true;
+}
+function clampPreview(x){return Math.max(0,Math.min(1,x));}
+function installDevPreview(){
+  const ids=[...Object.keys(devGestures),...devTimed,...Object.keys(devHolds),
+    'reset','demo','mixamo','travel','reference','right','left','raise','idle',
+    'dancePlay','capoeiraPreview','snowVisitPreview','dogTumbleFront','dogTumbleRear'];
+  function stopThen(fn){
+    const stamp=previewSerial;
+    const next=()=>{if(previewSerial===stamp)fn();};
+    if(!dogTumble.afterExit(next))next();
+  }
+  function select(id,option){
+    clearDevPreview();
+    windowSnow.clearPreview();
+    const a={id,option,delay:null,waiting:true,travel:{t:0,origin:0,yaw:0}};
+    developerPreview=a;
+    $(id).setAttribute('data-dev-active','');
+    $('devLoopStatus').textContent='繰り返し中：別の動作か「自律行動」で終了';
+    stopThen(()=>{
+      a.waiting=false;
+      const needStanding=id==='snowVisitPreview'&&mode==='roam'&&
+        ['route','bed','seated','reading','dogBond','dogPlay','mirror'].includes(roam.phase);
+      if(needStanding||id in devGestures&&(handlingBook()||mode==='roam'&&roam.phase==='route')){
+        requestDestination({...lingeringTarget(),onArrival:()=>{
+          enterQuietRest('linger','その場で試演しています',Infinity);
+          runDevPreview(a);
+        }});
+      }else runDevPreview(a);
+    });
+  }
+  for(const id of ids){
+    const button=$(id);
+    if(id==='jokePreview'){
+      button.onchange=()=>{
+        if(button.value!=='')select(id,button.value);
+        else if(previewHas(id)){clearDevPreview();if(mode==='roam')chooseDestination();}
+      };
+      continue;
+    }
+    if(typeof button.onclick!=='function')continue;
+    devOriginal[id]=button.onclick;
+    button.onclick=()=>{
+      if(previewHas(id)&&!['dancePlay','capoeiraPreview'].includes(id))return;
+      const option=id==='dancePlay'?$('danceClip').value||danceIds[0]:
+        id==='capoeiraPreview'?$('capoeiraClip').value:null;
+      select(id,option);
+    };
+  }
+  for(const id of ['autoWait','danceLoop','capoeiraPlay','standWait','offerHandButton',
+    'dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed']){
+    const button=$(id), original=button.onclick;
+    if(typeof original!=='function')continue;
+    button.onclick=()=>{
+      const had=devOwned();
+      if(!had){original.call(button);return;}
+      clearDevPreview();
+      windowSnow.clearPreview();
+      stopThen(()=>{
+        restoreReactionPose();reaction=null;$('reactionStatus').hidden=true;closeWaveReply();
+        if(id==='autoWait'&&mode==='roam'){
+          if(roam.phase==='route')requestDestination(lingeringTarget());
+          else chooseDestination();
+        }else original.call(button);
+      });
+    };
+  }
+}
+
 let roam;
 function beginRoam() {
   const wasWaiting = mode === 'standWait';
@@ -2351,7 +2487,7 @@ function pickSurface(x, y) {
   touchRay.setFromCamera(touchPoint, camera);
   const leila = touchRay.intersectObjects(parts, false)[0];
   shepherd.object.updateWorldMatrix(true,true);
-  const dogHit=touchRay.intersectObjects(shepherd.hitMeshes.filter(mesh=>mesh.visible),false)[0];
+  const dogHit=shepherd.ready?touchRay.intersectObjects(shepherd.hitMeshes.filter(mesh=>mesh.visible),false)[0]:null;
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
     if (destination === kitchenTarget) return floorGroup.visible;
@@ -3047,6 +3183,10 @@ function endPointer(event) {
       $('dogNote').textContent=asleep ? 'すやすや眠っています。' : 'ちらっとこちらを見て、またレイラのほうを見ました。';
       return;
     }
+    if(destination&&devOwned()){
+      clearDevPreview();windowSnow.clearPreview();
+      if(mode==='dance')dance.previewLoop=false;
+    }
     if (destination === kitchenTarget) {
       dogKitchen.start(true);
     } else if (destination === lightSwitchTarget) {
@@ -3448,10 +3588,10 @@ function reachHand(side,target,orientation,weight,held=false,bendGuide=null,pett
   if (held && !keepHeldElbowClear(upperDirection,bend,shoulder,ray,along,length)) return false;
   const lowerDirection = ray.multiplyScalar(length).sub(upperDirection);
   if (pettingHinge) {
-    // The mesh's authored flex axis is -X (as in the usual arm motion).
-    // An almost straight model bind pose's upper/lower vector cross product is
-    // not this axis; using it rolls the shells onto their sides as the hand pats.
-    const hinge = V(-1,0,0);
+    // In this mesh's A-pose the elbow's pointed armor lip is on the
+    // extension side. Match the +X side of the hinge to the signed bend
+    // plane: negating it preserves palm position but bends the shell backward.
+    const hinge = V(1,0,0);
     const axisFor = rest => {
       const dir=rest.clone().normalize();
       return hinge.clone().addScaledVector(dir,-hinge.dot(dir)).normalize();
@@ -4433,11 +4573,11 @@ function pruneCameraGreeting(){
 function advanceRoam(dt) {
   if(dogTumble.leila(dt))return;
   if(windowSnow.advance(dt))return;
-  if(dogKitchen.advanceLeila()||dogKitchen.maybeStart())return;
-  if(dogTumble.maybe())return;
+  if(dogKitchen.advanceLeila()||!devOwned()&&dogKitchen.maybeStart())return;
+  if(!devOwned()&&dogTumble.maybe())return;
   if(roam.phase==='dogPlay'){advanceSharedDogPlay(dt);return;}
   if(roam.phase==='dogBond'){advanceDogBond();return;}
-  if(roam.elapsed>=1.5&&mood.seconds>=nextDogBondAt&&currentMood()!=='annoyed'&&
+  if(!devOwned()&&roam.elapsed>=1.5&&mood.seconds>=nextDogBondAt&&currentMood()!=='annoyed'&&
      privateDogBondAllowed()){
     if(startDogBond())return;
     nextDogBondAt=mood.seconds+3.8;
@@ -4474,6 +4614,7 @@ function advanceRoam(dt) {
     || reaction?.touchFollowUp
     || mood.seconds < touchPause.until;
   if (!lingeringReaction && !activeCameraGreeting) roam.elapsed += dt;
+  if(devOwned()&&devHolds[developerPreview.id]===roam.phase)roam.pause=Infinity;
   if (roam.phase === 'rest') {
     applyRestPose();
     if (!lingeringReaction && roam.elapsed >= roam.glanceAt) {
@@ -4498,8 +4639,9 @@ function advanceRoam(dt) {
     if (settle < 1) alignSupportToFloor();
     else roam.handRelease = null;
   }
-  if (!lingeringReaction && advanceCameraGreeting(dt)) return;
+  if (!devOwned() && !lingeringReaction && advanceCameraGreeting(dt)) return;
   if (!lingeringReaction && roam.elapsed >= roam.pause) {
+    if(devNextDestination())return;
     if (!reaction && mood.seconds >= mood.avoidedUntil && mood.seconds >= mood.followUpAt) {
       mood.followUpAt = Infinity;
       roam.pause = roam.elapsed+5;
@@ -4513,7 +4655,7 @@ function advanceRoam(dt) {
       return;
     }
     if((roam.phase==='wait'||roam.phase==='linger'||roam.phase==='rest')&&!reaction&&!contact&&
-       mood.seconds>=Math.max(nextDogPlay,leilaUserPriorityUntil)&&!shepherd.jump&&shepherd.state!=='curl'&&
+       mood.seconds>=Math.max(nextDogPlay,leilaUserPriorityUntil)&&shepherd.ready&&!shepherd.jump&&shepherd.state!=='curl'&&
        currentMood()!=='annoyed'&&Math.random() < (currentMood()==='playful'?.59:.28)){
       requestDogPlay(false);return;
     }
@@ -4527,6 +4669,7 @@ function advanceRoam(dt) {
 }
 
 function chooseDestination() {
+  if(devNextDestination())return;
   const roll = Math.random();
   const feeling = currentMood();
   if (restClips && roam.phase !== 'bed' && roam.target !== bedTarget &&
@@ -6737,7 +6880,7 @@ if (capoeiraProgram.length) {
   $('capoeiraPlay').disabled=false;
   $('capoeiraPreview').disabled=false;
   $('capoeiraPlay').onclick=()=>requestCapoeira(null,true);
-  $('capoeiraPreview').onclick=()=>requestCapoeira($('capoeiraClip').value,true);
+  $('capoeiraPreview').onclick=()=>requestCapoeira(developerPreview?.option||$('capoeiraClip').value,true);
 }
 
 function requestCapoeira(id,requested) {
@@ -6773,7 +6916,7 @@ function beginCapoeira(id,requested) {
   }
   const [first,...queue]=sequence;
   dance={
-    capoeira:true,id:first,queue,heading:capoeiraHeading,anchor:capoeiraFloor.position.clone(),
+    capoeira:true,id:first,queue,previewLoop:!!id&&previewHas('capoeiraPreview'),heading:capoeiraHeading,anchor:capoeiraFloor.position.clone(),
     elapsed:0,entryElapsed:0,entry:captureSofaPose(),
     cameraGuide:root.position.clone(),
     clearance:0
@@ -6840,7 +6983,7 @@ function canDanceHere() {
   return walkTargets.every(target=>Math.hypot(x-target.lookAt.x,z-target.lookAt.z)>1.30);
 }
 
-$('dancePlay').onclick = () => beginDance('single',$('danceClip').value || danceIds[0]);
+$('dancePlay').onclick = () => beginDance(previewHas('dancePlay')?'preview':'single',developerPreview?.option||$('danceClip').value||danceIds[0]);
 $('danceLoop').onclick = () => {
   if (mode!=='dance' || dance.kind!=='loop' || dance.outro) beginDance('loop');
 };
@@ -6911,7 +7054,7 @@ function advanceDance(dt) {
   const nextTime=dance.elapsed-overlapStart;
   const sample=sampleDance(clip,dance.elapsed);
   if (dance.kind!=='single' && dance.remaining>1 && nextTime>=0) {
-    dance.next ??= nextDanceId();
+    dance.next ??= dance.kind==='preview'?dance.id:nextDanceId();
     const outgoing=captureSofaPose();
     const incoming=sampleDance(danceClips[dance.next],nextTime);
     const blend=fadeAmount(nextTime/danceCrossfade);
@@ -7083,6 +7226,7 @@ function advanceCapoeira(dt) {
     const clip=capoeiraClips[dance.id];
     sampleCapoeira(clip,dance.elapsed,dance.anchor,fadeAmount(dance.entryElapsed/danceEntryTime));
     if (dance.elapsed>=clip.duration) {
+      if(dance.previewLoop&&!dance.queue.length)dance.queue.push(dance.id);
       if (dance.queue.length) startCapoeiraStep();
       else beginDanceOutro();
     }
@@ -7833,7 +7977,7 @@ function createShepherd() {
     shoulder.rotation.x=front?-.20:.32;
     legs.push({upper,lower,anklePiece,paw,toes,s,front});
   }
-  const shadow=makeContactShadow();
+  const shadow=makeContactShadow();shadow.visible=false;
   const home=V(-.80,0,.15), bedFoot=bedCenter.clone().add(V(.49,0,1.35));
   const bedSlot=bedCenter.clone().add(V(.43,bedHeight,.10));
   const bedHeading=3.055;
@@ -7850,7 +7994,9 @@ function createShepherd() {
   toySeam.scale.setScalar(1/.044);toy.add(toySeam);
   dog.position.copy(home);
   dog.rotation.y=.39;
-  const d={object:dog, head, hitMeshes, toy, player, arena, bedFoot, bedSlot, bedHeading, pillowChin, snuggleSlot, home,
+  dog.visible=false;
+  for(const mesh of hitMeshes)for(const mat of [].concat(mesh.material))mat.visible=false;
+  const d={object:dog, ready:false, head, hitMeshes, toy, player, arena, bedFoot, bedSlot, bedHeading, pillowChin, snuggleSlot, home,
     state:'idle', t:0, time:0, wait:6, roamIndex:0, path:[], destination:null,
     play:null, curl:0, bow:0, walk:0, stride:0, wag:0, petEnds:0, jump:null,tosses,rivalQueued:false,nextRivalAt:0,rivalPoint:null,rivalPose:0};
   const A=V(0,0,0),B=V(0,0,0),C=V(0,0,0),axis=V(0,0,0),bend=V(0,0,0),desired=V(0,0,0),local=V(0,0,0);
@@ -7937,11 +8083,25 @@ function createShepherd() {
     knee.copy(hip).addScaledVector(axis,along).addScaledVector(bend,Math.sqrt(Math.max(0,l1*l1-along*along)));
   }
   let updateModelPose=()=>{};
+  const retry=$('dogRetry');
+  const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview'];
+  function dogControls(disabled){
+    for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
+  }
+  function failure(error){
+    retry.hidden=false;
+    $('dogNote').textContent='犬のモデルを読み込めませんでした。';
+    console.warn('Shepherd.glb could not load.',error);
+  }
   function loadShepherdModel(){
+    retry.hidden=true;
+    $('dogNote').textContent='犬のモデルを読み込み中…';
     new GLTFLoader().load('./Shepherd.glb',asset=>{
       let source;
       asset.scene.traverse(object=>{if(object.isSkinnedMesh&&!source)source=object;});
-      if(!source)return;
+      if(!source){failure(new Error('Shepherd mesh not found'));return;}
+      try {
 
       // The export contains a humanoid skeleton. Keep the geometry and
       // textures, and bind them to the existing quadruped pose instead.
@@ -8212,10 +8372,6 @@ function createShepherd() {
       geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
       model.bind(new T.Skeleton(bones));
       dog.add(model);
-      // Keep the lightweight tap targets. Their materials no longer render.
-      for(const mesh of hitMeshes){
-        for(const material of [].concat(mesh.material))material.visible=false;
-      }
       updateModelPose=()=>bones.forEach((joint,index)=>drivers[index](joint));
       d.touchSurface=shepherdTouchSurface(model);
       d.visibleMealLip=()=>bones[headIndex].localToWorld(mealUpperLip.clone());
@@ -8229,8 +8385,16 @@ function createShepherd() {
         const crown=V(-.10,t<0?mix(.736,.730,-t):mix(.736,.738,t),.410+t*.020);
         return bones[headIndex].localToWorld(crown.sub(skull));
       };
-    },undefined,error=>console.warn('Shepherd.glb could not load. Using the original dog.',error));
+      updateModelPose();
+      d.ready=true;
+      dog.visible=true;
+      dogControls(false);
+      $('dogNote').textContent='犬をタップすると、こちらに気づきます。';
+      }catch(error){failure(error);}
+    },undefined,failure);
   }
+  retry.onclick=loadShepherdModel;
+  d.lockControls=()=>dogControls(!d.ready);
   loadShepherdModel();
   function pose(dt,move,focus,running=false){
     const couch=d.state==='couchCurl', sleeping=d.state==='curl'||couch, inJump=d.state==='up'||d.state==='down';
@@ -8539,6 +8703,7 @@ function advanceSharedDogPlay(dt){
   groups.handN.getWorldPosition(dogPlayWrist);
 }
 function updateShepherd(dt){
+  if(!shepherd.ready)return;
   const d=shepherd,obj=d.object, p=d.play;
   d.t+=dt;d.time+=dt;
   if(dogTumble.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
@@ -8923,7 +9088,7 @@ let nextDogBondAt=6;
 function privateDogBondAllowed(){
   return mode==='roam'&&['wait','rest','linger','window'].includes(roam.phase)&&
     !reaction&&!contact&&!handLink&&!roam.attention&&!activeCameraGreeting&&
-    !shepherd.play&&!shepherd.jump&&shepherd.state!=='rival'&&shepherd.state!=='curl'&&shepherd.state!=='meal'&&
+    shepherd.ready&&!shepherd.play&&!shepherd.jump&&shepherd.state!=='rival'&&shepherd.state!=='curl'&&shepherd.state!=='meal'&&
     shepherd.object.position.y<.05&&mood.seconds>=leilaUserPriorityUntil;
 }
 function bondNeighbor(){
@@ -9318,7 +9483,7 @@ const windowSnow=(()=>{
         a.time+=dt;
         if(a.time>35)stopVisit('cancel',true);
       }
-    }else if(activeWinter&&seasonalOutdoors.isLive()&&mood.seconds>=scheduled&&mode==='roam'&&free()){
+    }else if(!devOwned()&&activeWinter&&seasonalOutdoors.isLive()&&mood.seconds>=scheduled&&mode==='roam'&&free()){
       const first=activeWinter!==keySeen;
       scheduled=mood.seconds+11;
       start(false,first);
@@ -9391,7 +9556,7 @@ const windowSnow=(()=>{
       const f=focus.copy(togetherView).project(camera);
       if(Math.abs(f.x)<.75&&Math.abs(f.y)<.75&&f.z<1)join(a);
     }
-    if((a.phase==='invite'&&a.time>17)||(a.phase==='together'&&a.time>24)){
+    if(!previewHas('snowVisitPreview')&&((a.phase==='invite'&&a.time>17)||(a.phase==='together'&&a.time>24))){
       a.phase='rise';a.time=0;
     }
     if(a.phase==='rise'&&a.time>1.20){stopVisit('finish');return true;}
@@ -9460,7 +9625,7 @@ const windowSnow=(()=>{
   document.addEventListener('visibilitychange',()=>{if(document.hidden)interrupt();});
   readyButton.onclick=request;
   readyButton.disabled=false;
-  return {update,advance,dogStep,onOtherTarget,interrupt,isActive:()=>!!event,
+  return {update,advance,dogStep,onOtherTarget,interrupt,clearPreview(){previewUntil=0;if(event?.manual)interrupt();},isQueued:()=>previewUntil>0,isActive:()=>!!event,
     hasFirstChance:()=>!!activeWinter&&activeWinter!==keySeen&&seasonalOutdoors.isLive()&&mood.seconds<firstChanceUntil};
 })();
 
@@ -10099,7 +10264,9 @@ const dogTumble=(()=>{
     standing(a);
     enterQuietRest('linger',a.cancel?'レイラが遊びを切り上げました':'犬とレイラが遊び終えました',a.cancel?7:10);
     setNote(a.cancel?'犬がおとなしく前足を下ろしました':'犬が満足そうに尻尾を振っています');
+    if(a.afterExit){a.afterExit();return;}
     if(next)requestDestination(next.target,next.acknowledge);
+    else if(previewHas(a.front?'dogTumbleFront':'dogTumbleRear'))developerPreview.delay=1.2;
   }
   function defer(target,acknowledge){
     if(mode!=='roam'||roam.phase!=='dogTumble'||!active)return false;
@@ -10305,11 +10472,16 @@ const dogTumble=(()=>{
   }
   $('dogTumbleFront').onclick=()=>request('front');
   $('dogTumbleRear').onclick=()=>request('rear');
-  return {maybe,leila,dog,defer,stop,reconcile};
+  function afterExit(fn){
+    if(!active)return false;
+    active.next=null;active.afterExit=fn;stop();return true;
+  }
+  return {maybe,leila,dog,defer,stop,reconcile,afterExit};
 })();
 
+installDevPreview();shepherd.lockControls();
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogTumble.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogTumble.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
@@ -10318,9 +10490,11 @@ else if(mode==='roam'){
   advanceRoam(dt);
   sync();
 }else if(mode==='standWait'){advanceStandingWait(dt);sync();}else if(mode==='dance'){advanceDance(dt);sync();}else if(mode==='travel'){
-  const elapsed = Math.max(0,(t-start)/1000);
-  travelPose(elapsed);
-  alignSupportToFloor(walkingContactWeight({duration:cruiseDuration},elapsed),true);
+  if(!devTravelFrame(dt)){
+    const elapsed = Math.max(0,(t-start)/1000);
+    travelPose(elapsed);
+    alignSupportToFloor(walkingContactWeight({duration:cruiseDuration},elapsed),true);
+  }
   sync();
 }else if(mode==='mixamo'){mixamoPose((t-start)/1000);sync();}else if(mode==='reference'){referencePose();sync();}else if(mode!=='manual'){const e=(t-start)/1000,style=Number($style.value),walking=mode==='walk',blend=1-Math.exp(-dt*5);if(walking||cur.step>.015)phase=(phase+dt*.85)%1;const a=2*Math.PI*phase, sway=-Math.sin(a),twist=Math.cos(a);let w=mode==='right'?-1:mode==='left'?1:mode==='raise'?1:mode==='idle'?(-.55-.45*Math.cos(e*.24)):0;
 Object.assign(target,{shift:.055*w*style+(walking?.034*sway*style:0),drop:.028*Math.abs(w)+(walking?.009+.004*Math.cos(2*a):0),tilt:-.18*w*style+(walking?-.115*sway*style:0),twist:walking?-.17*twist*style:.045*w,raise:mode==='raise'?1:0,step:walking?1:0});for(const k in cur)cur[k]+=(target[k]-cur[k])*blend;
