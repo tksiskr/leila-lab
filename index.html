@@ -1,7 +1,7 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 106｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 107｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
-.wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
+.wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -133,7 +133,10 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 .leilaDeck .actionButtons,.leilaDeck .cameraButtons{display:grid;gap:6px}
 .leilaDeck .actionButtons{grid-template-columns:repeat(2,minmax(0,1fr))}
 .leilaDeck .cameraButtons{grid-template-columns:repeat(3,minmax(0,1fr))}
-.leilaDeck .wardrobeButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:6px}
+.leilaDeck .wardrobeButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:8px}
+.leilaDeck .wardrobeButtons [data-wardrobe-slot]{font-size:.84rem;line-height:1.3;min-height:51px}
+.leilaDeck .wardrobeButtons [data-wardrobe-slot]::before{content:attr(data-wardrobe-slot);display:block;color:#bbcee8;font-size:.66rem;line-height:1.25;margin-bottom:2px}
+.leilaDeck .wardrobeButtons #paintOpen{grid-column:1/-1}
 .leilaDeck button,.leilaDeck select,.leilaDevGrid button,.leilaDevGrid select{min-height:44px;margin:0;border:1px solid #506987;border-radius:9px;background:#1b2b42;color:#edf2ff;font:inherit;line-height:1.25;padding:7px 8px;overflow-wrap:anywhere}
 .leilaDeck button{width:100%}
 .leilaDeck button#autoWait{background:#28506a;border-color:#7cb2c3;font-weight:700}
@@ -170,7 +173,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 }
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 106</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 107</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -211,7 +214,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
   </div>
   <div class="leilaCard" role="group" aria-labelledby="controls-look">
     <h2 id="controls-look">カメラ・外見</h2><div class="cameraButtons" role="group" aria-label="カメラの向き"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button data-menu-hidden hidden id="loungeView">居住区</button></div>
-    <div class="wardrobeButtons" role="group" aria-label="衣装と装甲"><button id="shirtToggle" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
+    <div class="wardrobeButtons" role="group" aria-label="衣装と装甲"><button id="shirtToggle" data-wardrobe-slot="トップス" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button id="skirtToggle" data-wardrobe-slot="ボトムス" type="button" aria-pressed="false" disabled>プリーツスカート：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
   </div>
   <div class="leilaCard leilaAudioCard" role="group" aria-labelledby="controls-audio">
     <h2 id="controls-audio">サウンド</h2><div class="labMusic" role="group" aria-label="音楽">
@@ -307,6 +310,8 @@ const lab900LifeNote=(()=>{
     dogPlay:'犬をボール遊びに誘った',
     teeOn:'クローゼットで白Tシャツに着替えた',
     teeOff:'白Tシャツをたたんでクローゼットに戻した',
+    skirtOn:'濃紺のプリーツスカートを選んだ',
+    skirtOff:'プリーツスカートをクローゼットに戻した',
     dogSleep:'犬とベッドで添い寝した',
     dogBond:'そばに来た犬をなでた',
     dogSofa:'犬とソファで寄り添った',
@@ -669,6 +674,17 @@ block(foldedTee,teeEdge,0,-.011,0,.235,.015,.186);
 block(foldedTee,teeFold,0,.004,0,.235,.020,.193);
 block(foldedTee,teeFold,0,.013,-.016,.211,.014,.159);
 block(foldedTee,teeEdge,0,.015,.070,.212,.004,.018);
+const foldedSkirt=new T.Group();
+foldedSkirt.name='たたんだ濃紺プリーツスカート';
+wardrobeCabinet.add(foldedSkirt);foldedSkirt.position.set(.087,.727,.075);
+const skirtFold=mat(0x253354,.91),skirtEdge=mat(0x1c2945,.94);
+block(foldedSkirt,skirtEdge,0,-.008,0,.185,.015,.157);
+block(foldedSkirt,skirtFold,0,.006,0,.182,.016,.154);
+for(let i=0;i<7;i++){
+  block(foldedSkirt,skirtEdge,-.077+i*.026,.015,.006,.007,.004,.133);
+}
+block(foldedSkirt,skirtEdge,0,.016,-.055,.178,.006,.030);
+
 block(dressingArea,dressingDoor,-.66,.265,.14,.55,.51,.35);
 block(dressingArea,dressingWood,-.66,.523,.14,.58,.028,.38);
 block(dressingArea,dressingMetal,-.66,.39,.324,.16,.014,.016);
@@ -2802,6 +2818,197 @@ const leilaTee = (() => {
   return garment;
 })();
 
+// LAB107: folded cloth shell, independent of the original armor and tee.
+// Collision cages are built once from cross sections of the installed armor.
+const leilaSkirt=(()=>{
+  const hip=groups.pelvis, legs=[groups.thighP,groups.thighN];
+  const tau=Math.PI*2, count=96, slices=15, depth=.185;
+  const silk=new T.MeshStandardMaterial({color:0x253354,roughness:.89,metalness:0,side:T.DoubleSide});
+  const band=silk.clone();band.color.setHex(0x1c2945);
+  const hem=silk.clone();hem.color.setHex(0x202e4e);
+  const range=[0,.023,.09,.16,.23,.3,.37,.44,.51,.58,.65,.72,.80,.89,.986,1];
+  const sin=[],cos=[],fold=[];
+  for(let i=0;i<count;i++){
+    const a=tau*i/count;
+    sin.push(Math.sin(a));cos.push(Math.cos(a));
+    // Twelve knife pleats, with a broad face and a short recessed return.
+    fold.push([.11,.00,.14,.32,.53,.73,.91,1][i%8]);
+  }
+  const directions=Array.from({length:16},(_,k)=>[Math.sin(tau*k/16),Math.cos(tau*k/16)]);
+  const temp=new T.Vector3(), matrix=new T.Matrix4(), inv=new T.Matrix4();
+  const sources=[hip,groups.abdomen,...legs].map(joint=>{
+    const meshes=parts.filter(o=>o.parent===joint&&o.geometry.attributes.position.count>80);
+    const segments=[];
+    for(const mesh of meshes){
+      const g=mesh.geometry,p=g.attributes.position,ix=g.index;
+      mesh.updateWorldMatrix(true,false);
+      matrix.copy(joint.matrixWorld).invert().multiply(mesh.matrixWorld);
+      const pts=Array.from({length:p.count},(_,i)=>new T.Vector3().fromBufferAttribute(p,i).applyMatrix4(matrix));
+      const inds=ix?.array,n=inds?.length??p.count;
+      for(let i=0;i<n;i+=3){
+        for(let k=0;k<3;k++){
+          const a=pts[inds?.[i+k]??i+k],b=pts[inds?.[i+(k+1)%3]??i+(k+1)%3];
+          if(Math.abs(a.y-b.y)>1e-6)segments.push(a.y<b.y?[a,b]:[b,a]);
+        }
+      }
+    }
+    let low=Infinity,high=-Infinity;
+    for(const [a,b] of segments){low=Math.min(low,a.y);high=Math.max(high,b.y);}
+    const rings=[];
+    if(segments.length)for(let j=0;j<=slices;j++){
+      const y=T.MathUtils.lerp(low+.00002,high-.00002,j/slices);
+      const support=new Array(16).fill(-Infinity);
+      for(const [a,b] of segments)if(a.y<=y&&b.y>=y){
+        const f=(y-a.y)/(b.y-a.y),x=a.x+(b.x-a.x)*f,z=a.z+(b.z-a.z)*f;
+        for(let k=0;k<16;k++)support[k]=Math.max(support[k],x*directions[k][0]+z*directions[k][1]);
+      }
+      if(!Number.isFinite(support[0]))continue;
+      const ring=[];
+      for(let k=0;k<16;k++){
+        const l=(k+1)%16,[ax,az]=directions[k],[bx,bz]=directions[l],h=support[k],j=support[l];
+        const det=ax*bz-bx*az;
+        ring.push(new T.Vector3((h*bz-j*az)/det,y,(ax*j-bx*h)/det));
+      }
+      rings.push(ring);
+    }
+    const rest=rings.flat(), links=[];
+    for(let j=0;j<rings.length;j++)for(let k=0;k<16;k++){
+      const a=j*16+k;
+      links.push(a,j*16+(k+1)%16);
+      if(j)links.push(a,a-16,a,(j-1)*16+(k+1)%16);
+    }
+    return {joint,rest,links,current:rest.map(()=>new T.Vector3())};
+  });
+  const g=new T.BufferGeometry();
+  const pos=new T.BufferAttribute(new Float32Array((range.length+1)*count*3),3).setUsage(T.DynamicDrawUsage);
+  const ix=[];
+  for(let j=0;j<range.length;j++){
+    const start=ix.length;
+    for(let i=0;i<count;i++){
+      const a=j*count+i,b=j*count+(i+1)%count,c=a+count,d=b+count;
+      ix.push(a,c,b,b,c,d);
+    }
+    g.addGroup(start,ix.length-start,j<=1?1:j>=range.length-2?2:0);
+  }
+  g.setIndex(ix);g.setAttribute('position',pos);
+  const skirt=new T.Mesh(g,[silk,band,hem]);
+  skirt.name='Leila skirt - navy knife pleats';skirt.frustumCulled=false;
+  skirt.castShadow=true;skirt.receiveShadow=true;hip.add(skirt);
+
+  const lowerA=[],lowerB=[],line=[];
+  // Convex envelope of each ring section keeps sharp folds outside the armor.
+  function hull(rows){
+    rows.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+    lowerA.length=lowerB.length=0;
+    function put(h,p){
+      while(h.length>=2){
+        const a=h.at(-2),b=h.at(-1);
+        if((b[0]-a[0])*(p[1]-a[1])-(b[1]-a[1])*(p[0]-a[0])>1e-10)break;
+        h.pop();
+      }
+      h.push(p);
+    }
+    for(let i=0;i<rows.length;i++){put(lowerA,rows[i]);put(lowerB,rows[rows.length-1-i]);}
+    lowerA.pop();lowerB.pop();return lowerA.concat(lowerB);
+  }
+  let clock=0,swish=0,spread=0,previous=0;
+  const upper=legs.map(k=>new T.Vector3()), floor=new T.Vector3();
+  skirt.updateDrape=dt=>{
+    if(!skirt.visible)return;
+    hip.updateWorldMatrix(true,false);inv.copy(hip.matrixWorld).invert();
+    for(const {joint,rest,current} of sources){
+      if(joint!==hip)joint.updateWorldMatrix(false,false);
+      matrix.multiplyMatrices(inv,joint.matrixWorld);
+      for(let i=0;i<rest.length;i++)current[i].copy(rest[i]).applyMatrix4(matrix);
+    }
+    for(let k=0;k<2;k++)upper[k].set(0,-1,0).applyQuaternion(legs[k].quaternion);
+    const stride=upper[0].z-upper[1].z;
+    const rate=dt>0?(stride-previous)/dt:0;
+    previous=stride;
+    clock+=dt;
+    const targetSway=T.MathUtils.clamp(.014*stride+.00145*rate,-.016,.016);
+    swish=T.MathUtils.lerp(swish,targetSway,1-Math.exp(-dt*11));
+    spread=T.MathUtils.lerp(spread,T.MathUtils.clamp((Math.abs(stride)+Math.abs(rate)*.045)*.009,0,.018),1-Math.exp(-dt*8));
+    // The lower front lifts onto the lap instead of pulling vertically through
+    // a raised thigh. A backed-up leg gets a similar, smaller change at the rear.
+    const front=T.MathUtils.smoothstep(Math.max(upper[0].z,upper[1].z),.35,.98);
+    const back=T.MathUtils.smoothstep(-Math.min(upper[0].z,upper[1].z),.53,.98);
+    // With both thighs raised, lay the front panel on the lap rather than
+    // pulling the waist towards the furthest thigh section.
+    const lap=T.MathUtils.smoothstep(Math.min(upper[0].z,upper[1].z),.67,.96);
+    const lapRise=(upper[0].y+upper[1].y)*.5/Math.max(.5,(upper[0].z+upper[1].z)*.5);
+    const lapHalfWidth=.118+Math.abs(upper[0].x-upper[1].x)*.032;
+    for(let j=0;j<=range.length;j++){
+      const u=range[Math.min(j,range.length-1)],f=u*u, inside=j===range.length;
+      const y=.053-depth*u+(.047*front+.010*back)*f+(inside?.002:0);
+      const tilt=front*(.94*Math.sqrt(u)+.23*f)-.48*back*f;
+      const center=.016-.005*u;
+      line.length=0;
+      for(const {joint,current,links} of sources){
+        if(u<.12&&legs.includes(joint))continue;
+        for(let k=0;k<links.length;k+=2){
+          const a=current[links[k]],b=current[links[k+1]];
+          const h=a.y-tilt*(a.z-center),d=b.y-tilt*(b.z-center);
+          if((h<=y)===(d<=y))continue;
+          const q=(y-h)/(d-h);
+          const z=a.z+(b.z-a.z)*q-center;
+          if(front>.01&&legs.includes(joint)&&z>.085+(.062+.10*(1-front))*u)continue;
+          line.push([a.x+(b.x-a.x)*q,z]);
+        }
+      }
+      const contour=hull(line), minX=.056+.067*Math.pow(u,.86), minZ=.043+.048*u;
+      const flutter=.006*f*(.35+spread*36),pleat=.0135*Math.pow(u,.78)*T.MathUtils.smoothstep(u,.07,.27);
+      for(let i=0;i<count;i++){
+        const sx=sin[i],cz=cos[i];
+        const oval=1/Math.hypot(sx/minX,cz/minZ);
+        let outer=0;
+        for(let k=0;k<contour.length;k++){
+          const a=contour[k],b=contour[(k+1)%contour.length],ex=b[0]-a[0],ez=b[1]-a[1];
+          const cross=sx*ez-cz*ex;
+          if(Math.abs(cross)<1e-9)continue;
+          const along=(cz*a[0]-sx*a[1])/cross;
+          if(along>=0&&along<=1)outer=Math.max(outer,(a[0]*ez-a[1]*ex)/cross);
+        }
+        const wave=swish*sx+flutter*Math.sin(clock*5.3+i*tau/count*3);
+        const standOff=.0055+.0035*u;
+        const radius=Math.max(oval+spread*f+wave*f,outer+standOff)+pleat*fold[i]-(inside?.0014:0);
+        let x=radius*sx,z=radius*cz+center;
+        let h=y+tilt*(z-center)+flutter*.33*Math.sin(clock*5+i*tau/count*2);
+        const laidOver=lap*T.MathUtils.smoothstep(u,.09,.31);
+        if(laidOver>0){
+          const face=T.MathUtils.smoothstep(cz,.04,.69);
+          const lapRx=.060+(lapHalfWidth-.060)*Math.pow(u,.72);
+          const lapRz=.050+(.034+.060*face)*u;
+          const lapRadius=1/Math.hypot(sx/lapRx,cz/lapRz)+pleat*fold[i]-(inside?.0014:0);
+          const frontHeight=.056+.141*T.MathUtils.clamp(lapRise,-.07,.72);
+          const hangingHeight=-.053-.026*(1-Math.abs(cz));
+          const lapY=T.MathUtils.lerp(.053,T.MathUtils.lerp(hangingHeight,frontHeight,face),u)
+            +.009*face*Math.sin(Math.PI*u)+(inside?.002:0);
+          x=T.MathUtils.lerp(x,lapRadius*sx,laidOver);
+          z=T.MathUtils.lerp(z,lapRadius*cz+center,laidOver);
+          h=T.MathUtils.lerp(h,lapY,laidOver);
+        }
+        // A floor check only matters in the high kicks/floorwork poses.
+        floor.set(x,h,z).applyMatrix4(hip.matrixWorld);
+        if(floor.y<.009&&hip.matrixWorld.elements[5]>.2)floor.setY(.009).applyMatrix4(inv);
+        else floor.set(x,h,z);
+        pos.setXYZ(j*count+i,floor.x,floor.y,floor.z);
+      }
+    }
+    pos.needsUpdate=true;g.computeVertexNormals();
+  };
+  const button=$('skirtToggle'),key='leila.clothes.skirt.v1';
+  function set(on){
+    skirt.visible=on;foldedSkirt.visible=!on;button.setAttribute('aria-pressed',String(on));
+    button.textContent='プリーツスカート：'+(on?'着用中':'未着用');
+    if(on){swish=spread=0;previous=legs[0].quaternion.x-legs[1].quaternion.x;skirt.updateDrape(0);}
+  }
+  let saved=false;try{saved=localStorage.getItem(key)==='1';}catch{}
+  set(saved);button.disabled=false;button.onclick=()=>requestWardrobe(true,'skirt');
+  skirt.wear=on=>{set(on);try{localStorage.setItem(key,on?'1':'0');}catch{}};
+  return skirt;
+})();
+
 scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
 function resetCameraView(angle){invitation=null;followLeila=true;const heading=root.rotation.y+angle;orbit.target.set(root.position.x,root.position.y+chinViewHeight,root.position.z);camera.position.copy(orbit.target).add(new T.Vector3(characterViewDistance*Math.sin(heading),.12,characterViewDistance*Math.cos(heading)));orbit.update();updateCutaway();}$('front').onclick=()=>resetCameraView(0);$('side').onclick=()=>resetCameraView(Math.PI/2);$('back').onclick=()=>resetCameraView(Math.PI);
@@ -3143,7 +3350,7 @@ function installDevPreview(){
     if(previewHas('dogPlayHold')&&developerPreview.option!==kind)select('dogPlayHold',kind);
   };
   for(const id of ['autoWait','danceLoop','capoeiraPlay','standWait','offerHandButton',
-    'dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed','shirtToggle']){
+    'dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed','shirtToggle','skirtToggle']){
     const button=$(id), original=button.onclick;
     if(typeof original!=='function')continue;
     button.onclick=()=>{
@@ -5400,7 +5607,9 @@ function chooseDestination() {
   if(['wait','rest','linger','window','mirror'].includes(roam.phase)&&roam.target?.kind!=='wardrobeMirror'&&
      mood.seconds>=Math.max(mood.nextWardrobeAt,leilaUserPriorityUntil)&&
      !reaction&&!contact&&!handLink&&feeling!=='annoyed'&&roll<.25){
-    requestWardrobe(false);
+    // All four combinations are possible. Do not choose the current one.
+    const outfit=roll<.13?'tee':roll<.21?'skirt':'both';
+    requestWardrobe(false,outfit);
     return;
   }
   if (restClips && roam.phase !== 'bed' && roam.target !== bedTarget &&
@@ -5928,7 +6137,7 @@ function requestTerrarium() {
   requestDestination(terrariumTarget,true);
 }
 
-function requestWardrobe(manual){
+function requestWardrobe(manual,garment='tee'){
   const active=mode==='roam'&&roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='wardrobe';
   if(active)return;
   if(handLink)endHandLink(false);
@@ -5936,8 +6145,11 @@ function requestWardrobe(manual){
   $('reactionStatus').hidden=true;
   if(mode!=='roam')beginRoam();
   mood.nextWardrobeAt=mood.seconds+126+Math.random()*80;
-  const on=!leilaTee.visible;
-  requestDestination({...wardrobeTarget,on,manual},manual);
+  const outfit={
+    tee:garment==='skirt'?leilaTee.visible:!leilaTee.visible,
+    skirt:garment==='tee'?leilaSkirt.visible:!leilaSkirt.visible
+  };
+  requestDestination({...wardrobeTarget,garment,outfit,manual},manual);
 }
 
 function requestDestination(target, acknowledge=false) {
@@ -6034,7 +6246,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       {type:'radioTune',time:3.60,message:'ラジオの選局ダイヤルに手を伸ばしています'});
   } else if(target.kind==='wardrobe'){
     visit.push(routeTurn(target.heading,'クローゼットの前に立っています'),
-      {type:'wardrobeChange',time:4.75,on:target.on,message:target.on?'白Tシャツを取り出しています':'白Tシャツをクローゼットに戻します'});
+      ...wardrobeStages(target));
   } else if (target === mirrorTarget || target.kind==='wardrobeMirror' || target === accessoryTarget) {
     visit.push(routeTurn(target.heading,message));
     if (target === accessoryTarget) {
@@ -7075,7 +7287,19 @@ function wardrobeHand(side,point,weight){
   reachHand(side,wrist,palm,weight,false,V(.15,-.13,sign*.10));
 }
 
+function wardrobeFor(garment){
+  return garment==='skirt'?[leilaSkirt,foldedSkirt,'プリーツスカート','skirt']:[leilaTee,foldedTee,'白Tシャツ','tee'];
+}
+function wardrobeStages(target){
+  return (target.garment==='both'?['tee','skirt']:[target.garment]).map(garment=>{
+    const [, ,name]=wardrobeFor(garment),on=target.outfit[garment];
+    return {type:'wardrobeChange',time:4.75,on,garment,
+      message:name+(on?'を取り出しています':'をクローゼットに戻します')};
+  });
+}
 function changeAtWardrobe(stage,t){
+  const [garment,folded,name,key]=wardrobeFor(stage.garment);
+  const bottom=key==='skirt';
   blendSofaPose(stage.pose,1);
   const reach=rearRamp(t,0,.15)*(1-rearRamp(t,.31,.43));
   const change=rearRamp(t,.29,.46)*(1-rearRamp(t,.75,.89));
@@ -7085,17 +7309,18 @@ function changeAtWardrobe(stage,t){
   groups.chest.rotateX(.14*reach+.10*change);groups.head.rotateX(.21*change);
   if(reach+close>0)wardrobeHand('N',wardrobeGrip.getWorldPosition(V(0,0,0)),Math.max(reach,close));
   if(change>0){
-    const atShelf=foldedTee.getWorldPosition(V(0,0,0)).add(V(.045,.022,0));
-    const body=groups.chest.localToWorld(V(0,.018,.112));
+    const atShelf=folded.getWorldPosition(V(0,0,0)).add(V(.045,.022,0));
+    const body=bottom?groups.pelvis.localToWorld(V(-.045,.048,.079)):groups.chest.localToWorld(V(0,.018,.112));
     const move=stage.on?rearRamp(t,.43,.62):1-rearRamp(t,.57,.76);
     wardrobeHand('P',atShelf.lerp(body,move),change);
-    wardrobeHand('N',groups.chest.localToWorld(V(.046,.017,.104)),.62*change*Math.sin(Math.PI*move*.88));
+    const second=bottom?groups.pelvis.localToWorld(V(.049,.052,.067)):groups.chest.localToWorld(V(.046,.017,.104));
+    wardrobeHand('N',second,.62*change*Math.sin(Math.PI*move*.88));
   }
   if(!stage.changed&&!roam.pending&&t>=(stage.on?.62:.73)){
     stage.changed=true;
-    leilaTee.wear(stage.on);
-    lab900LifeNote(stage.on?'teeOn':'teeOff');
-    $('destination').textContent=stage.on?'白Tシャツに着替えています':'白Tシャツをたたみました';
+    garment.wear(stage.on);
+    lab900LifeNote(key+(stage.on?'On':'Off'));
+    $('destination').textContent=name+(stage.on?'に着替えています':'をたたみました');
   }
 }
 
@@ -7366,10 +7591,11 @@ function applyMirrorPose(time) {
   const shirtCheck=checkingClothes?rearRamp(time,4.65,5.30)*(1-rearRamp(time,5.96,6.60)):0;
   const stepStart = wornAccessory ? 8.05 : checkingClothes ? 6.7 : 5.85;
   if(shirtCheck>0){
-    const chestFocus=leilaTee.visible ? V(-.047,-.063,.060) : V(-.038,.008,.085);
-    const finger=groups.chest.localToWorld(chestFocus);
-    pointAtAccessory('P',finger,root,.68*shirtCheck,V(.22,.12,1),V(0,-1,0));
-    groups.head.rotateX(.14*shirtCheck);
+    const lower=roam.target.garment==='skirt'||(roam.target.garment==='both'&&leilaSkirt.visible);
+    const finger=lower?groups.pelvis.localToWorld(V(.071,-.005,.063)):
+      groups.chest.localToWorld(leilaTee.visible?V(-.047,-.063,.060):V(-.038,.008,.085));
+    pointAtAccessory('P',finger,root,(lower?.54:.68)*shirtCheck,V(.22,.12,1),V(0,-1,0));
+    groups.head.rotateX((lower?.23:.14)*shirtCheck);
   }
   const stepTime = time-stepStart;
   if (stepTime > 0) stepBackFromMirror(stepTime);
@@ -7494,7 +7720,7 @@ function arriveAtDestination() {
   if(roam.target.kind==='wardrobe'){
     const changed=roam.visit?.some(s=>s.type==='wardrobeChange'&&s.changed);
     enterQuietRest('linger','クローゼットの前にいます',4);
-    if(changed)startDestination({...mirrorTarget,kind:'wardrobeMirror'});
+    if(changed)startDestination({...mirrorTarget,kind:'wardrobeMirror',garment:roam.target.garment});
     return;
   }
   if (roam.target === mirrorTarget || roam.target.kind==='wardrobeMirror') {
@@ -7503,8 +7729,9 @@ function arriveAtDestination() {
     lastMirrorStandingPose = (lastMirrorStandingPose+1+
       Math.floor(Math.random()*(lastMirrorStandingPose < 0 ? count : count-1)))%count;
     const clothes=roam.target.kind==='wardrobeMirror';
+    const outfit=[leilaTee.visible?'白Tシャツ':'',leilaSkirt.visible?'プリーツスカート':''].filter(Boolean).join('と');
     enterQuietRest('mirror',clothes
-      ? (leilaTee.visible?'姿見で白Tシャツの着こなしを確認しています':'姿見で装甲の身だしなみを確認しています')
+      ? '姿見で'+(outfit?outfit+'の着こなし':'装甲の身だしなみ')+'を確認しています'
       : '姿見で身だしなみを確認しています',wornAccessory ? 18.6 : clothes ? 17.3 : 16.4);
     roam.mirrorStandingPose = lastMirrorStandingPose;
     roam.mirrorStart = root.position.clone();
@@ -11330,7 +11557,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);leilaTee.updateTension();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);leilaTee.updateTension();leilaSkirt.updateDrape(dt);r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
