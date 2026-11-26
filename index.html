@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103.2｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103.2</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -2125,6 +2125,51 @@ function armorMaterial(original, region, paintKey) {
   armorMaterials.set(materialKey, material);
   return material;
 }
+// Round the projecting rear hem on the pelvis shell. Work in the authored
+// model's frame before attaching to the pelvis, so every animation uses it.
+function roundRearWaistArmor(mesh){
+  const original=mesh.geometry;
+  const src=original.attributes.position;
+  // This fit was measured on Leila's own rear armor, not alternate GLBs.
+  if(src.count!==4425)return;
+  mesh.updateWorldMatrix(true,false);
+  const matrix=mesh.matrixWorld.clone(), inverse=matrix.clone().invert();
+  const toWorldN=new T.Matrix3().getNormalMatrix(matrix);
+  const toLocalN=new T.Matrix3().getNormalMatrix(inverse);
+  const g=original.clone(),p=g.attributes.position,n=g.attributes.normal;
+  const point=new T.Vector3(),normal=new T.Vector3();
+  const slope=(v,lo,hi)=>{
+    const t=(v-lo)/(hi-lo);
+    return t<=0||t>=1?0:6*t*(1-t)/(hi-lo);
+  };
+  const s=T.MathUtils.smoothstep;
+  for(let i=0;i<p.count;i++){
+    point.fromBufferAttribute(p,i).applyMatrix4(matrix);
+    const {y,z}=point;
+    // The upper crown of the armor and the front skirt stay where they are.
+    const hem=1-s(y,.556,.602), back=1-s(z,-.044,.018);
+    const strength=.037;
+    const inset=strength*hem*back;
+    if(inset<1e-7)continue;
+    if(n){
+      normal.fromBufferAttribute(n,i).applyNormalMatrix(toWorldN);
+      const dY=-strength*slope(y,.556,.602)*back;
+      const dZ=1-strength*hem*slope(z,-.044,.018);
+      // Transform existing smooth normals by the inverse transpose of the bend.
+      normal.z/=dZ;
+      normal.y-=dY*normal.z;
+      normal.applyNormalMatrix(toLocalN);
+      n.setXYZ(i,normal.x,normal.y,normal.z);
+    }
+    point.z+=inset;
+    point.applyMatrix4(inverse);
+    p.setXYZ(i,point.x,point.y,point.z);
+  }
+  p.needsUpdate=true;if(n)n.needsUpdate=true;
+  g.computeBoundingBox();g.computeBoundingSphere();
+  mesh.geometry=g;
+}
+
 function addArmorSurfaceAttributes(mesh, region) {
   const positions = mesh.geometry.attributes.position;
   const points = region === 'head' || region === 'chest' ? new Float32Array(positions.count) : null;
@@ -2151,6 +2196,7 @@ function addArmorSurfaceAttributes(mesh, region) {
   mesh.geometry.setAttribute('leilaPaintPosition',new T.BufferAttribute(paintPositions,3));
 }
 gl.scene.traverse(o=>{if(o.isMesh)parts.push(o)});for(const o of parts){const m=o.name.match(/tripo_part_(\d+)/)||o.parent.name.match(/tripo_part_(\d+)/);if(!m||!mapping[m[1]])throw Error('未分類メッシュ '+o.name);const part = mapping[m[1]];
+if(m[1]==='5')roundRearWaistArmor(o);
 const region = part === 'chest' || part === 'head' ? part : /^(upper[PN]|shoulder[PN]|fore[PN])$/.test(part) ? 'green' : 'white';
 if (region === 'chest' || armorLampZone(part)) addArmorSurfaceAttributes(o, region);
 o.material = armorMaterial(o.material, region, part);
