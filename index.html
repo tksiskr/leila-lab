@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 104.4｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 104.5｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -126,7 +126,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 104.4</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 104.5</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -2365,7 +2365,7 @@ const leilaTee = (() => {
   const dorsalMid=.037;
   const shells=parts.filter(m=>[groups.pelvis,groups.abdomen,groups.chest,groups.neck].includes(m.parent));
   const fitTorso=sectionSampler(shells,vec(0,0,dorsalMid),vec(0,1,0),vec(0,0,1),vec(1,0,0));
-  const body=[];
+  const body=[], sleeveCaps=[];
   // The chest supports the front panel. Below it, the cut of the fabric
   // rather than each underlying armor segment determines the silhouette.
   const frontSupport=Array.from({length:n},(_,i)=>{
@@ -2423,12 +2423,12 @@ const leilaTee = (() => {
         +.00023*Math.cos(th*5+.27)
         +.0019*smoothing(c,.30,.85)*smoothing(tY,.716,.728)*(1-smoothing(tY,.747,.771))
         +.0014*armSide
-        +.0065*smoothing(side,.42,.85)*smoothing(c,-.20,.40)*smoothing(tY,.717,.736)*(1-smoothing(tY,.766,.785))
+        +.0030*smoothing(side,.42,.85)*smoothing(c,-.20,.40)*smoothing(tY,.717,.736)*(1-smoothing(tY,.766,.785))
         +.0018*smoothing(c,.33,.82)*smoothing(tY,.728,.744)*(1-smoothing(tY,.753,.775));
       const shirtRadius=hangFront(fittedRadius,tY,th>Math.PI?th-tau:th,c,s,i);
       const x=s*shirtRadius,z=mid+c*shirtRadius;
       const armMix=.48*top*smoothing(Math.abs(x),.034,.069);
-      const cap=.0058*smoothing(r,10,11.5)*smoothing(side,.46,.9);
+      const cap=.0026*smoothing(r,10,11.5)*smoothing(side,.46,.9);
       return add(vec(x,tY+cap,z),smoothing(tY,.678,.712),armMix,Math.sign(s),r>=8?.9:r>1?.27:0);
     });
   }
@@ -2485,13 +2485,15 @@ const leilaTee = (() => {
         const even=angles[0]+orientation*i*tau/boundary.length;
         const a=even+(1-bend)*unwrap(angles[i],even);
         const radius=Math.max(.013,sleeveFit(length,a),.93*sleeveFit(length,a-.08),.93*sleeveFit(length,a+.08))
-          +clear+.00026*Math.cos(3*a+side)+.0045*(1-smoothing(length,.014,.047));
+          +clear+.00026*Math.cos(3*a+side)+.0026*(1-smoothing(length,.014,.047));
         const p=joint.clone().addScaledVector(along,length)
           .addScaledVector(forward,radius*Math.cos(a))
           .addScaledVector(radial,radius*Math.sin(a));
         const topward=(radius*Math.sin(a)*radial.y+radius*Math.cos(a)*forward.y)/radius;
-        p.y+=.011*smoothing(topward,.12,.70)*(1-smoothing(length,.012,.045));
-        return add(p,1,blend,side,length<.024?.85:length<.050?.35:0);
+        p.y+=.007*smoothing(topward,.12,.70)*(1-smoothing(length,.012,.045));
+        const id=add(p,1,blend,side,length<.024?.85:length<.050?.35:0);
+        if(length<.025)sleeveCaps.push({id,side,factor:(1-smoothing(length,.004,.036))*smoothing(topward,-.28,.55)});
+        return id;
       }));
     }
     for(let r=0;r<rows.length-1;r++)for(let i=0;i<boundary.length;i++){
@@ -2581,6 +2583,62 @@ const leilaTee = (() => {
     if(blend<=0)continue;
     const z=armorFront(p.x,p.y);
     if(z!==null)p.z=T.MathUtils.lerp(p.z,z+[.0027,.0018,.0013][row-collarStart],blend);
+  }
+  // Settle the shoulder-to-bust seam onto the actual shell. Pull only
+  // along the fabric's local outward direction and leave ease for motion.
+  const fitShell={};
+  for(const side of [1,-1]){
+    const k=side===1?'P':'N';
+    fitShell[side]=parts.filter(m=>[groups.chest,groups['upper'+k],groups['shoulder'+k]].includes(m.parent));
+  }
+  const seamRay=new T.Raycaster(), out=vec(0,0,0), from=vec(0,0,0), direction=vec(0,0,0);
+  function settle(p,side,top,w,maxPull){
+    if(w<=0)return;
+    out.set(side*T.MathUtils.lerp(.36,.52,top),T.MathUtils.lerp(.14,.82,top),
+      T.MathUtils.lerp(.93,.32,top)).normalize();
+    from.copy(p).addScaledVector(out,.045);
+    seamRay.set(from,direction.copy(out).negate());
+    seamRay.far=.073;
+    const h=seamRay.intersectObjects(fitShell[side],false)[0];
+    if(!h)return;  // Retain a short bridge where the two armor pieces separate.
+    const gap=h.distance-.045;
+    const ease=T.MathUtils.lerp(.0030,.0043,top);
+    const slide=T.MathUtils.clamp(gap-ease,-.0022,maxPull);
+    p.addScaledVector(out,-w*slide);
+  }
+  for(let row=12;row<collarStart;row++)for(let j=0;j<n;j++){
+    const p=where[body[row][j]],x=Math.abs(p.x);
+    const side=Math.sign(p.x);
+    const neck=smoothing(x,.019,.043);
+    const upper=smoothing(p.y,.731,.755);
+    const front=smoothing(Math.cos(j*tau/n),-.09,.32);
+    const cap=smoothing(p.y,.765,.787)*smoothing(x,.035,.054);
+    const w=neck*upper*Math.max(front,cap)*.89;
+    if(side)settle(p,side,smoothing(p.y,.755,.786),w,.013);
+  }
+  for(const {id,side,factor} of sleeveCaps){
+    const p=where[id],top=smoothing(p.y,.747,.787);
+    settle(p,side,top,factor*.58,.007);
+  }
+  // Remove a ridge where the neckline fit meets the side of the upper panel.
+  // Only flatten excess along the row, never push its surface into the shell.
+  for(let pass=0;pass<2;pass++){
+    const adjust=[];
+    for(let row=14;row<=17;row++)for(let j=0;j<n;j++){
+      const id=body[row][j],p=where[id];
+      const az=Math.cos(j*tau/n);
+      const factor=smoothing(az,.48,.71)*(1-smoothing(az,.82,.91))
+        *smoothing(p.y,.751,.770)*smoothing(Math.abs(p.x),.025,.035);
+      if(!factor)continue;
+      const l=body[row][(j+n-1)%n],r=body[row][(j+1)%n];
+      if(!neighbors[id].has(l)||!neighbors[id].has(r))continue;
+      const mean=(where[l].z+where[r].z)*.5;
+      const contact=armorFront(p.x,p.y);
+      const target=Math.max(mean,contact===null?-Infinity:contact+.0031);
+      const pull=T.MathUtils.clamp(p.z-target,0,.005);
+      adjust.push([p,p.z-factor*.72*pull]);
+    }
+    for(const [p,z] of adjust)p.z=z;
   }
   for(let i=0;i<where.length;i++)where[i].toArray(xyz,i*3);
   for(let s=0;s<=1;s++){
