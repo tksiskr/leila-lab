@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.2｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -185,7 +185,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 }
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.2</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -10111,6 +10111,9 @@ function createShepherd() {
       const mealSkull=V(0,0,0),mealOffset=V(0,0,0),mealRotation=new T.Quaternion();
       const lickBase=V(-.042,.55,.587).sub(skull), lickAxis=V(0,0,1);
       const restChinSkull=V(0,0,0), noseFront=V(.061,-.101,.173);
+      const playNeckRoot=V(0,0,0), playNeckTarget=V(0,0,0), playAxis=V(0,0,0), playCollar=V(0,0,0), playCenter=V(0,0,0);
+      const playRelative=new T.Quaternion(), playBasis=new T.Quaternion();
+      const playAngles=new T.Euler(0,0,0,'YXZ');
       const lickRot=new T.Quaternion(),lickSpot=V(0,0,0),lickTip=V(0,0,0),lookLick=V(0,0,0);
       const tongueSkin=new T.Mesh(new T.SphereGeometry(1,12,8),new T.MeshStandardMaterial({
         color:0xc67980,roughness:.65
@@ -10123,12 +10126,12 @@ function createShepherd() {
         const {face,lick,faceSweep}=d.tumble;
         // -X and +Z have small offsets in this GLB's authored muzzle;
         // use the actual muzzle pivot and account for both.
-        const pitch=1.12+.16*lick;
-        const yaw=-.20+.28*faceSweep;
+        const pitch=.76+.15*lick;
+        const yaw=-.16+.16*faceSweep;
         lickRot.setFromEuler(headTurn.set(pitch,yaw,-.05*faceSweep,'YXZ'));
         lookLick.set(0,0,1).applyQuaternion(lickRot);
         return lickSpot.copy(face).sub(lickTip.copy(lickBase).applyQuaternion(lickRot))
-          .addScaledVector(lookLick,-.064);
+          .addScaledVector(lookLick,-.053);
       }
       const jawTurn=new T.Quaternion(), jawAxis=V(1,0,-.18).normalize();
       const lapRotation=new T.Quaternion().setFromEuler(new T.Euler(.12,0,0,'YXZ'));
@@ -10166,9 +10169,17 @@ function createShepherd() {
           mealSkull.copy(d.mealPoint).sub(mealOffset);
           targetNeck.lerp(mealOffset.copy(mealSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase),lower);
         }
+        playNeckRoot.copy(neckBase);
         if(d.tumble?.face){
           lickDirection();
-          targetNeck.lerp(lapOffset.copy(lickSpot).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase),d.tumble.hold);
+          const hold=d.tumble.hold;
+          // Reach from the lower neck, not by sliding the skull into its collar.
+          playNeckRoot.y+=.039*hold;
+          playNeckRoot.z-=.025*hold;
+          playNeckTarget.copy(lickSpot).sub(lapOffset.copy(playNeckRoot).applyQuaternion(body.quaternion).add(body.position));
+          playNeckTarget.z=Math.max(.076,playNeckTarget.z);
+          playNeckTarget.applyQuaternion(bodyInverse);
+          targetNeck.lerp(playNeckTarget,hold);
         }
         if(d.tumble?.chin&&d.tumble.heavy>0){
           restChinSkull.copy(d.tumble.chin).sub(lapOffset.copy(chinOffset).applyQuaternion(d.tumble.rearPose.chinQ));
@@ -10176,10 +10187,20 @@ function createShepherd() {
         }
         targetNeck.normalize();
         neckBend.setFromUnitVectors(neckDirection,targetNeck);
-        joint.position.copy(neckBase).applyQuaternion(body.quaternion).add(body.position);
+        joint.position.copy(playNeckRoot).applyQuaternion(body.quaternion).add(body.position);
         joint.quaternion.copy(body.quaternion).multiply(neckBend);
-        movedSkull.copy(neckRest).applyQuaternion(neckBend).add(neckBase)
-          .applyQuaternion(body.quaternion).add(body.position);
+        movedSkull.copy(neckRest).applyQuaternion(joint.quaternion).add(joint.position);
+        if(d.tumble?.face){
+          const hold=d.tumble.hold;
+          playCollar.copy(joint.position);
+          movedSkull.sub(playCollar).multiplyScalar(1-.073*hold).add(playCollar);
+          joint.quaternion.slerp(body.quaternion,.40*hold);
+          // Place the coat's midsection on the neck arc. Rotating the
+          // neck mesh alone around the shoulder pulls the mane off the arc.
+          playCenter.copy(playCollar).lerp(movedSkull,.50)
+            .addScaledVector(lapOffset.copy(neckRest).multiplyScalar(.50).applyQuaternion(joint.quaternion),-1);
+          joint.position.lerp(playCenter,hold);
+        }
       });
       const headIndex=bone(skull,joint=>{
         joint.position.copy(movedSkull);
@@ -10205,21 +10226,25 @@ function createShepherd() {
         if(d.tumble?.face){
           lickDirection();
           const {hold,lick}=d.tumble;
-          joint.quaternion.slerp(lickRot,hold);
-          // Permit a small tuck at the poll, never a long neck extension.
-          // The fixed-length neck does the large rotation; this last bit
-          // brings the muzzle directly over the mask on a real lick.
-          const tuck=lapSkull.copy(lickSpot).sub(movedSkull);
-          const neckAxis=lapOffset.copy(movedSkull).sub(bones[neckIndex].position).normalize();
-          const forward=tuck.dot(neckAxis);
-          if(forward>.010)tuck.addScaledVector(neckAxis,.010-forward);
-          joint.position.addScaledVector(tuck.clampLength(0,.080),hold);
-
-          const outward=d.tumble.faceNormal;
+          // Bound motion of the skull relative to its own neck, not the room.
+          // Modest flex at the poll keeps the jaw clear of the throat.
+          playBasis.copy(bones[neckIndex].quaternion);
+          playRelative.copy(playBasis).invert().multiply(lickRot);
+          playAngles.setFromQuaternion(playRelative,'YXZ');
+          playAngles.x=clamp(playAngles.x,-.89,.46);
+          playAngles.y=clamp(playAngles.y,-.38,.38);
+          playAngles.z=clamp(playAngles.z,-.24,.24);
+          playRelative.setFromEuler(playAngles);
+          joint.quaternion.slerp(playBasis.multiply(playRelative),hold);
+          const collar=playCollar;
+          const axis=playAxis.copy(joint.position).sub(collar);
+          const span=axis.length(), outward=d.tumble.faceNormal;
           const nose=lickTip.copy(noseFront).applyQuaternion(joint.quaternion).add(joint.position);
-          const margin=nose.sub(d.tumble.face).dot(outward);
-          // A small lift away from the convex mask keeps the nose from burying in it.
-          joint.position.addScaledVector(outward,clamp(.014-margin,0,.036)*hold);
+          const clearance=nose.sub(d.tumble.face).dot(outward);
+          // Lift along the neck arc, not into the throat. The sphere projection
+          // preserves the solved skull-to-neck distance while clearing the mask.
+          axis.addScaledVector(outward,clamp(.025-clearance,0,.058)*hold);
+          joint.position.copy(axis.setLength(span)).add(collar);
           if(lick>.04&&hold>.35){
             const mouth=lickSpot.copy(lickBase).applyQuaternion(joint.quaternion).add(joint.position);
             const toward=lickTip.copy(d.tumble.face).sub(mouth);
@@ -12160,15 +12185,15 @@ const dogTumble=(()=>{
     return patch(cachedSkin().face,origin,dir,g.localToWorld(V(x,y,.067)));
   }
   function frontCounter(t,pin){
-    const phase=((t-1.56)%4.8+4.8)%4.8;
-    const awake=pin*ease(t,1.53,1.80);
-    const pulse=(start,peak,settle,end)=>ease(phase,start,peak)*(1-ease(phase,settle,end));
-    // Raise from planted heels; the dog follows, then checks the lift twice.
-    // Leave a breath between exchanges so they do not rock in unison all the time.
-    const effort=awake*(pulse(.10,.46,.52,1.12)+.86*pulse(2.25,2.60,2.66,3.30));
-    const reply=awake*(pulse(.46,.70,.73,.97)+.70*pulse(.82,1.02,1.05,1.30)
-      +.91*pulse(2.60,2.84,2.89,3.13)+.63*pulse(2.99,3.19,3.21,3.46));
-    return {effort,reply,lift:.052*effort*(1-.88*reply)};
+    const time=Math.max(0,t-1.52);
+    const awake=pin*ease(t,1.52,1.84);
+    // Maintain a little counterforce at the trough. Both rhythms continue
+    // through the hold, and the dog's crest follows Leila's by ~.24 seconds.
+    const phase=time*4.45+.23*Math.sin(time*1.5)-1.76;
+    const wave=x=>.5+.5*Math.cos(x);
+    const effort=awake*(.19+.81*wave(phase));
+    const reply=awake*(.12+.88*wave(phase-1.08)**1.65);
+    return {effort,reply,lift:.063*effort*(1-.84*reply)};
   }
   function frontBridge(move,weight){
     const hips=groups.pelvis, chest=groups.chest;
