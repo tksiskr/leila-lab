@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 107｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 108｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -153,6 +153,9 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 .dogBar #dogNote:empty{display:none}
 .dogBar #dogRetry:not([hidden]){padding:8px 10px}
 .leilaDevGrid{display:grid;gap:8px;min-width:0}
+.leilaDevWardrobe{grid-column:1/-1}
+.leilaDevWardrobeButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.leilaDevWardrobe p{margin:7px 0 0;color:#b7c9df;font-size:.76rem}
 .leilaDevGrid .leilaWatch label,.leilaMood label{display:flex;flex-wrap:wrap;margin:7px 0 0;gap:6px;color:#c8d7e9}
 .leilaWatch #devLoopStatus:not(:empty),.leilaMood #moodStatus{display:block;margin:6px 0;color:#b8cce5;font-size:.8rem}
 .leilaWatch #devLoopStatus:empty{display:none}
@@ -173,7 +176,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 }
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 107</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 108</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -254,6 +257,14 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
   </div>
 </aside><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <div class="leilaCard leilaDevWardrobe" role="group" aria-labelledby="devWardrobeTitle">
+      <h2 id="devWardrobeTitle">衣装チェック</h2>
+      <div class="leilaDevWardrobeButtons">
+        <button id="devTeeToggle" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button>
+        <button id="devSkirtToggle" type="button" aria-pressed="false" disabled>プリーツスカート：未着用</button>
+      </div>
+      <p>その場で着脱。ポーズや動作、カメラはそのまま。</p>
+    </div>
     <div class="leilaCard leilaWatch"><h2>じゃれ合い観察</h2>
       <button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button><label>押さえ込みの向き <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><small id="devLoopStatus" role="status"></small>
     </div>
@@ -1554,11 +1565,7 @@ function updateCutaway(){
 }
 
 
-// Temporary destinations spread across the room.
-const markerBase = new T.CylinderGeometry(.095,.115,.035,16);
-const markerBody = new T.CylinderGeometry(.049,.06,.23,16);
-const markerCap = new T.CylinderGeometry(.054,.054,.022,16);
-const markerBaseMaterial = new T.MeshStandardMaterial({color:0x263644});
+// Additional furniture destinations for autonomous wandering.
 const walkTargets = [];
 const destinationMeshes = new Map();
 const capoeiraFloor = new T.Group();
@@ -1579,30 +1586,6 @@ capoeiraFloor.add(capoeiraRing);
 
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
-for (const [name,x,z,color] of [
-  ['緑のポール',.85,-2.60,0x49b8a9],
-  ['青いポール',1.75,-.9,0x76a8e3],
-  ['黄色のポール',1.45,2.35,0xe4ac59],
-  ['紫のポール',-.4,4.05,0xcf91e8]
-]) {
-  const marker = new T.Group();
-  marker.position.set(x,0,z);
-  const point = marker.position.clone();
-  point.addScaledVector(point.clone().normalize(),-.45);
-  const target = {name,point,lookAt:new T.Vector3(x,.23,z)};
-  walkTargets.push(target);
-  const bodyMaterial = new T.MeshStandardMaterial({color});
-  const capMaterial = new T.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.35});
-  for (const [geometry,material,y] of [[markerBase,markerBaseMaterial,.0175],[markerBody,bodyMaterial,.15],[markerCap,capMaterial,.276]]) {
-    const mesh = new T.Mesh(geometry,material);
-    mesh.position.y = y;
-    enableShadowCasting(mesh);
-    marker.add(mesh);
-    destinationMeshes.set(mesh,target);
-  }
-  scene.add(marker);
-}
-
 const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
 function accessoryShape(parent, material, points, depth=.007) {
@@ -2803,12 +2786,16 @@ const leilaTee = (() => {
       garment.morphTargetInfluences[i]=smoothing(aim.y,-.61,.42);
     }
   };
-  const button=$('shirtToggle'),key='leila.clothes.tee.v1';
+  const button=$('shirtToggle'),check=$('devTeeToggle'),key='leila.clothes.tee.v1';
   function set(on){
-    garment.visible=on;button.setAttribute('aria-pressed',String(on));button.textContent='白Tシャツ：'+(on?'着用中':'未着用');
+    garment.visible=on;
+    for(const control of [button,check]){
+      control.setAttribute('aria-pressed',String(on));control.textContent='白Tシャツ：'+(on?'着用中':'未着用');
+    }
   }
   let saved=false;try{saved=localStorage.getItem(key)==='1';}catch{}
-  set(saved);button.disabled=false;
+  set(saved);button.disabled=check.disabled=false;
+  check.onclick=()=>garment.wear(!garment.visible);
   foldedTee.visible=!saved;
   button.onclick=()=>requestWardrobe(true);
   garment.wear=on=>{
@@ -2997,14 +2984,17 @@ const leilaSkirt=(()=>{
     }
     pos.needsUpdate=true;g.computeVertexNormals();
   };
-  const button=$('skirtToggle'),key='leila.clothes.skirt.v1';
+  const button=$('skirtToggle'),check=$('devSkirtToggle'),key='leila.clothes.skirt.v1';
   function set(on){
-    skirt.visible=on;foldedSkirt.visible=!on;button.setAttribute('aria-pressed',String(on));
-    button.textContent='プリーツスカート：'+(on?'着用中':'未着用');
+    skirt.visible=on;foldedSkirt.visible=!on;
+    for(const control of [button,check]){
+      control.setAttribute('aria-pressed',String(on));control.textContent='プリーツスカート：'+(on?'着用中':'未着用');
+    }
     if(on){swish=spread=0;previous=legs[0].quaternion.x-legs[1].quaternion.x;skirt.updateDrape(0);}
   }
   let saved=false;try{saved=localStorage.getItem(key)==='1';}catch{}
-  set(saved);button.disabled=false;button.onclick=()=>requestWardrobe(true,'skirt');
+  set(saved);button.disabled=check.disabled=false;button.onclick=()=>requestWardrobe(true,'skirt');
+  check.onclick=()=>skirt.wear(!skirt.visible);
   skirt.wear=on=>{set(on);try{localStorage.setItem(key,on?'1':'0');}catch{}};
   return skirt;
 })();
@@ -4615,7 +4605,7 @@ function startRearFootwork(entry, side) {
   const to = from.clone().add(delta);
   const couch = sofaWalkingBounds();
   if (!entry.step || to.x < -5.65 || to.x > 5.65 || to.z < -5.65 || to.z > 8.65 ||
-      !clearOfPoles(from,to) || couch.containsPoint(to) || couch.containsPoint(from)) delta.set(0,0,0);
+      !clearOfFurniture(from,to) || couch.containsPoint(to) || couch.containsPoint(from)) delta.set(0,0,0);
   const turn = entry.turn && !couch.containsPoint(from)
     ? Math.abs(headingDelta(angle,headingTo(to,camera.position)))*sign : 0;
   if (!turn && delta.lengthSq() === 0) return null;
@@ -4896,7 +4886,7 @@ function chestGuardStep(from,planted,heading,sign) {
   const delta = end.sub(from);
   const destination = from.clone().add(delta);
   if (destination.x < -5.55 || destination.x > 5.55 ||
-      destination.z < -5.55 || destination.z > 8.55 || !clearOfPoles(from,destination)) return null;
+      destination.z < -5.55 || destination.z > 8.55 || !clearOfFurniture(from,destination)) return null;
   const couch = handLinkCouch();
   if (couch.containsPoint(from) || couch.containsPoint(destination) ||
       couch.containsPoint(from.clone().addScaledVector(delta,.5))) return null;
@@ -5102,7 +5092,7 @@ function applyLegContactPose(entry,time,weight,sign) {
     pelvis.position.y -= (entry.drop ?? .009)*weight;
     if (Math.abs(forward) > .001) {
       const end = goal.clone().add(V(0,0,forward).applyAxisAngle(turnAxis,heading));
-      if (!clearOfPoles(goal,end) || handLinkCouch().containsPoint(end) ||
+      if (!clearOfFurniture(goal,end) || handLinkCouch().containsPoint(end) ||
           end.x < -5.55 || end.x > 5.55 || end.z < -5.55 || end.z > 8.55) forward = 0;
     }
     if (entry.presentFoot) pelvis.position.z += forward*.14;
@@ -5679,14 +5669,14 @@ function chooseDestination() {
     startDestination(lingeringTarget());
   } else {
     const choices = walkTargets.filter(target => target !== roam.target);
-    startDestination(choices[Math.floor(Math.random()*choices.length)]);
+    startDestination(choices[Math.floor(Math.random()*choices.length)]??wanderingTarget());
   }
 }
 
 $('autoWalk').onclick = () => {
   if (mode !== 'roam') beginRoam();
   const choices = walkTargets.filter(target => target !== roam.target);
-  requestDestination(choices[Math.floor(Math.random()*choices.length)]);
+  requestDestination(choices[Math.floor(Math.random()*choices.length)]??wanderingTarget());
 };
 $('autoWait').onclick = () => {
   if (mode==='dance') beginDanceOutro();
@@ -5939,7 +5929,7 @@ function advanceWalkPath(stage,distance,elapsed) {
   return heading + headingDelta(stage.heading,entryHeading)*(1-smooth(Math.min(1,elapsed/.52)));
 }
 
-function clearOfPoles(from,to) {
+function clearOfFurniture(from,to) {
   if (from.distanceToSquared(to) < .000001) return true;
   const delta = to.clone().sub(from);
   const length = delta.length();
@@ -5948,13 +5938,7 @@ function clearOfPoles(from,to) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
-  const segment = new T.Line3(from,to);
-  const nearest = V(0,0,0);
-  return walkTargets.every(target => {
-    if (target === sofaTarget) return true;
-    const pole = V(target.lookAt.x,0,target.lookAt.z);
-    return segment.closestPointToPoint(pole,true,nearest).distanceToSquared(pole) >= .35**2;
-  });
+  return true;
 }
 
 function sofaWalkingBounds() {
@@ -5963,7 +5947,7 @@ function sofaWalkingBounds() {
 
 function walkingClearance(couch) {
   return (a,b) => {
-    if (!clearOfPoles(a,b)) return false;
+    if (!clearOfFurniture(a,b)) return false;
     if (!couch) return true;
     const delta = b.clone().sub(a);
     const length = delta.length();
@@ -5982,13 +5966,6 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
   if (clear(from,to)) return [to];
   // Try detours near each obstacle before sending Leila across the room.
   const waypoints = [V(0,0,0), ...walkTargets.map(target => target.point), ...windows.map(target => target.point)];
-  for (const target of walkTargets) {
-    if (target === sofaTarget) continue;
-    for (let i=0; i<8; i++) {
-      const angle = i*Math.PI/4;
-      waypoints.push(V(target.lookAt.x+.52*Math.sin(angle),0,target.lookAt.z+.52*Math.cos(angle)));
-    }
-  }
   if (couch) {
     for (const x of [couch.min.x-.16,couch.max.x+.16]) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
@@ -6086,7 +6063,7 @@ function userApproachTarget() {
     if (length < .24 || couchHit && from.distanceTo(couchHit) < length) continue;
     const point = from.clone().addScaledVector(direction,length);
     if (!inWalkingArea(point)) continue;
-    if (clearOfPoles(from,point)) {
+    if (clearOfFurniture(from,point)) {
       return {kind:'user',name:'ユーザー',point,heading:headingTo(point,viewer)};
     }
   }
@@ -8457,7 +8434,7 @@ function walkWithHeldHand(link,dt,stretch,fastPull) {
   const length = Math.min(speed*dt,stretch*Math.min(.85,dt*14.4));
   const next = V(Math.sin(heading)*length,0,Math.cos(heading)*length).add(root.position);
   if (next.x < -5.65 || next.x > 5.65 || next.z < -5.65 || next.z > 8.65 ||
-      handLinkCouch().containsPoint(next) || !clearOfPoles(root.position,next)) return 0;
+      handLinkCouch().containsPoint(next) || !clearOfFurniture(root.position,next)) return 0;
   const turnLimit = dt*mix(3.2,10,chase);
   root.rotation.y += T.MathUtils.clamp(turn,-turnLimit,turnLimit);
   // Keep the camera fixed while she closes the gap to the finger.
@@ -8639,11 +8616,11 @@ function moveCarriedBody(delta) {
   const hit = carryPath.intersectBox(handLinkCouch(),carryCouchHit);
   let length = hit ? T.MathUtils.clamp(from.distanceTo(hit)-.015,0,distance) : distance;
   carryPath.at(length,carryNext);
-  if (!clearOfPoles(from,carryNext)) {
+  if (!clearOfFurniture(from,carryNext)) {
     let clear = 0;
     for (let attempt = 0; attempt < 8; attempt++) {
       const mid = (clear+length)*.5;
-      if (clearOfPoles(from,carryPath.at(mid,carryNext))) clear = mid;
+      if (clearOfFurniture(from,carryPath.at(mid,carryNext))) clear = mid;
       else length = mid;
     }
     carryPath.at(clear,carryNext);
@@ -9041,9 +9018,8 @@ function createShepherd() {
     const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds];
     if(bed.visible)boxen.push(bedBounds);
     const boxes=boxen.map(b=>b.clone().expandByScalar(.34));
-    const poles=walkTargets.filter(e=>e!==sofaTarget).map(e=>V(e.lookAt.x,0,e.lookAt.z));
     const from=dog.position.clone();from.y=0;
-    const line=new T.Line3(), ray=new T.Ray(), near=V(0,0,0);
+    const ray=new T.Ray(), near=V(0,0,0);
     function clear(a,b){
       if(a.distanceToSquared(b)<1e-6)return true;
       if(!inWalkingArea(b))return false;
@@ -9054,13 +9030,12 @@ function createShepherd() {
         const found=ray.intersectBox(box,near);
         return found&&a.distanceTo(found)<dist-.002;
       }))return false;
-      line.set(a,b);return !poles.some(p=>line.closestPointToPoint(p,true,near).distanceToSquared(p)<.51**2);
+      return true;
     }
     if(clear(from,to)){d.path=[to.clone()];return;}
     const nodes=[from,to.clone(),V(-2.6,0,-3.8),V(-3.25,0,-3.75),V(-2.4,0,0),V(0,0,0),V(-2.4,0,2),V(.4,0,2.3)];
     for(const box of boxes)for(const x of [box.min.x-.065,box.max.x+.065])
       for(const z of [box.min.z-.065,box.max.z+.065])nodes.push(V(x,0,z));
-    for(const p of poles)for(let i=0;i<4;i++)nodes.push(p.clone().add(V(.68*Math.cos(i*Math.PI/2),0,.68*Math.sin(i*Math.PI/2))));
     const dist=nodes.map(()=>Infinity), prev=nodes.map(()=>-1), closed=new Set();dist[0]=0;
     while(closed.size<nodes.length){
       let a=-1;for(let i=0;i<nodes.length;i++)if(!closed.has(i)&&Number.isFinite(dist[i])&&(a===-1||dist[i]<dist[a]))a=i;
