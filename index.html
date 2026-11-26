@@ -1,6 +1,7 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103.5｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 104｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
+.wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
 #paintWindow[hidden] {display:none}
 #paintWindow {position:fixed;z-index:5;right:12px;bottom:max(12px,env(safe-area-inset-bottom));left:auto;width:min(740px,calc(100% - 24px));max-height:48dvh;overflow:auto;overscroll-behavior:contain;background:#202a38;color:#edf3fa;border:1px solid #596a82;border-radius:14px;box-shadow:0 12px 38px #080c16bb}
 .paintHeader {position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#202a38;padding:8px 14px;border-bottom:1px solid #3b4b60}
@@ -125,7 +126,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103.5</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 104</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -165,7 +166,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
     </div></div>
   </div>
 </details>
-<button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button>
+<div class="wardrobeButtons"><button id="shirtToggle" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
 <aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
@@ -2286,6 +2287,146 @@ groups[part].attach(o);
 }
 
 fitAccessoriesToArmor();
+// LAB104 fitting sample: a separate stitched garment. None of the armor is replaced.
+const leilaTee = (() => {
+  const material=new T.MeshStandardMaterial({color:0xf1efe9,roughness:.91,metalness:0,side:T.DoubleSide});
+  const rib=material.clone();rib.color.setHex(0xe2ded5);rib.roughness=.98;
+  const geometry=new T.BufferGeometry();
+  const xyz=[],ids=[],weights=[],indices=[],runs=[],where=[];
+  const smoothing=T.MathUtils.smoothstep, tau=2*Math.PI, n=48;
+  const vec=(x,y,z)=>new T.Vector3(x,y,z);
+  const normal=new T.Vector3();
+  const add=(p,c,a,side)=>{
+    const i=xyz.length/3; xyz.push(p.x,p.y,p.z);where.push(p);
+    ids.push(0,1,side===-1?3:2,0);
+    weights.push((1-a)*(1-c),(1-a)*c,a,0);
+    return i;
+  };
+  const face=(a,b,c,dir,style)=>{
+    if(vec(0,0,0).subVectors(where[b],where[a]).cross(normal.subVectors(where[c],where[a])).dot(dir)<0)[b,c]=[c,b];
+    runs.push([a,b,c,style]);
+  };
+  const quad=(a,b,c,d,dir,style)=>{face(a,b,c,dir,style);face(a,c,d,dir,style);};
+  // y, half-width, back, front. The hem sits just above the hip plating.
+  const fit=[
+    [.654,.057,-.005,.093],[.658,.056,-.004,.092],[.665,.050,0,.091],
+    [.679,.046,.009,.091],[.694,.047,.001,.093],[.707,.052,-.007,.094],
+    [.719,.056,-.016,.095],[.731,.062,-.026,.102],[.744,.070,-.031,.103],
+    [.754,.075,-.034,.101],[.762,.079,-.030,.096],[.772,.077,-.027,.083],
+    [.783,.068,-.024,.067]
+  ];
+  const body=[];
+  function garmentRing(row,r){
+    const [y,w,back,front]=row, mid=.026;
+    return Array.from({length:n},(_,i)=>{
+      const th=tau*i/n,s=Math.sin(th),c=Math.cos(th), power=.84;
+      const signed=(a,p)=>Math.sign(a)*Math.abs(a)**p;
+      const top=smoothing(r,8,fit.length);
+      const sway=Math.cos(th*5+.27)*.0019*(1-.60*top);
+      const tY=y + top*(.005*Math.abs(s)**2-.013*Math.max(0,c))
+        +.0014*(1-smoothing(r,1,5))*Math.cos(th*2);
+      const z=mid+signed(c,power)*(c>=0?front-mid:mid-back)+sway*c;
+      const x=signed(s,power)*w+sway*s;
+      const armMix=.43*top*smoothing(Math.abs(x),.040,.077);
+      return add(vec(x,tY,z),smoothing(tY,.681,.721),armMix,Math.sign(s));
+    });
+  }
+  for(let r=0;r<fit.length;r++)body.push(garmentRing(fit[r],r));
+  // Round neck drops lower in front, with a narrow ribbed welt turned inward.
+  for(let row=0;row<3;row++){
+    body.push(Array.from({length:n},(_,i)=>{
+      const th=tau*i/n,s=Math.sin(th),c=Math.cos(th);
+      const x=s*[.034,.029,.027][row], front=[.066,.061,.060][row],back=[-.022,-.018,-.016][row];
+      const y=.787+.008*s*s-.018*Math.max(0,c) + [0,.001,-.003][row];
+      const z=.022+c*(c>=0?front-.022:.022-back);
+      return add(vec(x,y,z),1,0,1);
+    }));
+  }
+  const holes=[{side:1,start:7,end:17},{side:-1,start:31,end:41}];
+  const low=7,high=12;
+  const rowIndex=(r,i)=>body[r][(i+n)%n];
+  for(let r=0;r<body.length-1;r++)for(let i=0;i<n;i++){
+    if(r>=low&&r<high&&holes.some(h=>i>=h.start&&i<h.end))continue;
+    const th=(i+.5)*tau/n;
+    const dir=r>=13?vec(0,1,0):vec(Math.sin(th),r>=11?.55:0,Math.cos(th));
+    quad(rowIndex(r,i),rowIndex(r,i+1),rowIndex(r+1,i+1),rowIndex(r+1,i),dir,r===0||r>=13?1:0);
+  }
+  for(const {side,start,end} of holes){
+    const joint=groups[side===1?'upperP':'upperN'].getWorldPosition(vec(0,0,0));
+    const along=groups[side===1?'elbowP':'elbowN'].getWorldPosition(vec(0,0,0)).sub(joint).normalize();
+    const forward=vec(0,0,1).addScaledVector(along,-along.z).normalize();
+    const radial=new T.Vector3().crossVectors(along,forward).normalize();
+    const boundary=[];
+    for(let i=start;i<end;i++)boundary.push(rowIndex(low,i));
+    for(let r=low;r<high;r++)boundary.push(rowIndex(r,end));
+    for(let i=end;i>start;i--)boundary.push(rowIndex(high,i));
+    for(let r=high;r>low;r--)boundary.push(rowIndex(r,start));
+
+    // Map the rectangular grid boundary to an evenly spaced circular sleeve,
+    // aligning the cap with the front/back and top/bottom of the armhole.
+    const angles=boundary.map(i=>{
+      const d=where[i].clone().sub(joint);
+      return Math.atan2(d.dot(radial),d.dot(forward));
+    });
+    const unwrap=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
+    const orientation=Math.sign(angles.reduce((sum,a,i)=>sum+unwrap(angles[(i+1)%angles.length],a),0))||1;
+    const rows=[boundary];
+    for(const [length,depth,width,blend,bend] of [[.012,.037,.035,.75,.72],[.027,.033,.031,.93,.90],
+       [.050,.031,.028,1,1],[.062,.030,.027,1,1],[.066,.030,.027,1,1],[.066,.026,.024,1,1]]){
+      rows.push(boundary.map((_,i)=>{
+        const even=angles[0]+orientation*i*tau/boundary.length;
+        const a=even+(1-bend)*unwrap(angles[i],even);
+        const ripple=.00085*Math.cos(3*a+side);
+        const p=joint.clone().addScaledVector(along,length)
+          .addScaledVector(forward,(depth+ripple)*Math.cos(a))
+          .addScaledVector(radial,(width+ripple)*Math.sin(a));
+        return add(p,1,blend,side);
+      }));
+    }
+    for(let r=0;r<rows.length-1;r++)for(let i=0;i<boundary.length;i++){
+      const j=(i+1)%boundary.length;
+      const dir=where[rows[r+1][i]].clone().lerp(where[rows[r+1][j]],.5).sub(joint);
+      dir.addScaledVector(along,-dir.dot(along));
+      if(r===rows.length-2)dir.copy(along);
+      quad(rows[r][i],rows[r][j],rows[r+1][j],rows[r+1][i],dir,r>=4?1:0);
+    }
+  }
+  // Turn the bottom edge in so the opening has a real hem rather than single faces.
+  const inner=body[0].map(i=>{
+    const p=where[i].clone();p.x*=.945;p.z=.026+(p.z-.026)*.955;p.y+=.003;
+    return add(p,0,0,1);
+  });
+  for(let i=0;i<n;i++){
+    const j=(i+1)%n;
+    quad(body[0][i],body[0][j],inner[j],inner[i],vec(0,-1,0),1);
+  }
+  for(let s=0;s<=1;s++){
+    const first=indices.length;
+    for(const tri of runs)if(tri[3]===s)indices.push(tri[0],tri[1],tri[2]);
+    geometry.addGroup(first,indices.length-first,s);
+  }
+  geometry.setAttribute('position',new T.Float32BufferAttribute(xyz,3));
+  geometry.setAttribute('skinIndex',new T.Uint16BufferAttribute(ids,4));
+  geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  const garment=new T.SkinnedMesh(geometry,[material,rib]);
+  garment.name='Leila shirt - short sleeve';
+  garment.castShadow=true;garment.receiveShadow=true;garment.frustumCulled=false;
+  const bones=['abdomen','chest','upperP','upperN'].map(k=>{
+    const bone=new T.Bone();bone.name='Tee '+k;groups[k].add(bone);return bone;
+  });
+  root.add(garment);scene.updateMatrixWorld(true);
+  garment.bind(new T.Skeleton(bones));
+  const button=$('shirtToggle'),key='leila.clothes.tee.v1';
+  function set(on){
+    garment.visible=on;button.setAttribute('aria-pressed',String(on));button.textContent='白Tシャツ：'+(on?'着用中':'未着用');
+  }
+  let saved=false;try{saved=localStorage.getItem(key)==='1';}catch{}
+  set(saved);button.disabled=false;
+  button.onclick=()=>{set(!garment.visible);try{localStorage.setItem(key,garment.visible?'1':'0');}catch{}};
+  return garment;
+})();
 
 scene.remove(gl.scene);$('meshInfo').textContent=parts.length+' メッシュ / 仮関節 '+Object.keys(groups).length+' 個';$('status').textContent='';
 const names={pelvis:'骨盤',abdomen:'腹部',chest:'胸部',neck:'首',head:'頭',upper:'肩・上腕',shoulder:'肩装甲',elbow:'肘',fore:'前腕',hand:'手首',thigh:'股関節',knee:'膝',shin:'すね装甲',foot:'足首'};for(const k of Object.keys(groups)){const op=document.createElement('option');op.value=k;op.textContent=(/[PN]$/.test(k)?(k.endsWith('P')?'左 ':'右 '):'')+names[k.replace(/[PN]$/,'')];$('joint').append(op)}$('joint').value='head';let mode="manual", start=0, demo=false; const base=Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,g.position.clone()])); const target={shift:0,drop:0,tilt:0,twist:0,raise:0,step:0}; const cur={...target};const sliders=[];for(const [idx,axis] of ['x','y','z'].entries()){const label=document.createElement('label');label.innerHTML=['前後 X','左右ひねり Y','横傾き Z'][idx]+' <input type="range" min="-90" max="90" value="0"><output>0°</output>';const inp=label.querySelector('input'),out=label.querySelector('output');inp.oninput=()=>{demo=false;mode="manual";$('destination').textContent='';resetTravel();groups[$('joint').value].rotation[axis]=Number(inp.value)*Math.PI/180;out.value=inp.value+'°'};sliders.push([axis,inp,out]);$('sliders').append(label)}function sync(){for(const [a,i,o] of sliders){i.value=Math.round(groups[$('joint').value].rotation[a]*180/Math.PI);o.value=i.value+'°'}}$('joint').onchange=sync;function reset(){demo=false;mode="manual";for(const k in groups){groups[k].rotation.set(0,0,0);groups[k].position.copy(base[k])}for(const k in cur)cur[k]=0;sync()}$('reset').onclick=reset;let followLeila = true;
