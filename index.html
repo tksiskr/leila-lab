@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 102.9｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 103｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 #paintWindow[hidden] {display:none}
@@ -125,7 +125,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 102.9</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 103</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -9838,31 +9838,28 @@ const dogKitchen=(()=>{
     onOtherTarget,interrupt,reconcile,isBusyDog:()=>run?.phase==='meal'};
 })();
 
-// Rear pin: place the dog's rigid trunk from the chin contact, rather than
-// stretching the skull toward it. The two forepaws then land on separate pads.
+// Rear cuddle: use the barrel and waist as the primary fitted surfaces.
+// The dog leans farther over her without translating or stretching its skull.
 const rearPinStyle=(()=>{
   const neckBase=V(-.055,.475,.285), skull=V(-.103,.651,.414);
   const neckLength=skull.distanceTo(neckBase), chinFromSkull=shepherdChin.clone().sub(skull);
   const up=V(0,1,0);
-  function solve(chin,waist,yaw,press,object){
+  function solve(crown,waist,yaw,press,object){
     const scale=object.scale.x;
-    // Choose a shoulder dip and a folded neck, not a steep bend through the whole dog.
-    const pitch=-.073+.045*press;
-    const muzzle=.12+.075*press;
-    const qBody=new T.Quaternion().setFromEuler(new T.Euler(pitch,0,0));
-    const chinQ=new T.Quaternion().setFromEuler(new T.Euler(muzzle,0,0,'YXZ'));
-    const localWaist=waist.clone().sub(chin).applyAxisAngle(up,-yaw).divideScalar(scale);
-    const rearContact=V(-.029,.329,.152).applyQuaternion(qBody);
-    const neckKnee=neckBase.clone().applyQuaternion(qBody);
-    const chinOffset=chinFromSkull.clone().applyQuaternion(chinQ);
-    // Within a believable neck cone, choose the direction that puts the
-    // underside of the hind barrel closest to the resisting waist.
-    const direction=rearContact.clone().sub(neckKnee).sub(chinOffset).sub(localWaist);
-    const tilt=T.MathUtils.clamp(Math.atan2(direction.y,Math.max(.001,direction.z)),-.78,-.54);
-    direction.set(0,Math.sin(tilt),Math.cos(tilt)).multiplyScalar(neckLength);
-    const origin=neckKnee.add(direction).add(chinOffset).multiplyScalar(-scale)
-      .applyAxisAngle(up,yaw).add(chin);
-    return {origin,bodyY:origin.y/scale,pitch,chinQ,contact:rearContact};
+    const pitch=-.205+.025*press;
+    const bodyQ=new T.Quaternion().setFromAxisAngle(V(1,0,0),pitch);
+    const barrel=V(-.026,.347,-.006).applyQuaternion(bodyQ);
+    const origin=waist.clone().sub(barrel.multiplyScalar(scale).applyAxisAngle(up,yaw));
+    origin.x=mix(origin.x,crown.x+.012,.7);
+    origin.y+=.027-.005*press;
+    const headQ=new T.Quaternion().setFromEuler(new T.Euler(.16+.055*press,0,.035,'YXZ'));
+    const neck=neckBase.clone().applyQuaternion(bodyQ);
+    const curl=-.96-.10*press;
+    const arc=V(-.014,Math.sin(curl),Math.cos(curl))
+      .normalize().multiplyScalar(neckLength);
+    const chin=neck.add(arc).add(chinFromSkull.clone().applyQuaternion(headQ))
+      .multiplyScalar(scale).applyAxisAngle(up,yaw).add(origin);
+    return {origin,bodyY:origin.y/scale,pitch,chinQ:headQ,chin};
   }
   return {solve};
 })();
@@ -10204,7 +10201,7 @@ const dogTumble=(()=>{
     if(t>.53&&t<1.02)setNote('レイラがバランスを崩しました');
     else if(t>=1.02&&t<timing.release)setNote(a.front
       ?'犬がレイラの上に伏せて、顔をペロペロ。くすぐったそう！'
-      :'犬が顎・前足・腰でぴったり。レイラは膝で踏ん張っています');
+      :'犬が背中にぴったり寄り添い、レイラをすっぽり包んでいます');
     else if(t>=timing.release)setNote('犬が前足を下ろし、レイラが起き上がります');
     if(t>=timing.stand)finish();
     return true;
@@ -10248,6 +10245,7 @@ const dogTumble=(()=>{
       rearChin=headrest().add(V(0,.006,0));
       rearWaist=waistPress();
       rearPose=rearPinStyle.solve(rearChin,rearWaist,a.dogYaw,a.press??0,obj);
+      rearChin=rearPose.chin;
       next.x=T.MathUtils.lerp(next.x,rearPose.origin.x,heavy);
       next.z=T.MathUtils.lerp(next.z,rearPose.origin.z,heavy);
     }
@@ -10282,7 +10280,7 @@ const dogTumble=(()=>{
           data.chin=obj.worldToLocal(rearChin);
           data.waist=rearWaist;
           data.rearPose=rearPose;
-          data.steps.push(V(-.153,.043,-.30),V(.142,.043,-.325));
+          data.steps.push(V(-.172,.043,-.252),V(.146,.043,-.265));
           for(const i of [2,3])data.steps[i].y/=.78;
         }
         data.bodyY=-.045*hold;
