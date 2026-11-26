@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 105｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 106｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -124,14 +124,58 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchCue[hidden]{display:none}
 #threeFetchPad,#threeFetchFallback{margin:0;padding:7px 10px;min-height:44px;line-height:1.2;font-size:.81rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
+
+/* LAB 106: survey-selected controls. Hidden hooks are still usable by the simulation. */
+[data-menu-hidden]{display:none!important}
+.leilaDeck{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.leilaCard{min-width:0;padding:9px 11px 10px;border:1px solid #2d405b;border-radius:12px;background:#131e30}
+.leilaCard h2{margin:0 0 7px;color:#b7c9df;font-size:.83rem;font-weight:650;letter-spacing:.03em}
+.leilaDeck .actionButtons,.leilaDeck .cameraButtons{display:grid;gap:6px}
+.leilaDeck .actionButtons{grid-template-columns:repeat(2,minmax(0,1fr))}
+.leilaDeck .cameraButtons{grid-template-columns:repeat(3,minmax(0,1fr))}
+.leilaDeck .wardrobeButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:6px}
+.leilaDeck button,.leilaDeck select,.leilaDevGrid button,.leilaDevGrid select{min-height:44px;margin:0;border:1px solid #506987;border-radius:9px;background:#1b2b42;color:#edf2ff;font:inherit;line-height:1.25;padding:7px 8px;overflow-wrap:anywhere}
+.leilaDeck button{width:100%}
+.leilaDeck button#autoWait{background:#28506a;border-color:#7cb2c3;font-weight:700}
+.leilaDeck button#roomLights:not([hidden]){background:#253043;border-color:#62718a}
+.leilaDeck button:disabled,.leilaDevGrid button:disabled{opacity:.54}
+.leilaDeck button[aria-pressed=true],.leilaDevGrid button[aria-pressed=true]{background:#284754;border-color:#8bbfc7}
+.leilaAudioCard .labMusic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 8px}
+.leilaAudioCard label{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;padding:0 2px;color:#b7c9df}
+.leilaAudioCard label select{min-width:0;max-width:75%;width:68%}
+.leilaAudioCard #labAudioHint{grid-column:1/-1;padding:0 2px;font-size:.76rem;color:#a9bed9}
+.leilaAudioCard #labAudioHint:empty{display:none}
+.dogBar{border:0;background:none;padding:1px 0;gap:6px}
+.dogBar small{padding:0 1px;color:#a9bed5;font-size:.76rem;flex:1 1 auto}
+.dogBar #dogNote:empty{display:none}
+.dogBar #dogRetry:not([hidden]){padding:8px 10px}
+.leilaDevGrid{display:grid;gap:8px;min-width:0}
+.leilaDevGrid .leilaWatch label,.leilaMood label{display:flex;flex-wrap:wrap;margin:7px 0 0;gap:6px;color:#c8d7e9}
+.leilaWatch #devLoopStatus:not(:empty),.leilaMood #moodStatus{display:block;margin:6px 0;color:#b8cce5;font-size:.8rem}
+.leilaWatch #devLoopStatus:empty{display:none}
+.leilaWatch button{width:100%}
+.leilaMood #nodPreview{margin-top:4px}
+#modelTuning{padding:0 11px;border:1px solid #344762;border-radius:10px;margin:8px 0;background:#131e30}
+#modelTuning summary{min-height:44px}
+#modelTuning .leilaTuning{padding-bottom:8px}
+#modelTuning label{flex-wrap:wrap}
+#touchResult{color:#abc0d9;font-size:.75rem;margin:6px 2px}
+.leilaDevGrid #seasonPreview{margin:0;padding:8px 9px 9px;border-color:#344762}
+@media(min-width:700px){
+ .leilaDeck,.leilaDevGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .leilaDeck .actionButtons{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .leilaAudioCard,.leilaDevGrid #seasonPreview{grid-column:1/-1}
+ .leilaAudioCard .labMusic{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(190px,1.6fr)}
+ .leilaAudioCard label{grid-column:auto;justify-content:start}
+}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 105</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 106</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
-  <button type="button" id="lab900PhotoCapture" disabled>撮影</button>
-  <button type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
+  <button data-menu-hidden hidden type="button" id="lab900PhotoCapture" disabled>撮影</button>
+  <button data-menu-hidden hidden type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
 </div>
 <dialog class="lab900PhotoPanel" id="lab900PhotoDialog" aria-labelledby="lab900PhotoTitle">
@@ -148,14 +192,9 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
   </div>
 </dialog>
 <div class="dogBar" role="group" aria-label="シェパード">
-<strong>シェパード</strong><button id="dogView" type="button" disabled>犬を見る</button><button id="dogPlay" type="button" disabled>犬と遊ぶ</button><button id="dogPlayThree" type="button" disabled>3人で遊ぶ</button><button id="dogMeal" type="button" disabled>ごはんを作る</button><button id="dogBond" type="button" disabled>なでる</button><button id="dogSofa" type="button" disabled>ソファで休む</button><button id="dogBed" type="button" disabled>添い寝</button>
+<button data-menu-hidden hidden id="dogView" type="button" disabled>犬を見る</button><button data-menu-hidden hidden id="dogPlay" type="button" disabled>犬と遊ぶ</button><button data-menu-hidden hidden id="dogPlayThree" type="button" disabled>3人で遊ぶ</button><button data-menu-hidden hidden id="dogMeal" type="button" disabled>ごはんを作る</button><button data-menu-hidden hidden id="dogBond" type="button" disabled>なでる</button><button data-menu-hidden hidden id="dogSofa" type="button" disabled>ソファで休む</button><button data-menu-hidden hidden id="dogBed" type="button" disabled>添い寝</button>
 <small id="dogNote" role="status">犬のモデルを読み込み中…</small><button id="dogRetry" type="button" hidden>犬を再読み込み</button>
-</div><div id="reactionStatus" role="status" hidden></div><div class="labMusic" role="group" aria-label="音楽">
-<button id="danceSound" type="button" aria-pressed="false">ダンス音：OFF</button>
-<button id="radioSound" type="button" aria-pressed="false">ラジオBGM：OFF</button>
-<label>放送局 <select id="labRadioStation"><option value="0">83.4 / チル</option><option value="1">89.1 / グルーヴ</option><option value="2">96.7 / 深夜</option></select></label>
-<small id="labAudioHint" role="status">ダンス音をONにすると、レイラが踊っている間だけビートが鳴ります。</small>
-</div><div id="lab900Toolbar" role="group" aria-label="LAB 900の機能"></div><details id="lab900Life">
+</div><div id="reactionStatus" role="status" hidden></div><div id="lab900Toolbar" role="group" aria-label="記録機能" data-menu-hidden hidden></div><details id="lab900Life" data-menu-hidden hidden>
   <summary><strong>レイラの生活ログ</strong><span id="lab900LifeCount">まだ記録なし</span></summary>
   <div id="lab900LifeBody">
     <p id="lab900LifeEmpty">ラジオを聴いたり、絵を描いたり。レイラが過ごした時間が、ここに少しずつ残ります。</p>
@@ -166,8 +205,26 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
     </div></div>
   </div>
 </details>
-<div class="wardrobeButtons"><button id="shirtToggle" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
-<aside id="paintWindow" aria-labelledby="paintTitle" hidden>
+<div class="leilaDeck">
+  <div class="leilaCard" role="group" aria-labelledby="controls-actions">
+    <h2 id="controls-actions">行動</h2><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="standWait" class="primary">その場で待つ</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><button data-menu-hidden hidden id="offerHandButton" class="primary">手を差し出す</button></div>
+  </div>
+  <div class="leilaCard" role="group" aria-labelledby="controls-look">
+    <h2 id="controls-look">カメラ・外見</h2><div class="cameraButtons" role="group" aria-label="カメラの向き"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button data-menu-hidden hidden id="loungeView">居住区</button></div>
+    <div class="wardrobeButtons" role="group" aria-label="衣装と装甲"><button id="shirtToggle" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
+  </div>
+  <div class="leilaCard leilaAudioCard" role="group" aria-labelledby="controls-audio">
+    <h2 id="controls-audio">サウンド</h2><div class="labMusic" role="group" aria-label="音楽">
+<button id="danceSound" type="button" aria-pressed="false">ダンス音：OFF</button>
+<button id="radioSound" type="button" aria-pressed="false">ラジオBGM：OFF</button>
+<label>放送局 <select id="labRadioStation"><option value="0">83.4 / チル</option><option value="1">89.1 / グルーヴ</option><option value="2">96.7 / 深夜</option></select></label>
+<small id="labAudioHint" role="status">ダンス音をONにすると、レイラが踊っている間だけビートが鳴ります。</small>
+</div>
+  </div>
+</div><label data-menu-hidden hidden id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
+  <option value="live">実時刻</option><option value="day">晴れた昼</option>
+  <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
+</select></label><aside id="paintWindow" aria-labelledby="paintTitle" hidden>
   <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
   <div class="paintBody">
     <div class="paintControls">
@@ -192,11 +249,15 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
       <div id="paintStatus" role="status"></div>
     </div>
   </div>
-</aside><div class="cameraButtons"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button id="loungeView">居住区</button></div><label id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
-  <option value="live">実時刻</option><option value="day">晴れた昼</option>
-  <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
-</select></label><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="standWait" class="primary">その場で待つ</button><button id="offerHandButton" class="primary">手を差し出す</button></div><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><p class="lab900Hint"><strong>観察メモ</strong>「居住区」で発光するテラリウムを探してみよう。光を変えたり、写真や生活ログを開いたりできる。</p><details id="developer"><summary>開発者用メニュー</summary><small id="devLoopStatus" role="status"></small><div id="meshInfo"></div>
-<fieldset id="seasonPreview">
+</aside><details id="developer"><summary>開発者用メニュー</summary>
+  <div class="leilaDevGrid">
+    <div class="leilaCard leilaWatch"><h2>じゃれ合い観察</h2>
+      <button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button><label>押さえ込みの向き <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><small id="devLoopStatus" role="status"></small>
+    </div>
+    <div class="leilaCard leilaMood"><h2>レイラの反応</h2>
+      <label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><button id="nodPreview">うなずく</button>
+    </div>
+    <fieldset id="seasonPreview">
   <legend>窓の外の四季</legend>
   <div class="seasonButtons">
     <button type="button" data-season="live" aria-pressed="true">実際の季節</button>
@@ -204,17 +265,25 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
     <button type="button" data-season="summer" aria-pressed="false">夏</button>
     <button type="button" data-season="autumn" aria-pressed="false">秋</button>
     <button type="button" data-season="winter" aria-pressed="false">冬</button>
-    <button id="seasonWindowView" type="button">窓を正面から</button>
-    <button id="snowVisitPreview" type="button" disabled>雪の窓辺を試す</button>
+    <button data-menu-hidden hidden id="seasonWindowView" type="button">窓を正面から</button>
+    <button data-menu-hidden hidden id="snowVisitPreview" type="button" disabled>雪の窓辺を試す</button>
   </div>
   <div id="seasonStatus" role="status" aria-live="polite"></div>
   <div id="snowDevStatus" role="status"></div>
 </fieldset>
-<button id="radioPreview" type="button">ラジオを試す</button> <button id="easelPreview" type="button">お絵描きを試す</button><button id="terrariumPreview" type="button">テラリウムを観察</button><div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div><label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><label>次の休憩で試す <select id="jokePreview">
+  </div>
+  <details id="modelTuning"><summary>モデル調整</summary>
+    <div class="leilaTuning"><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><div id="meshInfo"></div></div>
+  </details>
+  <div id="touchResult" role="status">タッチ判定 ／ 操作待ち</div>
+  <div data-menu-hidden hidden>
+
+<button data-menu-hidden hidden id="radioPreview" type="button">ラジオを試す</button> <button data-menu-hidden hidden id="easelPreview" type="button">お絵描きを試す</button><button data-menu-hidden hidden id="terrariumPreview" type="button">テラリウムを観察</button><label data-menu-hidden hidden>次の休憩で試す <select id="jokePreview">
   <option value="">おまかせ</option><option value="0">ジョーク 01</option>
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
-</select></label><label>ダンス <select id="danceClip">
-  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button id="dogTumbleFront" type="button">じゃれ合い：正面</button><button id="dogTumbleRear" type="button">じゃれ合い：背後</button><button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button></div><label>押さえ込みの向き <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><div class="testButtons"><button id="reset">原姿勢</button><button id="demo">従来の歩行</button><button id="mixamo">Catwalk歩行（その場）</button><button id="travel">歩き出す → 歩く → 止まる</button><button id="approachPreview">ユーザーに近付く</button><button id="nodPreview">うなずく</button><button id="lookPreview">振り向く</button><button id="smallWavePreview">小さく手を振る</button><button id="largeWavePreview">大きく手を振る</button><button id="beckonPreview">手招き</button><button id="autoWalk">自分で行き先を選ぶ</button><button id="sofaPreview">ソファで休憩</button><button id="wanderPreview">ぶらつく</button><button id="lingerPreview">ぼんやり立つ</button><button id="windowPreview">窓の外を眺める</button><button id="reference">参考イラスト姿勢</button><button id="right">右脚重心</button><button id="left">左脚重心</button><button id="raise">右腕挙上</button><button id="idle">自然待機</button></div><label>動作の誇張 <input id="style" type="range" min="0.7" max="1.5" step="0.05" value="1.15"><output id="styleout">1.15</output></label><label><input id="ik" type="checkbox" checked>足首接地補正</label><label>関節<select id="joint"></select></label><div id="sliders"></div><label><input id="marker" type="checkbox">回転軸表示</label><small>開発者用の動作は、別の動作か「自律行動」まで続きます。動作の誇張と足首接地補正は従来の動作に適用。</small></details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+</select></label><label data-menu-hidden hidden>ダンス <select id="danceClip">
+  <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label data-menu-hidden hidden>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button data-menu-hidden hidden id="dogTumbleFront" type="button">じゃれ合い：正面</button><button data-menu-hidden hidden id="dogTumbleRear" type="button">じゃれ合い：背後</button></div><div class="testButtons"><button data-menu-hidden hidden id="reset">原姿勢</button><button data-menu-hidden hidden id="demo">従来の歩行</button><button data-menu-hidden hidden id="mixamo">Catwalk歩行（その場）</button><button data-menu-hidden hidden id="travel">歩き出す → 歩く → 止まる</button><button data-menu-hidden hidden id="approachPreview">ユーザーに近付く</button><button data-menu-hidden hidden id="lookPreview">振り向く</button><button data-menu-hidden hidden id="smallWavePreview">小さく手を振る</button><button data-menu-hidden hidden id="largeWavePreview">大きく手を振る</button><button data-menu-hidden hidden id="beckonPreview">手招き</button><button data-menu-hidden hidden id="autoWalk">自分で行き先を選ぶ</button><button data-menu-hidden hidden id="sofaPreview">ソファで休憩</button><button data-menu-hidden hidden id="wanderPreview">ぶらつく</button><button data-menu-hidden hidden id="lingerPreview">ぼんやり立つ</button><button data-menu-hidden hidden id="windowPreview">窓の外を眺める</button><button data-menu-hidden hidden id="reference">参考イラスト姿勢</button><button data-menu-hidden hidden id="right">右脚重心</button><button data-menu-hidden hidden id="left">左脚重心</button><button data-menu-hidden hidden id="raise">右腕挙上</button><button data-menu-hidden hidden id="idle">自然待機</button></div></div>
+</details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';
 import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
