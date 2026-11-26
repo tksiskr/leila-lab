@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 104.2｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 104.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -126,7 +126,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #threeFetchPad{touch-action:none;user-select:none;-webkit-user-select:none;background:#394f66;color:#fff;min-width:144px;border:1px dashed #bccfe4;border-radius:10px;text-align:center;align-content:center}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 104.2</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 104.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -2366,22 +2366,38 @@ const leilaTee = (() => {
   const shells=parts.filter(m=>[groups.pelvis,groups.abdomen,groups.chest,groups.neck].includes(m.parent));
   const fitTorso=sectionSampler(shells,vec(0,0,dorsalMid),vec(0,1,0),vec(0,0,1),vec(1,0,0));
   const body=[];
-  // Cut the front panel to hang from the chest instead of following every
-  // waist cross-section. This is ease between fabric and armor, not thickness.
-  function hangFront(radius,y,angle,c,s){
-    if(c<=0||y>=.734)return radius;
-    const drop=1-smoothing(y,.697,.734);
-    const length=T.MathUtils.clamp((.734-y)/.077,0,1);
-    const depth=.058+.0028*length;
-    const width=.038+.0018*length;
-    const fall=1/Math.sqrt((s/width)**2+(c/depth)**2);
-    const fold=.0012*(.65*Math.cos(5.4*angle+.32+length*.42)
-      +.35*Math.cos(9.6*angle-.45-length*.30))*length;
-    const gap=fall+fold-radius;
-    // Smooth a tiny transition where the panel meets the fitted side seam.
-    const round=.0035;
-    const lift=Math.max(0,gap)+Math.max(0,round-Math.abs(gap))**2/(4*round);
-    return radius+drop*smoothing(c,0,.49)*lift;
+  // The chest supports the front panel. Below it, the cut of the fabric
+  // rather than each underlying armor segment determines the silhouette.
+  const frontSupport=Array.from({length:n},(_,i)=>{
+    const th=i*tau/n;
+    const radii=[.729,.736,.743,.749].map(y=>fitTorso(y,th));
+    return Math.max(...radii)+.004;
+  });
+  const gauss=t=>Math.exp(-t*t);
+  function hangFront(radius,y,angle,c,s,i){
+    if(y>=.753||c<=-.15)return radius;
+    const below=1-smoothing(y,.728,.754);
+    const drape=1-smoothing(y,.698,.742);
+    const length=T.MathUtils.clamp((.743-y)/.086,0,1);
+    const ease=smoothing(c,-.15,.43);
+    const sideWidth=.039+.006*length*length;
+    const panelDepth=.055+.0018*length;
+    const ellipse=1/Math.sqrt((s/sideWidth)**2+(c/panelDepth)**2);
+    const support=.22*frontSupport[(i+n-2)%n]+.56*frontSupport[i]+.22*frontSupport[(i+2)%n];
+    const drop=1-smoothing(y,.672,.75);
+    const cut=T.MathUtils.lerp(support-.003*length,ellipse,.20+.34*drop);
+    const wanted=T.MathUtils.lerp(ellipse,cut,ease);
+    const gap=wanted-radius, feather=.005;
+    const lift=Math.max(0,gap)+Math.max(0,feather-Math.abs(gap))**2/(4*feather);
+    const diagonal=(center,tilt,width)=>gauss((angle-center-tilt*length)/width);
+    const shoulderFolds=.00155*diagonal(.58,-.64,.18)-.00065*diagonal(.86,-.58,.18)
+      +.0011*diagonal(-.62,.70,.19)-.0005*diagonal(-.88,.65,.19);
+    const fallFolds=smoothing(y,.662,.685)*(1-smoothing(y,.718,.747));
+    const edge=1-smoothing(y,.651,.677);
+    const hemRipple=.00075*Math.sin(4.3*angle+.4)*edge
+      +.00055*gauss((y-(.663+.0025*Math.sin(2*angle+.8)))/.0029)*smoothing(c,.18,.71);
+    return radius+below*smoothing(c,-.15,.22)*lift
+      +ease*(fallFolds*shoulderFolds+drape*hemRipple);
   }
   function garmentRing(row,r){
     const [y,w,back,front]=row, mid=dorsalMid;
@@ -2389,7 +2405,8 @@ const leilaTee = (() => {
       const th=tau*i/n,s=Math.sin(th),c=Math.cos(th);
       const top=smoothing(r,8,fit.length), side=Math.abs(s);
       const tY=y+top*(.007*side*side-.009*Math.max(0,c))
-        +.0006*(1-smoothing(r,1,5))*Math.cos(th*2);
+        -.0065*(1-smoothing(r,0,4))*smoothing(c,-.36,.15)
+        +.0009*(1-smoothing(r,1,5))*(.75*Math.cos(th*2)+.25*Math.sin(th*3+.5));
       const real=fitTorso(tY,th);
       const near=Math.max(fitTorso(tY+.001,th),fitTorso(tY-.001,th));
       const tang=.14, prev=fitTorso(tY,th-tang), next=fitTorso(tY,th+tang);
@@ -2405,14 +2422,21 @@ const leilaTee = (() => {
       const fittedRadius=T.MathUtils.lerp(upper,Math.max(upper,bridge),armSide)
         +.00023*Math.cos(th*5+.27)
         +.0019*smoothing(c,.30,.85)*smoothing(tY,.716,.728)*(1-smoothing(tY,.747,.771))
-        +.0014*armSide;
-      const shirtRadius=hangFront(fittedRadius,tY,th>Math.PI?th-tau:th,c,s);
+        +.0014*armSide
+        +.0065*smoothing(side,.42,.85)*smoothing(c,-.20,.40)*smoothing(tY,.717,.736)*(1-smoothing(tY,.766,.785))
+        +.0018*smoothing(c,.33,.82)*smoothing(tY,.728,.744)*(1-smoothing(tY,.753,.775));
+      const shirtRadius=hangFront(fittedRadius,tY,th>Math.PI?th-tau:th,c,s,i);
       const x=s*shirtRadius,z=mid+c*shirtRadius;
       const armMix=.48*top*smoothing(Math.abs(x),.034,.069);
-      return add(vec(x,tY,z),smoothing(tY,.678,.712),armMix,Math.sign(s),r>=8?.9:r>1?.27:0);
+      const cap=.0058*smoothing(r,10,11.5)*smoothing(side,.46,.9);
+      return add(vec(x,tY+cap,z),smoothing(tY,.678,.712),armMix,Math.sign(s),r>=8?.9:r>1?.27:0);
     });
   }
-  for(let r=0;r<fit.length;r++)body.push(garmentRing(fit[r],r));
+  for(let r=0;r<fit.length;r++){
+    body.push(garmentRing(fit[r],r));
+    if(r>=2&&r<7)body.push(garmentRing(fit[r].map((v,j)=>(v+fit[r+1][j])*.5),r+.5));
+  }
+  const additionalRows=5;
   // Round neck drops lower in front, with a narrow ribbed welt turned inward.
   for(let row=0;row<3;row++){
     body.push(Array.from({length:n},(_,i)=>{
@@ -2424,13 +2448,13 @@ const leilaTee = (() => {
     }));
   }
   const holes=[{side:1,start:7,end:17},{side:-1,start:31,end:41}];
-  const low=7,high=12;
+  const low=7+additionalRows,high=12+additionalRows;
   const rowIndex=(r,i)=>body[r][(i+n)%n];
   for(let r=0;r<body.length-1;r++)for(let i=0;i<n;i++){
     if(r>=low&&r<high&&holes.some(h=>i>=h.start&&i<h.end))continue;
     const th=(i+.5)*tau/n;
-    const dir=r>=13?vec(0,1,0):vec(Math.sin(th),r>=11?.55:0,Math.cos(th));
-    quad(rowIndex(r,i),rowIndex(r,i+1),rowIndex(r+1,i+1),rowIndex(r+1,i),dir,r===0||r>=13?1:0);
+    const dir=r>=13+additionalRows?vec(0,1,0):vec(Math.sin(th),r>=11+additionalRows?.55:0,Math.cos(th));
+    quad(rowIndex(r,i),rowIndex(r,i+1),rowIndex(r+1,i+1),rowIndex(r+1,i),dir,r===0||r>=13+additionalRows?1:0);
   }
   for(const {side,start,end} of holes){
     const joint=groups[side===1?'upperP':'upperN'].getWorldPosition(vec(0,0,0));
@@ -2461,10 +2485,12 @@ const leilaTee = (() => {
         const even=angles[0]+orientation*i*tau/boundary.length;
         const a=even+(1-bend)*unwrap(angles[i],even);
         const radius=Math.max(.013,sleeveFit(length,a),.93*sleeveFit(length,a-.08),.93*sleeveFit(length,a+.08))
-          +clear+.00026*Math.cos(3*a+side);
+          +clear+.00026*Math.cos(3*a+side)+.0045*(1-smoothing(length,.014,.047));
         const p=joint.clone().addScaledVector(along,length)
           .addScaledVector(forward,radius*Math.cos(a))
           .addScaledVector(radial,radius*Math.sin(a));
+        const topward=(radius*Math.sin(a)*radial.y+radius*Math.cos(a)*forward.y)/radius;
+        p.y+=.011*smoothing(topward,.12,.70)*(1-smoothing(length,.012,.045));
         return add(p,1,blend,side,length<.024?.85:length<.050?.35:0);
       }));
     }
@@ -2512,6 +2538,38 @@ const leilaTee = (() => {
   geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
+  // Two small additive cloth shapes, driven independently by the actual
+  // arms after the animation and reaction systems have settled the pose.
+  // Relative normal targets keep the fold shading smooth without per-frame remeshing.
+  geometry.morphTargetsRelative=true;
+  geometry.morphAttributes.position=[];
+  geometry.morphAttributes.normal=[];
+  const restNormal=geometry.attributes.normal;
+  const lifted=geometry.clone();
+  const move=(p,side)=>{
+    if(p.z<=dorsalMid||p.y>=.751||p.y<.655)return [0,0,0];
+    const x=p.x*side;
+    const down=T.MathUtils.clamp((.746-p.y)/.090,0,1);
+    const line=x-(.043-.064*down);
+    const fade=smoothing(p.y,.655,.677)*(1-smoothing(p.y,.740,.751));
+    const front=smoothing(p.z,dorsalMid,.061);
+    const fold=gauss(line/.009)-.37*gauss((line-.012)/.009);
+    const pull=.0022*fade*front*gauss(line/.025);
+    return [side*.40*pull,pull,.0025*front*fade*fold];
+  };
+  for(const side of [1,-1]){
+    const delta=[],pts=[];
+    for(const p of where){
+      const [x,y,z]=move(p,side);
+      delta.push(x,y,z);pts.push(p.x+x,p.y+y,p.z+z);
+    }
+    lifted.setAttribute('position',new T.Float32BufferAttribute(pts,3));
+    lifted.computeVertexNormals();
+    const normals=lifted.attributes.normal.array.map((v,i)=>v-restNormal.array[i]);
+    geometry.morphAttributes.position.push(new T.Float32BufferAttribute(delta,3));
+    geometry.morphAttributes.normal.push(new T.Float32BufferAttribute(normals,3));
+  }
+  lifted.dispose();
   const garment=new T.SkinnedMesh(geometry,[material,rib]);
   garment.name='Leila shirt - short sleeve';
   garment.castShadow=true;garment.receiveShadow=true;garment.frustumCulled=false;
@@ -2520,6 +2578,16 @@ const leilaTee = (() => {
   });
   root.add(garment);scene.updateMatrixWorld(true);
   garment.bind(new T.Skeleton(bones));
+  const armData=['P','N'].map(k=>({upper:groups['upper'+k],down:groups['elbow'+k].position.clone().normalize()}));
+  const aim=vec(0,0,0);
+  garment.updateTension=()=>{
+    if(!garment.visible)return;
+    for(let i=0;i<armData.length;i++){
+      const {upper,down}=armData[i];
+      aim.copy(down).applyQuaternion(upper.quaternion);
+      garment.morphTargetInfluences[i]=smoothing(aim.y,-.61,.42);
+    }
+  };
   const button=$('shirtToggle'),key='leila.clothes.tee.v1';
   function set(on){
     garment.visible=on;button.setAttribute('aria-pressed',String(on));button.textContent='白Tシャツ：'+(on?'着用中':'未着用');
@@ -10879,7 +10947,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();leilaTee.updateTension();r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
