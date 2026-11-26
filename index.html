@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.6｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.8｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -185,7 +185,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 }
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.6</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.8</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -10114,6 +10114,7 @@ function createShepherd() {
       const playNeckRoot=V(0,0,0), playNeckTarget=V(0,0,0), playAxis=V(0,0,0), playCollar=V(0,0,0), playCenter=V(0,0,0);
       const playRelative=new T.Quaternion(), playBasis=new T.Quaternion();
       const playAngles=new T.Euler(0,0,0,'YXZ');
+      const lickClose=V(0,0,0), cheekAcross=V(0,0,0);
       const lickRot=new T.Quaternion(),lickSpot=V(0,0,0),lickTip=V(0,0,0);
       const tongueSkin=new T.Mesh(new T.SphereGeometry(1,12,8),new T.MeshStandardMaterial({
         color:0xc67980,roughness:.65
@@ -10126,11 +10127,11 @@ function createShepherd() {
         const {face,lick,faceSweep}=d.tumble;
         // -X and +Z have small offsets in this GLB's authored muzzle;
         // use the actual muzzle pivot and account for both.
-        const pitch=1.48+.09*lick;
+        const pitch=1.53+.035*lick;
         const yaw=-.16+.16*faceSweep;
         lickRot.setFromEuler(headTurn.set(pitch,yaw,-.05*faceSweep,'YXZ'));
         return lickSpot.copy(face).sub(lickTip.copy(lickBase).applyQuaternion(lickRot))
-          .addScaledVector(d.tumble.faceNormal,.036).addScaledVector(d.tumble.chinward,.092);
+          .addScaledVector(d.tumble.faceNormal,.018).addScaledVector(d.tumble.chinward,.051);
       }
       const jawTurn=new T.Quaternion(), jawAxis=V(1,0,-.18).normalize();
       const lapRotation=new T.Quaternion().setFromEuler(new T.Euler(.12,0,0,'YXZ'));
@@ -10244,8 +10245,8 @@ function createShepherd() {
           // preserves the solved skull-to-neck distance while clearing the mask.
           const chinward=d.tumble.chinward;
           const noseSide=nose.dot(chinward);
-          axis.addScaledVector(chinward,clamp(.035-noseSide,0,.095)*hold)
-            .addScaledVector(outward,clamp(.024-clearance,0,.057)*hold);
+          axis.addScaledVector(chinward,clamp(.031-noseSide,0,.095)*hold)
+            .addScaledVector(outward,clamp(.016-clearance,0,.057)*hold);
           // A little more flex at the base lets the muzzle approach the
           // jaw from below the lenses while the skull still leads the collar.
           axis.setLength(span);
@@ -10254,6 +10255,19 @@ function createShepherd() {
             axis.setLength(span);
           }
           joint.position.copy(axis).add(collar);
+          // Settle the muzzle close to the chin even between strokes. Keep
+          // a little room at the lip, moving only a small distance at the poll.
+          const lip=lickClose.copy(lickBase).applyQuaternion(joint.quaternion).add(joint.position);
+          const across=cheekAcross.crossVectors(outward,chinward).normalize();
+          const offset=lickTip.copy(lip).sub(d.tumble.face);
+          // Follow the cheek laterally along the neck's arc. Without this the
+          // tongue stretches diagonally while the snout stays on one side.
+          axis.addScaledVector(across,clamp(-offset.dot(across),-.058,.058)*hold).setLength(span);
+          joint.position.copy(axis).add(collar);
+          offset.copy(lip.copy(lickBase).applyQuaternion(joint.quaternion).add(joint.position)).sub(d.tumble.face);
+          const chinSpace=offset.dot(chinward), faceSpace=offset.dot(outward);
+          joint.position.addScaledVector(chinward,clamp(.022-chinSpace,-.018,.019)*hold)
+            .addScaledVector(outward,clamp(.020-faceSpace,-.022,.022)*hold);
           if(lick>.04&&hold>.35){
             const mouth=lickSpot.copy(lickBase).applyQuaternion(joint.quaternion).add(joint.position);
             const toward=lickTip.copy(d.tumble.face).sub(mouth);
@@ -10279,9 +10293,14 @@ function createShepherd() {
         const lie=onSofa?Math.max(d.sofaForeFold??0,d.sofaHindFold??0):rest;
         // A single anchored sweep keeps the original curved silhouette intact.
         // When lying down it follows the cushion instead of curling up over the rump.
-        looseTail.set((onSofa?.67:.55)*lie-.055*d.wag,
-          (onSofa?.05:.38)*lie+(d.tumble?.hold?.57:.31)*d.wag*Math.sin((d.tumble?.wagTime??d.time)*(d.tumble?11:d.play?9:5)),
-          -.05*lie,'YXZ');
+        const joy=d.tumble?.front?d.tumble.hold:0;
+        const time=d.tumble?.wagTime??d.time;
+        const swing=time*(d.tumble?11:d.play?9:5);
+        const happy=d.tumble?.front?Math.sin(swing+3.1*(d.tumble.motion??0)):0;
+        looseTail.set((onSofa?.67:.55)*lie-.055*d.wag+.12*joy,
+          (onSofa?.05:.38)*lie+(d.tumble?.hold?.57:.31)*d.wag*
+            mix(Math.sin(swing),1.36*happy,joy),
+          -.05*lie+.075*joy*happy,'YXZ');
         joint.position.copy(bindTail).applyQuaternion(body.quaternion).add(body.position);
         joint.quaternion.copy(body.quaternion).multiply(tailLocal.setFromEuler(looseTail));
       });
@@ -12070,7 +12089,7 @@ const dogTumble=(()=>{
   const rally=V(-1.10,0,1.73);
   // Use a single front-play tempo so paws, face and gaze stay in sync.
   // Rear play, other actions and cancellation keep their own clocks.
-  const frontTempo=1.30, linger=5.40;
+  const frontTempo=1.495, linger=5.40;
   const release=5.20+linger;
   const timing={impact:.37,land:1.05,release,clear:release+.62,stand:release+2.35};
   const ease=rearRamp, clamp=T.MathUtils.clamp;
@@ -12582,6 +12601,7 @@ const dogTumble=(()=>{
       // Match the generous tail swishes to the new tempo without changing
       // the tail phase at the moment the game starts.
       data.wagTime=d.time+motion*(1-1/frontTempo);
+      data.motion=motion;
     }
     // At impact the dog tags her hip, before moving the same paw to its pin pad.
     const tag=ease(t,.26,.55)*(1-ease(t,.63,.91));
@@ -12627,15 +12647,12 @@ const dogTumble=(()=>{
           .applyAxisAngle(up,-a.dogYaw).normalize();
         data.chinward=V(0,-1,0).applyQuaternion(groups.head.getWorldQuaternion(new T.Quaternion()))
           .applyAxisAngle(up,-a.dogYaw).normalize();
-        const u=((motion-1.24)% .57+.57)%.57;
-        // Short pauses between bursts, rather than ten seconds of frantic licking.
-        const laterBurst=t<4.55?1:1-ease(t,4.55,4.84)+ease(t,6.47,6.75)*(1-ease(t,8.35,8.64))
-          +ease(t,9.13,9.43)*(1-ease(t,10.21,10.52));
-        const holdCycle=(motion-4.5)%7.1;
-        const lickBurst=a.hold&&motion>=4.5
-          ? 1-ease(holdCycle,.90,1.28)+ease(holdCycle,3.75,4.23)*(1-ease(holdCycle,5.47,5.88))
-          : laterBurst;
-        data.lick=ease(u,.04,.20)*(1-ease(u,.27,.51))*ease(t,1.35,1.53)*lickBurst;
+        // Quick little laps without an idle gap, while the muzzle remains
+        // nestled in the same lower-face lane between strokes.
+        const stroke=Math.max(0,motion-1.39);
+        const rhythm=stroke*14.65+.24*Math.sin(stroke*2.6);
+        const lap=(.5-.5*Math.cos(rhythm))**1.35;
+        data.lick=(.27+.73*lap)*ease(t,1.37,1.54)*(1-ease(t,timing.release-.08,timing.release+.22));
       }
     }
     d.tumble=data;
