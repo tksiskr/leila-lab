@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 113｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 114｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 113: the scene stays in place; only the controls pane scrolls. */
+/* LAB 114: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -209,7 +209,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 113</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 114</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -609,7 +609,10 @@ function sofaPad(material, x, y, z, width, height, depth, radius) {
   mesh.position.set(x, y, z);
   sofa.add(mesh);
 }
-sofaPad(upholstery,sofaMiddle,.21,0,sofaWidth,.29,sofaDepth,.04);
+// Leave a small opening under the middle of the base for a rolling ball.
+const sofaNotch=.48, sofaBaseWing=(sofaWidth-sofaNotch)/2;
+for(const side of [-1,1])sofaPad(upholstery,sofaMiddle+side*(sofaNotch+sofaBaseWing)/2,.21,0,sofaBaseWing,.29,sofaDepth,.033);
+sofaPad(upholstery,sofaMiddle,.296,0,sofaNotch+.024,.118,sofaDepth,.024);
 sofaPad(upholstery,sofaMiddle,.52,-.38,sofaWidth,.73,.22,.055);
 for(const seat of [-1,0,1]){
   const x=sofaMiddle+seat*.838;
@@ -6510,6 +6513,7 @@ function pruneCameraGreeting(){
 }
 
 function advanceRoam(dt) {
+  if(lostSofaBall.pose(dt)||!devOwned()&&lostSofaBall.chance())return;
   if(dogTumble.leila(dt))return;
   if(windowSnow.advance(dt))return;
   if(dogKitchen.advanceLeila()||!devOwned()&&dogKitchen.maybeStart())return;
@@ -6594,7 +6598,7 @@ function advanceRoam(dt) {
       return;
     }
     if((roam.phase==='wait'||roam.phase==='linger'||roam.phase==='rest')&&!reaction&&!contact&&
-       mood.seconds>=Math.max(nextDogPlay,leilaUserPriorityUntil)&&shepherd.ready&&!shepherd.jump&&shepherd.state!=='curl'&&
+       mood.seconds>=Math.max(nextDogPlay,leilaUserPriorityUntil)&&shepherd.ready&&!lostSofaBall.missing&&!shepherd.jump&&shepherd.state!=='curl'&&
        currentMood()!=='annoyed'&&Math.random() < (currentMood()==='playful'?.59:.28)){
       requestDogPlay(false);return;
     }
@@ -7229,7 +7233,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       }
     }
   }
-  if (target.kind === 'capoeira' || target.kind === 'greeting' || target.kind === 'dogPlay' || target.kind === 'dogBond' || target.kind === 'dogTumble') {
+  if (target.kind === 'capoeira' || target.kind === 'greeting' || target.kind === 'dogPlay' || target.kind === 'dogBond' || target.kind === 'dogTumble' || target.kind === 'sofaBall') {
     visit.push(routeTurn(target.heading,message));
   } else if (target.kind==='kitchen') {
     dogKitchen.decorate(visit,target);
@@ -8688,7 +8692,7 @@ function arriveAtDestination() {
     roam.target.onArrival();
     return;
   }
-  if(roam.target.kind==='dogPlay'){beginSharedDogPlay(roam.target.manual,roam.target.three,roam.target.dogWatch);return;}
+  if(roam.target.kind==='dogPlay'){beginSharedDogPlay(roam.target.manual,roam.target.three,roam.target.dogWatch,roam.target.sofaMiss);return;}
   if(roam.target.kind==='dogBond'){
     if(!startDogBond(!roam.target.dogWatch))enterQuietRest('linger','犬が来るのを待っています',4);
     return;
@@ -10120,7 +10124,7 @@ function createShepherd() {
   }
   function change(state){d.state=state;d.t=0;if(state!=='couchCurl')d.lapPoint=null;if(state!=='curl')d.pillowPoint=null;}
   function cancelPlay(){
-    d.play=null;toy.visible=false;
+    d.play=null;toy.visible=lostSofaBall.keep();
     if(d.state==='play'){d.destination=null;d.path=[];change('idle');d.wait=d.time+4;}
   }
   function startJump(up,seat=null){
@@ -10874,12 +10878,149 @@ const shepherd=createShepherd();
 const dogPlayPoint=shepherd.player, dogLookAt=V(-1.47,.40,2.05);
 const dogPlayTarget={kind:'dogPlay',name:'犬とボール遊び',point:dogPlayPoint,lookAt:dogLookAt,heading:0};
 let dogBedRequested=false, nextDogPlay=12, leilaUserPriorityUntil=0;
+// A missed fetch leaves a real prop in the room, independent of the play session.
+const lostSofaBall=(()=>{
+  const d=shepherd, toy=d.toy, key='leila.sofa-ball.v1';
+  const at=(z,y=.048,x=sofaMiddle)=>sofa.localToWorld(V(x,0,z)).setY(y);
+  const bounce=at(1.72), park=at(.29), lip=at(.58), dock=at(.96,0,sofaMiddle+.11);
+  const putDown=at(1.18,.048,sofaMiddle+.36), dogStop=at(1.93,0,sofaMiddle-.66);
+  const axis=V(0,1,0), heading=headingTo(dock,park);
+  const rollAxis=V(0,1,0).cross(park.clone().sub(bounce)).normalize();
+  const clamp=T.MathUtils.clamp;
+  let state='', rolling=0, scene=null, readyAt=Infinity, retryAt=0;
+  try{
+    const saved=localStorage.getItem(key);
+    if(saved==='parked'||saved==='out'){
+      state=saved;toy.visible=true;toy.position.copy(saved==='parked'?park:putDown);
+      if(saved==='parked')readyAt=mood.seconds+18;
+    }
+  }catch{}
+  function save(value){try{if(value)localStorage.setItem(key,value);else localStorage.removeItem(key);}catch{}}
+  function keep(){return state==='parked'||state==='rolling'||state==='out';}
+  function shouldMiss(){return !keep()&&Math.random()<.24;}
+  function beginRoll(){
+    state='rolling';rolling=0;toy.visible=true;toy.position.copy(bounce);
+    // If the page is closed mid-roll, the ball will be under the sofa on return.
+    save('parked');
+  }
+  function tick(dt){
+    if(state!=='rolling')return;
+    const u=clamp((rolling+=dt)/1.38,0,1);
+    const old=toy.position.clone();
+    const progress=1-(1-u)**2;
+    toy.position.lerpVectors(bounce,park,progress);
+    toy.rotateOnWorldAxis(rollAxis,toy.position.distanceTo(old)/.044);
+    if(u>=1){
+      state='parked';readyAt=mood.seconds+27+Math.random()*18;
+      $('dogNote').textContent='ボールはソファの下。犬は取れずに見送っています。';
+    }
+  }
+  function takeForFetch(){
+    if(state==='out'){state='';save('');}
+  }
+  function chance(){
+    if(state!=='parked'||scene||mode!=='roam'||mood.seconds<Math.max(readyAt,retryAt,leilaUserPriorityUntil)||
+       !['wait','rest','linger','window'].includes(roam.phase)||reaction||contact||handLink||
+       roam.attention||activeCameraGreeting||!floorGroup.visible||
+       currentMood()==='annoyed'||document.hidden||d.play)return false;
+    if(root.position.distanceTo(dock)>3.3&&mood.seconds<readyAt+26)return false;
+    return request();
+  }
+  function request(){
+    if(state!=='parked'||scene||mood.seconds<retryAt||mode!=='roam')return false;
+    const target={kind:'sofaBall',point:dock,heading,name:'ソファの下のボール',onArrival:start};
+    retryAt=mood.seconds+12;
+    requestDestination(target);
+    return roam.target===target||roam.pending?.target===target;
+  }
+  function start(){
+    if(state!=='parked'){enterQuietRest('linger','レイラがあたりを見渡しています',4);return;}
+    settleStandingFeet();
+    const feet=sofaSides.map(side=>({side,ankle:routeFootTarget(side,heading).setY(standingAnkleHeights[side])}));
+    scene={clock:0,entry:captureSofaPose(),feet};
+    roam.phase='sofaBall';roam.pause=Infinity;
+    $('destination').textContent='レイラがソファの下をのぞき込んでいます';
+  }
+  function settleOut(){
+    state='out';toy.position.copy(putDown);toy.visible=true;save('out');
+  }
+  function interrupt(){
+    if(!scene)return;
+    if(state==='carried'){
+      if(scene.clock>2.28)settleOut();
+      else {state='parked';toy.position.copy(park);toy.visible=true;save('parked');}
+    }
+    scene=null;readyAt=mood.seconds+14;
+    if(mode==='roam'&&roam.phase==='sofaBall')enterQuietRest('linger','レイラが手を止めました',4);
+  }
+  function pose(dt){
+    if(!scene)return false;
+    if(mode!=='roam'||roam.phase!=='sofaBall'){interrupt();return false;}
+    const a=scene,t=a.clock+=dt;
+    const bend=rearRamp(t,.22,1.52)*(1-rearRamp(t,2.45,3.70));
+    const pull=rearRamp(t,1.73,2.42), show=rearRamp(t,2.48,3.55);
+    blendSofaPose(a.entry,1);
+    groups.pelvis.position.y-=.435*bend;
+    groups.pelvis.position.z+=.035*bend;
+    groups.abdomen.rotateX(.61*bend);
+    groups.chest.rotateX(.72*bend);
+    groups.head.rotateX(.31*bend-.16*show);
+    groups.upperP.rotateX(-.48*bend);
+    for(const {side,ankle} of a.feet)solveLeg(side,ankle,heading,0,heading);
+    if(t>=1.73&&state==='parked'){
+      state='carried';
+      $('destination').textContent='レイラがボールを引き寄せています';
+    }
+    if(t>=3.47&&!a.show){a.show=true;$('destination').textContent='レイラがボールを拾い上げました';}
+    const side='N';
+    const palm=orientPalm(side,V(0,0,1).applyAxisAngle(axis,heading),V(0,-1,0));
+    const target=park.clone().lerp(lip,pull);
+    if(t>=2.42){
+      const carry=groups.chest.localToWorld(V(-.12,-.12,.095));
+      target.lerp(carry,show);
+    }
+    const reach=rearRamp(t,.95,1.73)*(1-rearRamp(t,4.71,5.32));
+    if(t>3.92){
+      const place=rearRamp(t,3.92,4.62);
+      const down=rearRamp(t,3.96,4.60)*(1-rearRamp(t,4.83,5.48));
+      groups.pelvis.position.y-=.445*down;
+      groups.abdomen.rotateX(.64*down);
+      groups.chest.rotateX(.61*down);
+      groups.head.rotateX(.25*down);
+      for(const {side,ankle} of a.feet)solveLeg(side,ankle,heading,0,heading);
+      target.lerp(putDown,place);
+    }
+    const wrist=target.clone().add(V(0,mix(.042,.022,show*(1-rearRamp(t,4.12,4.58))),0)).sub(palmRig.N.center.clone().applyQuaternion(palm));
+    if(reach>.001)reachHand(side,wrist,palm,reach,false,V(-.16,-.10,.055));
+    if(state==='carried'){
+      if(t<2.42)toy.position.copy(target);
+      else if(t<4.63)toy.position.copy(groups.handN.localToWorld(palmRig.N.center.clone())).y-=mix(.042,.022,show*(1-rearRamp(t,4.12,4.58)));
+      else{
+        a.release??=toy.position.clone();
+        const land=clamp((t-4.63)/.23,0,1);
+        toy.position.lerpVectors(a.release,putDown,1-(1-land)**2);
+        toy.position.y=mix(a.release.y,putDown.y,land**2);
+        if(land>=1)settleOut();
+      }
+    }
+    if(t>=5.54){
+      scene=null;
+      $('dogNote').textContent='レイラが拾ったボールは、ソファのそばにあります。';
+      enterQuietRest('linger','レイラは拾ったボールをソファのそばに置きました',7);
+    }
+    return true;
+  }
+  return {chance,request,pose,tick,beginRoll,takeForFetch,keep,shouldMiss,interrupt,bounce,park,dogStop,
+    get missing(){return state==='parked'||state==='rolling'||state==='carried';}};
+})();
+
 function prioritizeLeilaUser(){
   const newAttention=mood.seconds>=leilaUserPriorityUntil;
   leilaUserPriorityUntil=mood.seconds+5.8;
   if(newAttention)queueRivalNotice();
   if(mode!=='roam')return;
   windowSnow.interrupt();
+  lostSofaBall.interrupt();
   dogKitchen.interrupt();
   if(previewHas('dogPlayHold'))clearDevPreview();
   dogTumble.stop();
@@ -10941,6 +11082,10 @@ function prepareDogCommand(){
   $('reactionStatus').hidden=true;closeWaveReply();cancelCameraGreeting();
 }
 function requestDogPlay(manual,three=false,watch=false){
+  if(lostSofaBall.missing){
+    if(manual){prepareDogCommand();lostSofaBall.request();}
+    return;
+  }
   if(mode==='roam'&&roam.phase==='dogPlay'){
     if(!manual||!!shepherd.play?.tri===three)return;
     threeWayFetch.close();prepareDogCommand();beginSharedDogPlay(true,three);return;
@@ -10952,7 +11097,10 @@ function requestDogPlay(manual,three=false,watch=false){
   dogBedRequested=false;
   prepareDogCommand();
   nextDogPlay=mood.seconds+47;
-  requestDestination(watch ? {...dogPlayTarget,dogWatch:true} : manual ? {...dogPlayTarget,manual:true,three}:dogPlayTarget);
+  const target=watch?{...dogPlayTarget,dogWatch:true}:manual?{...dogPlayTarget,manual:true,three}:dogPlayTarget;
+  if(!three&&!watch&&lostSofaBall.shouldMiss()){
+    requestDestination({...target,sofaMiss:true,heading:headingTo(dogPlayPoint,lostSofaBall.bounce)});
+  }else requestDestination(target);
 }
 function requestDogBed(){
   if(!restClips||!bed.visible)return;
@@ -10972,12 +11120,13 @@ $('dogPlay').disabled=false;$('dogView').disabled=false;
 $('dogBed').onclick=requestDogBed;
 $('dogBed').disabled=!restClips;
 $('dogView').onclick=dogView;
-function beginSharedDogPlay(manual,three=false,watch=false){
+function beginSharedDogPlay(manual,three=false,watch=false,sofaMiss=false){
+  lostSofaBall.takeForFetch();
   const d=shepherd;
   roam.phase='dogPlay';roam.pause=Infinity;roam.elapsed=0;
   settleStandingFeet();roam.dogPose=captureSofaPose();
   d.cancelPlay();
-  d.play={phase:'ready',t:0,round:0,from:V(0,0,0),watch,
+  d.play={phase:'ready',t:0,round:0,from:V(0,0,0),watch,sofaMiss,
     tossOffset:watch?Math.floor(Math.random()*d.tosses.length):0};
   d.destination=null;d.path=[];
   if(!d.jump&&d.state!=='curl')d.change('play');
@@ -11117,7 +11266,7 @@ function updateShepherd(dt){
   }else if(d.play){
     const p=d.play,ball=d.toy;
     if(d.state!=='play'){d.change('play');d.destination=null;}
-    const toss=d.tosses[(p.round+p.tossOffset)%d.tosses.length];
+    const toss=p.sofaMiss?lostSofaBall.bounce:d.tosses[(p.round+p.tossOffset)%d.tosses.length];
     const reset=(phase)=>{p.phase=phase;p.t=0;};
     if(p.phase==='ready'){
       d.navigate(d.arena);moved=d.follow(dt,1.39);
@@ -11133,13 +11282,18 @@ function updateShepherd(dt){
       }
     }else if(p.phase==='air'){
       p.t+=dt;focus=ball.position;running=true;
-      const u=Math.min(1,p.t/.72);
+      const u=Math.min(1,p.t/(p.sofaMiss?1.02:.72));
       ball.position.copy(p.from).lerp(toss,u);
       ball.position.y=mix(p.from.y,.046,u)+Math.sin(u*Math.PI)*.45;
       ball.rotation.x+=dt*8;
-      d.navigate(toss);moved=d.follow(dt,1.66);
-      if(u>=1&&obj.position.distanceTo(toss)<.11){reset('return');$('destination').textContent='犬がボールをくわえて戻ってきます';}
+      d.navigate(p.sofaMiss?lostSofaBall.dogStop:toss);moved=d.follow(dt,1.66);
+      if(u>=1&&p.sofaMiss){lostSofaBall.beginRoll();reset('sofaStray');$('destination').textContent='ボールがソファの下に転がっていきます';}
+      else if(u>=1&&obj.position.distanceTo(toss)<.11){reset('return');$('destination').textContent='犬がボールをくわえて戻ってきます';}
       else if(p.t>9){d.cancelPlay();}
+    }else if(p.phase==='sofaStray'){
+      p.t+=dt;focus=ball.position;
+      moved=d.follow(dt,1.14);
+      if(p.t>2.72)d.cancelPlay();
     }else if(p.phase==='return'){
       p.t+=dt;d.navigate(d.arena);moved=d.follow(dt,1.18);
       focus=V(root.position.x,.56,root.position.z);ball.position.copy(d.head.localToWorld(V(0,-.093,.205)));
@@ -13936,7 +14090,7 @@ const cinema=(()=>{
     }
     return {paired,type:paired?'pair':mode==='dance'?'stage':
       (episode==='route'&&roam.target?.kind!=='wardrobeMirror'||['walk','travel','mixamo'].includes(mode))?'moving':
-      head.y<.66?'low':'quiet'};
+      episode==='sofaBall'||head.y<.66?'low':'quiet'};
   }
   function place(a,e,obj){
     const h=Math.cos(e);
@@ -14065,7 +14219,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
