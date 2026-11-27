@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 116｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 117｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 116: the scene stays in place; only the controls pane scrolls. */
+/* LAB 117: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -217,7 +217,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 116</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 117</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -5148,6 +5148,15 @@ function sampleTouchStroke(stroke,x,y) {
   Object.assign(stroke,{x,y,dx:dx/distance,dy:dy/distance,lastAt:mood.seconds,speed});
 }
 
+function interruptHeldPointer(event){
+  if(!handLink||event.type==='lostpointercapture'&&event.pointerId!==handLink.contact.id||
+     event.type==='visibilitychange'&&!document.hidden)return;
+  trackedPointers.delete(handLink.contact.id);
+  clearContact();
+}
+canvas.addEventListener('lostpointercapture',interruptHeldPointer);
+window.addEventListener('blur',interruptHeldPointer);
+document.addEventListener('visibilitychange',interruptHeldPointer);
 canvas.addEventListener('pointermove', event => {
   if (contact?.id === event.pointerId) updateDrag(event, contact);
   if (backgroundTap?.id === event.pointerId &&
@@ -9516,24 +9525,61 @@ function handLinkCouch() {
   return sofaWalkingBounds();
 }
 
-function walkWithHeldHand(link,dt,stretch,fastPull) {
+// Move the walking rig, view and touch plane together. Otherwise a stationary
+// finger is a fixed point in the room, not a continuing pull on the screen.
+const handFollowStep=new T.Vector3(), handFollowNext=new T.Vector3();
+function moveHandLinkWithCamera(link,x,z){
+  handFollowStep.set(x-root.position.x,0,z-root.position.z);
+  if(handFollowStep.lengthSq()<1e-10)return;
+  setTravelPosition(x,z,true);
+  camera.position.add(handFollowStep);
+  orbit.target.add(handFollowStep);
+  link.plane.translate(handFollowStep);
+  link.currentGoal.add(handFollowStep);
+  handLinkGoal.add(handFollowStep);
+  handLinkWrist.add(handFollowStep);
+  handLinkRay.ray.origin.add(handFollowStep);
+}
+function handSteering(link,vertical){
+  if(vertical)return 0;
+  const rect=canvas.getBoundingClientRect();
+  const delta=Math.abs(link.x-link.contact.x);
+  return T.MathUtils.smoothstep(delta,Math.max(touchMotion*2.3,rect.width*.045),Math.max(touchMotion*4.5,rect.width*.16));
+}
+function stepHandLink(dx,dz){
+  const p=root.position;
+  const clear=walkingClearance(handLinkCouch());
+  const x=T.MathUtils.clamp(p.x+dx,-5.65,5.65), z=T.MathUtils.clamp(p.z+dz,-5.65,8.65);
+  handFollowNext.set(x,0,z);
+  if(clear(p,handFollowNext))return handFollowNext;
+  // Slide along a wall or an obstacle only in a direction the user is
+  // already pulling. Never tunnel, or turn them away from their finger.
+  const choices=Math.abs(dx)>=Math.abs(dz)?[[x,p.z],[p.x,z]]:[[p.x,z],[x,p.z]];
+  for(const [ax,az] of choices){
+    handFollowNext.set(ax,0,az);
+    if(p.distanceToSquared(handFollowNext)>1e-10&&clear(p,handFollowNext))return handFollowNext;
+  }
+  return handFollowNext.copy(p);
+}
+
+function walkWithHeldHand(link,dt,stretch,fastPull,steering) {
   const heading = headingTo(root.position,link.currentGoal);
   const turn = headingDelta(root.rotation.y,heading);
-  const walkSpeed = T.MathUtils.clamp(.20+stretch*2.0,.20,.68);
+  const walkSpeed = Math.max(.34*steering,T.MathUtils.clamp(.20+stretch*2.0,.20,.68));
   const chase = Math.max(fastPull*T.MathUtils.smoothstep(stretch,.045,.18),
     T.MathUtils.smoothstep(stretch,.19,.51));
   const speed = mix(walkSpeed,1.65,chase)
     * mix(.35,1,rearRamp(link.followTime,0,mix(.22,.095,chase)))
     * mix(1,.45,chase*T.MathUtils.smoothstep(Math.abs(turn),.55,1.85));
-  const length = Math.min(speed*dt,stretch*Math.min(.85,dt*14.4));
-  const next = V(Math.sin(heading)*length,0,Math.cos(heading)*length).add(root.position);
-  if (next.x < -5.65 || next.x > 5.65 || next.z < -5.65 || next.z > 8.65 ||
-      handLinkCouch().containsPoint(next) || !clearOfFurniture(root.position,next)) return 0;
+  const length = Math.min(speed*dt,stretch*Math.min(.85,dt*14.4))*steering;
+  const next = stepHandLink(Math.sin(heading)*length,Math.cos(heading)*length);
+  const moved=root.position.distanceTo(next);
+  if(moved<.00001)return 0;
   const turnLimit = dt*mix(3.2,10,chase);
-  root.rotation.y += T.MathUtils.clamp(turn,-turnLimit,turnLimit);
-  // Keep the camera fixed while she closes the gap to the finger.
-  setTravelPosition(next.x,next.z,true);
-  return length/dt;
+  const actualTurn=headingDelta(root.rotation.y,headingTo(root.position,next));
+  root.rotation.y += T.MathUtils.clamp(actualTurn,-turnLimit,turnLimit);
+  moveHandLinkWithCamera(link,next.x,next.z);
+  return moved/dt;
 }
 
 const handLinkBodyTarget = new T.Vector3();
@@ -9699,8 +9745,11 @@ function poseHandCarry(link,dt,airborne) {
   groups.pelvis.position.y += .13*lift;
 }
 
-function moveCarriedBody(delta) {
+function moveCarriedBody(link,delta,dt) {
   const from = root.position;
+  // Camera tracking must not magnify the old one-frame body snap.
+  const magnitude=Math.hypot(delta.x,delta.z), limit=dt*2.65;
+  if(magnitude>limit){delta.x*=limit/magnitude;delta.z*=limit/magnitude;}
   carryNext.set(T.MathUtils.clamp(from.x+delta.x,-5.65,5.65),0,
     T.MathUtils.clamp(from.z+delta.z,-5.65,8.65));
   const distance = from.distanceTo(carryNext);
@@ -9719,10 +9768,10 @@ function moveCarriedBody(delta) {
     }
     carryPath.at(clear,carryNext);
   }
-  setTravelPosition(carryNext.x,carryNext.z,true);
+  moveHandLinkWithCamera(link,carryNext.x,carryNext.z);
 }
 
-function pinCarriedHand(side,palmOrientation,depth,lift) {
+function pinCarriedHand(link,side,palmOrientation,depth,lift,dt) {
   handLinkRay.ray.at(depth,carryTarget).sub(handLinkOffset);
   if (!solveHeldHand(side,carryTarget,palmOrientation,1)) {
     const safeWrist = groups.chest.localToWorld(guardedWrist.set(side === 'P' ? .16 : -.16,-.13,.15));
@@ -9730,7 +9779,7 @@ function pinCarriedHand(side,palmOrientation,depth,lift) {
   }
   // Measure the remaining error after IK, then translate the whole rig with the wrist.
   carryDelta.copy(carryTarget).sub(groups['hand'+side].getWorldPosition(guardedWrist));
-  moveCarriedBody(carryDelta);
+  moveCarriedBody(link,carryDelta,dt);
   groups.pelvis.position.y += T.MathUtils.clamp(carryDelta.y,-.13*lift,.22);
   return true;
 }
@@ -9777,6 +9826,7 @@ function advanceHandLink(dt) {
   if (!handLinkFinger(link,handLinkGoal)) return;
   const direction = link.direction ?? handPullDirection(link);
   const vertical = direction !== 'lateral';
+  const steering=handSteering(link,vertical);
   const fastPull = !vertical && link.age < link.fastUntil ? link.fastPull : 0;
   const fingerDepth = handLinkGoal.distanceTo(handLinkRay.ray.origin);
   handLinkGoal.y = T.MathUtils.clamp(handLinkGoal.y,.30,1.19);
@@ -9827,8 +9877,11 @@ function advanceHandLink(dt) {
     }
   } else {
     link.followTime += dt;
-    const stretch = Math.max(0,unloadedStretch-.015);
-    const speed = !airborne && !vertical && stretch > 0 ? walkWithHeldHand(link,dt,stretch,fastPull) : 0;
+    // A sustained pull keeps walking even after the shoulder settles into a
+    // less stretched pose. Pulling back to where you grabbed her stops it.
+    const stretch = Math.max(0,unloadedStretch-.015,.040*steering);
+    if(policy==='release'&&steering>.30)releasing=true;
+    const speed = !releasing&&!airborne&&steering>0 ? walkWithHeldHand(link,dt,stretch,fastPull,steering) : 0;
     link.runBlend = mix(link.runBlend,T.MathUtils.smoothstep(speed,.68,1.30),1-Math.exp(-dt*12));
     link.walkBlend = mix(link.walkBlend,speed ? 1 : 0,1-Math.exp(-dt*9));
     if (link.walkBlend > .015) {
@@ -9862,7 +9915,7 @@ function advanceHandLink(dt) {
     && (link.carryBlend > .06 || link.landingAge < .24);
   const screenGrip = airborne || landingGrip
     ? solveScreenGrip(side,upper,palmOrientation,1,reach,fingerDepth)
-      || pinCarriedHand(side,palmOrientation,fingerDepth,link.carryBlend)
+      || pinCarriedHand(link,side,palmOrientation,fingerDepth,link.carryBlend,dt)
     : !vertical && (fastPull > .20 || link.runBlend > .15)
       && solveScreenGrip(side,upper,palmOrientation,weight,reach,fingerDepth);
   if (!screenGrip && !solveHeldHand(side,handLinkWrist,palmOrientation,weight)) {
