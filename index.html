@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 114｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 115｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 114: the scene stays in place; only the controls pane scrolls. */
+/* LAB 115: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -199,6 +199,14 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
  width:44px;height:44px;margin:0;padding:0;display:grid;place-items:center;
  border:1px solid #8ba1b6;border-radius:11px;background:#142034e8;color:#f1f7ff;
  touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#viewMood{position:absolute;z-index:4;top:10px;left:10px;
+ top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));
+ display:inline-flex;align-items:center;gap:6px;min-height:44px;max-width:calc(100% - 72px);
+ padding:4px 10px;border:1px solid #8ba1b6;border-radius:11px;background:#142034e8;
+ box-sizing:border-box;color:#f1f7ff;font:600 12px/1.25 system-ui,sans-serif;
+ pointer-events:none;user-select:none}
+#viewMoodIcon{font-size:19px;line-height:1;flex:none}
+#viewMoodLabel{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #viewModeToggle[hidden],#viewModeToggle .viewExit{display:none}
 #viewModeToggle:focus-visible{outline:2px solid #b7eaff;outline-offset:2px}
 #viewModeToggle svg{width:20px;height:20px;pointer-events:none}
@@ -209,10 +217,10 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 114</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 115</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
-</header><div id="view"><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
+</header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
   <svg class="viewEnter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg>
   <svg class="viewExit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h5V4m6 0v5h5m0 6h-5v5m-6 0v-5H4"/></svg>
 </button><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -4529,6 +4537,15 @@ const mood = {
 };
 for (const [key,label] of Object.entries(moodLabels)) moodControl.add(new Option(label,key));
 function currentMood() { return moodControl.value || mood.current; }
+const moodIcons={neutral:'😐',happy:'😊',affectionate:'🥰',bored:'😑',playful:'😏',annoyed:'😠'};
+const viewMoodIcon=$('viewMoodIcon'),viewMoodLabel=$('viewMoodLabel');
+let shownViewMood='neutral';
+function refreshViewMood(){
+  const key=currentMood();
+  if(key===shownViewMood)return;
+  shownViewMood=key;viewMoodIcon.textContent=moodIcons[key];viewMoodLabel.textContent=moodLabels[key];
+}
+moodControl.addEventListener('change',refreshViewMood);
 function moodSituation() {
   if ((mode === 'dance' && !dance.finished) || (mode === 'roam' && (roam.phase === 'route' || roam.phase === 'reading'))) return 'focused';
   if (mode === 'roam' && roam.phase === 'seated' &&
@@ -4548,6 +4565,7 @@ function setMood(next) {
   mood.current = next;
   mood.age = 0;
   mood.nextChange = 120+Math.random()*180;
+  refreshViewMood();
 }
 function updateMood(dt) {
   mood.seconds += dt;
@@ -4564,6 +4582,7 @@ function updateMood(dt) {
     setMood(next);
     if (mood.age >= mood.nextChange) mood.nextChange = mood.age+65;
   }
+  refreshViewMood();
   if ($('developer').open) {
     const state = moodSituation();
     const text = '現在の気分 ／ '+moodLabels[currentMood()]+
@@ -14052,17 +14071,141 @@ const cinema=(()=>{
   let wait=firstWait, wasFull=false, shot=null, yaw=0, pitch=0, distance=0;
   let context='', nextContext='', contextAge=0, facing=0, angleTravel=0;
   const cursors={quiet:0,pair:0,low:0,moving:0,stage:0};
-  const fingers=new Set(), ray=new T.Ray(), hit=V(0,0,0);
-  const furniture=[
-    {object:sofa,box:new T.Box3(sofa.localToWorld(V(sofaMiddle+1.37,.08,-.50)),
-      sofa.localToWorld(V(sofaMiddle-1.37,.90,-.23)))},
-    {object:wardrobeCabinet,box:dressingBounds}
-  ];
-  // The backrest's local axes are sideways in room coordinates.
-  furniture[0].box.setFromPoints([furniture[0].box.min.clone(),furniture[0].box.max.clone()]);
+  const fingers=new Set();
+  // Check sight lines through individual furniture parts, not navigation bounds:
+  // e.g. an armrest can hide Leila without the rest of the sofa doing so.
+  const obstacles=[], movingObstacles=[];
+  const ray=new T.Ray(), localRay=new T.Ray(), hit=V(0,0,0), localEnd=V(0,0,0);
+  const end=V(0,0,0), safeAim=V(0,0,0), proposed=V(0,0,0), escape=V(0,0,0), trial=V(0,0,0);
+  const sightHead=V(0,0,0), sightChest=V(0,0,0), sightHip=V(0,0,0);
+  function addBlockers(group,dynamic=false){
+    const cluster={parts:[],bounds:new T.Box3()};
+    group.updateWorldMatrix(true,true);
+    group.traverse(mesh=>{
+      if(!mesh.isMesh||mesh.material===glass||mesh.geometry===undefined)return;
+      if(!dynamic&&mesh.parent===wardrobeHinge)return;
+      const mat=mesh.material;
+      if(mat?.transparent&&mat.opacity<.35)return;
+      const shape=mesh.geometry;
+      if(!shape.boundingBox)shape.computeBoundingBox();
+      if(shape.boundingBox.isEmpty())return;
+      const part={mesh,wall:wallGroups.indexOf(group),shape:shape.boundingBox,bounds:new T.Box3(),inverse:new T.Matrix4()};
+      cluster.parts.push(part);
+    });
+    refreshCluster(cluster);
+    obstacles.push(cluster);
+    if(dynamic)movingObstacles.push(cluster);
+  }
+  function refreshCluster(cluster){
+    cluster.bounds.makeEmpty();
+    for(const p of cluster.parts){
+      p.mesh.updateWorldMatrix(true,false);
+      p.inverse.copy(p.mesh.matrixWorld).invert();
+      p.bounds.copy(p.shape).applyMatrix4(p.mesh.matrixWorld);
+      cluster.bounds.union(p.bounds);
+    }
+  }
+  for(const group of [sofa,bed,dressingArea,sideTable,roomRadio,artistEasel,labTerrarium,kitchenScene.group,...wallGroups])
+    addBlockers(group);
+  addBlockers(wardrobeHinge,true);
+  function cutAwayFor(p,from){
+    // Same side thresholds as updateCutaway(). Current visibility may belong to
+    // the previous camera position; use the position being tested instead.
+    if(p.wall===0)return from.z<=-5.85;
+    if(p.wall===1)return from.z>=8.85;
+    if(p.wall===2)return from.x<=-5.85;
+    if(p.wall===3)return from.x>=5.85;
+    for(let part=p.mesh;part;part=part.parent){
+      if(part===floorGroup||part===kitchenScene.kitchenRoot)return from.y<=.005;
+      if(!part.visible)return true;
+    }
+    return false;
+  }
+  function blocked(from,to,skin){
+    ray.origin.copy(from);
+    ray.direction.subVectors(to,from);
+    const length=ray.direction.length(), reach=length-skin;
+    if(reach<=.025)return false;
+    ray.direction.multiplyScalar(1/length);
+    end.copy(from).addScaledVector(ray.direction,reach);
+    const enters=box=>box.containsPoint(from)||!!ray.intersectBox(box,hit)&&hit.distanceToSquared(from)<reach*reach;
+    for(const cluster of obstacles){
+      if(!enters(cluster.bounds))continue;
+      for(const p of cluster.parts){
+        if(!enters(p.bounds)||cutAwayFor(p,from))continue;
+        localRay.origin.copy(from).applyMatrix4(p.inverse);
+        localEnd.copy(end).applyMatrix4(p.inverse);
+        localRay.direction.subVectors(localEnd,localRay.origin);
+        const len=localRay.direction.length();
+        if(len<=1e-7)continue;
+        localRay.direction.multiplyScalar(1/len);
+        if(p.shape.containsPoint(localRay.origin)||
+           localRay.intersectBox(p.shape,hit)&&hit.distanceToSquared(localRay.origin)<len*len)return true;
+      }
+    }
+    return false;
+  }
+  let recovering=false;
+  function coverage(from){
+    // Near-contact furniture (e.g. a mounted pillow) is not an obstruction
+    // just because the last centimeters of the ray touch the support surface.
+    if(from.y<.14||from.y>3.79||from.x< -6.02||from.x>6.02||from.z< -6.02||from.z>9.02)return 24;
+    return (blocked(from,sightHead,.046)?8:0)+(blocked(from,sightChest,.06)?5:0)+
+      (blocked(from,sightHip,.074)?2:0);
+  }
+  function framingCost(from,aim,kind,paired){
+    offset.subVectors(from,aim);
+    const r=offset.length();
+    if(r<.65)return 20;
+    return Math.max(0,fit(offset.multiplyScalar(1/r),r,kind,paired,aim)-r);
+  }
+  function repair(a,e,r,kind,paired,dt){
+    // Search around the intended shot every time the actor or a transition
+    // moves behind furniture. Prefer the same screen size and nearest angle.
+    const base=coverage(proposed);
+    if(base===0){
+      if(recovering){
+        trial.copy(camera.position).lerp(proposed,blend(dt,4.5));
+        if(trial.distanceToSquared(proposed)<.0004)recovering=false;
+        else if(!coverage(trial)&&framingCost(trial,aimAt,kind,paired)<.12)proposed.copy(trial);
+        else recovering=false;
+      }
+      return;
+    }
+    let best=Infinity, bestCover=base, bestFit=Infinity;
+    const vents=[0,-.32,.32,-.65,.65,-1,1,-1.45,1.45,-2.05,2.05,Math.PI];
+    for(const raise of [0,.31,-.22,.60,.91]){
+      const v=clamp(e+raise,.075,1.41);
+      for(const side of vents){
+        const theta=a+side;
+        place(theta,v,direction);
+        const full=fit(direction,r,kind,paired);
+        const bare=fit(direction,0,kind,paired);
+        for(const radius of new Set([full,Math.max(.83,bare),Math.max(.73,bare*.85)])){
+          trial.copy(aimAt).addScaledVector(direction,radius);
+          const room=outsideCost(trial);
+          const aesthetic=Math.abs(side)*.54+Math.abs(raise)*.91+Math.abs(radius-r)*.36+room*.7;
+          if(aesthetic>=best)continue;
+          const misses=coverage(trial), clip=Math.max(0,bare-radius);
+          const score=misses*7+aesthetic+clip*3+.22*trial.distanceTo(camera.position);
+          if(score<best){best=score;bestCover=misses;bestFit=clip;escape.copy(trial);}
+        }
+      }
+    }
+    if(bestCover>base||best===Infinity)return;
+    recovering=true;
+    const move=blend(dt,8);
+    trial.copy(camera.position).lerp(escape,move);
+    // Only glide when the actual in-between position stays clear and framed.
+    // If furniture separates the shots, cut to the open angle instead.
+    if(trial.distanceToSquared(escape)<.00004||
+       coverage(trial)>bestCover||framingCost(trial,aimAt,kind,paired)>Math.max(.13,bestFit+.05)){
+      proposed.copy(escape);
+    }else proposed.copy(trial);
+  }
   const clamp=T.MathUtils.clamp, ease=x=>{x=clamp(x,0,1);return x*x*(3-2*x);};
   const blend=(dt,k)=>1-Math.exp(-k*dt);
-  function quietFor(seconds=manualWait){wait=seconds;cinemaOwnsView=false;shot=null;}
+  function quietFor(seconds=manualWait){wait=seconds;cinemaOwnsView=false;shot=null;recovering=false;}
   view.addEventListener('pointerdown',e=>{
     if(!document.body.classList.contains('leilaFullView')||e.target.closest?.('#viewModeToggle'))return;
     fingers.add(e.pointerId);quietFor();
@@ -14078,6 +14221,10 @@ const cinema=(()=>{
   function sample(){
     for(const k of keys)groups[k].getWorldPosition(marks[k]);
     head.copy(marks.head);hip.copy(marks.pelvis);
+    sightHead.copy(head).lerp(marks.neck,-.30);
+    sightChest.copy(marks.chest).lerp(marks.neck,.26);
+    sightHip.copy(hip).lerp(marks.chest,.14);
+    for(const cluster of movingObstacles)refreshCluster(cluster);
     const measure=shepherd.object;
     dog.copy(measure.position);
     const episode=mode==='roam'?roam.phase:'';
@@ -14097,18 +14244,13 @@ const cinema=(()=>{
     obj.set(Math.sin(a)*h,Math.sin(e),Math.cos(a)*h);
     return obj;
   }
+  function outsideCost(p){
+    return Math.max(0,Math.abs(p.x)-5.72)+Math.max(0,-5.73-p.z,p.z-8.72);
+  }
   function interference(a,e,r){
     place(a,e,direction);
     point.copy(desired).addScaledVector(direction,r);
-    const outside=Math.max(0,Math.abs(point.x)-5.72)+Math.max(0,-5.73-point.z,point.z-8.72);
-    let score=outside*.40+(point.y>3.65?.8:0);
-    ray.set(desired,direction);
-    for(const {object,box} of furniture){
-      if(!object.visible)continue;
-      const p=ray.intersectBox(box,hit);
-      if(p&&p.distanceTo(desired)<r+.15&&p.distanceTo(desired)>.19)score+=2.8;
-    }
-    return score;
+    return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
     if(kind==='portrait'){
@@ -14136,7 +14278,7 @@ const cinema=(()=>{
     shot={kind,type,side,e,r,seconds,elapsed:0,fromYaw:yaw,toYaw:yaw+headingDelta(yaw,chosen),fromPitch:pitch,fromDist:distance};
     facing=root.rotation.y;angleTravel=0;
   }
-  function fit(dir,r,kind,paired){
+  function fit(dir,r,kind,paired,focusPoint=aimAt){
     // Frame points against both axes, not just vertical FOV. Wide scenes
     // remain whole when the phone is upright and when actors lie sideways.
     screenX.crossVectors(up,dir).normalize();screenY.crossVectors(dir,screenX).normalize();
@@ -14145,7 +14287,7 @@ const cinema=(()=>{
     const use=kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
       ['head','upperP','upperN','pelvis','handP','handN']:tall;
     function include(p,pad){
-      point.copy(p).sub(aimAt);
+      point.copy(p).sub(focusPoint);
       r=Math.max(r,point.dot(dir)+Math.max((Math.abs(point.dot(screenX))+pad)/w,(Math.abs(point.dot(screenY))+pad)/h));
     }
     for(const k of use)include(marks[k],k==='head'?.13:k.startsWith('foot')?.14:.085);
@@ -14183,7 +14325,17 @@ const cinema=(()=>{
     const ideal=fit(direction,s.r*(1-.055*Math.sin(s.elapsed*.38)),kind,view.paired);
     const aimDistance=s.elapsed<1.95?mix(s.fromDist,ideal,u):ideal;
     distance=mix(distance,aimDistance,blend(dt,aimDistance>distance?5.2:3));
-    camera.position.copy(aimAt).addScaledVector(direction,distance);
+    proposed.copy(aimAt).addScaledVector(direction,distance);
+    // If Leila traversed far during the blend, solve against her current
+    // position rather than carrying an old focus point into the recovery.
+    if(coverage(proposed)>0&&aimAt.distanceToSquared(desired)>.0625){
+      safeAim.copy(aimAt);aimAt.copy(desired);
+      place(yaw,pitch,direction);
+      proposed.copy(aimAt).addScaledVector(direction,distance);
+      if(coverage(proposed)>0){aimAt.copy(safeAim);proposed.copy(aimAt).addScaledVector(direction,distance);}
+    }
+    repair(yaw,pitch,distance,kind,view.paired,dt);
+    camera.position.copy(proposed);
     orbit.target.copy(aimAt);
   }
   return {tick};
