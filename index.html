@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 111.5｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 112｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 111.5: the scene stays in place; only the controls pane scrolls. */
+/* LAB 112: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -192,12 +192,30 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
 #controlScroll{height:100%;width:100%;overflow:auto;overscroll-behavior-y:contain;scroll-padding-block:10px;scrollbar-color:#526987 var(--lab900-bg)}
 #controlScroll:focus-visible{outline:2px solid var(--lab900-cyan);outline-offset:-2px}
 #paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
+
+/* Viewing mode fills the visible page without relying on a browser fullscreen API. */
+#viewModeToggle{position:absolute;z-index:4;top:10px;right:10px;
+ top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));
+ width:44px;height:44px;margin:0;padding:0;display:grid;place-items:center;
+ border:1px solid #8ba1b6;border-radius:11px;background:#142034e8;color:#f1f7ff;
+ touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#viewModeToggle[hidden],#viewModeToggle .viewExit{display:none}
+#viewModeToggle:focus-visible{outline:2px solid #b7eaff;outline-offset:2px}
+#viewModeToggle svg{width:20px;height:20px;pointer-events:none}
+body.leilaFullView{grid-template-rows:minmax(0,1fr)}
+body.leilaFullView>.lab900Header,body.leilaFullView>#controlPane,
+body.leilaFullView #threeFetchFallback,body.leilaFullView #viewModeToggle .viewEnter{display:none}
+body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:none}
+body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 111.5</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 112</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
-</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</header><div id="view"><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
+  <svg class="viewEnter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg>
+  <svg class="viewExit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h5V4m6 0v5h5m0 6h-5v5m-6 0v-5H4"/></svg>
+</button><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button data-menu-hidden hidden type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button data-menu-hidden hidden type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -329,7 +347,35 @@ async function loadAsset(path) {
   return response;
 }
 const $=id=>document.getElementById(id), view=$('view');try{
-const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{r.setSize(view.clientWidth,view.clientHeight);camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(view);resize();// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
+const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{
+  const width=view.clientWidth,height=view.clientHeight;
+  if(!width||!height)return;
+  r.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();
+};
+new ResizeObserver(resize).observe(view);resize();
+{
+  const toggle=$('viewModeToggle'), menu=$('controlScroll');
+  let expanded=false, savedScroll=0;
+  function showFullView(next){
+    if(expanded===next)return;
+    if(next)savedScroll=menu.scrollTop;
+    expanded=next;
+    document.body.classList.toggle('leilaFullView',expanded);
+    const label=expanded?'通常表示に戻る':'全画面表示';
+    toggle.setAttribute('aria-label',label);toggle.title=label;
+    if(!expanded)menu.scrollTop=savedScroll;
+    resize();
+  }
+  toggle.onclick=()=>showFullView(!expanded);
+  document.addEventListener('keydown',event=>{
+    if(expanded&&event.key==='Escape'&&!event.defaultPrevented){
+      event.preventDefault();
+      showFullView(false);
+    }
+  });
+  toggle.hidden=false;
+}
+// LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
 // LAB 900: bounded on-device log of completed or observable activities only.
 const lab900LifeNote=(()=>{
   const key='leila.lab900.life.v1', cap=24;
