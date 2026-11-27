@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.24｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.25｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 109.24: the scene stays in place; only the controls pane scrolls. */
+/* LAB 109.25: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -194,7 +194,7 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
 #paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.24</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.25</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -12530,19 +12530,28 @@ const dogTumble=(()=>{
     const {lay,effort,reply,sway}=m;
     if(lay<.0001)return;
     const hip=groups.pelvis;
-    const pos=local(a,.012*sway,bedHeight+.083+.026*effort*(1-.70*reply),-.282-.014*reply);
+    const pos=local(a,.012*sway,bedHeight+.047+.009*effort*(1-.70*reply),-.288-.010*reply);
     hip.position.lerp(root.worldToLocal(pos),lay);
     orientWorld(hip,angle(a,-1.32-.12*effort+.055*reply,0,.050*sway),lay);
-    orientWorld(groups.abdomen,angle(a,-1.51-.076*effort,0,.045*sway),lay);
+    orientWorld(groups.abdomen,angle(a,-1.39+.036*reply,0,.037*sway),lay);
     orientWorld(groups.chest,angle(a,-1.52-.041*reply,0,.038*sway),lay);
     orientWorld(groups.neck,angle(a,-1.45,0,.048*sway),lay);
     orientWorld(groups.head,angle(a,-1.40+.040*effort,.095*sway,.075*sway),lay);
     groups.head.rotateY(.25*m.pin);
-    // Let the mattress support the back while the hips rock at its edge.
-    const back=cachedSkin().breast;
-    const delta=bedSurfaceGap(back,null);
-    if(Number.isFinite(delta))shift(groups.chest,V(0,clamp(.005-delta,-.078,.065)*lay,0));
-    const headGap=bedSurfaceGap(cachedSkin().faceFloor,null);
+    // Support the hip shell and the upper back independently. Keep the small
+    // rocking motion in the angles, not by lifting the armor off the mattress.
+    const skin=cachedSkin();
+    const support=ease(lay,.35,1);
+    const settle=(joint,mesh,clearance,lower,raise)=>{
+      const gap=bedSurfaceGap(mesh,null);
+      if(Number.isFinite(gap))shift(joint,V(0,clamp(clearance-gap,lower,raise)*support,0));
+    };
+    settle(hip,skin.hips,.0014+.001*effort*(1-reply),-.070,.032);
+    // A shallower arch keeps the attached waist segments continuous when the
+    // pelvis is supported, with small offsets to avoid opening the armor seams.
+    settle(groups.abdomen,skin.midBack,.0021,-.017,.036);
+    settle(groups.chest,skin.breast,.0015,-.050,.060);
+    const headGap=bedSurfaceGap(skin.faceFloor,null);
     if(Number.isFinite(headGap)&&headGap<.007)shift(groups.neck,V(0,clamp(.009-headGap,0,.102)*lay,0));
     for(const side of sofaSides){
       const sign=side==='P'?1:-1;
@@ -12578,12 +12587,12 @@ const dogTumble=(()=>{
     const retreat=ease(t,12.38,13.62);
     const center=groups.pelvis.getWorldPosition(V(0,0,0));
     const waist=patch(cachedSkin().hips.map(e=>e.mesh),center.clone().add(V(0,.27,0)),down,center.clone().add(V(0,.071,0)));
-    const pad=V(-.047,.343,.104-.009*reply);
+    const pad=V(-.047,.343,.090-.010*reply);
     const pitch=-.704+.040*effort-.079*reply;
     const turned=pad.clone().applyAxisAngle(V(1,0,0),pitch);
     const offset=turned.clone().multiplyScalar(shepherdScale).applyAxisAngle(up,a.dogYaw);
     const fit=waist.clone().sub(offset).setY(0);
-    const gap=-.001+.014*(1-reply)**1.5;
+    const gap=-.0035+.0075*(1-reply)**1.5;
     const bodyY=(waist.y+gap)/shepherdScale-turned.y;
     const point=a.start.clone().lerp(a.finish,charge).lerp(fit,weight).lerp(a.start,retreat);
     const step=point.distanceTo(obj.position);
@@ -12728,7 +12737,7 @@ const dogTumble=(()=>{
     const shell=parts.filter(m=>['pelvis','abdomen','chest'].includes(rigKeys.get(m.parent)));
     const face=parts.filter(m=>rigKeys.get(m.parent)==='head');
     return skin={sample,shell,face,hips:sample.filter(x=>x.key==='pelvis'),
-      arms:Object.fromEntries(sofaSides.map(side=>[side,sample.filter(x=>['elbow','fore','hand'].some(k=>x.key===k+side))])),legs:sample.filter(x=>/^(knee|shin|foot|thigh)/.test(x.key)),breast:sample.filter(x=>x.key==='chest'),faceFloor:sample.filter(x=>x.key==='head')};
+      arms:Object.fromEntries(sofaSides.map(side=>[side,sample.filter(x=>['elbow','fore','hand'].some(k=>x.key===k+side))])),legs:sample.filter(x=>/^(knee|shin|foot|thigh)/.test(x.key)),breast:sample.filter(x=>x.key==='chest'),midBack:sample.filter(x=>x.key==='abdomen'),faceFloor:sample.filter(x=>x.key==='head')};
   }
   function floorGap(meshes=cachedSkin().sample){
     let gap=Infinity;
