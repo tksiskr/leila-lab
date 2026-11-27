@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.15｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.16｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -185,7 +185,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 }
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.15</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.16</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -10373,7 +10373,7 @@ function createShepherd() {
             const pedal=Math.sin(belly.motion*(front?11.7:10.6)+index*1.64);
             const tucked=V(hipRest.x+s*(front?.124:.074),front?.325:.197,
               hipRest.z+(front?-.043:-.037)+(front?.032:.049)*pedal);
-            tucked.y+=(front?.031:.067)*pedal+(front?0:.071*belly.press-.045*belly.tryLift);
+            tucked.y+=(front?.031:.067)*pedal+(front?0:.078*belly.press-.053*belly.tryLift);
             ankle.lerp(tucked,belly.roll).applyQuaternion(body.quaternion).add(body.position);
           }
           const hug=front&&belly?.headHug?.[index];
@@ -12207,10 +12207,10 @@ const dogTumble=(()=>{
     const cover=settle*(1-leave), roll=ease(t,.16,1.09)*(1-ease(t,winTiming.release+.65,winTiming.stand));
     const squeeze=ease(t,1.45,2.02)*(1-ease(t,winTiming.release,winTiming.clear));
     const beat=motion*10.12+.32*Math.sin(motion*2.8);
-    const kick=.83+.17*Math.sin(motion*3.4+.50);
-    const tryLift=squeeze*(.10+.90*(.5+.5*Math.cos(beat))**1.18)*kick;
-    const press=squeeze*(.18+.82*(.5+.5*Math.cos(beat-1.09))**1.85);
-    const lift=.062*tryLift*(1-.85*press);
+    const kick=.91+.09*Math.sin(motion*3.4+.50);
+    const tryLift=squeeze*(.10+.90*(.5+.5*Math.cos(beat))**1.32)*kick;
+    const press=squeeze*(.18+.82*(.5+.5*Math.cos(beat-1.14))**2.18);
+    const lift=.080*tryLift*(1-.91*press);
     // Arc as she takes the shove; unwind against it a beat later.
     const arch=squeeze*(.5+.5*Math.cos(beat-.15))**1.21*(1-.47*press);
     return {t,motion,cover,roll,squeeze,tryLift,press,lift,arch};
@@ -12224,11 +12224,11 @@ const dogTumble=(()=>{
     if(cover<.0001)return;
     const hip=groups.pelvis;
     for(const [key,joint] of Object.entries(groups))if(joint!==hip)joint.position.lerp(base[key],cover);
-    const y=.261+.77*lift-.041*press+(move.waistNudge??0);
+    const y=.261+.80*lift-.052*press+(move.waistNudge??0);
     hip.position.lerp(root.worldToLocal(local(a,.009*Math.sin(motion*4.1)*roll,y,-.107)),cover);
-    orientWorld(hip,angle(a,1.269+.426*arch-.121*press,0,.022*Math.sin(motion*4.1)),cover);
-    const lean=1.51-.035*arch+.024*press;
-    orientWorld(groups.abdomen,angle(a,1.52-.267*arch+.107*press),cover);
+    orientWorld(hip,angle(a,1.269+.449*arch-.160*press,0,.022*Math.sin(motion*4.1)),cover);
+    const lean=1.51-.035*arch-.026*press;
+    orientWorld(groups.abdomen,angle(a,1.52-.274*arch+.115*press),cover);
     orientWorld(groups.chest,angle(a,lean,0,.036*Math.sin(motion*4.1)),cover);
     orientWorld(groups.neck,angle(a,1.50-.055*press,.06,.06),cover);
     orientWorld(groups.head,angle(a,1.40,.30,.30),cover);
@@ -12265,7 +12265,7 @@ const dogTumble=(()=>{
     const hit=patch(cachedSkin().hips.map(x=>x.mesh),
       pad.clone().setY(a.origin.y-.09),up,null);
     if(!hit)return;
-    m.waistNudge=clamp(pad.y-hit.y+.009-.0072*m.press,-.071,.082)*ease(m.squeeze,.50,.99);
+    m.waistNudge=clamp(pad.y-hit.y+.009-.009*m.press,-.071,.082)*ease(m.squeeze,.50,.99);
     if(Math.abs(m.waistNudge)<.0005)return;
     standing(a);
     kneelWinner(a,m);
@@ -12275,13 +12275,13 @@ const dogTumble=(()=>{
     const {squeeze,motion}=m,g=groups.head;
     const rub=Math.sin(motion*6.9);
     const target=d.bellyChestPoint(null,rub);
-    const headTurn=angle(a,1.29+.043*rub-.063*m.press,.19+.10*rub,.14+.09*rub);
+    const headTurn=angle(a,1.29+.043*rub-.112*m.press,.19+.10*rub,.14+.09*rub);
     const cheek=V(-.025,.002,.078);
     // Rotate linked armor only. Never pull the chest or neck out of its socket.
     const joints=[groups.abdomen,groups.chest,groups.neck];
     const starts=joints.map(j=>j.quaternion.clone());
     const budgets=[.28,.31,.39];
-    for(let sweep=0;sweep<3;sweep++){
+    for(let sweep=0;sweep<4;sweep++){
       for(let i=2;i>=0;i--){
         const joint=joints[i];
         orientWorld(g,headTurn,squeeze);
@@ -12341,7 +12341,7 @@ const dogTumble=(()=>{
     obj.position.copy(a.start).lerp(posePoint,turn);
     obj.rotation.y=(a.startYaw??a.dogYaw)+headingDelta(a.startYaw??a.dogYaw,a.dogYaw)*turn;
     const rollAngle=roll*(Math.PI-.13+.075*Math.sin(motion*6.4));
-    const pitch=.155*tryLift-.087*press;
+    const pitch=.183*tryLift-.102*press;
     const q=new T.Quaternion().setFromEuler(new T.Euler(pitch,0,rollAngle,'XYZ'));
     // Lower the actual standing rig about its barrel, not about its feet.
     const pivot=V(-.030,.44,.075);
