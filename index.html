@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 111.2｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 111.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 111.2: the scene stays in place; only the controls pane scrolls. */
+/* LAB 111.3: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -194,7 +194,7 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
 #paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 111.2</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 111.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -12287,15 +12287,13 @@ const rearPinStyle=(()=>{
   const neckBase=V(-.055,.475,.285), skull=V(-.103,.651,.414);
   const neckLength=skull.distanceTo(neckBase), chinFromSkull=shepherdChin.clone().sub(skull);
   const up=V(0,1,0);
-  function solve(crown,waist,yaw,press,object){
+  function solve(stage,yaw,press,object){
     const scale=object.scale.x;
-    // Relax around the shoulder end and lower the haunches on each push.
-    const pitch=-.14-.107*press;
+    // Keep the dog's pelvis at one height. The advance is along the
+    // direction of play, independent of the resistance pose's vertical motion.
+    const pitch=-.165;
     const bodyQ=new T.Quaternion().setFromAxisAngle(V(1,0,0),pitch);
-    const barrel=V(-.026,.392,-.111+.032*(1-press)).applyQuaternion(bodyQ);
-    const origin=waist.clone().sub(barrel.multiplyScalar(scale).applyAxisAngle(up,yaw));
-    origin.x=mix(origin.x,crown.x+.012,.7);
-    origin.y+=.036-.023*press;
+    const origin=V(.013,-.037,.117+.069*press).applyAxisAngle(up,yaw).add(stage);
     const headQ=new T.Quaternion().setFromEuler(new T.Euler(.16+.055*press,0,.035,'YXZ'));
     const neck=neckBase.clone().applyQuaternion(bodyQ);
     const curl=-1.31-.02*press;
@@ -13240,64 +13238,58 @@ const dogTumble=(()=>{
   }
   // Keep the hip/knee chain loaded, then settle the rigid chest and mask individually.
   function heavyRear(a,t,weight){
-    const shiver=(Math.sin(t*29)+.28*Math.sin(t*43))*.0055*weight;
-    // The hips rise a little, then stop and give under the dog's following weight.
-    const effort=.5-.5*Math.cos((t-1.60)*7.5);
-    const checked=ease(effort,0,.69)*(1-.66*ease(effort,.71,1));
-    const pulse=.5+.5*Math.cos((t-1.77)*7.5);
-    const load=pulse**1.2;
-    const arch=(1-load)*(.82+.18*checked);
+    const wiggle=(Math.sin(t*24)+.23*Math.sin(t*38))*.0015*weight;
+    const phase=(t-1.77)*7.5;
+    const drive=x=>(.5+.5*Math.cos(x))**1.18;
+    const load=drive(phase), yieldForward=drive(phase-.28);
+    // The feet stay fixed while the waist follows the pressure, with a
+    // slight delay and a spring back into the brace as the dog withdraws.
     a.press=weight*load;
-    a.rearArch=weight*arch;
+    a.rearArch=weight*yieldForward;
     const orient=(joint,pitch,roll)=>{
       const q=new T.Quaternion().setFromEuler(new T.Euler(pitch,a.yaw,roll,'YXZ'));
       joint.quaternion.slerp(joint.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(q),weight);
     };
-    groups.pelvis.position.x+=shiver;
-    groups.pelvis.position.z-=.050*weight;
-    groups.abdomen.rotateZ(3.7*shiver);
-    groups.pelvis.rotateX((.44+.33*arch)*weight);
-    groups.pelvis.position.y+=weight*(-.096+.032*checked);
-    groups.abdomen.rotateX(.08*weight);
-    // Adjust the connected chain as a unit before fitting the knees.
-    // The abdominal shell stays seated in both sockets throughout.
-    orient(groups.abdomen,2.63+.33*arch+4*shiver,3.7*shiver);
-    orient(groups.chest,1.96+.16*arch+2*shiver,2.7*shiver);
+    groups.pelvis.position.add(V(wiggle,0,weight*(-.069+.053*yieldForward)));
+    groups.pelvis.rotateX((.39+.23*yieldForward)*weight);
+    orient(groups.abdomen,2.50+.38*yieldForward,4.2*wiggle);
+    orient(groups.chest,1.96+.14*yieldForward,2.7*wiggle);
     const contact=floorGap(cachedSkin().breast);
-    groups.pelvis.position.y+=clamp((.007+.022*arch-contact)*weight,-.12,.12);
-    // Replant the knees after aligning the whole chain to the surface.
-    for(const side of sofaSides){
-      const sg=side==='P'?1:-1;
-      const thigh=groups['thigh'+side], knee=groups['knee'+side], foot=groups['foot'+side];
-      const hip=thigh.getWorldPosition(V(0,0,0));
-      const k=local(a,.114*sg,.035,.122), heel=local(a,.126*sg,.087,-.175);
-      // Keep the kneecap on the support even while the hip rises. Let the
-      // thigh steepen rather than lifting the entire leg with the pelvis.
-      const downToKnee=clamp(hip.y-k.y,.025,base['knee'+side].length()-.003);
-      const horizontal=V(k.x-hip.x,0,k.z-hip.z).normalize();
-      k.copy(hip).addScaledVector(horizontal,Math.sqrt(base['knee'+side].lengthSq()-downToKnee*downToKnee));
-      k.y=hip.y-downToKnee;
-      const qThigh=thigh.quaternion.clone(),qKnee=knee.quaternion.clone(),qFoot=foot.quaternion.clone();
-      aim(thigh,base['knee'+side],k.sub(thigh.getWorldPosition(V(0,0,0))));
-      thigh.quaternion.slerp(qThigh,1-weight);
-      aim(knee,base['foot'+side],heel.sub(knee.getWorldPosition(V(0,0,0))));
-      knee.quaternion.slerp(qKnee,1-weight);
-      foot.quaternion.copy(foot.parent.getWorldQuaternion(new T.Quaternion()).invert()
-        .multiply(new T.Quaternion().setFromEuler(new T.Euler(-.76,a.yaw,0,'YXZ')))).slerp(qFoot,1-weight);
-    }
-    const kneeClearance=floorGap(cachedSkin().legs);
-    if(kneeClearance<.006)groups.pelvis.position.y+=Math.min(.026,.006-kneeClearance)*weight;
-    orient(groups.head,1.45+2.1*shiver,.10+3*shiver);
+    groups.pelvis.position.y+=clamp((.037+.019*yieldForward-contact)*weight,-.12,.10);
+    for(const side of sofaSides)braceRearLeg(a,side,weight);
+    orient(groups.head,1.45+2.1*wiggle,.10+3*wiggle);
     const maskGap=floorGap(cachedSkin().faceFloor);
     shift(groups.neck,V(0,clamp((.008-maskGap)*weight,-.095,.092),.019*weight));
   }
-  function headrest(a){
-    const h=groups.head,mid=h.getWorldPosition(V(0,0,0));
-    // Cast directly down along the rear of the skull, not to the hairline/front.
-    const rear=h.localToWorld(V(0,.017,-.026));
-    const back=V(0,0,-.030).applyAxisAngle(up,a.yaw);
-    const top=mid.clone().add(back).setY(rear.y+.22);
-    return patch(cachedSkin().face,top,down,mid.add(back).add(V(0,.055,0)));
+  function braceRearLeg(a,side,weight){
+    const sign=side==='P'?1:-1;
+    const thigh=groups['thigh'+side],knee=groups['knee'+side],foot=groups['foot'+side];
+    const saved=[thigh,knee,foot].map(j=>j.quaternion.clone());
+    const hi=thigh.getWorldPosition(V(0,0,0));
+    const ankle=local(a,.146*sign,.085,-.195);
+    const u=base['knee'+side],v=base['foot'+side];
+    const len1=u.length(),len2=v.length();
+    const axis=ankle.clone().sub(hi);
+    const reach=clamp(axis.length(),Math.abs(len1-len2)+.003,len1+len2-.003);
+    axis.normalize();
+    const along=(len1*len1-len2*len2+reach*reach)/(2*reach);
+    const radius=Math.sqrt(len1*len1-along*along);
+    const center=hi.clone().addScaledVector(axis,along);
+    const vertical=up.clone().addScaledVector(axis,-up.dot(axis));
+    const scale=vertical.length();
+    vertical.normalize();
+    const outward=axis.clone().cross(vertical);
+    if(outward.dot(V(sign,0,0).applyAxisAngle(up,a.yaw))<0)outward.negate();
+    // Pick the knee on the outward side of the two-link circle, at the
+    // cushion plane. Neither the knee flex nor the counterpush moves the boot.
+    const y=clamp((.036-center.y)/Math.max(.001,radius*scale),-.988,.74);
+    const bend=center.addScaledVector(vertical,radius*y)
+      .addScaledVector(outward,radius*Math.sqrt(1-y*y));
+    aim(thigh,u,bend.clone().sub(hi));
+    aim(knee,v,hi.clone().addScaledVector(axis,reach).sub(bend));
+    const planted=new T.Quaternion().setFromEuler(new T.Euler(-.70,a.yaw,0,'YXZ'));
+    foot.quaternion.copy(foot.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(planted));
+    [thigh,knee,foot].forEach((j,i)=>j.quaternion.slerp(saved[i],1-weight));
   }
   function shoulderPress(a,side){
     const guide=groups.chest.localToWorld(V(.055*side,-.01,-.049));
@@ -13695,9 +13687,8 @@ const dogTumble=(()=>{
     if(frontPose)next.lerp(frontPose.origin,heavy);
     let rearPose=null,rearChin=null,rearWaist=null;
     if(!a.front&&heavy>0){
-      rearChin=headrest(a).add(V(0,.006,0));
       rearWaist=waistPress(a);
-      rearPose=rearPinStyle.solve(rearChin,rearWaist,a.dogYaw,a.press??0,obj);
+      rearPose=rearPinStyle.solve(a.origin,a.dogYaw,a.press??0,obj);
       rearChin=rearPose.chin;
       next.x=T.MathUtils.lerp(next.x,rearPose.origin.x,heavy);
       next.z=T.MathUtils.lerp(next.z,rearPose.origin.z,heavy);
@@ -13755,8 +13746,13 @@ const dogTumble=(()=>{
           data.waist=rearWaist;
           data.rearPose=rearPose;
           if(a.surface)data.surfaceRear=heavy;
-          data.steps.push(V(-.170,.043,-.176),V(.146,.043,-.185));
-          for(const i of [2,3])data.steps[i].y/=.78;
+          // Anchor the hind wrists while the shoulders and hips give forward.
+          for(const x of [-.087,.080]){
+            const foot=local(a,x,.043,-.023);
+            const target=obj.worldToLocal(foot);
+            target.y=.043/shepherdScale;
+            data.steps.push(target);
+          }
         }
         data.bodyY=-.045*hold;
         data.bodyPitch=.12*hold;
