@@ -349,8 +349,6 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     </div>
   </div>
 </aside></div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
-import * as T from 'three';
-import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(path + ' を読み込めません（HTTP ' + response.status + '）');
@@ -359,6 +357,15 @@ async function loadAsset(path) {
 const $=id=>document.getElementById(id), view=$('view');
 let cinemaOwnsView=false;
 try{
+const [T,{Reflector},{GLTFLoader},{OrbitControls}] = await Promise.all([
+  import('three'),
+  import('three/addons/objects/Reflector.js'),
+  import('three/addons/loaders/GLTFLoader.js'),
+  import('three/addons/controls/OrbitControls.js')
+]).catch(error => {
+  throw new Error('3D表示ライブラリを読み込めません。通信状況を確認して再読み込みしてください。',{cause:error});
+});
+let handLink = null;
 const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{
   const width=view.clientWidth,height=view.clientHeight;
   if(!width||!height)return;
@@ -6348,6 +6355,8 @@ function applyReaction(dt) {
     applyTouchPose(reaction.pose,side,yaw,pitch,time,weight);
     return;
   }
+  const capturedGesture = gestureClips?.[clip];
+  if (!capturedGesture?.length) return;
   if(kind==='cameraWave'){
     // Eyes and shoulders lead the motion; the hand starts after the glance.
     const notice=smooth(Math.min(1,time/.40,(duration-time)/.34));
@@ -6365,13 +6374,13 @@ function applyReaction(dt) {
       }
       const waveTime=(time-.44)/(reactions.cameraWave.duration-.44);
       const arm=smooth(Math.min(1,(time-.44)/.31,(duration-time)/.32));
-      sampleReaction(gestureClips[clip],waveTime,side==='P');
+      sampleReaction(capturedGesture,waveTime,side==='P');
       applyCapturedArm('smallWave',side,arm);
     }
     return;
   }
   // Use the authored clip timing even if a tap shortens the fade-out.
-  sampleReaction(gestureClips[clip],time/reactions[kind].duration,side === 'P' && clip !== 'nod' && clip !== 'look');
+  sampleReaction(capturedGesture,time/reactions[kind].duration,side === 'P' && clip !== 'nod' && clip !== 'look');
   let turn = yaw, chin = pitch, tilt = 0;
   if (clip === 'look') {
     gestureEuler.setFromQuaternion(gestureSample[0],'YXZ');
@@ -9054,11 +9063,20 @@ const runRetarget=(()=>{
   return {pose,tune,route,metres,clips};
 })();
 
-const danceSources = await (await loadAsset('./dances.json')).json();
-const danceClips = Object.fromEntries(Object.entries(danceSources).map(([id,source]) => [
-  id,{...prepareTransition(source),joints:source.joints,ground:source.frames.map(frame=>frame.ground)}
-]));
+const danceClips = await loadAsset('./dances.json')
+  .then(response => response.json())
+  .then(sources => Object.fromEntries(Object.entries(sources).map(([id,source]) => [
+    id,{...prepareTransition(source),joints:source.joints,ground:source.frames.map(frame=>frame.ground)}
+  ])))
+  .catch(error => {
+    console.warn('ダンス素材の読み込みに失敗しました',error);
+    return {};
+  });
 const danceIds = Object.keys(danceClips);
+if (!danceIds.length) {
+  for (const id of ['dancePlay','danceLoop','danceClip']) $(id).disabled = true;
+  $('danceLoop').textContent = 'ダンス素材を読み込めません';
+}
 const capoeiraClips = await loadAsset('./capoeira.json')
   .then(response=>response.json())
   .then(sources=>Object.fromEntries(Object.entries(sources).map(([id,source])=>[
@@ -9149,6 +9167,7 @@ function nextDanceId() {
 }
 
 function beginDance(kind,id=null) {
+  if (!danceIds.length || (id !== null && !Object.hasOwn(danceClips,id))) return;
   if (handlingBook()) {
     requestDestination({kind:'linger',name:'ソファのそば',onArrival:()=>beginDance(kind,id)});
     return;
@@ -9181,6 +9200,7 @@ function showDanceTitle() {
 }
 
 function canDanceHere() {
+  if (!danceIds.length) return false;
   const {x,z}=root.position;
   if (x < -1.15 || x > 3.8 || z < -3 || z > 5.5) return false;
   return walkTargets.every(target=>Math.hypot(x-target.lookAt.x,z-target.lookAt.z)>1.30);
@@ -9437,10 +9457,15 @@ function advanceCapoeira(dt) {
   followCapoeira(dt);
 }
 
-const gestureData = await (await loadAsset('./gestures.json')).json();
-gestureClips = Object.fromEntries(Object.entries(gestureData).map(([key,clip])=>[
-  key,clip.frames.map(row=>row.map(rotation=>new T.Quaternion().fromArray(rotation).normalize()))
-]));
+gestureClips = await loadAsset('./gestures.json')
+  .then(response => response.json())
+  .then(sources => Object.fromEntries(Object.entries(sources).map(([key,clip]) => [
+    key,clip.frames.map(row => row.map(rotation => new T.Quaternion().fromArray(rotation).normalize()))
+  ])))
+  .catch(error => {
+    console.warn('ジェスチャー素材の読み込みに失敗しました',error);
+    return {};
+  });
 
 beginRoam();
 const standingWaitPose = captureSofaPose();
@@ -9488,7 +9513,6 @@ function advanceStandingWait(dt) {
   }
 }
 
-let handLink = null;
 const handLinkRay = new T.Raycaster();
 const handLinkScreen = new T.Vector2();
 const handLinkGoal = new T.Vector3();
