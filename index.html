@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 111.4｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 111.5｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 111.4: the scene stays in place; only the controls pane scrolls. */
+/* LAB 111.5: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -194,7 +194,7 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
 #paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 111.4</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 111.5</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -12849,7 +12849,23 @@ const dogTumble=(()=>{
        mood.seconds<Math.max(leilaUserPriorityUntil,nextSofaSurface)||!surfaceReady('sofa')||currentMood()==='annoyed')return false;
     roam.surfaceChecked=true;
     if(Math.random()>(currentMood()==='playful'?.48:.32))return false;
-    startSurface(surfaceOrder.sofa[surfaceCursor.sofa++%3]);return true;
+    startAutonomousSurface('sofa');return true;
+  }
+  function startAutonomousSurface(room){
+    // On some already-eligible visits, play a whole round instead of a single act.
+    const feeling=currentMood();
+    const loop=surfaceLoops[room==='bed'?'bedCycle':'sofaCycle'];
+    if(Math.random()>(feeling==='playful'?.56:.72)){
+      startSurface(loop[0],false,false,{loop,index:0,auto:{rounds:0}});
+    }else{
+      startSurface(surfaceOrder[room][surfaceCursor[room]++%3]);
+    }
+  }
+  function wantsAnotherRound(session,feeling){
+    const enthusiasm=feeling==='playful'?.72:feeling==='happy'?.56:feeling==='affectionate'?.40:.28;
+    // The decision is made at the end of an act, with more chance to rest
+    // after a longer play session. A manually started loop never asks.
+    return Math.random()<enthusiasm/(1+.45*(session.rounds-1));
   }
   function startSurface(key,held=false,watch=false,chain=null){
     const edge=key==='bedEdge'||key==='sofaEdge';
@@ -12873,7 +12889,7 @@ const dogTumble=(()=>{
     from[index]={position:root.worldToLocal(pelvisAt),rotation:q.invert().multiply(pelvisQ)};
     const a={kind,front:!edge&&kind==='front',winner:kind==='winner',hold:true,yaw,dogYaw:kind==='front'?yaw+Math.PI:yaw,
       t:2.25,origin:home,entry:from,waiting:0,surface:{key,room,height,held,watch,edge,rollIn,climb:!!prev&&prev.edge!==edge,t:0,dog:prev?.dog??normalDog,dogFrom:normalDog,
-        loop:chain?.loop,index:chain?.index,phase:prev?.phase??roam.phase,rootFrom,yawFrom,elapsed:prev?.elapsed??roam.elapsed,pause:prev?.pause??roam.pause}};
+        loop:chain?.loop,index:chain?.index,auto:chain?.auto,phase:prev?.phase??roam.phase,rootFrom,yawFrom,elapsed:prev?.elapsed??roam.elapsed,pause:prev?.pause??roam.pause}};
     const ret=a.surface;
     const original=prev?.original??from.map((j,i)=>i!==index?j:{position:pelvisAt,rotation:pelvisQ});
     ret.original=original;
@@ -12921,10 +12937,16 @@ const dogTumble=(()=>{
     s.t+=dt;
     if(s.loop&&s.t>8.6&&!a.cancel){
       const index=(s.index+1)%s.loop.length;
-      startSurface(s.loop[index],true,s.watch,{loop:s.loop,index,previous:s});
-      return surfaceLeila(active,dt);
+      const feeling=s.auto?currentMood():null;
+      if(s.auto&&index===0)s.auto.rounds++;
+      if(s.auto&&(feeling==='annoyed'||index===0&&!wantsAnotherRound(s.auto,feeling))){
+        stop();
+      }else{
+        startSurface(s.loop[index],s.held,s.watch,{loop:s.loop,index,previous:s,auto:s.auto});
+        return surfaceLeila(active,dt);
+      }
     }
-    if(!s.held&&s.t>10.6&&!a.cancel)a.cancel={t:0};
+    if(!s.loop&&!s.held&&s.t>10.6&&!a.cancel)a.cancel={t:0};
     if(a.cancel)a.cancel.t+=dt;
     s.blend=ease(s.t,0,1.28)*(1-ease(a.cancel?.t??0,0,1.15));
     if(a.cancel?.t>=1.19){finish();return true;}
@@ -13374,7 +13396,9 @@ const dogTumble=(()=>{
         roam.roughhouseChecked=true;
         if(bed.visible&&(manual||mood.seconds>=nextBedPlayAt&&currentMood()!=='annoyed'&&
           Math.random()<(currentMood()==='playful'?.49:.34))){
-          startSurface(surfaceOrder.bed[surfaceCursor.bed++%3],manual);return true;
+          if(manual)startSurface(surfaceOrder.bed[surfaceCursor.bed++%3],true);
+          else startAutonomousSurface('bed');
+          return true;
         }
       }
       return false;
