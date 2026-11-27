@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.17｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 109.18｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -78,17 +78,17 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
 .lab900Telemetry #worldClock{color:var(--lab900-amber);font-size:.86rem;font-weight:650}
 .lab900Telemetry span:empty{display:none}
 #view{box-shadow:0 1px 0 #405677}
-body>section{width:min(100%,72rem);margin-inline:auto;gap:8px;padding:11px max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
-body>section #destination:empty{display:none}
-body>section #destination:not(:empty){color:var(--lab900-cyan);padding:3px 1px}
-body>section #status:not(:empty),body>section #reactionStatus:not([hidden]):not(:empty){color:var(--lab900-amber);padding:3px 1px}
-body>section>.cameraButtons,body>section>.actionButtons{gap:7px}
-body>section>.cameraButtons button,body>section>.actionButtons button,body>section>#roomLights,body>section>#paintOpen{min-height:44px;border:1px solid #506785;border-radius:9px;background:#17273e;color:var(--lab900-text);padding:8px 7px;line-height:1.25;font-weight:600}
-body>section>.actionButtons #autoWait{background:#274868;border-color:#5e91a5;color:#f1fdff}
-body>section>.cameraButtons #loungeView{background:#26354e;border-color:#677697;color:#f4f2ff}
-body>section>.actionButtons button:active,body>section>.cameraButtons button:active,body>section>#roomLights:active,body>section>#paintOpen:active{background:#314c6c}
-body>section button:focus-visible,body>section select:focus-visible,body>section summary:focus-visible{outline:2px solid var(--lab900-cyan);outline-offset:2px}
-body>section>#paintOpen{justify-self:start}
+#controlScroll>section{width:min(100%,72rem);margin-inline:auto;gap:8px;padding:11px max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+#controlScroll>section #destination:empty{display:none}
+#controlScroll>section #destination:not(:empty){color:var(--lab900-cyan);padding:3px 1px}
+#controlScroll>section #status:not(:empty),#controlScroll>section #reactionStatus:not([hidden]):not(:empty){color:var(--lab900-amber);padding:3px 1px}
+#controlScroll>section>.cameraButtons,#controlScroll>section>.actionButtons{gap:7px}
+#controlScroll>section>.cameraButtons button,#controlScroll>section>.actionButtons button,#controlScroll>section>#roomLights,#controlScroll>section>#paintOpen{min-height:44px;border:1px solid #506785;border-radius:9px;background:#17273e;color:var(--lab900-text);padding:8px 7px;line-height:1.25;font-weight:600}
+#controlScroll>section>.actionButtons #autoWait{background:#274868;border-color:#5e91a5;color:#f1fdff}
+#controlScroll>section>.cameraButtons #loungeView{background:#26354e;border-color:#677697;color:#f4f2ff}
+#controlScroll>section>.actionButtons button:active,#controlScroll>section>.cameraButtons button:active,#controlScroll>section>#roomLights:active,#controlScroll>section>#paintOpen:active{background:#314c6c}
+#controlScroll>section button:focus-visible,#controlScroll>section select:focus-visible,#controlScroll>section summary:focus-visible{outline:2px solid var(--lab900-cyan);outline-offset:2px}
+#controlScroll>section>#paintOpen{justify-self:start}
 #lab900Toolbar{display:flex;align-items:stretch;gap:7px;flex-wrap:wrap;min-width:0}
 #lab900Toolbar:empty{display:none}
 #lab900Toolbar>*{max-width:100%;min-width:0}
@@ -96,8 +96,8 @@ body>section>#paintOpen{justify-self:start}
 #lab900Toolbar>button{margin:0}
 .lab900Hint{margin:1px 0 2px;padding:8px 10px;line-height:1.5;color:var(--lab900-muted);background:#111d30;border:1px solid #263d5a;border-radius:9px;font-size:.78rem}
 .lab900Hint strong{color:var(--lab900-amber);font-weight:700;margin-inline-end:.5em}
-body>section>#developer{margin-top:1px;border-top:1px solid var(--lab900-edge)}
-body>section>#developer>summary{min-height:44px;font-size:.86rem}
+#controlScroll>section>#developer{margin-top:1px;border-top:1px solid var(--lab900-edge)}
+#controlScroll>section>#developer>summary{min-height:44px;font-size:.86rem}
 #developer button,#developer select{min-height:44px}
 #seasonPreview{min-inline-size:0;margin:.5rem 0;padding:.3rem .5rem .45rem;border:1px solid #495b74;border-radius:9px}
 #seasonPreview legend{padding:0 .33rem;font-size:.82rem;color:#dbe7f6}
@@ -106,7 +106,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 #seasonPreview button[aria-pressed="true"]{background:#345d72;color:#eff9ff;border-color:#8bbdc7}
 #seasonStatus,#snowDevStatus{margin:.32rem 0 0;font-size:.76rem;color:#b7cbdf}
 @media(max-width:360px){.lab900Header{gap:7px}.lab900Identity{gap:6px}.lab900Mark{width:27px;height:27px}.lab900Mark svg{width:16px;height:16px}.lab900Telemetry #worldClock{font-size:.76rem}.lab900Telemetry #fps{font-size:.66rem}}
-@media(min-width:740px){body>section>.actionButtons{grid-template-columns:repeat(4,minmax(0,1fr))}.lab900Header{padding-inline:max(16px,calc((100vw - 72rem)/2 + 12px))}}
+@media(min-width:740px){#controlScroll>section>.actionButtons{grid-template-columns:repeat(4,minmax(0,1fr))}.lab900Header{padding-inline:max(16px,calc((100vw - 72rem)/2 + 12px))}}
 .labMusic{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .labMusic button,.labMusic select{margin:0;min-height:44px}
 .labMusic label{margin:0;justify-content:start}
@@ -183,12 +183,21 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
  .leilaAudioCard .labMusic{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(190px,1.6fr)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
+
+/* LAB 109.18: the scene stays in place; only the controls pane scrolls. */
+html,body{overflow:hidden;overscroll-behavior-y:none}
+body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
+#view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
+#controlPane{position:relative;min-height:0;min-width:0}
+#controlScroll{height:100%;width:100%;overflow:auto;overscroll-behavior-y:contain;scroll-padding-block:10px;scrollbar-color:#526987 var(--lab900-bg)}
+#controlScroll:focus-visible{outline:2px solid var(--lab900-cyan);outline-offset:-2px}
+#paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.17</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 109.18</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
-</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button data-menu-hidden hidden type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button data-menu-hidden hidden type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -243,32 +252,7 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
 </div><label data-menu-hidden hidden id="lab900SkyLine">窓の景色 <select id="lab900Sky" aria-label="窓の景色と照明">
   <option value="live">実時刻</option><option value="day">晴れた昼</option>
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
-</select></label><aside id="paintWindow" aria-labelledby="paintTitle" hidden>
-  <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
-  <div class="paintBody">
-    <div class="paintControls">
-      <div class="paintViews" aria-label="プレビューの向き">
-        <button type="button" data-paint-view="front">正面</button><button type="button" data-paint-view="side">側面</button><button type="button" data-paint-view="back">背面</button>
-      </div>
-      <label>ベース配色 <select id="paintBase"><option value="0">標準・白装甲</option><option value="1">サーナイト風</option><option value="2">従来・シルバー</option></select></label>
-      <label>外装パーツ <select id="paintPart"></select></label>
-      <label>対象 <select id="paintSide"><option value="both">左右セット</option><option value="P">左</option><option value="N">右</option></select></label>
-      <div class="paintActions"><button id="paintAll" type="button">全外装に適用</button><button id="paintReset" type="button">選択パーツをベース色に戻す</button></div>
-    </div>
-    <div class="paintPicker">
-      <div id="paintWheel" tabindex="0" role="group" aria-label="カラーホイール。左右キーで色相、上下キーで彩度を調整"><span id="paintMarker"></span></div>
-      <label>明るさ <input id="paintValue" type="range" min="0" max="100" value="100"></label>
-      <label>色コード <input id="paintHex" type="text" value="#FFFFFF" maxlength="7" spellcheck="false" autocomplete="off"></label>
-    </div>
-    <div class="paintSaved">
-      <h3>最近使った色</h3><div id="paintRecent" class="paintRecent"></div>
-      <label>ロード <select id="paintDesigns"><option value="">選択する</option><option value="white">基本の白に戻す</option></select></label>
-      <label>配色の名前 <input id="paintName" type="text" maxlength="32" autocomplete="off"></label>
-      <button id="paintSave" type="button">名前を付けて保存</button>
-      <div id="paintStatus" role="status"></div>
-    </div>
-  </div>
-</aside><details id="developer"><summary>開発者用メニュー</summary>
+</select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
     <div class="leilaCard leilaDevWardrobe" role="group" aria-labelledby="devWardrobeTitle">
       <h2 id="devWardrobeTitle">衣装チェック</h2>
@@ -311,7 +295,32 @@ body>section>#developer>summary{min-height:44px;font-size:.86rem}
   <option value="1">ジョーク 02</option><option value="2">ジョーク 03</option><option value="3">ジョーク 04</option>
 </select></label><label data-menu-hidden hidden>ダンス <select id="danceClip">
   <option value="01">Hip Hop Dancing 01</option><option value="02">Hip Hop Dancing 02</option><option value="03">Hip Hop Dancing 03</option><option value="04">Hip Hop Dancing 04</option><option value="05">Hip Hop Dancing 05</option><option value="06">Hip Hop Dancing 06</option><option value="07">Hip Hop Dancing 07</option><option value="08">Hip Hop Dancing 08</option><option value="09">Hip Hop Dancing 09</option><option value="10">Hip Hop Dancing 10</option><option value="11">Hip Hop Dancing 11</option><option value="12">Hip Hop Dancing 12</option><option value="13">Hip Hop Dancing 13</option><option value="14">Hip Hop Dancing 14</option></select><button id="dancePlay">試演</button></label><label data-menu-hidden hidden>カポエイラ <select id="capoeiraClip" disabled></select><button id="capoeiraPreview" type="button" disabled>技を試す</button></label><div class="testButtons"><button data-menu-hidden hidden id="dogTumbleFront" type="button">じゃれ合い：正面</button><button data-menu-hidden hidden id="dogTumbleRear" type="button">じゃれ合い：背後</button></div><div class="testButtons"><button data-menu-hidden hidden id="reset">原姿勢</button><button data-menu-hidden hidden id="demo">従来の歩行</button><button data-menu-hidden hidden id="mixamo">Catwalk歩行（その場）</button><button data-menu-hidden hidden id="travel">歩き出す → 歩く → 止まる</button><button data-menu-hidden hidden id="approachPreview">ユーザーに近付く</button><button data-menu-hidden hidden id="lookPreview">振り向く</button><button data-menu-hidden hidden id="smallWavePreview">小さく手を振る</button><button data-menu-hidden hidden id="largeWavePreview">大きく手を振る</button><button data-menu-hidden hidden id="beckonPreview">手招き</button><button data-menu-hidden hidden id="autoWalk">自分で行き先を選ぶ</button><button data-menu-hidden hidden id="sofaPreview">ソファで休憩</button><button data-menu-hidden hidden id="wanderPreview">ぶらつく</button><button data-menu-hidden hidden id="lingerPreview">ぼんやり立つ</button><button data-menu-hidden hidden id="windowPreview">窓の外を眺める</button><button data-menu-hidden hidden id="reference">参考イラスト姿勢</button><button data-menu-hidden hidden id="right">右脚重心</button><button data-menu-hidden hidden id="left">左脚重心</button><button data-menu-hidden hidden id="raise">右腕挙上</button><button data-menu-hidden hidden id="idle">自然待機</button></div></div>
-</details></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+</details></section></div><aside id="paintWindow" aria-labelledby="paintTitle" hidden>
+  <div class="paintHeader"><h2 id="paintTitle">装甲カラー</h2><button id="paintClose" type="button" aria-label="閉じる">閉じる</button></div>
+  <div class="paintBody">
+    <div class="paintControls">
+      <div class="paintViews" aria-label="プレビューの向き">
+        <button type="button" data-paint-view="front">正面</button><button type="button" data-paint-view="side">側面</button><button type="button" data-paint-view="back">背面</button>
+      </div>
+      <label>ベース配色 <select id="paintBase"><option value="0">標準・白装甲</option><option value="1">サーナイト風</option><option value="2">従来・シルバー</option></select></label>
+      <label>外装パーツ <select id="paintPart"></select></label>
+      <label>対象 <select id="paintSide"><option value="both">左右セット</option><option value="P">左</option><option value="N">右</option></select></label>
+      <div class="paintActions"><button id="paintAll" type="button">全外装に適用</button><button id="paintReset" type="button">選択パーツをベース色に戻す</button></div>
+    </div>
+    <div class="paintPicker">
+      <div id="paintWheel" tabindex="0" role="group" aria-label="カラーホイール。左右キーで色相、上下キーで彩度を調整"><span id="paintMarker"></span></div>
+      <label>明るさ <input id="paintValue" type="range" min="0" max="100" value="100"></label>
+      <label>色コード <input id="paintHex" type="text" value="#FFFFFF" maxlength="7" spellcheck="false" autocomplete="off"></label>
+    </div>
+    <div class="paintSaved">
+      <h3>最近使った色</h3><div id="paintRecent" class="paintRecent"></div>
+      <label>ロード <select id="paintDesigns"><option value="">選択する</option><option value="white">基本の白に戻す</option></select></label>
+      <label>配色の名前 <input id="paintName" type="text" maxlength="32" autocomplete="off"></label>
+      <button id="paintSave" type="button">名前を付けて保存</button>
+      <div id="paintStatus" role="status"></div>
+    </div>
+  </div>
+</aside></div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
 import * as T from 'three';
 import {Reflector} from 'three/addons/objects/Reflector.js';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 async function loadAsset(path) {
@@ -2040,7 +2049,6 @@ function setupPaintWindow() {
     panel.hidden = !next;
     open.setAttribute('aria-expanded',String(next));
     if (next) {
-      view.scrollIntoView({block:'start'});
       $('paintClose').focus({preventScroll:true});
     } else open.focus({preventScroll:true});
   }
