@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 110.3｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 110.4｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -184,7 +184,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 110.3: the scene stays in place; only the controls pane scrolls. */
+/* LAB 110.4: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -194,7 +194,7 @@ body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax
 #paintWindow{position:absolute;max-height:calc(100% - 20px);max-height:calc(100% - max(8px,env(safe-area-inset-bottom)) - 8px);bottom:max(8px,env(safe-area-inset-bottom));z-index:2}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 110.3</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 110.4</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
@@ -9793,6 +9793,8 @@ function shepherdTouchSurface(model){
   const rows={
     edgeNear:[bindSide(.379,.172,1),bindSide(.402,.178,1),bindSide(.418,.193,1)],
     edgeFar:[bindSide(.368,.170,-1),bindSide(.390,.179,-1),bindSide(.407,.191,-1)],
+    couchNear:[bindSide(.376,.218,1),bindSide(.399,.228,1),bindSide(.423,.236,1)],
+    couchFar:[bindSide(.369,.241,-1),bindSide(.396,.250,-1),bindSide(.419,.258,-1)],
     outerNear:[bindSide(.327,.265,1),bindSide(.385,.280,1),bindSide(.421,.273,1)],
     outerFar:[bindSide(.326,.325,-1),bindSide(.381,.326,-1),bindSide(.417,.316,-1)],
     head:Array.from({length:9},(_,i)=>bind(-.103,.372+i*.009,.62,.79)),
@@ -10207,13 +10209,14 @@ function createShepherd() {
         playNeckRoot.copy(neckBase);
         const couchLick=d.tumble?.couchLick;
         if(couchLick){
-          const {hold,face,faceNormal,chinward}=d.tumble;
-          couchLick.q=new T.Quaternion().setFromEuler(new T.Euler(Math.PI/2-.045+.030*couchLick.stroke,-.024+.020*couchLick.sweep,.02,'YXZ'));
-          couchLick.lip=face.clone().addScaledVector(faceNormal,.026+.022*(1-couchLick.stroke))
-            .addScaledVector(chinward,.004);
-          couchLick.skull=couchLick.lip.clone().sub(lickBase.clone().applyQuaternion(couchLick.q));
-          playNeckRoot.y+=.027*hold;
-          playNeckRoot.z-=.032*hold;
+          const {hold,faceNormal}=d.tumble;
+          couchLick.q=new T.Quaternion().setFromEuler(new T.Euler(Math.PI/2-.083+.024*couchLick.stroke,-.024+.020*couchLick.sweep,.02,'YXZ'));
+          // The nose is the fixed point here, not the lower lip. Keep the
+          // muzzle up while letting the tongue reach down from the mouth.
+          const noseOffset=V(.057,-.077,.197).applyQuaternion(couchLick.q);
+          couchLick.skull=couchLick.nose.clone().addScaledVector(faceNormal,.016+.010*(1-couchLick.stroke)).sub(noseOffset);
+          playNeckRoot.y+=.010*hold;
+          playNeckRoot.z+=.014*hold;
           playNeckTarget.copy(couchLick.skull).sub(lapOffset.copy(playNeckRoot).applyQuaternion(body.quaternion).add(body.position));
           targetNeck.lerp(playNeckTarget.applyQuaternion(bodyInverse),hold);
         }
@@ -10257,7 +10260,7 @@ function createShepherd() {
         if(couchLick){
           const hold=d.tumble.hold;
           playAxis.copy(couchLick.skull).sub(joint.position);
-          playAxis.clampLength(neckRest.length()*.68,neckRest.length()*1.24).add(joint.position);
+          playAxis.clampLength(neckRest.length()*.85,neckRest.length()*1.29).add(joint.position);
           movedSkull.lerp(playAxis,hold);
           playCenter.copy(joint.position).lerp(movedSkull,.53)
             .addScaledVector(lapOffset.copy(neckRest).multiplyScalar(.53).applyQuaternion(joint.quaternion),-1);
@@ -10439,6 +10442,7 @@ function createShepherd() {
         const foldedBend=V(s*.18,0,front?-1:1);
         function solveVisibleLeg(){
           hip.copy(hipRest).applyQuaternion(body.quaternion).add(body.position);
+          if(front&&d.tumble?.couch)hip.x+=(index===0?.022:-.022)*d.tumble.pawBlend;
           ankle.copy(paw.position).sub(proxyPawRest);
           ankle.z*=mix(front?.56:.68,1,d.curl);
           ankle.add(ankleRest);
@@ -10481,7 +10485,7 @@ function createShepherd() {
           ankle.copy(hip).addScaledVector(direction,length);
           bendDirection.copy(kneePlane).lerp(foldedBend,Math.max(fold,(belly?.roll??0)*.65)).applyQuaternion(body.quaternion);
           if(d.tumble?.edge&&front&&contact)
-            bendDirection.lerp((d.tumble.couch?V(index===0?.76:-.76,-.54,-.45):V(index===0?-.43:.43,.12,-.90)).normalize(),(d.tumble.couch?.95:.74)*d.tumble.pawBlend);
+            bendDirection.lerp((d.tumble.couch?V(index===0?.93:-.93,-.34,-.09):V(index===0?-.43:.43,.12,-.90)).normalize(),(d.tumble.couch?.95:.74)*d.tumble.pawBlend);
           if(hug)bendDirection.lerp(hug.bend,hug.weight);
           bendDirection.addScaledVector(direction,-bendDirection.dot(direction)).normalize();
           const along=(thigh*thigh-shin*shin+length*length)/(2*length);
@@ -12618,14 +12622,14 @@ const dogTumble=(()=>{
     if(Number.isFinite(rear))shift(groups.chest,V(clamp(back+.003-rear,-.078,.043)*support,0,0));
     for(const side of sofaSides){
       const sign=side==='P'?1:-1;
-      const center=a.couchNear?.052:0;
-      const goal=local(a,center+sign*.264,standingAnkleHeights[side],.039);
+      const center=a.couchNear?.078:0;
+      const goal=local(a,center+sign*.276,standingAnkleHeights[side],.039);
       const foot=groups['foot'+side].getWorldPosition(V(0,0,0));
       const stride=a.legOpening=ease(open,0,1);
       goal.lerp(foot,1-stride);
       // Separate the toe angle from the knee axis so the knees clear the
       // dog's haunches without flaring the whole boot sideways.
-      solveLeg(side,goal,a.yaw+sign*.26*stride,0,a.yaw+sign*.73*stride);
+      solveLeg(side,goal,a.yaw+sign*.26*stride,0,a.yaw+sign*.77*stride);
     }
     a.skirtRear=Math.max(.56*lay,.45*open);
   }
@@ -12710,14 +12714,14 @@ const dogTumble=(()=>{
     const retreat=ease(t,12.38,13.62);
     const center=groups.pelvis.getWorldPosition(V(0,0,0));
     const waist=patch(cachedSkin().hips.map(e=>e.mesh),center.clone().add(V(0,.27,0)),down,center.clone().add(V(0,.071,0)));
-    const pad=a.couch?V(-.047,.373,.022-.020*reply):V(-.047,.343,.090-.010*reply);
-    const pitch=(a.couch?-.76:-.704)+.040*effort-(a.couch?.108:.079)*reply;
+    const pad=a.couch?V(-.047,.368,.001-.020*reply):V(-.047,.343,.090-.010*reply);
+    const pitch=(a.couch?-.875:-.704)+.040*effort-(a.couch?.096:.079)*reply;
     const turned=pad.clone().applyAxisAngle(V(1,0,0),pitch);
     const offset=turned.clone().multiplyScalar(shepherdScale).applyAxisAngle(up,a.dogYaw);
     const fit=waist.clone().sub(offset).setY(0);
     const release=1-reply;
     if(a.couch)fit.addScaledVector(frontward.clone().applyAxisAngle(up,a.yaw),.028*release**1.22);
-    const gap=(a.couch?.001+.011*release**1.3:-.0035)+.0075*release**1.5;
+    const gap=(a.couch?(a.couchNear?.055:.049)+.011*release**1.3:-.0035)+.0075*release**1.5;
     const bodyY=(waist.y+gap)/shepherdScale-turned.y;
     const point=a.start.clone().lerp(a.finish,charge).lerp(fit,weight).lerp(a.start,retreat);
     const step=point.distanceTo(obj.position);
@@ -12731,7 +12735,7 @@ const dogTumble=(()=>{
         if(a.couch){
           // Fixed contacts on the crown of the upholstered back, either side
           // of Leila's head. Never place them on her shoulders or armor.
-          const lateral=(a.couchNear?.080:0)+s*.119;
+          const lateral=(a.couchNear?.080:0)+s*.110;
           const q=local(a,lateral,0,0);
           const backCap=sofa.localToWorld(V(-.378,.860,-.248));
           q.x=backCap.x;q.y=backCap.y+.0005;
@@ -12741,7 +12745,8 @@ const dogTumble=(()=>{
         guide.y=bedHeight+.063;
         return guide;
       });
-      paws.push(local(a,.121,.038,a.couch?.127:.047),local(a,-.105,.044,a.couch?.127:.047));
+      const seatOffset=a.couchNear?.080:0;
+      paws.push(local(a,seatOffset+.121,.038,a.couch?.127:.047),local(a,seatOffset-.105,.044,a.couch?.127:.047));
       data.steps=paws.map(p=>obj.worldToLocal(p));
     }
     if(a.couch&&pin>.005){
@@ -12756,7 +12761,9 @@ const dogTumble=(()=>{
       data.faceNormal=normal.clone().applyAxisAngle(up,-a.dogYaw).normalize();
       data.chinward=V(0,-1,0).applyQuaternion(hq).applyAxisAngle(up,-a.dogYaw).normalize();
       data.lick=pin*(.5-.5*Math.cos(strokePhase))**.85;
-      data.couchLick={stroke:data.lick,sweep};
+      const bridge=h.localToWorld(V(.003+.005*sweep,.006+.013*(slide-.5),.065));
+      const nose=patch(cachedSkin().face,bridge.clone().addScaledVector(out,.15),out.clone().negate(),bridge);
+      data.couchLick={stroke:data.lick,sweep,nose:obj.worldToLocal(nose)};
     }else if(pin>.005){
       const h=groups.head;
       const n=V(1,0,0).applyQuaternion(h.getWorldQuaternion(new T.Quaternion()));
@@ -12769,17 +12776,19 @@ const dogTumble=(()=>{
     d.pose(dt,step,leilaFaceForDog(),t<1.05||retreat>.1);
     if(weight>.10&&d.edgeBackPoint)for(const side of sofaSides){
       const sign=side==='P'?1:-1;
-      const shoulder=a.couch&&d.touchSurface?.(sign>0?'outerFar':'outerNear',.88+.06*m.sway);
+      const shoulder=a.couch&&d.touchSurface?.(sign>0?'couchFar':'couchNear',.83+.06*m.sway);
       const surface=shoulder?.point??d.edgeBackPoint(sign,m.sway);
       const normal=shoulder?.normal?.clone()??V(sign*.50,.85,-.16).applyAxisAngle(up,a.yaw).normalize();
       const axis=V(-sign*.81,a.couch?.46:.22,a.couch?.19:.45).applyAxisAngle(up,a.yaw);
       axis.addScaledVector(normal,-axis.dot(normal)).normalize();
       const rotation=orientPalm(side,axis,normal.clone().negate());
-      const wrist=surface.addScaledVector(normal,a.couch?.009:.004).sub(palmRig[side].center.clone().applyQuaternion(rotation));
+      const wrist=surface.addScaledVector(normal,a.couch?.013:.004).sub(palmRig[side].center.clone().applyQuaternion(rotation));
+
+      if(a.couch)wrist.add(V(sign*(side==='P'?.022:.011),0,0).applyAxisAngle(up,a.yaw));
 
       // Open around the ribs and close both elbows as the palms find the fur.
       const embrace=ease(t,.67,1.78)*(1-ease(t,12.28,13.23));
-      const elbow=a.couch?V(sign*.52,-.07,-.03):V(sign*(mix(.34,.254,embrace)-.012*reply),-.104,.075);
+      const elbow=a.couch?V(sign*.55,-.05,-.09):V(sign*(mix(.34,.254,embrace)-.012*reply),-.104,.075);
       reachHand(side,wrist,rotation,embrace,false,elbow,true);
     }
   }
@@ -13212,7 +13221,7 @@ const dogTumble=(()=>{
           const goal=c.feet[i].clone().lerp(a.couchFeet[i],settle);
           goal.y=standingAnkleHeights[side];
           const sign=i===0?1:-1;
-          solveLeg(side,goal,a.yaw+sign*.26*spread,0,a.yaw+sign*.73*spread);
+          solveLeg(side,goal,a.yaw+sign*.26*spread,0,a.yaw+sign*.77*spread);
         });
       }else if(a.edge){
         if(a.t>=0)blendSofaPose(a.middle,ease(c.t,0,.67));
@@ -13356,7 +13365,7 @@ const dogTumble=(()=>{
           for(const key of Object.keys(start))data[key]=start[key]*(1-fade);
           const drift=old.sub(point).applyAxisAngle(up,-a.dogYaw).divideScalar(shepherdScale);
           if(data.cuddle)data.cuddle.point.add(drift);
-          if(data.face){data.face.add(drift);data.lick*=1-fade;if(data.couchLick)data.couchLick.stroke*=1-fade;
+          if(data.face){data.face.add(drift);data.lick*=1-fade;if(data.couchLick){data.couchLick.stroke*=1-fade;data.couchLick.nose.add(drift);}
             if(fade>=1){delete data.face;delete data.couchLick;}}
           for(const goal of data.steps??[])goal.add(drift);
           data.surge=0;
