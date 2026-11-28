@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 143｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 144｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -194,7 +194,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 143: the scene stays in place; only the controls pane scrolls. */
+/* LAB 144: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 143</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 144</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -20222,53 +20222,51 @@ const cinema=(()=>{
     if(r<.65)return 20;
     return Math.max(0,fit(offset.multiplyScalar(1/r),r,kind,paired,aim)-r);
   }
+  const avoidOffset=V(0,0,0), cameraSpeed=V(0,0,0), speedGoal=V(0,0,0);
+  const poseOffset=V(0,0,0), targetOffset=V(0,0,0);
+  let blockedFor=0,clearFor=0,probeIn=0;
+  function resetStability(){
+    recovering=false;blockedFor=clearFor=probeIn=0;cameraSpeed.set(0,0,0);
+  }
   function repair(a,e,r,kind,paired,dt){
-    // Search around the intended shot every time the actor or a transition
-    // moves behind furniture. Prefer the same screen size and nearest angle.
     const base=coverage(proposed);
-    if(base===0){
-      if(recovering){
-        trial.copy(camera.position).lerp(proposed,blend(dt,4.5));
-        if(trial.distanceToSquared(proposed)<.0004)recovering=false;
-        else if(!coverage(trial)&&framingCost(trial,aimAt,kind,paired)<.12)proposed.copy(trial);
-        else recovering=false;
-      }
-      return;
-    }
-    let best=Infinity, bestCover=base, bestFit=Infinity;
-    const vents=[0,-.32,.32,-.65,.65,-1,1,-1.45,1.45,-2.05,2.05,Math.PI];
-    for(const raise of [0,.31,-.22,.60,.91]){
-      const v=clamp(e+raise,.075,1.41);
-      for(const side of vents){
-        const theta=a+side;
-        place(theta,v,direction);
-        const full=fit(direction,r,kind,paired);
-        const bare=fit(direction,0,kind,paired);
-        for(const radius of new Set([full,Math.max(.83,bare),Math.max(.73,bare*.85)])){
-          trial.copy(aimAt).addScaledVector(direction,radius);
-          const room=outsideCost(trial);
-          const aesthetic=Math.abs(side)*.54+Math.abs(raise)*.91+Math.abs(radius-r)*.36+room*.7;
-          if(aesthetic>=best)continue;
-          const misses=coverage(trial), clip=Math.max(0,bare-radius);
-          const score=misses*7+aesthetic+clip*3+.22*trial.distanceTo(camera.position);
-          if(score<best){best=score;bestCover=misses;bestFit=clip;escape.copy(trial);}
+    if(base){blockedFor+=dt;clearFor=0;}else{clearFor+=dt;blockedFor=0;}
+    probeIn=Math.max(0,probeIn-dt);
+    if(recovering&&clearFor>.48){recovering=false;probeIn=0;}
+    const retained=recovering?escape.copy(aimAt).add(avoidOffset):null;
+    const retainedCover=retained?coverage(retained):base;
+    // A passing arm, stride or endpoint of a quick turn must not choose an
+    // entirely different shot. Hold a working detour across short clear gaps.
+    if(base&&blockedFor>=(base>=13?.092:.19)&&probeIn<=0&&
+       (!recovering||retainedCover>0||framingCost(retained,aimAt,kind,paired)>.25)){
+      probeIn=.24;
+      let best=Infinity,bestCover=24;
+      const vents=[0,-.32,.32,-.65,.65,-1,1,-1.45,1.45,-2.05,2.05,Math.PI];
+      for(const raise of [0,.31,-.22,.60,.91]){
+        const v=clamp(e+raise,.075,1.41);
+        for(const side of vents){
+          const theta=a+side;
+          place(theta,v,direction);
+          const full=fit(direction,r,kind,paired),bare=fit(direction,0,kind,paired);
+          for(const radius of [full,Math.max(.83,bare),Math.max(.73,bare*.85)]){
+            trial.copy(aimAt).addScaledVector(direction,radius);
+            const aesthetic=Math.abs(side)*.54+Math.abs(raise)*.91+Math.abs(radius-r)*.36+outsideCost(trial)*.7;
+            if(aesthetic>=best)continue;
+            const misses=coverage(trial), clip=Math.max(0,bare-radius);
+            const score=misses*8+aesthetic+clip*3+.30*trial.distanceTo(camera.position);
+            if(score<best){best=score;bestCover=misses;safeAim.copy(trial);}
+          }
         }
       }
+      if(best<Infinity&&bestCover<Math.min(base,retainedCover+1)){
+        recovering=true;avoidOffset.copy(safeAim).sub(aimAt);
+      }
     }
-    if(bestCover>base||best===Infinity)return;
-    recovering=true;
-    const move=blend(dt,8);
-    trial.copy(camera.position).lerp(escape,move);
-    // Only glide when the actual in-between position stays clear and framed.
-    // If furniture separates the shots, cut to the open angle instead.
-    if(trial.distanceToSquared(escape)<.00004||
-       coverage(trial)>bestCover||framingCost(trial,aimAt,kind,paired)>Math.max(.13,bestFit+.05)){
-      proposed.copy(escape);
-    }else proposed.copy(trial);
+    if(recovering)proposed.copy(aimAt).add(avoidOffset);
   }
   const clamp=T.MathUtils.clamp, ease=x=>{x=clamp(x,0,1);return x*x*(3-2*x);};
   const blend=(dt,k)=>1-Math.exp(-k*dt);
-  function quietFor(seconds=manualWait){wait=seconds;cinemaOwnsView=false;shot=null;recovering=false;}
+  function quietFor(seconds=manualWait){wait=seconds;cinemaOwnsView=false;shot=null;resetStability();}
   view.addEventListener('pointerdown',e=>{
     if(!document.body.classList.contains('leilaFullView')||e.target.closest?.('#viewModeToggle'))return;
     fingers.add(e.pointerId);quietFor();
@@ -20373,7 +20371,9 @@ const cinema=(()=>{
       offset.copy(camera.position).sub(aimAt);
       distance=Math.max(.35,offset.length());yaw=Math.atan2(offset.x,offset.z);
       pitch=Math.asin(clamp(offset.y/distance,-.988,.988));
-      context=nextContext=view.type;contextAge=0;
+      context=nextContext=view.type;contextAge=0;resetStability();
+      focus(view.paired?'pair':view.type==='work'?'work':'wide',view.paired);
+      poseOffset.copy(desired).sub(root.position);
       select(context,view.paired);
     }
     shot.elapsed+=dt;
@@ -20384,25 +20384,27 @@ const cinema=(()=>{
     const s=shot,u=ease(s.elapsed/1.95);
     const kind=view.paired&&['portrait','medium','work'].includes(s.kind)?'pair':s.kind;
     focus(kind,view.paired);
-    aimAt.lerp(desired,blend(dt,s.elapsed<1.95?1.8:4.8));
+    // Follow the travel direction, not every bounce of the face and limbs.
+    targetOffset.copy(desired).sub(root.position);
+    const active=context==='moving'||context==='stage'||roam?.phase==='dogTumble';
+    poseOffset.lerp(targetOffset,blend(dt,active?2.75:5.2));
+    desired.copy(root.position).add(poseOffset);
+    aimAt.lerp(desired,blend(dt,s.elapsed<1.95?2.5:5.0));
     angleTravel=mix(angleTravel,clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
     yaw=mix(s.fromYaw,s.toYaw+angleTravel+.13*Math.sin(s.elapsed*.48),u);
     pitch=mix(s.fromPitch,s.e+.035*Math.sin(s.elapsed*.53),u);
     place(yaw,pitch,direction);
     const ideal=fit(direction,s.r*(1-.055*Math.sin(s.elapsed*.38)),kind,view.paired);
     const aimDistance=s.elapsed<1.95?mix(s.fromDist,ideal,u):ideal;
-    distance=mix(distance,aimDistance,blend(dt,aimDistance>distance?5.2:3));
+    const zoom=aimDistance-distance;
+    if(Math.abs(zoom)>.045)distance=mix(distance,aimDistance,blend(dt,zoom>0?4.4:1.42));
     proposed.copy(aimAt).addScaledVector(direction,distance);
-    // If Leila traversed far during the blend, solve against her current
-    // position rather than carrying an old focus point into the recovery.
-    if(coverage(proposed)>0&&aimAt.distanceToSquared(desired)>.0625){
-      safeAim.copy(aimAt);aimAt.copy(desired);
-      place(yaw,pitch,direction);
-      proposed.copy(aimAt).addScaledVector(direction,distance);
-      if(coverage(proposed)>0){aimAt.copy(safeAim);proposed.copy(aimAt).addScaledVector(direction,distance);}
-    }
     repair(yaw,pitch,distance,kind,view.paired,dt);
-    camera.position.copy(proposed);
+    // Every positional change, including an obstruction escape, is glided.
+    // A bounded velocity also prevents one-frame jumps when a clip ends.
+    speedGoal.subVectors(proposed,camera.position).multiplyScalar(6.2).clampLength(0,4.2);
+    cameraSpeed.lerp(speedGoal,blend(dt,11));
+    camera.position.addScaledVector(cameraSpeed,dt);
     orbit.target.copy(aimAt);
   }
   return {tick};
