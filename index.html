@@ -20225,7 +20225,7 @@ const cinema=(()=>{
     return Math.max(0,fit(offset.multiplyScalar(1/r),r,kind,paired,aim)-r);
   }
   const avoidOffset=V(0,0,0), cameraSpeed=V(0,0,0), speedGoal=V(0,0,0);
-  const poseOffset=V(0,0,0), targetOffset=V(0,0,0);
+  const poseOffset=V(0,0,0), targetOffset=V(0,0,0), priorLook=V(0,0,-1), nextLook=V(0,0,0);
   let blockedFor=0,clearFor=0,probeIn=0;
   function resetStability(){
     recovering=false;blockedFor=clearFor=probeIn=0;cameraSpeed.set(0,0,0);
@@ -20408,7 +20408,21 @@ const cinema=(()=>{
     speedGoal.sub(cameraSpeed).multiplyScalar(blend(dt,10)).clampLength(0,22*dt);
     cameraSpeed.add(speedGoal);
     camera.position.addScaledVector(cameraSpeed,dt);
-    orbit.target.copy(aimAt);
+    // A fast pass can take the subject across the camera's own position.
+    // Rotate the actual view at a bounded rate as well as smoothing its path.
+    priorLook.set(0,0,-1).applyQuaternion(camera.quaternion);
+    nextLook.copy(aimAt).sub(camera.position);
+    const range=Math.max(.48,nextLook.length());
+    if(nextLook.lengthSq()<.001)nextLook.copy(priorLook);
+    nextLook.normalize();
+    const currentYaw=Math.atan2(priorLook.x,priorLook.z);
+    const currentPitch=Math.asin(clamp(priorLook.y,-.975,.975));
+    const wantedYaw=Math.atan2(nextLook.x,nextLook.z);
+    const wantedPitch=Math.asin(clamp(nextLook.y,-.975,.975));
+    const targetYaw=currentYaw+clamp(headingDelta(currentYaw,wantedYaw),-2.75*dt,2.75*dt);
+    const targetPitch=currentPitch+clamp(wantedPitch-currentPitch,-1.9*dt,1.9*dt);
+    place(targetYaw,targetPitch,nextLook);
+    orbit.target.copy(camera.position).addScaledVector(nextLook,range);
   }
   return {tick};
 })();
