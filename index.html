@@ -11462,42 +11462,60 @@ let radioStation=-1;
 const radioSoundButton=$('radioSound');
 const danceSoundButton=$('danceSound');
 const LabAudioContext=window.AudioContext || window.webkitAudioContext;
-let labAudio,labNoise,radioSoundEnabled=false,danceSoundEnabled=false;
+const audioPrefsKey='leila.lab155.audio.v1',audioPrefs={radio:false,dance:false,foley:false};
+try {
+  const saved=JSON.parse(localStorage.getItem(audioPrefsKey)??'null');
+  for(const key of Object.keys(audioPrefs))audioPrefs[key]=saved?.[key]===true;
+} catch {}
+function saveAudioPreference(key,value){
+  audioPrefs[key]=value;
+  try{localStorage.setItem(audioPrefsKey,JSON.stringify(audioPrefs));}catch{}
+}
+let labAudio,labNoise,radioSoundEnabled=audioPrefs.radio,danceSoundEnabled=audioPrefs.dance;
 const labTrack={radio:null,dance:null};
 const labRadioSongs=[
   {bpm:84,type:'triangle',chords:[[57,60,64,67],[53,57,60,64],[48,52,55,59],[55,59,62,65]],line:[4,null,2,null,1,2,null,3]},
   {bpm:101,type:'triangle',chords:[[50,53,57,60],[55,59,62,65],[48,52,55,59],[57,60,64,67]],line:[3,2,null,1,3,null,2,1]},
   {bpm:68,type:'sine',chords:[[48,52,55,59],[45,48,52,55],[53,57,60,64],[55,59,62,65]],line:[0,null,2,null,1,null,3,null]}
 ];
-let labAudioUnlock=0;
+let labAudioOpening=null;
+const anyAudioEnabled=()=>audioPrefs.radio||audioPrefs.dance||audioPrefs.foley;
 function labAudioButtons(){
   radioSoundButton.setAttribute('aria-pressed',String(radioSoundEnabled));
   danceSoundButton.setAttribute('aria-pressed',String(danceSoundEnabled));
   radioSoundButton.textContent='ラジオBGM：'+(radioSoundEnabled?'ON':'OFF');
   danceSoundButton.textContent='ダンス音：'+(danceSoundEnabled?'ON':'OFF');
 }
-function labAudioResume(onRejected){
+function labAudioStatus(){
+  $('labAudioHint').textContent=!LabAudioContext?'このブラウザーでは音を再生できません。':
+    anyAudioEnabled()&&labAudio?.state!=='running'?'音の設定は保存済みです。画面をタップすると再生を始めます。':
+    '音のオン／オフは次回も引き継がれます。';
+}
+function labAudioResume(){
+  if(!LabAudioContext||!anyAudioEnabled()||document.hidden)return;
   try{
     labAudio??=new LabAudioContext();
-    const id=++labAudioUnlock;
-    // Only this explicit user gesture creates/resumes audio on Safari.
-    if(labAudio.state!=='running') labAudio.resume().catch(()=>{
-      if(id!==labAudioUnlock || labAudio.state==='running') return;
-      $('labAudioHint').textContent='音を再生できませんでした。音のボタンをもう一度押してください。';
-      if(onRejected)onRejected();
-      else{radioSoundEnabled=danceSoundEnabled=false; labAudioButtons();}
-    });
-    $('labAudioHint').textContent='音はこのページを開いている間だけ有効です。';
-    return true;
-  }catch{
-    $('labAudioHint').textContent='このブラウザーでは音を再生できません。';
-    return false;
-  }
+    // iPad Safari can require a real touch after every page load. Store the
+    // user's preference independently from the current gesture permission.
+    if(labAudio.state==='running'){
+      labAudioStatus();updateLabMusic();return;
+    }
+    if(labAudioOpening)return;
+    labAudioOpening=Promise.resolve(labAudio.resume())
+      .catch(()=>{})
+      .finally(()=>{labAudioOpening=null;labAudioStatus();updateLabMusic();});
+  }catch{labAudioStatus();}
 }
+function labAudioWake(e){
+  if(e.isTrusted===false||e.repeat||e.metaKey||e.ctrlKey||e.altKey||labAudio?.state==='running')return;
+  if(e.target?.closest?.('#radioSound,#danceSound,#lab129FoleyToggle'))return;
+  labAudioResume();
+}
+for(const type of ['touchend','click','keydown'])window.addEventListener(type,labAudioWake,true);
 // LAB 129 · Local acoustic details (optional, in-page only).
 const lab129Foley=(()=>{
   const toggle=$('lab129FoleyToggle');
-  let enabled=false,bus=null,lastRootX=0,lastRootZ=0,tracked=false,frameReady=false;
+  let enabled=audioPrefs.foley,bus=null,lastRootX=0,lastRootZ=0,tracked=false,frameReady=false;
   let lastStep=-Infinity,lastEvent=-Infinity,variant=0;
   const samples=Object.create(null),voices=new Set();
   const feet={P:{armed:false,previous:0},N:{armed:false,previous:0}};
@@ -11524,9 +11542,6 @@ const lab129Foley=(()=>{
     voices.clear();
     try{bus?.disconnect();}catch{}
     bus=null;
-  }
-  function disable(){
-    enabled=false;quiet();update();
   }
   function disconnect(voice){
     voice.source.onended=null;
@@ -11639,13 +11654,13 @@ const lab129Foley=(()=>{
   function panel(position){return play('panel',position,.70);}
   toggle.onclick=()=>{
     if(!LabAudioContext)return;
-    if(enabled){disable();return;}
-    if(labAudioResume(disable)){
-      enabled=true;lastStep=lastEvent=-Infinity;resetGait();update();
-      $('labAudioHint').textContent='近くの足音や本のページをめくる音などが聞こえます。このページでのみ有効です。';
-    }
+    enabled=!enabled;saveAudioPreference('foley',enabled);
+    if(enabled){lastStep=lastEvent=-Infinity;resetGait();labAudioResume();}
+    else quiet();
+    update();labAudioStatus();
   };
   toggle.disabled=!LabAudioContext;
+  update();
   document.addEventListener('visibilitychange',()=>{if(document.hidden)quiet();});
   return {beginWalkFrame,sampleFoot,reading,click,panel,bell:position=>play('bell',position,.82)};
 })();
@@ -11788,21 +11803,22 @@ function selectLabRadio(i){
 }
 radioSoundButton.onclick=()=>{
   if(!LabAudioContext)return;
-  if(radioSoundEnabled){radioSoundEnabled=false;labTrackStop('radio');}
-  else if(labAudioResume()){radioSoundEnabled=true;if(radioStation<0) selectLabRadio(0);}
-  labAudioButtons(); updateLabMusic();
+  radioSoundEnabled=!radioSoundEnabled;saveAudioPreference('radio',radioSoundEnabled);
+  if(radioSoundEnabled){if(radioStation<0)selectLabRadio(0);labAudioResume();}
+  else labTrackStop('radio');
+  labAudioButtons();labAudioStatus();updateLabMusic();
 };
 danceSoundButton.onclick=()=>{
   if(!LabAudioContext)return;
-  if(danceSoundEnabled){danceSoundEnabled=false;labTrackStop('dance');}
-  else if(labAudioResume())danceSoundEnabled=true;
-  labAudioButtons(); updateLabMusic();
+  danceSoundEnabled=!danceSoundEnabled;saveAudioPreference('dance',danceSoundEnabled);
+  if(danceSoundEnabled)labAudioResume();
+  else labTrackStop('dance');
+  labAudioButtons();labAudioStatus();updateLabMusic();
 };
-$('labRadioStation').onchange=e=>{const i=Number(e.currentTarget.value);if(i>=0 && i<radioStations.length && Number.isInteger(i)){radioTaste133.hold();selectLabRadio(i); updateLabMusic();}};
-if(!LabAudioContext){
-  radioSoundButton.disabled=danceSoundButton.disabled=true;
-  $('labAudioHint').textContent='このブラウザーでは音を再生できません。';
-}
+$('labRadioStation').onchange=e=>{const i=Number(e.currentTarget.value);if(i>=0 && i<radioStations.length && Number.isInteger(i)){radioTaste133.hold();selectLabRadio(i);labAudioResume(); updateLabMusic();}};
+if(!LabAudioContext)radioSoundButton.disabled=danceSoundButton.disabled=true;
+if(radioSoundEnabled&&radioStation<0)selectLabRadio(0);
+labAudioButtons();labAudioStatus();
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){labTrackStop('radio');labTrackStop('dance');}
 });
