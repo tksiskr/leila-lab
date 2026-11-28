@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 198｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 203｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 198</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 203</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -377,6 +377,12 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="fresh126Preview" type="button">手入れ台を試す</button>
       <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
       <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
+    </div>
+    <div class="leilaCard" role="group" aria-labelledby="lab210MineralTitle">
+      <h2 id="lab210MineralTitle">北窓の鉱石棚</h2>
+      <label>観察のしかた <select id="lab210MineralMode"><option value="examine">手に取って眺める</option><option value="lamp">検査灯で照らす</option><option value="loupe">ルーペで覗く</option></select></label>
+      <button id="lab210MineralTry" type="button">鉱石棚を試す</button>
+      <p id="lab210MineralRecord" aria-live="polite"></p><button id="lab210MineralReset" type="button">鉱石の観察記録を消す</button>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="devMemoTitle">
       <h2 id="devMemoTitle">メモ台・湯沸かし</h2>
@@ -2012,6 +2018,7 @@ const kitchenScene=(()=>{
     fill,steam,restTools,boardTop,boardHome,cuttingBoard,potTop,bowlHome,pad,handler,target,bounds};
 })();
 const kitchenBounds=kitchenScene.bounds,kitchenTarget=kitchenScene.target;
+const mineralBounds=new T.Box3(new T.Vector3(3.07,-1,-5.61),new T.Vector3(3.89,1,-5.13));
 // LAB 132 | a small hot-water tray, away from the stove and the dog's bowls.
 const tea132=(()=>{
   const area=new T.Group();area.name='東窓近くの白い湯沸かし台';
@@ -10508,7 +10515,7 @@ const lab121Routines=(()=>{
 
 function chooseDestination() {
   if(devNextDestination())return;
-  if(terrace191.choose()||starAtlas177.choose()||windowChime176.choose())return;
+  if(terrace191.choose()||starAtlas177.choose()||windowChime176.choose()||mineral210.choose())return;
   if(shade132.maybe()||charge129.prefer())return;
   if(lab121Routines.choose()||windowRain130.maybe()||evening124.maybe()||leilaObservatory.maybe())return;
   const roll = Math.random();
@@ -11940,7 +11947,7 @@ function clearOfFurniture(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -11977,7 +11984,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -12288,6 +12295,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     dogKitchen.decorate(visit,target);
   } else if(target.kind==='tea132'){
     tea132.decorate(visit,target);
+  } else if(target.kind==='mineral210'){
+    mineral210.decorate(visit,target);
   } else if(target.kind==='hourglass135'){
     hourglass135.decorate(visit,target);
   } else if(target.kind==='coaster141'){
@@ -13935,6 +13944,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'mineral210Act':
+      mineral210.pose(stage,progress);
+      break;
     case 'coaster141Slide':
       coaster141.act(stage,progress);
       break;
@@ -14006,7 +14018,7 @@ function advanceDestinationRoute(dt) {
   }
   if (progress < 1 && !(stage.type==='wake140' && stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35) &&
       !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='coaster141Slide' || stage.type==='drawer135Sort' || stage.type==='press137Make') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='coaster141Slide' || stage.type==='mineral210Act' || stage.type==='drawer135Sort' || stage.type==='press137Make') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -15887,7 +15899,7 @@ function createShepherd() {
   function navigate(to,edgeApproach=false){
     if(d.destination?.distanceToSquared(to)<.0001)return;
     d.destination=to.clone();d.path=[];
-    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds];
+    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds];
     if(bed.visible)boxen.push(bedBounds);
     const boxes=boxen.map(b=>{
       const box=b.clone();
@@ -21176,7 +21188,7 @@ const dogTumble=(()=>{
     });
   }
   function stageBoxes(){
-    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds];
+    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds,mineralBounds];
     if(bed.visible)boxes.push(bedBounds);
     return boxes;
   }
@@ -24002,6 +24014,172 @@ const nightGuide137=(()=>{
 })();
 
 setupPaintWindow();
+// LAB 199–203 • A hands-on specimen station for slow, autonomous life.
+const mineral210=(()=>{
+  const group=new T.Group();group.name='北窓の鉱石棚';group.position.set(3.48,0,-5.37).multiplyScalar(2);group.scale.setScalar(2);floorGroup.add(group);
+  const metal=mat(0x253b49,.76),wood=mat(0x82684e,.84),linen=mat(0x3b536c,.96),edge=mat(0xc7a86f,.69);
+  block(group,wood,0,.520,0,.77,.055,.45);
+  for(const x of [-.327,.327]){
+    for(const z of [-.161,.161])block(group,metal,x,.25,z,.050,.50,.044);
+    block(group,wood,x,.235,0,.045,.053,.38);
+  }
+  block(group,wood,0,.259,-.027,.66,.032,.34);
+  block(group,linen,0,.555,.042,.414,.018,.223);
+  block(group,edge,0,.546,.231,.67,.012,.008);
+  const stoneColors=[mat(0x78c8c3,.27),mat(0xb796e4,.35),mat(0xdc9f66,.41)];
+  const specimen=new T.Group();specimen.name='小さな鉱石の標本';group.add(specimen);
+  const dock=V(-.09,.588,.177);
+  specimen.position.copy(dock);
+  const gems=[];
+  for(const [i,x,y,z,r,h] of [[0,0,.017,0,.035,1.36],[1,-.037,-.006,.001,.027,1.01],[2,.022,-.015,.022,.022,1.24]]){
+    const crystal=new T.Mesh(new T.IcosahedronGeometry(r,0),stoneColors[i]);
+    crystal.position.set(x,y,z);crystal.scale.y=h;crystal.rotation.set(.42+i*.18,.29+i*.32,.22-i*.32);
+    specimen.add(crystal);gems.push(crystal);
+  }
+  for(const x of [.13,.22]){
+    block(group,edge,x,.583,.086,.066,.011,.072);
+    const chip=new T.Mesh(new T.DodecahedronGeometry(.030),stoneColors[x>.15?2:1]);
+    chip.rotation.set(.25,.41,-.24);chip.position.set(x,.611,.083);group.add(chip);
+  }
+  const lamp=new T.Group();lamp.name='鉱石棚の検査灯';group.add(lamp);
+  block(lamp,metal,.313,.636,-.113,.036,.178,.036);
+  block(lamp,metal,.220,.729,-.104,.24,.044,.086);
+  const lens=new T.MeshBasicMaterial({color:0xffcd7d,transparent:true,opacity:.22});
+  block(lamp,lens,.169,.704,-.104,.116,.009,.063);
+  const lampKey=block(lamp,edge,.176,.574,.192,.065,.020,.069);
+  const lampPad=V(.176,.595,.192);
+  const loupe=new T.Group();loupe.name='鉱石用のルーペ';group.add(loupe);
+  const magnifier=new T.Mesh(new T.TorusGeometry(.047,.005,7,20),edge);
+  loupe.add(magnifier);
+  block(loupe,metal,0,-.075,0,.016,.058,.017);
+  const glass=new T.Mesh(new T.CircleGeometry(.041,20),new T.MeshBasicMaterial({color:0xaee4ef,transparent:true,opacity:.24,side:T.DoubleSide,depthWrite:false}));
+  loupe.add(glass);
+  const loupeRest=V(.10,.576,.169),loupeRestAngle=-Math.PI*.49;
+  loupe.position.copy(loupeRest);loupe.rotation.x=loupeRestAngle;
+  let lampLevel=0,lampGoal=0;
+  const target={kind:'mineral210',name:'北窓の鉱石棚',point:V(3.48,0,-4.98),heading:Math.PI,
+    onArrival(){park();enterQuietRest('linger','鉱石を棚に戻し、ひと息ついています',4.2);}};
+  const palmNormal=V(0,-1,0),forward=V(0,0,-1),armGuide=V(.13,-.12,.026);
+  const savedRotation=new T.Quaternion(), w=V(0,0,0), gaze=V(0,0,0), handOffset=V(0,0,0);
+  const folded=V(-.09,.678,.327);
+  const key='leila.lab202.minerals.v1';
+  const samples=[
+    {name:'緑の標本',colors:[0x78c8c3,0x479482,0xa1d7c5]},
+    {name:'紫の標本',colors:[0xa58be2,0xd8b4f8,0x6e56a1]},
+    {name:'琥珀色の標本',colors:[0xe8b06c,0xd67543,0xffd78d]}
+  ];
+  let examined=[];
+  try{const data=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(data))examined=[...new Set(data.filter(n=>Number.isInteger(n)&&n>=0&&n<samples.length))];}catch{}
+  let dirty=false,next=40,previous=null,lastSample=-1;
+  function label(){
+    $('lab210MineralRecord').textContent='観察済み '+examined.length+' / '+samples.length+
+      (examined.length?'：'+examined.map(i=>samples[i].name).join('、'):'');
+    $('lab210MineralReset').disabled=!examined.length;
+  }
+  function record(id){
+    if(examined.includes(id))return;
+    examined.push(id);
+    try{localStorage.setItem(key,JSON.stringify(examined));}catch{}
+    label();
+  }
+  $('lab210MineralReset').onclick=()=>{examined=[];try{localStorage.removeItem(key);}catch{}label();};
+  label();
+  function park(){
+    specimen.position.copy(dock);specimen.quaternion.copy(savedRotation);
+    loupe.position.copy(loupeRest);loupe.rotation.set(loupeRestAngle,0,0);dirty=false;
+  }
+  function visit(style='examine',manual=false){
+    if(document.hidden||!floorGroup.visible||!manual&&reaction||contact||handLink||
+       !destinationPath(root.position.clone().setY(0),target.point).length)return false;
+    if(manual&&devOwned())clearDevPreview();
+    if(manual){prioritizeLeilaUser();restoreReactionPose();reaction=null;mood.offeredHand=null;closeWaveReply();cancelCameraGreeting();}
+    if(mode!=='roam')beginRoam();
+    if(roam.target?.kind===target.kind&&roam.phase==='route')return false;
+    previous=style;next=mood.seconds+145;
+    const remaining=samples.map((_,i)=>i).filter(i=>!examined.includes(i)&&i!==lastSample);
+    const pool=remaining.length?remaining:samples.map((_,i)=>i).filter(i=>i!==lastSample);
+    const sample=pool[Math.floor(Math.random()*pool.length)];
+    lastSample=sample;
+    requestDestination({...target,style,sample});
+    return true;
+  }
+  function decorate(stages,job){
+    stages.push(routeTurn(job.heading,'鉱石棚に向いています'),{type:'mineral210Act',style:job.style,sample:job.sample??0,
+      time:job.style==='loupe'?8.2:job.style==='lamp'?7.45:7.0,message:job.style==='loupe'?'ルーペを当てて結晶を覗き込んでいます':job.style==='lamp'?'小さな検査灯で鉱石を照らしています':'鉱石を手に取って光の角度を変えています'});
+  }
+  const band=(u,a,b,c,d)=>rearRamp(u,a,b)*(1-rearRamp(u,c,d));
+  function pose(a,u){
+    if((roam.pending||contact||reaction||handLink)&&a.cancelAt===undefined)a.cancelAt=roam.elapsed;
+    const cancel=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
+    if(a.cancelAt!==undefined)u=a.cancelAt/a.time;
+    blendSofaPose(a.pose,1);
+    const reach=band(u,.035,.18,.82,.99)*cancel;
+    const carried=band(u,.23,.43,.63,.80)*cancel;
+    const held=band(u,.18,.237,.79,.835)*cancel;
+    const lightMode=a.style==='lamp';
+    const sample=samples[a.sample];
+    if(a.lastSample!==a.sample){
+      for(let i=0;i<gems.length;i++)gems[i].material.color.setHex(sample.colors[i]);
+      a.lastSample=a.sample;
+    }
+    if(u>.57&&!a.logged&&a.cancelAt===undefined){a.logged=true;record(a.sample);}
+    const tilt=carried*Math.sin(u*12)*.54;
+    if(lightMode){
+      const tap=cancel*Math.max(band(u,0,.107,.13,.26),band(u,.79,.87,.89,.97));
+      if(tap>.001){
+        const face=orientPalm('N',forward,palmNormal);
+        const point=group.localToWorld(lampPad.clone()).sub(palmRig.N.center.clone().applyQuaternion(face));
+        reachHand('N',point,face,tap,false,V(-.15,-.11,.02),true);
+      }
+      lampGoal=cancel*band(u,.109,.16,.855,.91);
+      lampKey.position.y=.574-.008*tap;
+    }
+    groups.chest.rotateX(.115*reach);
+    const carry=w.copy(dock).lerp(folded,carried);
+    carry.y+=.027*Math.sin(Math.PI*carried);
+    group.localToWorld(carry);
+    const palm=orientPalm('P',forward,palmNormal);
+    reachHand('P',carry.sub(handOffset.copy(palmRig.P.center).applyQuaternion(palm)),palm,reach,false,armGuide,true);
+    const actual=groups.handP.localToWorld(handOffset.copy(palmRig.P.center));
+    specimen.position.copy(dock).lerp(group.worldToLocal(actual),held);
+    specimen.rotation.set(.23*carried,tilt,-.16*carried);
+    if(a.style==='loupe'){
+      const raise=band(u,.28,.47,.63,.79)*cancel;
+      const handle=band(u,.12,.27,.78,.94)*cancel;
+      const at=loupeRest.clone().lerp(V(.017,.741,.365),raise);
+      at.y+=.016*Math.sin(Math.PI*raise);
+      const q=orientPalm('N',forward,palmNormal);
+      const anchor=group.localToWorld(at).sub(palmRig.N.center.clone().applyQuaternion(q));
+      reachHand('N',anchor,q,handle,false,V(-.15,-.13,.033),true);
+      const grip=groups.handN.localToWorld(palmRig.N.center.clone());
+      loupe.position.copy(loupeRest).lerp(group.worldToLocal(grip),handle);
+      loupe.position.y+=.058*raise;
+      loupe.rotation.set(loupeRestAngle*(1-raise)-.18*raise,.11*raise,0);
+      groups.neck.rotateX(.085*raise);
+    }
+    dirty=true;
+    gaze.copy(specimen.getWorldPosition(gaze)).sub(groups.head.getWorldPosition(V(0,0,0)));
+    gaze.applyQuaternion(groups.head.getWorldQuaternion(new T.Quaternion()).invert());
+    groups.head.rotateX(T.MathUtils.clamp(-Math.atan2(gaze.y,Math.hypot(gaze.x,gaze.z)),.02,.74)*reach);
+    groups.head.rotateY(T.MathUtils.clamp(Math.atan2(gaze.x,gaze.z),-.62,.62)*reach);
+  }
+  function tick(dt){
+    if(!(mode==='roam'&&roam.phase==='route'&&roam.visit?.[roam.visitIndex]?.type==='mineral210Act')){lampGoal=0;lampKey.position.y=.574;}
+    lampLevel+=(lampGoal-lampLevel)*(1-Math.exp(-dt*8));
+    lens.opacity=.22+.75*lampLevel;
+    stoneColors.forEach((m,i)=>{m.emissive.copy(m.color);m.emissiveIntensity=lampLevel*(i===0?.48:.18);});
+    if(dirty&&!(mode==='roam'&&roam.phase==='route'&&roam.visit?.[roam.visitIndex]?.type==='mineral210Act'))park();
+  }
+  function choose(){
+    if(!devOwned()&&mood.seconds>=Math.max(next,leilaUserPriorityUntil)&&currentMood()!=='annoyed'&&
+       !roam.pending&&!roam.attention&&Math.random()<(currentMood()==='bored'?.28:.14))return visit(lab900Frame.day<.3?(previous==='lamp'?'loupe':'lamp'):(previous==='examine'?'loupe':'examine'));
+    return false;
+  }
+  group.traverse(o=>{if(o.isMesh)destinationMeshes.set(o,{...target,style:'examine'});});
+  $('lab210MineralTry').onclick=()=>visit($('lab210MineralMode').value,true);
+  return {group,target,visit,decorate,pose,tick,choose};
+
+})();
 r.setAnimationLoop(t=>{scenicQuality130.frame(t);const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);floorHello133.tick();dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 home121.cleanup();press137.tick();fresh126.tick();memo131.tick();drawer135.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
@@ -24031,7 +24209,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick(dt);evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);windowChime176.tick(dt);starAtlas177.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);
+updateLabMusic();updateWorld(dt);mineral210.tick(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick(dt);evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);windowChime176.tick(dt);starAtlas177.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);
  // Sofa and mattress contacts finish Leila's blend in the dog pass.
  // Camera and shadows must use that final pose, not the unblended pose.
  const surfaceBlend=dogTumble.surfaceBlending()||(mode==='roam'&&['dogPlay','dogBond','dogMeal'].includes(roam.phase));
