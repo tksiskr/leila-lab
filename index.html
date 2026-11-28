@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 140｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 141｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 140: the scene stays in place; only the controls pane scrolls. */
+/* LAB 141: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 140</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 141</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -10327,7 +10327,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     }
     appendWalkPath(visit,points,message,false,walkingClearance(couch));
   } else if (target.point && from.distanceTo(target.point) > .025) {
-    if (!appendWalk(visit,from,target.point,message,target.kind === 'user')) {
+    if (!appendWalk(visit,from,target.point,message,target.kind === 'user',roomyWalk141.ordinary(target,acknowledge))) {
       if (roam.phase === 'bed') {
         roam.pause=roam.elapsed+5;
         return;
@@ -10417,10 +10417,60 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   startRouteStage();
 }
 
-function appendWalk(visit,from,to,message,holdCamera=false) {
+// Plan one small, smooth detour around a stationary dog only on ordinary
+// autonomous trips. Explicit routes and joint play retain their own logic.
+const roomyWalk141=(()=>{
+  const safeKinds=new Set(['window','radio','easel','terrarium','mirror','home121','fresh126','memo131','linger','wardrobe','drawer135','hourglass135','press137']);
+  const restStates=new Set(['idle','matRest','curl','sitCue']);
+  const radius=.57, rr=radius*radius;
+  function room(a,b,d){
+    const x=b.x-a.x,z=b.z-a.z, len=x*x+z*z;
+    const u=len>.0001?T.MathUtils.clamp(((d.x-a.x)*x+(d.z-a.z)*z)/len,0,1):0;
+    return (a.x+x*u-d.x)**2+(a.z+z*u-d.z)**2>=rr;
+  }
+  function ordinary(t,ack){
+    return !ack&&safeKinds.has(t.kind)&&!devOwned()&&!t.sofaPlay&&!t.edgePlay&&
+      !t.rain130&&!t.evening124&&mood.seconds>=leilaUserPriorityUntil;
+  }
+  function divert(points,clear){
+    const d=shepherd.object.position;
+    if(points.length<2||!shepherd.ready||!restStates.has(shepherd.state)||shepherd.jump||shepherd.play||shepherd.bond||
+       Math.abs(d.y)>.085||points[0].distanceToSquared(d)>5**2||
+       points[0].distanceToSquared(d)<.68**2||points.at(-1).distanceToSquared(d)<.68**2)return null;
+    // Snapshot the location so a nearly simultaneous dog move cannot change
+    // the clearance while the rounded walking curve is being built.
+    const fixed=V(d.x,0,d.z);
+    const can=(a,b)=>clear(a,b)&&room(a,b,fixed);
+    const i=points.findIndex((p,i)=>i>0&&!room(points[i-1],p,fixed));
+    if(i<1)return null;
+    const a=points[i-1], b=points[i];
+    const dx=b.x-a.x,dz=b.z-a.z, length=Math.hypot(dx,dz);
+    if(length<.05)return null;
+    const sx=-dz/length,sz=dx/length;
+    let best=null, range=Infinity;
+    for(const sign of [-1,1])for(const distance of [.73,.94,1.15]){
+      for(const along of [0,.23,-.23]){
+        const corner=V(fixed.x+sign*sx*distance+dx/length*along,0,fixed.z+sign*sz*distance+dz/length*along);
+        if(!inWalkingArea(corner)||!can(a,corner)||!can(corner,b))continue;
+        const cost=a.distanceTo(corner)+corner.distanceTo(b);
+        if(cost>=range)continue;
+        const path=[...points.slice(0,i),corner,...points.slice(i)];
+        if(path.every((p,k)=>k===0||can(path[k-1],p))){best=path;range=cost;}
+      }
+    }
+    return best?{points:best,clear:can}:null;
+  }
+  return {ordinary,divert};
+})();
+
+function appendWalk(visit,from,to,message,holdCamera=false,avoidDog=false) {
   const couch = sofaWalkingBounds();
   const path = destinationPath(from,to,couch);
-  appendWalkPath(visit,[from,...path],message,holdCamera,walkingClearance(couch),true);
+  const clear=walkingClearance(couch);
+  const points=[from,...path];
+  const detour=avoidDog?roomyWalk141.divert(points,clear):null;
+  appendWalkPath(visit,detour?.points??points,detour?'犬のそばをよけて歩いています':message,
+    holdCamera,detour?.clear??clear,!detour);
   return path.length > 0;
 }
 
