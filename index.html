@@ -259,7 +259,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <ol id="lab900LifeList" aria-label="レイラが最近したこと"></ol>
     <div id="lab900LifeActions"><p id="lab900LifeStorage">このブラウザーにだけ保存します。</p><div>
       <button id="lab900LifeKeep" type="button" hidden>消さない</button>
-      <button id="lab900LifeClear" type="button" hidden>記録を消す…</button>
+      <button id="lab900LifeClear" type="button" hidden>記録とメモを消す…</button>
     </div></div>
   </div>
 </details>
@@ -340,6 +340,9 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="fresh126Preview" type="button">手入れ台を試す</button>
       <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
       <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
+      <button id="lab131MemoTest" type="button">南窓のメモ台を試す</button>
+      <button id="lab131MemoPrior" type="button" disabled>前のメモを見る</button>
+      <p id="lab131MemoStatus" aria-live="polite">まだメモはありません。</p>
       <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
       <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
     </div>
@@ -518,6 +521,7 @@ new ResizeObserver(resize).observe(view);resize();
 }
 // LAB 26.1 — independent architectural environment. One scene unit = one provisional metre / 2.
 // LAB 900: bounded on-device log of completed or observable activities only.
+let memo131Observe=null,memo131Forget=null;
 const lab900LifeNote=(()=>{
   const key='leila.lab900.life.v1', cap=24;
   const lines=Object.freeze({
@@ -539,6 +543,7 @@ const lab900LifeNote=(()=>{
     homeRead:'点検台で動作記録を読み返した',
     freshWipe:'姿見の手入れ台を布で拭いた',
     freshFold:'乾いた布をたたみ、姿見のそばを整えた',
+    memo131:'青いペンでひとことを残した',
     observatorybirds:'窓辺で鳥の群れを追った',
     observatoryhorizon:'窓辺で地平線の光を観察した',
     observatorystars:'窓辺で星を探した',
@@ -576,7 +581,7 @@ const lab900LifeNote=(()=>{
     clear.hidden=entries.length===0;
     keep.hidden=!armed;
     clear.dataset.armed=String(armed);
-    clear.textContent=armed?'このブラウザーの記録を消す':'記録を消す…';
+    clear.textContent=armed?'このブラウザーの記録とメモを消す':'記録とメモを消す…';
   }
   function listEntry(entry) {
     const row=document.createElement('li'), time=document.createElement('time'), event=document.createElement('span');
@@ -608,7 +613,7 @@ const lab900LifeNote=(()=>{
       return;
     }
     armed=false;
-    entries=[];
+    entries=[];memo131Forget?.();
     save();
     refresh();
     panel.querySelector('summary').focus();
@@ -630,7 +635,7 @@ const lab900LifeNote=(()=>{
     if(recent && now>=recent.when && now-recent.when<7000) return;
     entries=[{kind,when:now},...entries].slice(0,cap);
     save();
-    refresh();
+    refresh();memo131Observe?.(kind,now);
   };
 })();
 
@@ -2676,7 +2681,243 @@ capoeiraRing.rotation.x=-Math.PI/2;
 capoeiraRing.position.y=.004;
 capoeiraFloor.add(capoeiraRing);
 
+// LAB 131 | A pocket record for the things Leila actually noticed today.
+const memo131=(()=>{
+  const group=new T.Group();group.name='南窓のメモ台';
+  group.position.set(-5.92,0,17.42);group.scale.setScalar(2);floorGroup.add(group);
+  const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
+  const slate=mat(0x365052,.72), grain=mat(0xb18b67,.80), brass=mat(0xb5a07b,.50), felt=mat(0x627976,.96);
+  const blue=mat(0x47717b,.65), cap=mat(0xd9c09a,.55), ink=mat(0x334452,.8);
+  const writingBase=.730, cardY=writingBase+.006, cardW=.208, cardD=.180;
+  const tray=block(group,grain,0,writingBase-.019,.008,.581,.035,.322);
+  for(const x of [-.221,.221]){
+    block(group,slate,x,.581,.091,.024,.254,.125);
+    block(group,brass,x,.691,-.046,.029,.034,.207);
+  }
+  block(group,slate,0,.695,.146,.55,.044,.036);
+  block(group,brass,0,.695,.166,.368,.012,.008);
+  block(group,felt,-.036,writingBase,.0,.332,.004,.237);
+  block(group,brass,-.035,cardY+.003,.030,.094,.010,.018);
+  const pencilDock=block(group,slate,.171,writingBase,.022,.065,.013,.233);
+  block(group,grain,.171,writingBase+.007,.111,.047,.012,.020);
+  const cardCenter=v(-.036,cardY,-.056);
+  const cardSpace=block(group,mat(0x9a815f,.84),cardCenter.x,cardY-.003,cardCenter.z,cardW+.020,.007,cardD+.016);
+  const board=document.createElement('canvas');board.width=416;board.height=360;
+  const ctx=board.getContext('2d'), canvasTex=new T.CanvasTexture(board);canvasTex.colorSpace=T.SRGBColorSpace;
+  const sheet=new T.Mesh(new T.PlaneGeometry(cardW,cardD),new T.MeshStandardMaterial({map:canvasTex,roughness:.94}));
+  sheet.rotation.set(-Math.PI/2,0,Math.PI);sheet.position.copy(cardCenter);group.add(sheet);
+  const pen=new T.Group();pen.name='レイラの青いペン';group.add(pen);
+  function cyl(material,a,b,h,y){
+    const m=new T.Mesh(new T.CylinderGeometry(a,b,h,10),material);m.position.y=y;pen.add(m);
+  }
+  cyl(blue,.0065,.0065,.083,-.007);
+  cyl(cap,.0066,.0066,.008,-.050);
+  cyl(cap,.0038,.0065,.016,.0405);
+  cyl(ink,.0006,.0038,.008,.0522);
+  const penRest=v(.171,writingBase+.015,-.028), nibLength=.0562;
+  const axis=v(0,1,0), direction=v(0,-.955,.297).normalize(), graspVec=v(0,-.26,1).normalize(), palmNormal=v(-.95,-.13,-.03).normalize();
+  const penDefault=new T.Quaternion().setFromUnitVectors(axis,v(0,0,1));
+  const penWriting=new T.Quaternion().setFromUnitVectors(axis,direction);
+  const palmAt=v(), offset=v(), wristAt=v(), nibAt=v(), folded=v(), worldPoint=v();
+  const bend=v(.182,-.143,.070), q=new T.Quaternion(), strokeTo=v(), gLocal=v();
+  const target={kind:'memo131',name:'南窓のメモ台',point:v(-2.94,0,8.408),lookAt:group.localToWorld(cardCenter.clone()),heading:0};
+  const bounds=new T.Box3(v(-3.30,-1,8.519),v(-2.60,1,8.93));
+  const key='leila.lab131.memo.v1', limit=5;
+  const entriesMap={
+    read:'ソファで読書',homeWater:'鉢に水をやった',paintDone:'風景画を仕上げた',dogMeal:'犬のごはんを作った',
+    dogBond:'犬をなでた',dogSleep:'犬と添い寝',dogSofa:'犬とソファで休憩',dogPlay:'犬とボールで遊んだ',
+    freshWipe:'手入れ台を拭いた',observatorybirds:'窓辺の鳥を見た',observatoryhorizon:'地平線の色を見た',
+    observatorystars:'窓辺で星を見た',homeScan:'手首を点検した',
+    planWindow:'窓辺を見に行く',planBook:'本の続きを読む',planGarden:'新芽の様子を見よう',planRest:'少しひと休みする'
+  };
+  const noteOut=$('lab131MemoStatus'), older=$('lab131MemoPrior');
+  let view=0;
+  const label=k=>Object.hasOwn(entriesMap,k)?entriesMap[k]:'';
+  const plan=k=>k.startsWith('plan');
+  function dateKey(ms){
+    const d=new Date(ms);
+    return (d.getFullYear()*13+d.getMonth())*32+d.getDate();
+  }
+  const journal=[];
+  const queue=[];
+  try{
+    const raw=localStorage.getItem(key), items=raw&&raw.length<1200?JSON.parse(raw):[];
+    if(Array.isArray(items))for(const row of items.slice(0,limit)){
+      if(row&&label(row.kind)&&Number.isSafeInteger(row.at)&&row.at>0&&row.at<=Date.now()+86400000)
+        journal.push({kind:row.kind,at:row.at});
+    }
+  }catch{}
+  function save(){
+    try{localStorage.setItem(key,JSON.stringify(journal));}catch{}
+  }
+  function record(kind,at){
+    if(!label(kind)||plan(kind))return;
+    if(queue[0]?.kind===kind)return;
+    queue.unshift({kind,at});if(queue.length>6)queue.length=6;
+  }
+  function picked(){
+    const today=dateKey(Date.now()), recent=queue.filter(x=>dateKey(x.at)===today);
+    if(recent.length){
+      const lastKind=journal[0]?.kind;
+      const item=recent.find(x=>x.kind!==lastKind)??recent[0];
+      return {kind:item.kind,source:item.at};
+    }
+    const titles=['planWindow','planBook','planGarden','planRest'].filter(x=>x!==journal[0]?.kind);
+    const d=new Date();
+    const h=d.getHours(), feeling=currentMood();
+    const preferred=h>=19?'planRest':feeling==='bored'?'planWindow':h<11?'planGarden':'planBook';
+    return {kind:titles.includes(preferred)&&Math.random()<.66?preferred:titles[Math.floor(Math.random()*titles.length)]};
+  }
+  function store(job){
+    if(job.source!==undefined){
+      const n=queue.findIndex(x=>x.kind===job.kind&&x.at===job.source);
+      if(n>=0)queue.splice(n,1);
+    }
+    journal.unshift({kind:job.kind,at:Date.now()});
+    if(journal.length>limit)journal.length=limit;
+    view=0;save();updateLabel();
+  }
+  function updateLabel(){
+    if(!noteOut)return;
+    const row=journal[view];
+    if(older){older.disabled=journal.length<2;older.textContent=view===journal.length-1&&view>0?'最新のメモに戻る':'前のメモを見る';}
+    const date=row?new Date(row.at):null, prior=row&&(view>0||dateKey(row.at)!==dateKey(Date.now()));
+    noteOut.textContent=row?(prior?(date.getMonth()+1)+'/'+date.getDate()+'　':'')+(plan(row.kind)?(prior?'その日の予定：':'次の予定：'):prior?'その日のひとこと：':'今日のひとこと：')+label(row.kind):'まだメモはありません。';
+  }
+
+  const signPaths=[[[.21,.42],[.29,.49],[.41,.37]],[[.21,.55],[.38,.55],[.53,.55]],[[.21,.65],[.35,.65],[.43,.65]]];
+  const planPaths=[[[.21,.42],[.37,.42],[.41,.42]],[[.21,.53],[.35,.59],[.47,.53]],[[.21,.66],[.35,.66],[.58,.66]]];
+  const isPlan=k=>!!k&&plan(k);
+  function page(doneKind,partial,job){
+    ctx.fillStyle='#eee5cc';ctx.fillRect(0,0,board.width,board.height);
+    ctx.fillStyle='#d9caad';ctx.fillRect(19,55,377,2);
+    for(let i=0;i<3;i++)ctx.fillRect(26,163+i*43,364,1);
+    ctx.fillStyle='#53656b';ctx.font='bold 23px sans-serif';
+    ctx.fillText((job??doneKind)&&plan(job??doneKind)?'次の予定':'今日の小さなメモ',27,45);
+    if(doneKind&&!job){
+      ctx.fillStyle='#2d4550';ctx.font='bold 22px sans-serif';
+      ctx.fillText(label(doneKind),64,288);
+    }
+    const path=isPlan(job??doneKind)?planPaths:signPaths;
+    const lengths=partial??(doneKind?[1,1,1]:[0,0,0]);
+    ctx.lineWidth=5.5;ctx.lineJoin='round';ctx.lineCap='round';ctx.strokeStyle='#416575';
+    for(let i=0;i<3;i++){
+      const t=lengths[i];if(t<=.001)continue;
+      const row=path[i], mid=t>=.5, end=at(i,t,path);
+      ctx.beginPath();ctx.moveTo(row[0][0]*board.width,row[0][1]*board.height);
+      if(mid)ctx.lineTo(row[1][0]*board.width,row[1][1]*board.height);
+      ctx.lineTo(end[0]*board.width,end[1]*board.height);ctx.stroke();
+    }
+    canvasTex.needsUpdate=true;
+  }
+  function at(i,t,paths){
+    const [a,b,c]=paths[i], pair=t<.5?[a,b]:[b,c], u=(t%0.5)*2;
+    if(t>=1)return c;
+    return [mix(pair[0][0],pair[1][0],u),mix(pair[0][1],pair[1][1],u)];
+  }
+  function park(){pen.position.copy(penRest);pen.quaternion.copy(penDefault);}
+  park();updateLabel();
+  // Page rendering uses the installed mix helper once the module boot has completed.
+  let dirty=false, nextAt=82, pageAt=-Infinity;
+  function choose(){
+    if(devOwned()||reaction||contact||handLink||document.hidden||!floorGroup.visible||
+       !['wait','rest','linger','window','seated'].includes(roam.phase)||roam.pending||roam.target?.kind==='memo131'||
+       currentMood()==='annoyed'||mood.seconds<Math.max(nextAt,leilaUserPriorityUntil))return false;
+    if(Math.random()>(queue.length?.20:.08))return false;
+    if(root.position.distanceTo(target.point)>.034&&!destinationPath(root.position,target.point).length)return false;
+    requestDestination({...target,memo:picked()},false);nextAt=mood.seconds+136+Math.random()*88;
+    return true;
+  }
+  function invite(){
+    if(devOwned()){clearDevPreview();windowSnow.clearPreview();}
+    if(mode!=='roam')beginRoam();
+    if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='memo131')return;
+    restoreReactionPose();reaction=null;mood.offeredHand=null;closeWaveReply();cancelCameraGreeting();
+    requestDestination({...target,manual:true,memo:picked()},false);
+    nextAt=mood.seconds+100;
+  }
+  const msg='南窓のメモ台でペンを取っています';
+  function decorate(visit,dest){
+    visit.push(routeTurn(0,'メモ台の前で立ち止まりました'),{
+      type:'memo131Write',time:7.7,job:dest.memo,progress:[0,0,0],message:msg
+    });
+  }
+  function contactFor(a,u){
+    const f=T.MathUtils.clamp((u-.294)/.44,0,.9999)*3, row=Math.floor(f), phase=f-row;
+    const t=rearRamp(phase,.17,.84), lift=(1-rearRamp(phase,.05,.17)*(1-rearRamp(phase,.84,.96)))*.026;
+    const path=plan(a.job.kind)?planPaths:signPaths;
+    const [x,y]=at(row,t,path);
+    strokeTo.set(cardCenter.x+(.5-x)*cardW,cardY+lift+.001,cardCenter.z+(.5-y)*cardD);
+    return {row,phase,t};
+  }
+  function look(world,w){
+    const h=groups.head;
+    gLocal.copy(world).sub(h.getWorldPosition(folded)).applyQuaternion(h.getWorldQuaternion(q).invert());
+    h.rotateX(T.MathUtils.clamp(-Math.atan2(gLocal.y,Math.hypot(gLocal.x,gLocal.z)),-.46,.63)*w);
+    h.rotateY(T.MathUtils.clamp(Math.atan2(gLocal.x,gLocal.z),-.69,.69)*w);
+  }
+  function draw(a,u){
+    if((roam.pending||reaction||contact||handLink)&&a.cancelAt===undefined)a.cancelAt=roam.elapsed;
+    if(a.cancelAt!==undefined)u=a.cancelAt/a.time;
+    const cancel=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
+    blendSofaPose(a.pose,1);
+    const reach=rearRamp(u,.042,.158)*(1-rearRamp(u,.89,.993))*cancel;
+    groups.abdomen.rotateX(.15*reach);groups.chest.rotateX(.19*reach);
+    const transport=rearRamp(u,.185,.300)*(1-rearRamp(u,.75,.858));
+    const writing=rearRamp(u,.237,.323)*(1-rearRamp(u,.733,.813));
+    const c=contactFor(a,u);
+    const tq=pen.quaternion.copy(penDefault).slerp(penWriting,writing);
+    nibAt.set(0,nibLength,0).applyQuaternion(tq);
+    wristAt.copy(penRest).lerp(strokeTo.clone().sub(nibAt),transport);
+    wristAt.y+=.045*Math.sin(Math.PI*transport);
+    const palm=orientPalm('P',graspVec,palmNormal);
+    group.localToWorld(palmAt.copy(wristAt));
+    const hold=rearRamp(u,.172,.224)*(1-rearRamp(u,.86,.892))*cancel;
+    reachHand('P',palmAt.sub(offset.copy(palmRig.P.center).applyQuaternion(palm)),palm,reach,false,bend,true);
+    const actual=groups.handP.localToWorld(worldPoint.copy(palmRig.P.center));
+    pen.position.copy(penRest).lerp(group.worldToLocal(actual),hold);
+    if(hold===0)pen.quaternion.copy(penDefault);
+    look(group.localToWorld(folded.copy(strokeTo)),reach*.85);
+    dirty=true;
+    if(u>.25&&u<.76&&a.cancelAt===undefined){
+      const label=$('destination'), text=plan(a.job.kind)?'次にしたいことをメモしています':'今日のひと場面をメモしています';
+      if(label.textContent!==text)label.textContent=text;
+      const resolved=nibAt.copy(pen.position).add(offset.set(0,nibLength,0).applyQuaternion(pen.quaternion));
+      const t=c.t, canTouch=c.phase>=.14&&c.phase<.90&&writing>.95&&hold>.99&&resolved.distanceTo(strokeTo)<.026;
+      if(canTouch&&t>a.progress[c.row]+.014){a.progress[c.row]=t;page(null,a.progress,a.job.kind);}
+      if(!a.started){a.started=true;page(null,a.progress,a.job.kind);}
+    }
+    if(u>=.79&&a.cancelAt===undefined&&!a.logged&&a.progress.every(j=>j>.70)){
+      a.logged=true;store(a.job);page(a.job.kind);lab900LifeNote('memo131');
+    }
+  }
+  function finish(){
+    const a=roam.visit?.find(s=>s.type==='memo131Write');
+    park();page(journal[0]?.kind);dirty=false;
+    enterQuietRest('linger',a?.logged?'ひとことを書き、青いペンを戻しました':'メモ台で少し考えごとをしています',5.6);
+  }
+  function tick(){
+    const stage=mode==='roam'&&roam?.phase==='route'?roam.visit?.[roam.visitIndex]:null;
+    if((dirty||pageAt<0)&&stage?.type!=='memo131Write'){
+      park();page(journal[0]?.kind);dirty=false;pageAt=mood.seconds;
+    }
+  }
+  function install(){
+    $('lab131MemoTest')?.addEventListener('click',invite);
+    older?.addEventListener('click',()=>{if(journal.length>1){view=(view+1)%journal.length;updateLabel();}});
+  }
+  const register=()=>{for(const o of [tray,cardSpace,sheet,pencilDock])destinationMeshes.set(o,target);};
+  function reset(){
+    const stage=mode==='roam'&&roam?.phase==='route'?roam.visit?.[roam.visitIndex]:null;
+    if(stage?.type==='memo131Write'&&stage.cancelAt===undefined)stage.cancelAt=roam.elapsed;
+    journal.length=0;queue.length=0;view=0;updateLabel();dirty=true;
+    try{localStorage.removeItem(key);}catch{}
+  }
+  return {group,bounds,target,register,install,record,choose,invite,decorate,draw,finish,tick,reset};
+})();
+
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
+memo131.register();memo131Observe=memo131.record;memo131Forget=memo131.reset;
 fresh126.register();
 home121.register();
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
@@ -5485,6 +5726,7 @@ function pickSurface(x, y) {
     const destination=destinationMeshes.get(hit.object);
     if(destination?.kind==='home121')return floorGroup.visible;
     if(destination?.kind==='fresh126')return floorGroup.visible;
+    if(destination?.kind==='memo131')return floorGroup.visible;
     if (destination === kitchenTarget) return floorGroup.visible;
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === wardrobeTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
@@ -6206,7 +6448,9 @@ function endPointer(event) {
       clearDevPreview();windowSnow.clearPreview();
       if(mode==='dance')dance.previewLoop=false;
     }
-    if(destination?.kind==='fresh126'){
+    if(destination?.kind==='memo131'){
+      memo131.invite();
+    }else if(destination?.kind==='fresh126'){
       fresh126.invite();
     }else if(destination?.kind==='home121'){
       home121.command(destination.work);
@@ -8114,7 +8358,7 @@ function chooseDestination() {
     startDestination(Math.random() < .60 ? accessoryTarget : mirrorTarget);
     return;
   }
-  if(home121.choose())return;
+  if(home121.choose()||memo131.choose())return;
   const terraChance=feeling==='annoyed' ? 0 : feeling==='playful' || feeling==='happy' ? .18 : .075;
   if (terraChance && roam.target !== terrariumTarget && !reaction && moodSituation()==='free' &&
       mood.seconds >= (mood.nextTerrariumAt ?? 18) && Math.random()<terraChance) {
@@ -8912,7 +9156,7 @@ function clearOfFurniture(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -8949,7 +9193,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -9198,6 +9442,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     visit.push(routeTurn(target.heading,message));
   } else if (target.kind==='kitchen') {
     dogKitchen.decorate(visit,target);
+  } else if(target.kind==='memo131'){
+    memo131.decorate(visit,target);
   } else if(target.kind==='fresh126'){
     fresh126.decorate(visit,target);
   } else if(target.kind==='home121'){
@@ -10645,6 +10891,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'memo131Write':
+      memo131.draw(stage,progress);
+      break;
     case 'fresh126Act':
       fresh126.step(stage,progress);
       break;
@@ -10685,7 +10934,7 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -10937,6 +11186,7 @@ function arriveAtDestination() {
     return;
   }
   if(roam.target.ambience128){ambience128.arrive(roam.target.ambience128);return;}
+  if(roam.target.kind==='memo131'){memo131.finish();return;}
   if(roam.target.kind==='fresh126'){fresh126.finish();return;}
   if(roam.target.kind==='home121'){home121.finish(roam.target);return;}
   if(roam.target.kind==='dogPlay'){beginSharedDogPlay(roam.target.manual,roam.target.three,roam.target.dogWatch,roam.target.sofaMiss);return;}
@@ -12465,7 +12715,7 @@ function createShepherd() {
   function navigate(to,edgeApproach=false){
     if(d.destination?.distanceToSquared(to)<.0001)return;
     d.destination=to.clone();d.path=[];
-    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds];
+    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds];
     if(bed.visible)boxen.push(bedBounds);
     const boxes=boxen.map(b=>{
       const box=b.clone();
@@ -16213,7 +16463,7 @@ const dogTumble=(()=>{
     });
   }
   function stageBoxes(){
-    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,scentBounds];
+    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds];
     if(bed.visible)boxes.push(bedBounds);
     return boxes;
   }
@@ -18299,10 +18549,11 @@ const cinema=(()=>{
 installDevPreview();shepherd.lockControls();window.LeilaBoot130?.ready();
 home121.install();
 fresh126.install();
+memo131.install();
 ambience128.install();
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
-home121.cleanup();fresh126.tick();
+home121.cleanup();fresh126.tick();memo131.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
