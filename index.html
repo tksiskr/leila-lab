@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 192｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 193｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 192</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 193</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -16005,14 +16005,14 @@ function createShepherd() {
         // Use the old head target to aim the neck along an arc of fixed length.
         targetNeck.copy(head.position).sub(body.position).applyQuaternion(bodyInverse)
           .sub(proxyHeadRest);
-        targetNeck.x=clamp(targetNeck.x,-.085,.085);
+        targetNeck.x=clamp(targetNeck.x,-.085,.085)-.051*(d.matWake??0);
         targetNeck.y=clamp(targetNeck.y,-.23,.095);
         targetNeck.z=clamp(targetNeck.z,-.055,.075);
         targetNeck.z+=Math.max(0,-targetNeck.y)*.54;
         targetNeck.add(neckRest);
         const chinRest=d.pillowPoint??d.lapPoint;
         if(chinRest){
-          const restWeight=d.pillowPoint?rearRamp(d.t,.54,2.28):rearRamp(d.t,.86,1.95);
+          const restWeight=d.pillowPoint?rearRamp(d.t,.54,2.28)*(1-(d.matWake??0)):rearRamp(d.t,.86,1.95);
           lapOffset.copy(chinOffset).applyQuaternion(d.pillowPoint?pillowRotation:lapRotation);
           lapSkull.copy(chinRest).sub(lapOffset);
           lapOffset.copy(lapSkull).sub(body.position).applyQuaternion(bodyInverse).sub(neckBase);
@@ -16101,11 +16101,11 @@ function createShepherd() {
       const headIndex=bone(skull,joint=>{
         joint.position.copy(movedSkull);
         headTurn.set(clamp(head.rotation.x,-.38,.58),
-          clamp(head.rotation.y,-.72,.72),clamp(head.rotation.z,-.20,.20),'YXZ');
+          clamp(head.rotation.y,-.72-1.21*(d.matWake??0),.72+1.21*(d.matWake??0)),clamp(head.rotation.z,-.20,.20),'YXZ');
         joint.quaternion.setFromEuler(headTurn);
         const chinRest=d.pillowPoint??d.lapPoint;
         if(chinRest){
-          const restWeight=d.pillowPoint?rearRamp(d.t,.54,2.28):rearRamp(d.t,.86,1.95);
+          const restWeight=d.pillowPoint?rearRamp(d.t,.54,2.28)*(1-(d.matWake??0)):rearRamp(d.t,.86,1.95);
           joint.quaternion.slerp(d.pillowPoint?pillowRotation:lapRotation,restWeight);
           lapOffset.copy(chinOffset).applyQuaternion(joint.quaternion);
           lapSkull.copy(chinRest).sub(lapOffset).sub(movedSkull).clampLength(0,d.pillowPoint?.18:.13);
@@ -16507,6 +16507,7 @@ function createShepherd() {
         const y=stroke<0?mix(.542,.548,-stroke):mix(.542,.553,stroke);
         return bones[bodyIndex].localToWorld(V(-.027,y,.105+stroke*.055));
       };
+      d.faceForQuilt=()=>bones[headIndex].localToWorld(V(.030,.023,.071));
       d.petPoint=stroke=>{
         const t=clamp(stroke,-1,1);
         const crown=V(-.10,t<0?mix(.736,.730,-t):mix(.736,.738,t),.410+t*.020);
@@ -16539,7 +16540,8 @@ function createShepherd() {
     const stretch=quiet?.stretch??0, listen=quiet?.listen??0;
     const sit=d.sit135?.amount??0;
     const lap=couch&&d.lapPoint?rearRamp(d.t,.86,1.95):0;
-    const pillow=d.pillowPoint?rearRamp(d.t,.54,2.28):0;
+    const matWake=d.state==='matRest'?(d.matWake??0):0;
+    const pillow=d.pillowPoint?rearRamp(d.t,.54,2.28)*(1-matWake):0;
     const fore=couch?rearRamp(d.t,.12,.96):0;
     const hind=couch?rearRamp(d.t,.40,1.28):0;
     d.sofaForeFold=fore;
@@ -16555,7 +16557,9 @@ function createShepherd() {
     if(d.tumble)body.position.y+=d.tumble.bodyY+.047*d.tumble.surge;
     body.rotation.set(.13*d.bow+.102*meal+.12*(fore-hind)-.060*pillow, -.13*c*(1-fore), .065*c*(1-fore)+.025*Math.sin(cycle*2*Math.PI)*w-.105*snowLean);
     body.rotation.x+=.36*stretch; // front lowers, haunches stay over the rear paws
-    body.rotation.y+=.024*listen;
+    body.rotation.y+=.024*listen-.20*matWake;
+    body.position.x-=.055*matWake;
+    body.position.y+=.012*matWake;
     if(d.tumble){
       body.rotation.x+=d.tumble.bodyPitch-.42*d.tumble.surge;
       body.rotation.z+=d.tumble.catchRoll??0;
@@ -16602,6 +16606,13 @@ function createShepherd() {
       head.rotation.x+=(.43*c+.078*Math.sin(d.time*1.1)*(1-c)-head.rotation.x)*Math.min(1,dt*4);
       head.rotation.y+=(.54*c+.19*Math.sin(d.time*.72)*(1-c)-head.rotation.y)*Math.min(1,dt*4);
     }
+    if(matWake>0&&focus){
+      const target=dog.worldToLocal(focus.clone());
+      const dx=target.x-head.position.x,dz=target.z-head.position.z;
+      head.position.y+=.055*matWake;
+      head.rotation.set(mix(.43,clamp(-Math.atan2(target.y-head.position.y,Math.hypot(dx,dz)),-.38,.35),matWake),
+        mix(.54,clamp(Math.atan2(dx,dz),-1.93,1.93),matWake),.06*matWake,'YXZ');
+    }
     if(lap>0){
       head.position.y-=.085*lap;
       if(!d.petPoint){
@@ -16622,7 +16633,7 @@ function createShepherd() {
     head.rotation.z+=.15*listen;
     head.rotation.y+=.35*listen;
     const blink=(d.time+1.2)%4.7;
-    for(const eye of eyes)eye.scale.y=mix(blink<.16 ? .1+.9*Math.abs(blink-.08)/.08 : 1,.065,c);
+    for(const eye of eyes)eye.scale.y=mix(blink<.16 ? .1+.9*Math.abs(blink-.08)/.08 : 1,.065,c*(1-matWake));
     for(const [ear,s] of ears){
       ear.rotation.z=-s*(.16+.18*c+.155*dogDream.ears(s));
       ear.rotation.x=-.09-.46*c+.08*Math.sin(d.time*3+s)*(.28+w)+.14*s*listen;
@@ -18390,10 +18401,10 @@ $('dogDreamPreview').onclick=dogDream.preview;
 // on the mat instead of asking for another round. The existing encore wins.
 const dogRestMat=(()=>{
   const d=shepherd,g=new T.Group();
-  const center=V(-3.57,0,1.52),watch=V(-3.17,0,2.07), height=.015;
+  const center=V(-3.57,0,1.52),watch=V(-4.25,0,1.89), height=.015;
   const lookAt=center.clone().add(V(.32,.31,.035));
   const chin=center.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0),upForMat=V(0,1,0);
-  const heading=headingTo(watch,lookAt), dogYaw=Math.PI/2;
+  const heading=Math.PI/2, dogYaw=Math.PI/2, wakePivot=V(.182,0,0);
   g.name='犬のキルトマット';g.position.copy(center).multiplyScalar(2);g.scale.setScalar(2);floorGroup.add(g);
   const piping=mat(0x3d5052,.97),green=mat(0x597873,.91),sand=mat(0xd8be8a,.86);
   const patch=(m,x,y,z,w,h,depth)=>{
@@ -18424,7 +18435,7 @@ const dogRestMat=(()=>{
       // A thin, compressible mat. Normal terrain is still ground level.
       d.object.position.y=0;
     }
-    d.matSigh=0;
+    d.matSigh=0;d.matWake=0;
     if(d.state==='chase'&&d.object.position.y<=height+.003)d.object.position.y=0;
     if($('dogNote').textContent===a.message)$('dogNote').textContent=a.originalNote;
     active=null;
@@ -18492,9 +18503,16 @@ const dogRestMat=(()=>{
     if(d.state==='matRest'){
       obj.position.y=height*rearRamp(d.t,0,.5);
       const breath=a.kind===0?rearRamp(d.t,.89,1.42)*(1-rearRamp(d.t,1.60,2.08)):0;
-      d.matSigh=breath;
-      d.pillowPoint=obj.worldToLocal(chinLocal.copy(chin).addScaledVector(upForMat,.009*breath));
-      d.pose(dt,0,null);return true;
+      d.matWake=a.returning?1-rearRamp(a.returning,0,1.6):rearRamp(a.stageTime,6.55,7.40);
+      // Roll the shoulder toward Leila around its planted side as the dog
+      // wakes, so it doesn't have to twist its neck all the way behind it.
+      const turn=.52*d.matWake;
+      obj.rotation.y=dogYaw-turn;
+      const wakeX=wakePivot.x*(1-Math.cos(turn)),wakeZ=-wakePivot.x*Math.sin(turn);
+      obj.position.x=center.x+wakeX;obj.position.z=center.z+wakeZ;
+      d.matSigh=breath*(1-d.matWake);
+      d.pillowPoint=obj.worldToLocal(chinLocal.copy(chin).addScaledVector(upForMat,.009*d.matSigh));
+      d.pose(dt,0,d.matWake>0?leilaFaceForDog():null);return true;
     }
     if(d.state!=='matApproach'){
       d.change('matApproach');d.path=[];d.destination=null;
@@ -18525,15 +18543,15 @@ const dogRestMat=(()=>{
     roam.elapsed+=dt;applyQuietPose();
     if(a.returning){
       a.returning+=dt;
-      dogTumble.quiltPose(a.quilt,1-rearRamp(a.returning,.7,3.05),a.returning);
-      if(a.returning>=3.12){
+      dogTumble.quiltPose(a.quilt,5.04*(1-rearRamp(a.returning,.39,3.70)),a.returning);
+      if(a.returning>=3.76){
         clear();enterQuietRest('linger','ふたりはキルトのそばで遊びを切り上げました',8);
       }
       return true;
     }
     if(d.state!=='matRest')return true;
     if(d.t>.43&&!a.restSeen){
-      a.restSeen=true;a.until=mood.seconds+9;
+      a.restSeen=true;a.until=mood.seconds+13;
       a.message=messages[a.kind];
       $('dogNote').textContent=a.message;
       $('destination').textContent='レイラはキルトのそばで犬を見守っています';
@@ -18541,21 +18559,21 @@ const dogRestMat=(()=>{
     if(!a.restSeen)return true;
     a.stageTime+=dt;
     const t=a.stageTime;
-    const look=rearRamp(t,0,.68)*(1-rearRamp(t,4.15,6.20));
-    groups.neck.rotateX(.15*look);
-    groups.head.rotateX(.23*look+.13*rearRamp(t,1.05,1.38)*(1-rearRamp(t,1.38,1.84)));
-    groups.head.rotateZ((a.kind===0?-.09:.074)*look);
-    if(t>=1.18&&!a.quilt)a.quilt=dogTumble.quiltSetup(center);
+    if(!a.quilt)a.quilt=dogTumble.quiltSetup(center);
     if(a.quilt){
-      dogTumble.quiltPose(a.quilt,rearRamp(t,1.18,4.03),t);
-      $('destination').textContent=t<4.03?'レイラが犬の隣にゆっくり寝転んでいます':'レイラがキルトの隣で犬に添い寝しています';
-      if(t>=6.65){
+      dogTumble.quiltPose(a.quilt,t);
+      $('destination').textContent=t<1.76?'レイラがしっぽ側からそっと膝をつきます':
+        t<3.32?'レイラが四つん這いになって犬の顔を覗き込みます':
+        t<4.72?'レイラが犬の隣にゆっくり寝転んでいます':
+        t<6.75?'レイラは犬に添い寝しながら、そっと背中に手をかけます':
+        '目を覚ました犬とレイラが見つめ合っています';
+      if(t>=8.60){
         if(dogTumble.fromQuilt(a)){
-          // Hand over ownership without resetting the dog's captured nap pose.
-          active=null;lab900LifeNote('quilt192');
+          // The play system starts from the actual low pose of both partners.
+          d.matWake=0;active=null;lab900LifeNote('quilt192');
         }else{a.returning=.001;a.until=mood.seconds+6;}
       }
-    }else if(t>=7.3){
+    }else if(t>=1){
       clear();enterQuietRest('linger','レイラは犬とひと息つきました',3.5);
     }
     return true;
@@ -18569,7 +18587,7 @@ const dogRestMat=(()=>{
     if(active){cancel();return;}
     if(!start(true)&&d.ready)$('dogNote').textContent='今はキルトで休憩できません。';
   }
-  return {after,advance,scout,dog,cancel,preview,resumeQuilt,busy:()=>!!active,framed:()=>!!active?.arrived&&d.state==='matRest'};
+  return {after,advance,scout,dog,cancel,preview,resumeQuilt,busy:()=>!!active,framed:()=>!!active&&['matApproach','matRest'].includes(d.state)};
 })();
 $('dogRestMatPreview').onclick=dogRestMat.preview;
 // LAB 126 • A familiar audience at the easel, without rerouting the painter.
@@ -22749,45 +22767,74 @@ const dogTumble=(()=>{
       }
     }
     if(!Object.keys(plans).length)return null;
-    const standing=captureSofaPose(),pelvis=groups.pelvis,idx=poseJoints.indexOf(pelvis);
-    const cuddle={entry:standing,origin:center.clone().add(V(-.18,0,.437)),yaw:-Math.PI/2};
-    root.position.copy(cuddle.origin);root.rotation.y=cuddle.yaw;
-    const capture=low=>{
-      preparePose(cuddle,true,low);
-      if(low){
-        groups.neck.rotateZ(-.13);groups.head.rotateY(.27);groups.head.rotateZ(-.16);
-        const forward=V(0,0,1).applyAxisAngle(up,cuddle.yaw);
-        for(const side of sofaSides){
-          const sign=side==='P'?1:-1;
-          poseBedLeg(side,V(sign*.045,.044,.232).applyAxisAngle(up,cuddle.yaw),
-            V(sign*.014,-.045,.281).applyAxisAngle(up,cuddle.yaw),V(0,1,.075).applyAxisAngle(up,cuddle.yaw));
-          const u=groups['upper'+side],e=groups['elbow'+side],hand=groups['hand'+side];
-          aim(u,base['elbow'+side],local(cuddle,sign*.151,.067,-.265).sub(u.getWorldPosition(V(0,0,0))));
-          aim(e,base['hand'+side],local(cuddle,sign*.098,.124,-.195).sub(e.getWorldPosition(V(0,0,0))));
-          orientWorld(hand,orientPalm(side,forward,down));
-        }
-        safeFloor(.88,.006);
-      }
-      const frame=captureSofaPose();
-      frame[idx]={world:pelvis.getWorldPosition(V(0,0,0)),rotation:pelvis.getWorldQuaternion(new T.Quaternion())};
-      return frame;
-    };
-    const half=capture(false),floor=capture(true);
-    root.position.copy(home);root.rotation.y=heading;root.updateWorldMatrix(true,false);
-    for(const frame of [half,floor]){
-      const p=frame[idx];
-      frame[idx]={position:root.worldToLocal(p.world),rotation:root.getWorldQuaternion(new T.Quaternion()).invert().multiply(p.rotation)};
-    }
-    blendSofaPose(standing,1);
-    return {standing,half,floor,plans,count:0,seen:new Set()};
+    return {standing:captureSofaPose(),origin:home,yaw:heading,plans,count:0,seen:new Set()};
   }
-  function quiltPose(a,u,t){
+  function quiltAim(joint,point,weight,max){
+    const ray=point.clone().sub(joint.getWorldPosition(V(0,0,0))).normalize();
+    const q=joint.getWorldQuaternion(new T.Quaternion());
+    const from=V(0,0,1).applyQuaternion(q);
+    const delta=new T.Quaternion().setFromUnitVectors(from,ray);
+    const angle=2*Math.acos(clamp(Math.abs(delta.w),0,1));
+    const desired=new T.Quaternion().slerp(delta,weight*Math.min(1,max/Math.max(.001,angle))).multiply(q);
+    orientWorld(joint,desired);
+  }
+  function quiltPalm(side,point,normal,forward,weight){
+    const tangent=forward.clone().addScaledVector(normal,-forward.dot(normal)).normalize();
+    const palm=orientPalm(side,tangent,normal.clone().negate());
+    const wrist=point.clone().sub(palmRig[side].center.clone().applyQuaternion(palm));
+    reachHand(side,wrist,palm,weight,false,V(side==='P'?.16:-.16,-.094,-.031),true);
+  }
+  function quiltPose(a,t,returning=false){
     blendSofaPose(a.standing,1);
-    blendSofaPose(a.half,rearRamp(u,0,.47));
-    blendSofaPose(a.floor,rearRamp(u,.37,1));
-    const atRest=rearRamp(u,.87,1);
-    groups.chest.rotateX(.011*Math.sin(t*1.52)*atRest);
-    if(u>.53)safeFloor(0,.006);
+    const lower=rearRamp(t,.40,1.75),lean=rearRamp(t,1.92,2.92),lie=rearRamp(t,3.35,4.77);
+    const p=groups.pelvis,fwd=V(0,0,1).applyAxisAngle(up,a.yaw);
+    const gaze=(d.faceForQuilt?.()??d.head.getWorldPosition(V(0,0,0))).add(V(0,.016,0));
+    // Kneel at the tail first. Transfer weight onto two hands before rolling
+    // onto the side; the pelvis stays over the knees until the roll begins.
+    p.position.lerp(V(0,.274,.014),lower);
+    p.position.addScaledVector(V(.012,-.039,.165),lean).addScaledVector(V(.092,-.127,.238),lie);
+    p.quaternion.slerp(new T.Quaternion().setFromEuler(new T.Euler(.13+1.34*lean-.01*lie,0,0))
+      .multiply(new T.Quaternion().setFromAxisAngle(up,1.54*lie)),lower);
+    groups.abdomen.rotation.set(.095*lower-.062*lean,0,0);
+    groups.chest.rotation.set(.065*lower+.07*lean-.061*lie,0,-.045*lie);
+    groups.neck.rotation.set(.25*lower-.67*lean+.18*lie,0,0);
+    groups.head.rotation.set(.16*lower-.42*lean+.16*lie,0,0);
+    for(const side of sofaSides){
+      const sg=side==='P'?1:-1;
+      const joints=['thigh','knee','foot'].map(key=>groups[key+side]);
+      const old=joints.map(g=>g.quaternion.clone());
+      const knee=local(a,sg*.101+.100*lie,.080+.025*lie,.114+.043*lie);
+      const hip=joints[0].getWorldPosition(V(0,0,0));
+      const ankle=local(a,sg*.109+.10*lie,.068,-.146+.045*lie);
+      aim(joints[0],base['knee'+side],knee.sub(hip));
+      const shin=ankle.sub(joints[1].getWorldPosition(V(0,0,0)));
+      aim(joints[1],base['foot'+side],shin);
+      orientWorld(joints[2],new T.Quaternion().setFromEuler(new T.Euler(-.84+.77*lie,a.yaw,-sg*.09+.82*lie,'YXZ')));
+      joints.forEach((g,i)=>g.quaternion.slerp(old[i],1-lower));
+    }
+    // Set the supporting knees and side down before placing the palms; a
+    // later whole-body floor correction would lift the petting hand off the coat.
+    const supportGap=floorGap(lie>.42?cachedSkin().hips.concat(cachedSkin().legs,cachedSkin().breast):cachedSkin().legs);
+    if(supportGap<.006)p.position.y+=.006-supportGap;
+    const touch=rearRamp(t,4.62,5.03)*(1-rearRamp(returning,0,.39)), tease=rearRamp(t,5.06,5.27)*(1-rearRamp(t,6.20,6.66));
+    const stroke=.44+.27*Math.sin((t-5.00)*9)*tease;
+    const coat=touch>0?d.touchSurface?.('back',stroke):null;
+    for(const side of sofaSides){
+      const sg=side==='P'?1:-1;
+      const point=local(a,sg*.136,.028,.419);
+      // The outside hand stays on the floor while the inside one reaches over.
+      if(side==='P'&&lie>0){
+        const fur=coat?.point??local(a,.285,.293,.72);
+        const knuckles=fur.clone();
+        if(coat)knuckles.y-=.025; // the fingers curl onto the coat, not above it
+        point.lerp(knuckles,touch);
+      }else if(lie>0)point.lerp(local(a,-.067,.041,.613),lie);
+      const normal=side==='P'&&coat?up.clone().lerp(coat.normal,touch*.76).normalize():up;
+      quiltPalm(side,point,normal,fwd,rearRamp(lean,.10,.85));
+    }
+    quiltAim(groups.neck,gaze,lower*(.24+.25*lean),.88);
+    quiltAim(groups.head,gaze,lower*(.63+.28*lean),1.2);
+    safeFloor(0,.001);
   }
   function quiltPick(a,last){
     const allowed=quiltKeys.filter(key=>a.plans[key]&&key!==last);
