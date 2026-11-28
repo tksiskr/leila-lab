@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 163｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 164｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 163</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 164</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -14339,6 +14339,7 @@ function createShepherd() {
       const bindTail=V(-.003,.424,-.346);
       const looseTail=new T.Euler(0,0,0,'YXZ');
       const tailLocal=new T.Quaternion();
+      const nodAxis=V(1,0,0), nodTurn=new T.Quaternion();
       const bodyIndex=bone(V(0,0,0),joint=>{
         joint.position.copy(body.position);
         joint.quaternion.copy(body.quaternion);
@@ -14349,14 +14350,14 @@ function createShepherd() {
           joint.position.copy(neckBase).applyQuaternion(body.quaternion).add(body.position);
           const swing=new T.Quaternion().setFromAxisAngle(V(1,0,0),(1.10+.10*belly.press)*belly.roll);
           joint.quaternion.copy(body.quaternion).multiply(swing);
-          movedSkull.copy(neckRest).applyQuaternion(joint.quaternion).add(joint.position);
           const cozy=d.tumble.cozyGaze;
-          if(cozy?.weight>.001){
-            // Raise the entire neck arc, so the eyes can look over the belly.
-            const lift=rearRamp(cozy.weight,0,.94);
-            joint.position.y+=.084*lift;
-            movedSkull.y+=.219*lift;movedSkull.z-=.060*lift;
+          if(cozy){
+            // The collar follows the lifted chest. Flex about the dog's
+            // transverse axis and keep the skull attached to the neck arc.
+            nodTurn.setFromAxisAngle(nodAxis,-.88*rearRamp(cozy.weight,.025,.94));
+            joint.quaternion.premultiply(nodTurn);
           }
+          movedSkull.copy(neckRest).applyQuaternion(joint.quaternion).add(joint.position);
           return;
         }
         bodyInverse.copy(body.quaternion).invert();
@@ -14493,18 +14494,21 @@ function createShepherd() {
         if(belly){
           // Untwisted and belly-up: the centerline stays straight, with the
           // underside of the chin facing the ceiling and a little lift at the poll.
-          const open=belly.roll*rearRamp(belly.motion,.42,1.60);
+          const open=belly.roll*(belly.quiet?rearRamp(belly.motion,.09,.46):rearRamp(belly.motion,.42,1.60));
           const chinUp=new T.Quaternion().setFromEuler(new T.Euler(
             -.26+.025*Math.sin(belly.motion*3.8),0,Math.PI,'YXZ'));
           joint.quaternion.copy(body.quaternion).slerp(chinUp,open);
           const cozy=d.tumble.cozyGaze;
-          if(cozy?.weight>.001){
+          if(cozy){
+            const nod=rearRamp(cozy.weight,.06,.84);
             const toward=cozy.point.clone().sub(joint.position);
-            const yaw=Math.atan2(toward.x,toward.z);
-            const pitch=clamp(-Math.atan2(toward.y,Math.hypot(toward.x,toward.z)),-.36,.42);
-            // Keep the upside-down head supported by the raised neck.
-            const look=new T.Quaternion().setFromEuler(new T.Euler(pitch,yaw,Math.PI,'YXZ'));
-            joint.quaternion.slerp(look,rearRamp(cozy.weight,0,.92)*.985);
+            let wanted=Math.atan2(-toward.y,toward.z);
+            if(wanted>0)wanted-=Math.PI*2;
+            // Follow the signed pitch arc over the crown, not the shortest
+            // quaternion path to a 180-degree yaw. The ears never spin sideways.
+            const restPitch=-.26+.025*Math.sin(belly.motion*3.8);
+            nodTurn.setFromAxisAngle(nodAxis,(clamp(wanted,-3.83,-2.84)-restPitch)*nod);
+            joint.quaternion.premultiply(nodTurn);
           }
           return;
         }
@@ -18853,16 +18857,18 @@ const dogTumble=(()=>{
     const point=a.start.clone().lerp(a.finish,move),step=point.distanceTo(obj.position);
     obj.position.copy(point);obj.rotation.y=a.dogYaw;
     const wave=t*1.95;
+    const gaze=m.greeting*roll;
+    const chestLift=rearRamp(gaze,0,.89);
     const q=new T.Quaternion().setFromEuler(new T.Euler(
-      (.018*Math.sin(wave)+.066*twist)*roll,.064*twist*roll,
+      (.018*Math.sin(wave)+.066*twist)*roll-.22*chestLift,.064*twist*roll,
       roll*(Math.PI-.125+.065*Math.sin(wave)+.26*twist),'XYZ'));
     const pivot=V(-.030,.44,.075);
     const sideHeight=.132+Math.sin(Math.PI*roll)**2*.062;
-    const position=V(-.030-.014*twist,mix(.44,sideHeight+.018*tickle,roll),.075).sub(pivot.applyQuaternion(q));
+    const position=V(-.030-.014*twist,mix(.44,sideHeight+.018*tickle,roll)+.012*chestLift,.075).sub(pivot.applyQuaternion(q));
     const where=groups.head.getWorldPosition(V(0,0,0));
     d.tumble={front:false,hold:0,bodyY:0,bodyPitch:0,surge:0,
       bellyUp:{q,position,roll,joy:.21*tickle,motion:t*.19,lift:0,tryLift:0,press:0,quiet:true,tickle,ticklePhase:m.reflexPhase??0},
-      cozyGaze:{weight:m.greeting*roll,point:obj.worldToLocal(where)},
+      cozyGaze:{weight:gaze,point:obj.worldToLocal(where)},
       wagTime:d.time+t*.12};
     d.pose(dt,roll>.1?0:step,null);
     if(roll>.001)d.fitBellyFloor(0);
