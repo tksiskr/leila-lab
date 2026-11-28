@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 125｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 126｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 125: the scene stays in place; only the controls pane scrolls. */
+/* LAB 126: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 125</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 126</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -316,6 +316,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <h2 id="lab121HomeTitle">南窓の園芸・点検台</h2>
       <button id="home121Plant" type="button">園芸台を試す</button>
       <button id="home121Service" type="button">セルフ点検台を試す</button>
+      <button id="fresh126Preview" type="button">手入れ台を試す</button>
       <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
       <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
     </div>
@@ -459,6 +460,8 @@ const lab900LifeNote=(()=>{
     homeLamp:'園芸台の補助灯を調整した',
     homeScan:'点検台で手首を点検した',
     homeRead:'点検台で動作記録を読み返した',
+    freshWipe:'姿見の手入れ台を布で拭いた',
+    freshFold:'乾いた布をたたみ、姿見のそばを整えた',
     observatorybirds:'窓辺で鳥の群れを追った',
     observatoryhorizon:'窓辺で地平線の光を観察した',
     observatorystars:'窓辺で星を探した',
@@ -900,6 +903,156 @@ const dressingMirror = new Reflector(new T.PlaneGeometry(.59,.98),{
 });
 dressingMirror.position.set(0,.54,.034);
 mirrorFrame.add(dressingMirror);
+// LAB 126 | a little tray beside the dressing mirror, for looking after the room.
+const fresh126=(()=>{
+  const station=new T.Group();station.name='姿見の手入れ台';mirrorFrame.add(station);
+  const bronze=mat(0xaa8052,.55), cork=mat(0x735949,.83), enamel=mat(0x365b5d,.5);
+  const clothBlue=mat(0x94b9bb,.95), seam=mat(0x678e90,.9), piping=mat(0xbad4cd,.9);
+  const mark=mat(0x66848a,.72), surface=mat(0xacc1b8,.54);
+  // The bracket belongs to the existing cabinet footprint; no furniture goes in the aisle.
+  for(const x of [-.235,.235]){
+    block(station,bronze,x,.704,.194,.025,.058,.343);
+    const bracket=block(station,cork,x,.681,.143,.026,.058,.247);bracket.rotation.x=-.13;
+  }
+  const tray=block(station,enamel,0,.739,.205,.552,.033,.318);
+  block(station,bronze,0,.741,.370,.548,.021,.013);
+  for(const x of [-.259,.259])block(station,bronze,x,.751,.209,.013,.013,.312);
+  block(station,surface,-.047,.757,.224,.374,.005,.230);
+  block(station,cork,.184,.757,.224,.121,.005,.211);
+  const caddy=block(station,mark,.181,.767,.184,.117,.011,.087);
+  const cloth=new T.Group();cloth.name='縁取りしたマイクロファイバー布';station.add(cloth);
+  const width=.105,length=.122;
+  const halves=[];
+  for(const side of [-1,1]){
+    const piece=new T.Group();cloth.add(piece);halves.push(piece);
+    block(piece,clothBlue,0,0,side*length/4,width,.004,length/2);
+    for(const x of [-1,1])block(piece,seam,x*(width/2-.003),.002,side*length/4,.003,.002,length/2);
+    block(piece,piping,0,.002,side*(length/2-.003),width-.008,.002,.004);
+  }
+  const stainGeo=new T.CircleGeometry(1,12);
+  const marks=[];
+  for(const [x,z,r] of [[-.14,.262,.020],[-.089,.180,.026],[-.033,.242,.020],[.019,.190,.016],[.089,.255,.023]]){
+    const material=new T.MeshBasicMaterial({color:0x8a6d53,transparent:true,opacity:.19,depthWrite:false});
+    const stain=new T.Mesh(stainGeo,material);stain.rotation.x=-Math.PI/2;stain.position.set(x,.760,z);
+    stain.scale.set(r,r*.55,1);station.add(stain);marks.push(stain);
+  }
+  const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
+  const q=new T.Quaternion();
+  const down=v(0,-1,0), front=v(-1,0,0), elbow=v(.149,-.18,.081);
+  const start=v(.183,.776,.224), damp=v(.128,.764,.234), to=v();
+  const startQuat=new T.Quaternion();
+  const target={kind:'fresh126',name:'姿見のそばの手入れ台',point:mirrorFrame.localToWorld(v(-.065,0,.575)).setY(0),
+    lookAt:mirrorFrame.localToWorld(v(0,.77,.235)),heading:-Math.PI/2};
+  let nextVisit=38,lastDay=-1,lastAction='',dust=1,tabChecked=-Infinity;
+  function hour(){return lastWorldMinute/60;}
+  function day(){
+    const d=new Date();
+    return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000);
+  }
+  function resetCloth(){
+    cloth.position.copy(start);cloth.quaternion.copy(startQuat);
+    halves[0].rotation.x=Math.PI*.95;halves[1].rotation.x=0;
+  }
+  resetCloth();
+  function showDust(amount){
+    marks.forEach((item,index)=>{const a=T.MathUtils.clamp(amount*1.84-index*.145,0,1);item.visible=a>.01;item.material.opacity=.19*a;});
+  }
+  function action(manual){
+    return manual&&lastAction==='wipe'||dust<.20?'fold':'wipe';
+  }
+  function choose(){
+    if(devOwned()||reaction||contact||handLink||document.hidden||!floorGroup.visible||
+       mood.seconds<Math.max(nextVisit,leilaUserPriorityUntil)||currentMood()==='annoyed'||
+       !['wait','rest','window','linger'].includes(roam.phase)||roam.target?.kind==='fresh126')return false;
+    const morning=hour()>=5.5&&hour()<11.5;
+    if(!morning&&currentMood()!=='bored')return false;
+    const today=day();
+    if(lastDay===today&&mood.seconds-tabChecked<220)return false;
+    if(Math.random()>(morning?.25:.085))return false;
+    if(root.position.distanceTo(target.point)>.033&&!destinationPath(root.position,target.point).length)return false;
+    requestDestination({...target,morning,action:action(false)},false);
+    nextVisit=mood.seconds+125;
+    return true;
+  }
+  function invite(){
+    if(devOwned()){clearDevPreview();windowSnow.clearPreview();}
+    if(mode!=='roam')beginRoam();
+    if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='fresh126')return;
+    restoreReactionPose();reaction=null;mood.offeredHand=null;closeWaveReply();cancelCameraGreeting();
+    requestDestination({...target,manual:true,morning:hour()>=5.5&&hour()<11.5,action:action(true)},false);
+    nextVisit=mood.seconds+90;
+  }
+  function decorate(visit,t){
+    const job=t.action??'wipe';
+    visit.push(routeTurn(target.heading,'姿見のそばに立ちました'),{
+      type:'fresh126Act',time:job==='wipe'?7.1:5.3,job,morning:t.morning,manual:t.manual,
+      message:job==='wipe'?'布で手入れ台を拭いています':'布をきれいにたたみ直しています'
+    });
+  }
+  function gaze(at,w){
+    const h=groups.head, vec=at.clone().sub(h.getWorldPosition(v()));
+    vec.applyQuaternion(h.getWorldQuaternion(q).invert());
+    h.rotateX(T.MathUtils.clamp(-Math.atan2(vec.y,Math.hypot(vec.x,vec.z)),-.5,.53)*w);
+    h.rotateY(T.MathUtils.clamp(Math.atan2(vec.x,vec.z),-.66,.66)*w);
+  }
+  function step(a,u){
+    if((roam.pending||reaction||contact||handLink)&&a.cancelAt===undefined)a.cancelAt=roam.elapsed;
+    if(a.cancelAt!==undefined)u=a.cancelAt/a.time;
+    const fade=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
+    if(a.initialDust===undefined){a.initialDust=dust;a.stroke=Math.random()<.5?1:-1;}
+    blendSofaPose(a.pose,1);
+    const active=rearRamp(u,.06,.205)*(1-rearRamp(u,.88,.997))*fade;
+    const moving=rearRamp(u,.235,.425)*(1-rearRamp(u,.688,.835));
+    const work=rearRamp(u,.35,.46)*(1-rearRamp(u,.67,.75));
+    const r=rearRamp(u,.40,.69), wiping=a.job==='wipe';
+    groups.abdomen.rotateX(.185*active);groups.chest.rotateX(.115*active);
+    const across=a.stroke*Math.cos(r*Math.PI*3.2)*.099;
+    const workPoint=wiping?v(-.058+across*work,.764,.229+.039*Math.sin(r*Math.PI*2.35)):damp;
+    to.copy(start).lerp(workPoint,moving);
+    to.y+=(wiping?.045:.062)*Math.sin(Math.PI*moving)+(wiping?0:.054*work);
+    const wristAim=station.localToWorld(to.clone()).add(v(0,.012,0));
+    gaze(station.localToWorld(v(to.x,to.y+.02,to.z)),active);
+    if(active>.001){
+      const palm=orientPalm('P',front,down);
+      const wrist=wristAim.clone().sub(palmRig.P.center.clone().applyQuaternion(palm));
+      reachHand('P',wrist,palm,active,false,elbow,true);
+    }
+    resetCloth();
+    if(u>.216&&u<.844&&fade>.001){
+      const carried=groups.handP.localToWorld(palmRig.P.center.clone()).add(v(0,-.012,0));
+      const hold=rearRamp(u,.216,.262)*(1-rearRamp(u,.796,.844))*fade;
+      const edge=station.worldToLocal(carried);
+      cloth.position.copy(start).lerp(edge,hold);
+      const twist=(wiping?(.16*Math.sin(r*6.8))*work:.48*work)*hold;
+      cloth.rotation.y=twist;
+      halves[0].rotation.x=Math.PI*.95*(1-hold*(wiping?.96:.65*Math.sin(Math.PI*work*.88)));
+      // Only visible real contact changes the tray, and partial wiping remains partial.
+      if(wiping&&a.cancelAt===undefined&&u>.43&&u<.72&&hold>.92&&Math.abs(cloth.position.y-.764)<.035){
+        dust=Math.min(dust,a.initialDust*(1-r*.94));
+        showDust(dust);
+      }
+    }
+    if(u>=.77&&a.cancelAt===undefined&&!a.logged){
+      a.logged=true;lastAction=a.job;lastDay=day();tabChecked=mood.seconds;
+      lab900LifeNote(wiping?'freshWipe':'freshFold');
+    }
+  }
+  function tick(){
+    if(document.hidden||!floorGroup.visible)return;
+    const a=mode==='roam'&&roam?.phase==='route'?roam.visit?.[roam.visitIndex]:null;
+    if(a?.type==='fresh126Act')return;
+    resetCloth();
+    if(dust<1&&lastDay!==day()&&mood.seconds-tabChecked>90){dust=1;showDust(dust);}
+  }
+  function finish(){
+    const a=roam.visit?.find(s=>s.type==='fresh126Act');
+    resetCloth();
+    enterQuietRest('linger',a?.logged?(a.job==='wipe'?'手入れ台を拭いて、布を戻しました':'布をたたみ、道具を整えました'):'姿見のそばでひと息ついています',a?.morning?7:5);
+  }
+  return {target,choose,invite,decorate,step,tick,finish,register:()=>{destinationMeshes.set(tray,target);destinationMeshes.set(caddy,target);},
+    install:()=>$('fresh126Preview')?.addEventListener('click',invite)};
+})();
+
 
 const wardrobeCabinet = new T.Group();
 wardrobeCabinet.name='クローゼット';
@@ -2214,6 +2367,7 @@ capoeiraRing.position.y=.004;
 capoeiraFloor.add(capoeiraRing);
 
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
+fresh126.register();
 home121.register();
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
 const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
@@ -5020,6 +5174,7 @@ function pickSurface(x, y) {
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
     if(destination?.kind==='home121')return floorGroup.visible;
+    if(destination?.kind==='fresh126')return floorGroup.visible;
     if (destination === kitchenTarget) return floorGroup.visible;
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === wardrobeTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
@@ -5740,7 +5895,9 @@ function endPointer(event) {
       clearDevPreview();windowSnow.clearPreview();
       if(mode==='dance')dance.previewLoop=false;
     }
-    if(destination?.kind==='home121'){
+    if(destination?.kind==='fresh126'){
+      fresh126.invite();
+    }else if(destination?.kind==='home121'){
       home121.command(destination.work);
     }else if (destination === kitchenTarget) {
       dogKitchen.start(true);
@@ -7632,6 +7789,7 @@ function chooseDestination() {
     startDestination(bedTarget);
     return;
   }
+  if(fresh126.choose())return;
   const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
   if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
     startDestination(bookTarget);
@@ -8517,6 +8675,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     visit.push(routeTurn(target.heading,message));
   } else if (target.kind==='kitchen') {
     dogKitchen.decorate(visit,target);
+  } else if(target.kind==='fresh126'){
+    fresh126.decorate(visit,target);
   } else if(target.kind==='home121'){
     home121.decorate(visit,target);
   } else if (target === lightSwitchTarget) {
@@ -9710,6 +9870,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'fresh126Act':
+      fresh126.step(stage,progress);
+      break;
     case 'home121Work':
       home121.act(stage,progress);
       break;
@@ -9741,7 +9904,7 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -9991,6 +10154,7 @@ function arriveAtDestination() {
     roam.target.onArrival();
     return;
   }
+  if(roam.target.kind==='fresh126'){fresh126.finish();return;}
   if(roam.target.kind==='home121'){home121.finish(roam.target);return;}
   if(roam.target.kind==='dogPlay'){beginSharedDogPlay(roam.target.manual,roam.target.three,roam.target.dogWatch,roam.target.sofaMiss);return;}
   if(roam.target.kind==='dogBond'){
@@ -16672,9 +16836,10 @@ const cinema=(()=>{
 
 installDevPreview();shepherd.lockControls();
 home121.install();
+fresh126.install();
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
-home121.cleanup();
+home121.cleanup();fresh126.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
