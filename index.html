@@ -318,6 +318,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <h2 id="lab130RainTitle">窓辺と足元灯</h2>
       <button id="lab130RainTry" type="button">雨粒を眺めるのを試す</button>
       <button id="lab142ClockTry" type="button">壁の時計を見上げる</button>
+      <button id="lab144WindowTry" type="button" disabled>犬と窓辺を眺める</button>
       <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
       <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
       <button id="lab137NightTry" type="button">夜の足元灯を試す</button>
@@ -9017,6 +9018,7 @@ const cool134=(()=>{
 
 function advanceRoam(dt) {
   if(cool134.advance(dt))return;
+  if(windowBuddy144.holding()){roam.elapsed+=dt;applyQuietPose();return;}
   const nextPlay=dogTumble.followUp();
   if(nextPlay==='started')return;
   const matBusy=dogRestMat.busy();
@@ -12304,6 +12306,7 @@ function applyQuietPose() {
     windowRain130.glance(time);
     if(roam.target?.galleryVisit)easelGallery127.showPose(time);
     if(roam.target?.clock142)studioClock142.watch(time);
+    windowBuddy144.glance();
   } else {
     groups.head.rotateX((.06+breathe)*fade);
     radioTaste133.listen(time);
@@ -12419,6 +12422,7 @@ function arriveAtDestination() {
   if (roam.target===leilaObservatory.target){leilaObservatory.arrive();return;}
   if (roam.target.kind === 'window') {
     enterQuietRest('window','窓の外を眺めています',18+Math.random()*10);
+    windowBuddy144.arrange();
     return;
   }
   if (roam.target.kind === 'linger' || roam.target.kind === 'wander') {
@@ -13937,7 +13941,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try','lab144WindowTry'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -15018,6 +15022,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
+  windowBuddy144.stop();
   hourglass135.interrupt();coaster141.interrupt();
   dogSit135.cancel();
   floorHello133.cancel();
@@ -15086,6 +15091,7 @@ function dogView(){
   orbit.target.copy(point);camera.position.copy(point).add(offset);orbit.update();
 }
 function prepareDogCommand(){
+  windowBuddy144.stop();
   dogSit135.cancel();
   floorHello133.cancel();
   scent131.cancel();
@@ -15184,6 +15190,96 @@ function advanceSharedDogPlay(dt){
   for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
   groups.handN.getWorldPosition(dogPlayWrist);
 }
+// A quiet companion visit for the ordinary windows; snow and other scenes
+// keep their existing rules. The dog walks to a reachable side and sits.
+const windowBuddy144=(()=>{
+  const d=shepherd, note=$('dogNote'), btn=$('lab144WindowTry');
+  const aim=V(0,0,0), look=V(0,0,0), into=V(0,0,0), off=V(0,0,0);
+  let session=null,next=82;
+  const eligible=()=>d.ready&&!d.jump&&!d.play&&!d.bond&&!d.rivalQueued&&!d.edgeExit&&
+    ['idle','wander'].includes(d.state)&&Math.abs(d.object.position.y)<.08&&d.petEnds<=d.time;
+  function active(a){
+    return a&&mode==='roam'&&roam===a.owner&&roam.phase==='window'&&!roam.pending&&
+      !reaction&&!contact&&!handLink&&!devOwned()&&!document.hidden;
+  }
+  function stop(){
+    const a=session;if(!a)return;session=null;
+    if(d.sit135===a.pose)d.sit135=null;
+    if(d.state==='windowBuddy144'){
+      d.path=[];d.destination=null;d.sit135=null;d.change('idle');d.wait=d.time+2.8;
+    }
+    if(note.textContent===a.note)note.textContent=a.old;
+  }
+  function arrange(){
+    const t=roam.target, manual=t.windowBuddy144;
+    if(!manual&&!windows.includes(t))return false;
+    if(!eligible()||!floorGroup.visible||(!manual&&(mood.seconds<Math.max(next,leilaUserPriorityUntil)||
+       d.object.position.distanceToSquared(root.position)>4.8**2||currentMood()==='annoyed'||
+       Math.random()>(currentMood()==='affectionate'?.76:.53))))return false;
+    const h=t.heading;
+    const candidates=[-.74,.74].map(x=>V(x,0,-.14).applyAxisAngle(turnAxis,h).add(root.position));
+    candidates.sort((a,b)=>d.object.position.distanceToSquared(a)-d.object.position.distanceToSquared(b));
+    let mark=null;
+    d.destination=null;
+    for(const p of candidates){
+      if(!inWalkingArea(p))continue;
+      p.y=0;d.navigate(p);
+      if(d.path.length||p.distanceTo(d.object.position)<.085){mark=p;break;}
+    }
+    if(!mark){d.destination=null;d.path=[];return false;}
+    const old=note.textContent;
+    session={owner:roam,mark,h,old,age:0,sitAt:null,note:'犬も窓辺へ歩いてきます。'};
+    d.change('windowBuddy144');next=mood.seconds+109+Math.random()*38;
+    note.textContent=session.note;
+    roam.pause=Math.max(roam.pause,23);
+    return true;
+  }
+  function dog(dt){
+    const a=session;if(!a)return false;
+    if(!active(a)||d.state!=='windowBuddy144'||d.jump){stop();return false;}
+    const o=d.object;a.age+=dt;
+    if(a.age>22){stop();return false;}
+    let moved=0;
+    const distance=o.position.distanceTo(a.mark);
+    if(distance>.075&&a.sitAt===null){
+      if(a.age>8.4){stop();return false;}
+      if(d.path[0]){
+        into.copy(d.path[0]).sub(o).setY(0);
+        off.copy(root.position).sub(o).setY(0);
+        const ahead=into.lengthSq()>1e-6?off.dot(into)/into.length():0;
+        if(!(ahead>.03&&ahead<.47&&off.lengthSq()-ahead*ahead<.25**2))moved=d.follow(dt,.87);
+      }
+      look.copy(leilaFaceForDog());
+    }else{
+      d.rotate(a.h,dt,3.0);
+      if(a.sitAt===null&&Math.abs(headingDelta(o.rotation.y,a.h))<.21){
+        a.sitAt=a.age;note.textContent=(a.note='犬が隣に座って、同じ窓を眺めています。');
+      }
+      if(a.sitAt!==null){
+        const s=a.age-a.sitAt, amount=rearRamp(s,.08,1.02)*(1-rearRamp(a.age,20,21.7));
+        d.sit135=a.pose={amount,tilt:.22*Math.sin(s*.64),fold:Math.sin(Math.PI*amount),cheer:0};
+      }
+      aim.set(0,.82,1.75).applyAxisAngle(turnAxis,a.h).add(o);
+      look.copy(aim);
+    }
+    d.pose(dt,moved,look);return true;
+  }
+  function glance(){
+    const a=session;if(!a||a.sitAt===null||!active(a))return;
+    const t=a.age-a.sitAt, w=rearRamp(t,.29,.85)*(1-rearRamp(t,1.9,2.8));
+    if(w<.002)return;
+    const angle=headingDelta(root.rotation.y,headingTo(root.position,a.mark)), yaw=T.MathUtils.clamp(angle,-.92,.92)*w;
+    groups.neck.rotateY(.21*yaw);groups.head.rotateY(.70*yaw);groups.head.rotateX(.26*w);
+  }
+  btn.onclick=()=>{
+    if(!eligible()){note.textContent='犬が床で起きている時に試せます。';return;}
+    clearDevPreview();prepareDogCommand();
+    const base=windows[0];
+    requestDestination({...base,windowBuddy144:true,lookAt:V(.75,1.24,-5.96)},true);
+  };
+  return {arrange,dog,glance,stop,holding:()=>!!active(session),reconcile:()=>{if(session&&(!active(session)||d.state!=='windowBuddy144'))stop();},framed:()=>!!session&&session.sitAt!==null};
+})();
+
 function updateShepherd(dt){
   if(!shepherd.ready)return;
   const d=shepherd,obj=d.object, p=d.play;
@@ -15194,8 +15290,9 @@ function updateShepherd(dt){
     if(d.path.length&&d.t<9)return;
     d.edgeExit=false;d.change('idle');d.wait=d.time+4;d.destination=null;
   }
+  windowBuddy144.reconcile();
   if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
-  if(easelCompanion126.dog(dt))return;
+  if(easelCompanion126.dog(dt)||windowBuddy144.dog(dt))return;
   if(dogRestMat.dog(dt)||dogWater125.anim(dt)||dogRope128.runDog(dt)||scent131.step(dt)||floorHello133.dog(dt)||dogSit135.dog(dt))return;
   const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
@@ -20195,7 +20292,7 @@ const cinema=(()=>{
     dog.copy(measure.position);
     const episode=mode==='roam'?(dogRestMat.framed()?'dogRestMat':roam.phase):'';
     const paired=shepherd.ready&&Math.hypot(dog.x-hip.x,dog.z-hip.z)<(episode==='dogChase'?1.95:1.46)&&
-      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat','dogRope128','dogHello133'].includes(episode)||easelCompanion126.framed()||dogSit135.active());
+      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat','dogRope128','dogHello133'].includes(episode)||easelCompanion126.framed()||dogSit135.active()||windowBuddy144.framed());
     if(paired){
       dogMarks[0].copy(dog).add(V(0,.085,0));
       dogMarks[1].copy(dog).add(V(.28,.39,0));
