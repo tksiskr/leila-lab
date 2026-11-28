@@ -12686,7 +12686,7 @@ function requestCapoeira(id,requested) {
 
 function beginCapoeira(id,requested) {
   const sequence=id ? [id] : capoeiraProgram;
-  if (requested) {
+  if (requested && !cinemaOwnsView) {
     invitation=null;
     orbit.target.copy(root.position).y=.50;
     camera.position.copy(root.position).add(capoeiraViewOffset);
@@ -12884,6 +12884,8 @@ function followCapoeira(dt) {
   const guide=dance.cameraGuide;
   const x=guide.x,z=guide.z;
   guide.lerp(root.position,1-Math.exp(-dt*8));
+  // In the full-screen director, do not apply a second tracking camera.
+  if(cinemaOwnsView)return;
   camera.position.x+=guide.x-x;
   camera.position.z+=guide.z-z;
   orbit.target.x+=guide.x-x;
@@ -20403,7 +20405,8 @@ const cinema=(()=>{
     // Every positional change, including an obstruction escape, is glided.
     // A bounded velocity also prevents one-frame jumps when a clip ends.
     speedGoal.subVectors(proposed,camera.position).multiplyScalar(6.2).clampLength(0,4.2);
-    cameraSpeed.lerp(speedGoal,blend(dt,11));
+    speedGoal.sub(cameraSpeed).multiplyScalar(blend(dt,10)).clampLength(0,22*dt);
+    cameraSpeed.add(speedGoal);
     camera.position.addScaledVector(cameraSpeed,dt);
     orbit.target.copy(aimAt);
   }
