@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 141｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 142｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -158,6 +158,11 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
 .dogBar #dogNote:empty{display:none}
 .dogBar #dogRetry:not([hidden]){padding:8px 10px}
 .leilaDevGrid{display:grid;gap:8px;min-width:0}
+.labDevFold{grid-column:1/-1;min-width:0;padding:0 10px 9px;border:1px solid #344762;border-radius:10px;background:#131e30}
+.labDevFold:not([open]){padding-bottom:0}
+.labDevFold summary,.dogDailyFold summary{min-height:44px;align-content:center;cursor:pointer;color:#edf2ff}
+.dogDailyFold{margin-top:7px;padding-top:4px;border-top:1px solid #344762}
+
 .leilaDevWardrobe{grid-column:1/-1}
 .wardrobe109Panel{margin-top:8px;padding-top:0}
 .wardrobe109Panel summary{padding:9px 0;color:#edf2ff}
@@ -189,7 +194,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 141: the scene stays in place; only the controls pane scrolls. */
+/* LAB 142: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 141</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 142</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -298,6 +303,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
 </select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <details class="labDevFold" id="devDailyFold"><summary>暮らしの動き・小物を試す</summary>
+    <div class="leilaDevGrid">
     <div class="leilaCard"><h2>運動のあと</h2>
       <button id="lab134CoolTry" type="button">ひと息つくストレッチを試す</button>
       <p>自律ダンスのあとに、気分によって体をゆっくり伸ばします。</p>
@@ -305,14 +312,16 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <div class="leilaCard" role="group" aria-labelledby="lab132ShadeTitle">
       <h2 id="lab132ShadeTitle">東窓のスクリーン</h2>
       <button type="button" id="lab132ShadeTest">開け閉めを試す</button>
-      <button type="button" id="hourglass135Try">読書用の砂時計を試す</button>
-      <button type="button" id="coaster141Try">コースターを整える</button>
       <p id="lab132ShadeStatus" aria-live="polite"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab130RainTitle">
-      <h2 id="lab130RainTitle">雨の窓辺</h2>
+      <h2 id="lab130RainTitle">窓辺と足元灯</h2>
       <button id="lab130RainTry" type="button">雨粒を眺めるのを試す</button>
       <button id="lab142ClockTry" type="button">壁の時計を見上げる</button>
+      <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
+      <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
+      <button id="lab137NightTry" type="button">夜の足元灯を試す</button>
+      <p id="lab137NightStatus">暗い時間帯に、人や犬が通ると点灯します。</p>
       <p id="lab130RainStatus" aria-live="polite">部屋の演出です。現地の天気とは連動しません。</p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab129ChargeTitle">
@@ -331,11 +340,13 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <p id="lab124LampStatus" aria-live="polite"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab122BookTitle">
-      <h2 id="lab122BookTitle">読書のしおり</h2>
+      <h2 id="lab122BookTitle">読書とサイドテーブル</h2>
       <button id="lab122ReadAgain" type="button">読書の続きを見る</button>
+      <button type="button" id="hourglass135Try">読書用の砂時計を試す</button>
+      <button type="button" id="coaster141Try">コースターを整える</button>
       <p id="lab122BookMarked">まだしおりは挟まれていません。</p>
     </div>
-    <div class="leilaCard"><h2>LAB 121・レイラの仕草</h2>
+    <div class="leilaCard"><h2>レイラの仕草とお誘い</h2>
       <button id="lab121SocialTry" type="button">仕草を順に試す</button>
       <button id="lab122InviteTry" type="button">お誘いを試す</button><p id="lab122InviteStatus" aria-live="polite"></p>
       <p id="lab121SocialStatus" aria-live="polite">全7種。静かな待機中に試せます。ご機嫌のとき、同じ前腕を短く2回タップしても反応が変わります。</p>
@@ -356,19 +367,20 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <p id="press137Status" aria-live="polite">花びらを納める小さな木の箱です。</p>
       <button id="home121Service" type="button">セルフ点検台を試す</button>
       <button id="fresh126Preview" type="button">手入れ台を試す</button>
-      <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
-      <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
-      <button id="lab137NightTry" type="button">夜の足元灯を試す</button>
-      <p id="lab137NightStatus">暗い時間帯に、人や犬が通ると点灯します。</p>
+      <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
+      <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
+    </div>
+    <div class="leilaCard" role="group" aria-labelledby="devMemoTitle">
+      <h2 id="devMemoTitle">メモ台・湯沸かし</h2>
       <button id="lab131MemoTest" type="button">南窓のメモ台を試す</button>
       <button id="tea132Preview" type="button">湯沸かし台を試す</button>
       <label>引き出しの中身 <select id="drawer135Kind"><option value="">おまかせ</option><option value="cards">索引カード</option><option value="clip">予備の留め具</option></select></label>
       <button id="drawer135Preview" type="button">小物引き出しを試す</button>
       <button id="lab131MemoPrior" type="button" disabled>前のメモを見る</button>
       <p id="lab131MemoStatus" aria-live="polite">まだメモはありません。</p>
-      <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
-      <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
     </div>
+    </div>
+    </details>
     <div class="leilaCard leilaDevWardrobe" role="group" aria-labelledby="devWardrobeTitle">
       <h2 id="devWardrobeTitle">衣装チェック</h2>
       <div class="leilaDevWardrobeButtons">
@@ -385,6 +397,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
+      <details class="dogDailyFold" id="dogDailyFold"><summary>犬との暮らしを試す</summary>
       <button id="dogScent131Try" type="button" disabled>犬の匂い探しを試す</button>
       <button id="dogWater125Try" type="button" disabled>犬の水飲みを試す</button>
       <button id="dogRope128Try" type="button" disabled>布リングのお誘いを試す</button>
@@ -392,6 +405,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="dogHello133Try" type="button" disabled>手のひらのあいさつを試す</button>
       <button id="dogRestMatPreview" type="button" disabled>犬のキルト休憩を試す</button>
       <button id="easelAudience126Preview" type="button" disabled>犬と絵を描く場面を試す</button>
+      </details>
     </div>
     <div class="leilaCard leilaMood"><h2>レイラの反応</h2>
       <label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><button id="nodPreview">うなずく</button>
