@@ -13868,7 +13868,7 @@ const dogRestMat=(()=>{
   const lookAt=center.clone().add(V(.32,.31,.035));
   const chin=center.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0),upForMat=V(0,1,0);
   const heading=headingTo(watch,lookAt), dogYaw=Math.PI/2;
-  g.name='犬のキルトマット';g.position.copy(center);floorGroup.add(g);
+  g.name='犬のキルトマット';g.position.copy(center).multiplyScalar(2);g.scale.setScalar(2);floorGroup.add(g);
   const piping=mat(0x3d5052,.97),green=mat(0x597873,.91),sand=mat(0xd8be8a,.86);
   const patch=(m,x,y,z,w,h,depth)=>{
     const o=block(g,m,x,y,z,w,h,depth);o.castShadow=false;o.receiveShadow=true;return o;
