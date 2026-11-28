@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 146｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 147｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 146</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 147</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -283,6 +283,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <label><input id="lab140StayAwake" type="checkbox"> 全画面中は画面の消灯を防ぐ</label>
       <p id="lab140StayStatus" role="status"></p>
       <button type="button" id="lab132ShadeTest">東窓のシャッターを開閉</button>
+      <label><input id="lab147ShadeAuto" type="checkbox" checked> 朝晩の開閉をレイラに任せる</label>
       <p id="lab132ShadeStatus" aria-live="polite"></p>
     </details>
     <details id="wardrobe109Panel" class="wardrobe109Panel">
@@ -9935,7 +9936,7 @@ const windowRain130=(()=>{
   return {target,maybe,arrive,tick,glance,watching};
 })();
 
-// An east-side privacy shade: retract at dawn; lower halfway at bedtime.
+// East shutter routine. A manual choice wins for the whole current morning/night period.
 const shade132=(()=>{
   const h=new T.Group();h.name='East privacy shade';wallGroups[3].add(h);
   h.position.set(9.36,.64,.23);
@@ -9951,9 +9952,27 @@ const shade132=(()=>{
 
   const m=new T.Matrix4();
   const key='leila.lab132.shade.v1';
-  let closed=false;
-  try{closed=localStorage.getItem(key)==='1';}catch{}
-  const button=$('lab132ShadeTest'),note=$('lab132ShadeStatus');
+  const configKey='leila.lab147.shutter.v1';
+  let closed=false,auto=true,manualPeriod='',revision=0;
+  try{
+    closed=localStorage.getItem(key)==='1';
+    const stored=JSON.parse(localStorage.getItem(configKey)??'null');
+    if(stored){auto=stored.auto!==false;manualPeriod=typeof stored.hold==='string'?stored.hold:'';}
+  }catch{}
+  const button=$('lab132ShadeTest'),note=$('lab132ShadeStatus'),autoBox=$('lab147ShadeAuto');
+  autoBox.checked=auto;
+  function period(){
+    const now=new Date(),minute=now.getHours()*60+now.getMinutes();
+    const night=minute>=1200||minute<405;
+    if(minute<405)now.setDate(now.getDate()-1);
+    return {night,id:`${now.getFullYear()}:${now.getMonth()+1}:${now.getDate()}:${night?'n':'d'}`};
+  }
+  function save(){
+    try{
+      localStorage.setItem(key,closed?'1':'0');
+      localStorage.setItem(configKey,JSON.stringify({auto,hold:manualPeriod}));
+    }catch{}
+  }
   const target={kind:'shade132',shade132:true,name:'東窓のシャッター',heading:Math.PI/2,
     point:V(5.55,0,6.66),lookAt:h.localToWorld(V(.886,.69,.167))};
   function register(){destinationMeshes.set(cap,target);destinationMeshes.set(pull,target);}
@@ -9972,10 +9991,19 @@ const shade132=(()=>{
     pull.position.y=.69-.23*pulling;
 
   }
-  function label(){note.textContent=closed?'シャッター：閉':'シャッター：開';}
+  function label(shift=period()){
+    const holding=auto&&manualPeriod===shift.id;
+    note.textContent=(closed?'シャッター：閉':'シャッター：開')+
+      (!auto?' ・ 手動のみ':holding?` ・ 手動設定を${shift.night?'朝6:45':'夜20:00'}まで維持`:' ・ 朝6:45に開け、夜20:00に閉める');
+    button.textContent=closed?'東窓のシャッターを開ける':'東窓のシャッターを閉める';
+  }
   draw(Number(closed),0);label();
-  let wasWorking=false, manualSlide=false;
+  let wasWorking=false, manualSlide=false, lastLabelMinute=-2;
   function tick(dt){
+    if(lastLabelMinute!==lastWorldMinute){
+      lastLabelMinute=lastWorldMinute;
+      label();
+    }
     if(manualSlide){
       const goal=Number(closed),delta=goal-rendered;
       const done=Math.abs(delta)<=dt*.8;
@@ -9984,14 +10012,23 @@ const shade132=(()=>{
       return;
     }
     const s=mode==='roam'&&roam.phase==='route'&&roam.visit?.[roam.visitIndex];
-    if(wasWorking&&s?.type!=='shade132Work'){draw(Number(closed),0);wasWorking=false;}
+    if(wasWorking&&s?.type!=='shade132Work'){manualSlide=true;wasWorking=false;}
   }
   function decorate(out,targetCopy){
     out.push(routeTurn(target.heading,'東窓の脇に立っています'),
-      {type:'shade132Work',time:5.65,from:closed,to:targetCopy.to??!closed,message:'シャッターのスイッチに手を伸ばしています'});
+      {type:'shade132Work',time:5.65,from:closed,to:targetCopy.to??!closed,gate:targetCopy.gate,message:'シャッターのスイッチに手を伸ばしています'});
   }
   function pose(s,u){
-    blendSofaPose(s.pose,1);if(manualSlide||s.overridden)return;wasWorking=true;
+    blendSofaPose(s.pose,1);
+    if(s.gate&&!s.done){
+      const shift=period();
+      if(!auto||s.gate.revision!==revision||s.gate.id!==shift.id||manualPeriod===shift.id){
+        if(wasWorking){manualSlide=true;wasWorking=false;}
+        s.overridden=true;
+      }
+    }
+    if(manualSlide||s.overridden)return;
+    wasWorking=true;
     if(roam.pending||reaction||contact||handLink)s.cancel??=u;
     const ft=s.cancel??u, fade=s.cancel===undefined?1:1-rearRamp(u,s.cancel,s.cancel+.075);
     const hold=rearRamp(ft,.07,.25)*(1-rearRamp(ft,.62,.87))*fade;
@@ -10010,38 +10047,37 @@ const shade132=(()=>{
     groups.neck.rotateY(.18*hold);
     if(!s.done&&s.grasped&&s.cancel===undefined&&ft>=.655){
       s.done=true;closed=s.to;
-      try{localStorage.setItem(key,closed?'1':'0');}catch{}
-      label();
+      save();label();
     }
   }
   function arrive(){
     const done=roam.visit?.some(s=>s.type==='shade132Work'&&s.done);
     enterQuietRest('window',done?(closed?'レイラが東窓のシャッターを下ろしました':'レイラがシャッターを開けました'):'東窓でひと息ついています',7);
   }
-  function command(to,manual=false){
-    if(mode!=='roam')beginRoam();
-    if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.shade132)return false;
-    next=mood.seconds+(manual?96:275);
-    requestDestination({...target,to});
-    return true;
-  }
   function maybe(){
-    if(mode!=='roam'||devOwned()||document.hidden||mood.seconds<next||mood.seconds<leilaUserPriorityUntil||
-       !['wait','rest','linger','window'].includes(roam.phase)||roam.target?.shade132||
-       reaction||contact||handLink||currentMood()==='annoyed'||lastWorldMinute<0)return false;
-    const to=lastWorldMinute>=20*60||lastWorldMinute<6*60+45;
-    if(to===closed)return false;
-    next=mood.seconds+50;
-    if(Math.random()>.5||!destinationPath(root.position,target.point).length)return false;
-    return command(to);
+    if(!auto||mode!=='roam'||devOwned()||document.hidden||mood.seconds<next||
+       mood.seconds<leilaUserPriorityUntil||!['wait','rest','linger','window'].includes(roam.phase)||
+       roam.target?.shade132||roam.pending||reaction||contact||handLink||trackedPointers.size||
+       currentMood()==='annoyed'||lastWorldMinute<0)return false;
+    const shift=period();
+    if(shift.night===closed||shift.id===manualPeriod)return false;
+    next=mood.seconds+28;
+    if(root.position.distanceTo(target.point)>.06&&!destinationPath(root.position,target.point).length)return false;
+    const started=requestDestination({...target,to:shift.night,gate:{id:shift.id,revision}});
+    return started!==false;
   }
+  autoBox.onchange=()=>{
+    auto=autoBox.checked;revision++;
+    if(auto){manualPeriod='';next=Math.min(next,mood.seconds+1);}
+    save();label();
+  };
   button.onclick=()=>{
+    revision++;
     if(mode==='roam'){
-      for(const s of roam.visit??[])if(s.type==='shade132Work')s.overridden=true;
+      for(const s of roam.visit??[])if(s.type==='shade132Work'&&!s.done)s.overridden=true;
     }
-    closed=!closed;manualSlide=true;wasWorking=false;next=mood.seconds+96;
-    try{localStorage.setItem(key,closed?'1':'0');}catch{}
-    label();
+    closed=!closed;manualPeriod=period().id;manualSlide=true;wasWorking=false;
+    save();label();
   };
   return {register,target,decorate,pose,arrive,maybe,tick};
 })();
