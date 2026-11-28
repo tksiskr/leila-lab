@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 155｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 156｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 155</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 156</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -1358,18 +1358,22 @@ const dressingMirror = new Reflector(new T.PlaneGeometry(.59,.98),{
 });
 dressingMirror.position.set(0,.54,.034);
 mirrorFrame.add(dressingMirror);
+const accessoryTableHeight=.537;
 // LAB 126 | a little tray beside the dressing mirror, for looking after the room.
 const fresh126=(()=>{
   const station=new T.Group();station.name='姿見の手入れ台';
   // Beyond the accessory chest, outside the actual mirror's viewing lane.
-  dressingArea.add(station);station.position.x=-1.26;
+  const workHeight=.757+.005/2;
+  const heightDrop=workHeight-accessoryTableHeight;
+  dressingArea.add(station);station.position.set(-1.26,-heightDrop,0);
   const bronze=mat(0xaa8052,.55), cork=mat(0x735949,.83), enamel=mat(0x365b5d,.5);
   const clothBlue=mat(0x94b9bb,.95), seam=mat(0x678e90,.9), piping=mat(0xbad4cd,.9);
   const mark=mat(0x66848a,.72), surface=mat(0xacc1b8,.54);
   // Legs support the freestanding tray without widening the dressing aisle.
+  const legTop=.698, legBase=heightDrop;
   for(const x of [-.225,.225])for(const z of [.085,.321])
-    block(station,dressingWood,x,.349,z,.026,.698,.025);
-  block(station,dressingMetal,0,.091,.091,.448,.018,.019);
+    block(station,dressingWood,x,(legTop+legBase)/2,z,.026,legTop-legBase,.025);
+  block(station,dressingMetal,0,.091+legBase,.091,.448,.018,.019);
   for(const x of [-.235,.235]){
     block(station,bronze,x,.704,.194,.025,.058,.343);
     const bracket=block(station,cork,x,.681,.143,.026,.058,.247);bracket.rotation.x=-.13;
@@ -1401,7 +1405,7 @@ const fresh126=(()=>{
   const down=v(0,-1,0), front=v(-1,0,0), elbow=v(.149,-.18,.081);
   const start=v(.183,.776,.224), damp=v(.128,.764,.234), to=v();
   const startQuat=new T.Quaternion();
-  const target={kind:'fresh126',name:'姿見のそばの手入れ台',point:station.localToWorld(v(-.065,0,.575)).setY(0),
+  const target={kind:'fresh126',name:'姿見のそばの手入れ台',point:station.localToWorld(v(.027,0,.522)).setY(0),
     lookAt:station.localToWorld(v(0,.77,.235)),heading:-Math.PI/2};
   let nextVisit=38,lastDay=-1,lastAction='',dust=1,tabChecked=-Infinity;
   function hour(){return lastWorldMinute/60;}
@@ -1465,7 +1469,14 @@ const fresh126=(()=>{
     const moving=rearRamp(u,.235,.425)*(1-rearRamp(u,.688,.835));
     const work=rearRamp(u,.35,.46)*(1-rearRamp(u,.67,.75));
     const r=rearRamp(u,.40,.69), wiping=a.job==='wipe';
-    groups.abdomen.rotateX(.185*active);groups.chest.rotateX(.115*active);
+    // Work from the same planted feet while the hips and shoulders lower.
+    if(!a.careFeet)a.careFeet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(v()).setY(standingAnkleHeights[side])}));
+    groups.pelvis.position.y-=.067*active;
+    groups.pelvis.position.z+=.026*active;
+    groups.pelvis.rotateX(.19*active);
+    groups.abdomen.rotateX(.34*active);groups.chest.rotateX(.23*active);
+    lowerPelvisForFeet(a.careFeet);
+    for(const {side,ankle} of a.careFeet)solveLeg(side,ankle,root.rotation.y);
     const across=a.stroke*Math.cos(r*Math.PI*3.2)*.099;
     const workPoint=wiping?v(-.058+across*work,.764,.229+.039*Math.sin(r*Math.PI*2.35)):damp;
     to.copy(start).lerp(workPoint,moving);
@@ -1548,12 +1559,12 @@ for(let i=0;i<7;i++){
 block(foldedSkirt,skirtEdge,0,.016,-.055,.178,.006,.030);
 
 block(dressingArea,dressingDoor,-.66,.265,.14,.55,.51,.35);
-block(dressingArea,dressingWood,-.66,.523,.14,.58,.028,.38);
+block(dressingArea,dressingWood,-.66,accessoryTableHeight-.014,.14,.58,.028,.38);
 block(dressingArea,dressingMetal,-.66,.39,.324,.16,.014,.016);
 
 const accessoryCase = new T.Group();
 dressingArea.add(accessoryCase);
-accessoryCase.position.set(-.66,.537,.17);
+accessoryCase.position.set(-.66,accessoryTableHeight,.17);
 block(accessoryCase,dressingWood,0,.021,0,.31,.042,.23);
 block(accessoryCase,caseLining,0,.045,0,.287,.010,.207);
 block(accessoryCase,dressingWood,0,.117,-.109,.31,.164,.018);
