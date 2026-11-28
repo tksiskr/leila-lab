@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 174｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 175｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 174</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 175</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -5123,6 +5123,52 @@ const leilaSkirt=(()=>{
     geo.setIndex(ix);
     return geo;
   };
+  // LAB175: bounded height field of the bent armor, only for the noir lap.
+  // Rasterize measured thigh and knee cages once, then sample along the cloth.
+  const lapSize=41, lapStep=.009, lapX=-.18, lapZ=-.055;
+  const lapGrid=new Float32Array(lapSize*lapSize), lapCrown=new Float32Array(lapSize);
+  function lapTriangle(a,b,c){
+    const dx=b.x-a.x,dz=b.z-a.z,ex=c.x-a.x,ez=c.z-a.z,det=dx*ez-dz*ex;
+    if(Math.abs(det)<1e-8)return;
+    const loX=Math.max(0,Math.ceil((Math.min(a.x,b.x,c.x)-lapX)/lapStep));
+    const hiX=Math.min(lapSize-1,Math.floor((Math.max(a.x,b.x,c.x)-lapX)/lapStep));
+    const loZ=Math.max(0,Math.ceil((Math.min(a.z,b.z,c.z)-lapZ)/lapStep));
+    const hiZ=Math.min(lapSize-1,Math.floor((Math.max(a.z,b.z,c.z)-lapZ)/lapStep));
+    for(let j=loZ;j<=hiZ;j++)for(let i=loX;i<=hiX;i++){
+      const x=lapX+i*lapStep-a.x,z=lapZ+j*lapStep-a.z;
+      const u=(x*ez-z*ex)/det,v=(dx*z-dz*x)/det;
+      if(u<-.001||v<-.001||u+v>1.001)continue;
+      const k=j*lapSize+i;
+      lapGrid[k]=Math.max(lapGrid[k],a.y+u*(b.y-a.y)+v*(c.y-a.y));
+    }
+  }
+  function measureLap(){
+    lapGrid.fill(-Infinity);
+    for(let k=2;k<6;k++){
+      const p=sources[k].current;
+      for(let j=16;j<p.length;j+=16)for(let i=0;i<16;i++){
+        const a=p[j-16+i],b=p[j-16+(i+1)%16],c=p[j+i],d=p[j+(i+1)%16];
+        lapTriangle(a,b,c);lapTriangle(b,d,c);
+      }
+    }
+    for(let j=0;j<lapSize;j++){
+      let top=-Infinity;
+      for(let k=Math.round((-.095-lapX)/lapStep);k<=Math.round((.095-lapX)/lapStep);k++)
+        top=Math.max(top,lapGrid[j*lapSize+k]);
+      lapCrown[j]=top;
+    }
+  }
+  function lapSurface(x,z){
+    const i=Math.round((x-lapX)/lapStep),j=Math.round((z-lapZ)/lapStep);
+    if(i<1||i>=lapSize-1||j<1||j>=lapSize-1)return -Infinity;
+    let h=-Infinity;
+    for(let dz=-1;dz<=1;dz++)for(let dx=-1;dx<=1;dx++){
+      const gx=i+dx,gz=j+dz;
+      const d=Math.hypot(lapX+gx*lapStep-x,lapZ+gz*lapStep-z);
+      h=Math.max(h,lapGrid[gz*lapSize+gx]-.45*d);
+    }
+    return h;
+  }
   skirt.solveStyle=(dt,rearWeight=0,mesh=skirt,style=null)=>{
     if(!mesh.visible)return;
     const geometry=mesh.geometry, position=geometry.attributes.position;
@@ -5149,7 +5195,16 @@ const leilaSkirt=(()=>{
     const back=T.MathUtils.smoothstep(-Math.min(upper[0].z,upper[1].z),.53,.98);
     // With both thighs raised, lay the front panel on the lap rather than
     // pulling the waist towards the furthest thigh section.
-    const lap=T.MathUtils.smoothstep(Math.min(upper[0].z,upper[1].z),.67,.96);
+    const thighsForward=Math.min(upper[0].z,upper[1].z);
+    const lap=T.MathUtils.smoothstep(thighsForward,style?.lapFit ? .46 : .67,style?.lapFit ? .86 : .96);
+    const lapFit=style?.lapFit&&rearWeight<.1&&lap>0;
+    let kneeEdge=.235;
+    if(lapFit){
+      measureLap();
+      for(let k=4;k<6;k++)for(const point of sources[k].current)
+        kneeEdge=Math.max(kneeEdge,point.z);
+      kneeEdge=Math.min(kneeEdge,.285);
+    }
     const lapRise=(upper[0].y+upper[1].y)*.5/Math.max(.5,(upper[0].z+upper[1].z)*.5);
     const lapHalfWidth=.111+Math.abs(upper[0].x-upper[1].x)*.030;
     if(rearWeight>0){
@@ -5259,6 +5314,40 @@ const leilaSkirt=(()=>{
           x=T.MathUtils.lerp(x,lapRadius*sx,laidOver);
           z=T.MathUtils.lerp(z,lapRadius*cz+center,laidOver);
           h=T.MathUtils.lerp(h,lapY,laidOver);
+          if(lapFit){
+            // Let the panel fall forward along both thighs, retaining the
+            // back and waist. Follow the top of raised knees, not a fixed lift.
+            const frontPanel=T.MathUtils.smoothstep(cz,.04,.64);
+            const lapLength=T.MathUtils.smoothstep(u,.14,.98);
+            const drapeZ=.019+(kneeEdge+.015-.019)*u-.020*sx*sx*u*u;
+            z=T.MathUtils.lerp(z,drapeZ,laidOver*frontPanel*lapLength);
+            x+=sx*.011*laidOver*frontPanel*lapLength;
+            // As she rises, the leading cloth relaxes with the thigh
+            // angle. The last seam begins to droop just beyond the knees.
+            const estimate=T.MathUtils.clamp(.058+Math.min(0,lapRise)*Math.max(0,z-.032),.004,.058);
+            const atKnee=Math.round((kneeEdge-.023-lapZ)/lapStep);
+            const crown=lapCrown[atKnee];
+            const lead=Number.isFinite(crown)?Math.min(estimate,crown+.008):estimate;
+            h=T.MathUtils.lerp(h,lead,laidOver*frontPanel*T.MathUtils.smoothstep(u,.42,.96)*.83);
+            h-=.023*laidOver*frontPanel*T.MathUtils.smoothstep(z,kneeEdge-.009,kneeEdge+.016)
+              *T.MathUtils.smoothstep(u,.84,1);
+            const fit=T.MathUtils.smoothstep(lap,0,.35)*T.MathUtils.smoothstep(u,.10,.36)
+              *T.MathUtils.smoothstep(cz,-.17,.20)*T.MathUtils.smoothstep(z,.014,.051);
+            let ground=lapSurface(x,z);
+            const ridge=Math.round((z-lapZ)/lapStep);
+            if(ridge>0&&ridge<lapSize-1&&Math.abs(x)<.082){
+              const broad=Math.max(lapCrown[ridge],lapCrown[ridge-1]-.005,lapCrown[ridge+1]-.005);
+              const fall=.004+.021*T.MathUtils.smoothstep(Math.abs(x),.046,.082);
+              // Bridge the center of the lap instead of falling into each
+              // individual knee's sampled silhouette.
+              ground=Math.max(ground,broad-fall);
+            }
+            if(fit>0&&Number.isFinite(ground)){
+              const delta=ground+.013+(inside?-.001:0)-h;
+              const feather=Math.max(.006-Math.abs(delta),0);
+              h+=fit*(Math.max(0,delta)+feather*feather/.024);
+            }
+          }
         }
         // A floor check only matters in the high kicks/floorwork poses.
         floor.set(x,h,z).applyMatrix4(hip.matrixWorld);
@@ -6197,7 +6286,7 @@ const wardrobe109=(()=>{
     {wideHem:true,pleat:.0102}),0x9b587b,{collection:'sweet'});
   item('inkShorts','bottom','黒×銀のダンスショーツ',pants.inkShorts,0x28293f,{collection:'night'});
   item('noirEvening','set','ノワール・ナイトドレス',sets.noirTop,0x171624,
-    {collection:'night',bottom:newSkirt('noirEvening',0x191823,0x292438,0x514659,.218,{below:true,cut:.019,pleat:.002})});
+    {collection:'night',bottom:newSkirt('noirEvening',0x191823,0x292438,0x514659,.218,{below:true,cut:.019,pleat:.002,lapFit:true})});
   item('merlot','set','メルローの斜め襟ドレス',sets.merlotTop,0x67233b,
     {collection:'night',bottom:newSkirt('merlot',0x67233b,0x5a2335,0x963d5d,.260,{below:true,cut:.031,pleat:.002})});
   item('mintRibbon','set','ミントリボンのワンピース',sets.mintRibbonTop,0x7db2a1,
