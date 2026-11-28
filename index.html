@@ -361,6 +361,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
       <button id="dogWater125Try" type="button" disabled>犬の水飲みを試す</button>
       <button id="dogRope128Try" type="button" disabled>布リングのお誘いを試す</button>
+      <button id="dogRope130Try" type="button" disabled>布リングのやりとりを試す</button>
       <button id="dogRestMatPreview" type="button" disabled>犬のキルト休憩を試す</button>
       <button id="easelAudience126Preview" type="button" disabled>犬と絵を描く場面を試す</button>
     </div>
@@ -12544,7 +12545,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogRope128Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogRope128Try','dogRope130Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -15117,7 +15118,7 @@ const dogRope128=(()=>{
   }
   function stop(interrupted=true){
     const a=active;if(!a)return;
-    dropNow(a,true);clean(a);active=null;
+    dropHuman(a,false);dropNow(a,true);clean(a);active=null;
     if(mode==='roam'&&roam===a.owner&&roam.phase==='dogRope128')
       enterQuietRest('linger',interrupted?'レイラはあなたに注意を戻しました':'レイラと犬はひと休みしています',interrupted?4.2:3.5);
   }
@@ -15164,14 +15165,14 @@ const dogRope128=(()=>{
     }
     return outcomes.length?{pickup,outcomes}:null;
   }
-  function begin(manual=false){
+  function begin(manual=false,tryExchange=false){
     if(!available(manual))return false;
     const p=plans(manual);if(!p)return false;
     if(manual){clearDevPreview();prepareDogCommand();}
     const style=previous<0?Number(Math.random()>.56):1-previous;
     previous=style;nextAllowed=mood.seconds+97+Math.random()*53;
     const a={...p,owner:roam,entry:captureSofaPose(),stage:'toRing',t:0,age:0,
-      style,held:false,arrived:false,old:$('dogNote').textContent,note:'',manual};
+      style,held:false,arrived:false,old:$('dogNote').textContent,note:'',manual,tryExchange};
     active=a;d.rivalQueued=false;d.change('rope128');d.path=p.pickup.path;d.destination=p.pickup.foot.clone();
     roam.phase='dogRope128';roam.pause=Infinity;
     note(a,message.toRing);$('destination').textContent='レイラが犬の様子を見守っています';
@@ -15216,6 +15217,166 @@ const dogRope128=(()=>{
     ring.position.copy(grip).add(floorOffset.copy(offset).applyQuaternion(ring.quaternion));
   }
   const grin=V(0,0,0),turn=V(0,0,0);
+  // LAB 130: sometimes answer the delivery with a turn of our own. The
+  // quick original greeting remains the usual finish in a quiet mood.
+  const reachDown=V(0,-1,0),exchangePalm=V(0,0,0);
+  function beginExchange(a){
+    if(a.usedExchange||fall||a.laidDistance>.09)return false;
+    a.usedExchange=true;
+    const moodNow=currentMood();
+    if(!a.tryExchange&&(a.manual||Math.random()>=({playful:.69,happy:.48,affectionate:.54,bored:.17,neutral:.28}[moodNow]??0)))return false;
+    const yaw=headingTo(root.position,placed),dir=V(Math.sin(yaw),0,Math.cos(yaw));
+    const relative=headingDelta(root.rotation.y,yaw);
+    if(Math.abs(relative)>.77)return false;
+    const side=relative>.10?'P':'N', sign=side==='P'?1:-1;
+    const from=placed.clone(), to=placed.clone().addScaledVector(dir,.117);
+    // No new furniture or room collision is needed, but account for the
+    // whole toy and the dog standing in front of it.
+    const clear=walkingClearance(sofaWalkingBounds()),cross=V(dir.z,0,-dir.x);
+    if(!inWalkingArea(to)||!clear(from,to)||
+       !clear(to,to.clone().addScaledVector(cross,.144))||
+       !clear(to,to.clone().addScaledVector(cross,-.144))||
+       to.distanceTo(d.object.position)<.42)return false;
+    const feet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
+    a.exchange={from,to,dir,sign,side,yaw,relative,feet,
+      grip0:from.clone().addScaledVector(dir,-radius),grip1:to.clone().addScaledVector(dir,-radius),
+      held:false,placed:false,haveStarted:false,backAt:null,contact:null};
+    a.exchange.show=a.exchange.grip0.clone().addScaledVector(dir,-.058);
+    a.exchange.show.y=.370;
+    $('destination').textContent='レイラが布リングを拾おうとしています';
+    stage(a,'exchange');
+    return true;
+  }
+  function dropHuman(a,normal){
+    const e=a?.exchange;
+    if(!e?.held)return;
+    e.held=false;
+    if(normal)placed.copy(e.to);
+    else placed.copy(ring.position).setY(tube+.002);
+    fall={p:ring.position.clone(),q:ring.quaternion.clone(),yaw:e.yaw,t:0};
+  }
+  function attachedPalm(e,angle){
+    // The carrier is the *posed armor palm*, not the IK target. Grip its
+    // facing tube rather than suspending the prop from the ring's center.
+    groups['hand'+e.side].localToWorld(exchangePalm.copy(palmRig[e.side].center));
+    exchangePalm.y-=.023;
+    const bound=clampExposure((exchangePalm.y-tube)/(radius*2));
+    orientation(e.yaw,Math.min(angle,-Math.acos(bound)));
+    ring.position.copy(exchangePalm).add(floorOffset.copy(offset).applyQuaternion(ring.quaternion));
+  }
+  function poseExchange(a){
+    const e=a.exchange,t=a.t;
+    blendSofaPose(a.entry,1);
+    const decline=e.backAt!==null?1-rearRamp(t,e.backAt,e.backAt+.97):1;
+    const squat=(rearRamp(t,.03,1.24)*(1-.76*rearRamp(t,1.54,2.68))+
+      .76*rearRamp(t,3.31,4.34))*(1-rearRamp(t,4.61,5.72))*decline;
+    const h=root.rotation.y;
+    const out=rearRamp(t,.09,.80),ret=e.backAt!==null?rearRamp(t,e.backAt+.32,e.backAt+1.01):rearRamp(t,4.74,5.66);
+    const lead=out*(1-ret), down=rearRamp(t,3.27,4.42);
+    const stepHeight=.055*Math.sin(Math.PI*out)+.055*Math.sin(Math.PI*ret);
+    const lunge=.125*lead+.096*squat+.074*down*squat;
+    groups.pelvis.position.y-=.441*squat;
+    groups.pelvis.position.addScaledVector(e.dir,lunge);
+    groups.pelvis.rotateX(.255*squat);
+    groups.abdomen.rotateX(.58*squat);
+    groups.chest.rotateX(.66*squat);
+    groups.abdomen.rotateY(.32*e.relative*squat);
+    groups.chest.rotateY(.48*e.relative*squat);
+    groups.neck.rotateX(-.31*squat);
+    groups.head.rotateX(.22*squat-.077*rearRamp(t,2.05,2.8)*(1-rearRamp(t,3.2,3.92)));
+    groups.head.rotateY(.29*e.relative*squat);
+    for(const {side,ankle} of e.feet){
+      const goal=ankle.clone(),sign=side==='P'?1:-1;
+      if(side===e.side){
+        goal.addScaledVector(e.dir,.235*lead);
+        goal.addScaledVector(V(e.dir.z,0,-e.dir.x),.053*sign*lead);
+        goal.y+=stepHeight;
+      }
+      solveLeg(side,goal,h,0,h+.26*e.relative+sign*.14*squat);
+    }
+    const lift=rearRamp(t,1.42,2.66);
+    const dest=e.grip0.clone().lerp(e.show,lift).lerp(e.grip1,down);
+    const reach=rearRamp(t,.51,1.24)*(1-rearRamp(t,4.56,5.19))*decline;
+    if(reach>.0005){
+      const face=orientPalm(e.side,e.dir,reachDown);
+      const wrist=dest.clone().addScaledVector(up,.023).sub(palmRig[e.side].center.clone().applyQuaternion(face));
+      reachHand(e.side,wrist,face,reach,false,V(.157*e.sign,-.116,.095),true);
+    }
+    const grip=groups['hand'+e.side].localToWorld(exchangePalm.copy(palmRig[e.side].center));
+    grip.y-=.023;
+    if(t>=1.30&&!e.haveStarted){
+      e.haveStarted=true;e.contact=grip.distanceTo(e.grip0);
+      if(e.contact>.031){
+        // If a wall or unusual standing pose made the rim unreachable, the
+        // character rises again rather than snapping the toy into her hand.
+        e.backAt=t;
+        $('destination').textContent='レイラはリングを残して、犬にそっと目を向けました';
+      }else{
+        e.held=true;
+        $('destination').textContent='レイラが布リングを持ち上げました';
+      }
+    }
+    if(e.held){
+      const angle=mix(-Math.PI/2,-.63,rearRamp(t,1.48,2.66)*(1-rearRamp(t,3.45,4.38)));
+      attachedPalm(e,angle);
+    }
+    if(t>=4.46&&e.held){
+      // Release within a few centimeters of the plane, never through it.
+      e.landGap=ring.position.distanceTo(e.to);
+      e.placed=e.landGap<.054;
+      dropHuman(a,e.placed);
+      if(e.placed){
+        $('destination').textContent='レイラは犬に近い場所へリングを置き直しました';
+        note(a,'犬がしっぽを振りながら、自分の番を待っています。');
+      }
+    }
+  }
+  function exchangeDog(a,dt,focus){
+    const e=a.exchange,t=a.t;
+    // Stationary actor, muzzle tracks the moving toy with its own head rig.
+    d.ropeInvitation=.28*rearRamp(t,.24,.85)*(1-rearRamp(t,4.39,5.10));
+    lower(a.drop.grip,0,0);
+    d.pose(dt,0,e.held?ring.position:focus);
+    if(e.backAt!==null&&t>=e.backAt+1.04){stop(false);return;}
+    if(t>=5.73){
+      const feeling=currentMood();
+      if(e.placed&&(a.tryExchange||Math.random()<({playful:.76,happy:.58,affectionate:.41,neutral:.31}[feeling]??0))){
+        const outward=d.object.position.clone().sub(placed).setY(0).normalize();
+        a.answerGrip=placed.clone().addScaledVector(outward,radius);
+        a.answerYaw=headingTo(d.object.position,placed);
+        stage(a,'answer');
+      }else stop(false);
+    }
+  }
+  function answerDog(a,dt){
+    const t=a.t, grip=a.answerGrip, ob=d.object;
+    d.rotate(a.answerYaw,dt,3.6);
+    const low=rearRamp(t,.04,.77)*(1-rearRamp(t,.95,1.49))+
+      rearRamp(t,2.10,2.83)*(1-rearRamp(t,3.10,3.65));
+    lower(grip,low,.041);
+    d.ropeInvitation=.20*rearRamp(t,1.0,1.47);
+    d.ropeClasp=.78*rearRamp(t,.64,.88)*(1-rearRamp(t,2.79,3.00));
+    d.pose(dt,0,grip);
+    if(t>=.86&&!a.answerTried){
+      a.answerTried=true;
+      a.answerError=muzzleGrip(realGrip).distanceTo(grip);
+      if(a.answerError<.055){
+        a.held=true;
+        note(a,'犬が自分の番に、もう一度だけリングをくわえました。');
+      }
+    }
+    if(a.held){
+      heldPose(ob.rotation.y,mix(-Math.PI/2,-.26,rearRamp(t,.93,1.54)*(1-rearRamp(t,2.10,2.75))));
+      if(t>=2.94){
+        a.held=false;
+        if(ring.position.distanceTo(placed)>.05)placed.copy(ring.position).setY(tube+.002);
+        fall={p:ring.position.clone(),q:ring.quaternion.clone(),yaw:ob.rotation.y,t:0};
+        note(a,'犬がまたリングを置き、二人でひと息つきました。');
+      }
+    }
+    if(t>=3.92)stop(false);
+  }
+
   function follow(to,dt,speed){
     const ob=d.object;
     const p=d.path[0];
@@ -15280,18 +15441,24 @@ const dogRope128=(()=>{
         a.laidDistance=miss;
         stage(a,'invite');note(a,message.place);
       }
+    }else if(a.stage==='exchange'){
+      exchangeDog(a,dt,focus);
+    }else if(a.stage==='answer'){
+      answerDog(a,dt);
     }else if(a.stage==='invite'){
       const p=a.drop;
       lower(p.grip,1-rearRamp(a.t,.06,.72),0);
       d.ropeInvitation=rearRamp(a.t,.42,1.15)*(1-rearRamp(a.t,2.65,3.75));
       d.pose(dt,0,a.t<.94?p.grip:focus);
       if(a.t>1&&a.t<2.8&&a.note!==message.invite)note(a,message.invite);
+      if(a.t>=4.22&&beginExchange(a))return true;
       if(a.t>=5.8)stop(false);
     }
     return true;
   }
   function advance(dt){
     const a=active;if(!a)return false;
+    if(a.stage==='exchange'){poseExchange(a);return true;}
     blendSofaPose(a.entry,1);
     const target=a.stage==='invite'?placed:a.held?ring.position:a.stage==='lift'?a.pickup.grip:d.object.position;
     handLook.copy(target);
@@ -15326,11 +15493,12 @@ const dogRope128=(()=>{
        reaction||contact||handLink||document.hidden||!floorGroup.visible))stop();
     animateFall(dt);
   }
-  function preview(){
+  function preview(exchange=false){
     if(active){stop();return;}
-    if(!begin(true))$('dogNote').textContent='ふたりが家具から少し離れ、床で落ち着いている時に試せます。';
+    if(!begin(true,exchange))$('dogNote').textContent='ふたりが家具から少し離れ、床で落ち着いている時に試せます。';
   }
-  $('dogRope128Try').onclick=preview;
+  $('dogRope128Try').onclick=()=>preview(false);
+  $('dogRope130Try').onclick=()=>preview(true);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   return {runDog,advance,maybe,tick,cancel:stop};
 })();
