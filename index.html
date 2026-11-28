@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 156｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 157｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 156</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 157</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -19147,9 +19147,11 @@ const dogTumble=(()=>{
     const yaw=edge?(room==='bed'?bedTarget.heading:sofaHeading):rollIn?Math.PI:0;
     root.position.copy(home);root.rotation.y=yaw;root.updateWorldMatrix(true,false);
     const index=poseJoints.indexOf(groups.pelvis), q=root.getWorldQuaternion(new T.Quaternion());
-    from[index]={position:root.worldToLocal(pelvisAt),rotation:q.invert().multiply(pelvisQ)};
+    // Keep the original world-space pelvis intact for every return to rest.
+    // worldToLocal mutates its input; share only a transformed copy here.
+    from[index]={position:root.worldToLocal(pelvisAt.clone()),rotation:q.invert().multiply(pelvisQ)};
     const a={kind,front:!edge&&kind==='front',winner:kind==='winner',hold:true,yaw,dogYaw:kind==='front'?yaw+Math.PI:yaw,
-      t:2.25,origin:home,entry:from,waiting:0,surface:{key,room,height,held,watch,edge,rollIn,climb:!!prev&&prev.edge!==edge,t:0,dog:prev?.dog??normalDog,dogFrom:normalDog,
+      t:2.25,origin:home,entry:from,waiting:0,surface:{key,room,height,held,watch,edge,rollIn,climb:!!prev&&prev.edge!==edge,t:0,blend:0,dog:prev?.dog??normalDog,dogFrom:normalDog,
         loop:chain?.loop,index:chain?.index,auto:chain?.auto,phase:prev?.phase??roam.phase,rootFrom,yawFrom,elapsed:prev?.elapsed??roam.elapsed,pause:prev?.pause??roam.pause}};
     const ret=a.surface;
     const original=prev?.original??from.map((j,i)=>i!==index?j:{position:pelvisAt,rotation:pelvisQ});
@@ -19208,10 +19210,13 @@ const dogTumble=(()=>{
         return surfaceLeila(active,0);
       }
     }
-    if(!s.loop&&!s.held&&s.t>=surfaceEntrySeconds+minPlay&&!a.cancel)a.cancel={t:0,natural:true};
-    if(a.cancel)a.cancel.t+=dt;
-    s.blend=ease(s.t,0,surfaceEntrySeconds)*(1-ease(a.cancel?.t??0,0,1.15));
-    if(a.cancel?.t>=1.19){finish();return true;}
+    if(!s.loop&&!s.held&&s.t>=surfaceEntrySeconds+minPlay&&!a.cancel)beginSurfaceExit(a,true);
+    if(a.cancel){
+      a.cancel.t+=dt;
+      if(a.cancel.t>=1.19)finish();
+      return true;
+    }
+    s.blend=ease(s.t,0,surfaceEntrySeconds);
     // Floor solvers see the local plane at zero; both actors are moved to
     // the cushion together only after all hand/paw contacts have been solved.
     standing(a);
@@ -19264,8 +19269,44 @@ const dogTumble=(()=>{
     const cushion=a.surface.height+.006;
     if(gap<cushion)h.position.y+=(cushion-gap)*ease(u,0,.08)*(1-ease(u,.93,1));
   }
+  function beginSurfaceExit(a,natural=false){
+    const obj=d.object;
+    a.cancel={t:0,natural,from:captureSofaPose(),dogFrom:{point:obj.position.clone(),
+      yaw:obj.rotation.y,bones:d.captureBellyEntry()}};
+  }
+  function blendSurfaceEntry(a,u){
+    // An animated target can straddle the 180-degree quaternion boundary.
+    // Keep the same hemisphere throughout a crossfade to avoid a head snap.
+    const s=a.surface, tracks=s.entryRotations??=poseJoints.map(()=>null);
+    poseJoints.forEach((joint,i)=>{
+      const from=a.entry[i], q=joint.quaternion.clone();
+      if((tracks[i]??from.rotation).dot(q)<0)q.set(-q.x,-q.y,-q.z,-q.w);
+      (tracks[i]??=new T.Quaternion()).copy(q);
+      const aQ=from.rotation, dot=clamp(aQ.dot(q),-.999999,1);
+      const angle=Math.acos(dot), den=Math.sin(angle);
+      const weightA=den<1e-5?1-u:Math.sin((1-u)*angle)/den;
+      const weightB=den<1e-5?u:Math.sin(u*angle)/den;
+      joint.quaternion.set(aQ.x*weightA+q.x*weightB,aQ.y*weightA+q.y*weightB,
+        aQ.z*weightA+q.z*weightB,aQ.w*weightA+q.w*weightB).normalize();
+      joint.position.lerp(from.position,1-u);
+    });
+  }
   function surfaceDog(a,dt){
-    const s=a.surface, obj=d.object, saved=a.cancel?s.dog:s.dogFrom;
+    const s=a.surface, obj=d.object, saved=s.dogFrom;
+    const remap=(fromP,fromYaw)=>p=>p.clone().multiplyScalar(shepherdScale).applyAxisAngle(up,fromYaw)
+      .add(fromP).sub(obj.position).applyAxisAngle(up,-obj.rotation.y).divideScalar(shepherdScale);
+    const transform=(bones,p,y)=>bones.map(b=>({p:remap(p,y)(b.p),q:new T.Quaternion().setFromAxisAngle(up,y-obj.rotation.y).multiply(b.q)}));
+    if(a.cancel){
+      const {from,dogFrom}=a.cancel, rest=s.dog;
+      const fade=ease(a.cancel.t,0,1.15);
+      blendSofaPose(from,1);blendSofaPose(s.returnPose,fade);
+      obj.position.copy(dogFrom.point).lerp(rest.point,fade);
+      obj.rotation.y=dogFrom.yaw+headingDelta(dogFrom.yaw,rest.yaw)*fade;
+      d.mixBellyEntry(transform(dogFrom.bones,dogFrom.point,dogFrom.yaw),1);
+      d.mixBellyEntry(transform(rest.bones,rest.point,rest.yaw),fade);
+      if(d.lickTongue)d.lickTongue.visible=false;
+      return true;
+    }
     obj.position.copy(a.start);
     if(s.edge)edgeDog(a,dt);
     else{
@@ -19275,14 +19316,10 @@ const dogTumble=(()=>{
     }
     if(s.blend<.99999){
       if(s.rollIn&&!a.cancel)rollOntoKnees(a,s.blend);
-      else blendSofaPose(a.cancel?s.returnPose:a.entry,1-s.blend);
+      else blendSurfaceEntry(a,s.blend);
       const before=obj.position.clone(), yaw=obj.rotation.y;
       obj.position.lerp(saved.point,1-s.blend);
       obj.rotation.y+=headingDelta(yaw,saved.yaw)*(1-s.blend);
-      const remap=(fromP,fromYaw)=>p=>p.clone().multiplyScalar(shepherdScale).applyAxisAngle(up,fromYaw)
-        .add(fromP).sub(obj.position).applyAxisAngle(up,-obj.rotation.y).divideScalar(shepherdScale);
-      const rotate=fromYaw=>new T.Quaternion().setFromAxisAngle(up,fromYaw-obj.rotation.y);
-      const transform=(bones,p,y)=>bones.map(b=>({p:remap(p,y)(b.p),q:rotate(y).multiply(b.q)}));
       d.mixBellyEntry(transform(d.captureBellyEntry(),before,yaw),1);
       d.mixBellyEntry(transform(saved.bones,saved.point,saved.yaw),1-s.blend);
       // Cross the furniture lip in a small arc instead of moving straight
@@ -19926,6 +19963,7 @@ const dogTumble=(()=>{
     const a=active;
     if(!a)return;
     if(a.cancel){a.cancel.natural=false;return;}
+    if(a.surface){beginSurfaceExit(a);return;}
     a.cancel={t:0,from:captureSofaPose()};
     if(a.couch)a.cancel.feet=sofaSides.map(side=>groups['foot'+side].getWorldPosition(V(0,0,0)));
     if(!a.bed&&!a.edge&&!a.surface)releaseDog();
@@ -20368,7 +20406,7 @@ const dogTumble=(()=>{
     d.mixBellyEntry(c.dogBones,1-w);
     d.fitBellyFloor(0);
   }
-  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp};
+  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp,surfaceBlending:()=>!!active?.surface};
 })();
 // The courses begin at the two actual positions. Only the rolling area is
 // picked in advance, so neither actor has to walk to a starting marker.
@@ -21094,7 +21132,14 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick(dt);evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick(dt);evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);
+ // Sofa and mattress contacts finish Leila's blend in the dog pass.
+ // Camera and shadows must use that final pose, not the unblended pose.
+ const surfaceBlend=dogTumble.surfaceBlending();
+ if(surfaceBlend)updateShepherd(dt);
+ cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();
+ if(!surfaceBlend)updateShepherd(dt);
+ nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
