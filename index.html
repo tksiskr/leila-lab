@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 160｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 161｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 160</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 161</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -395,6 +395,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="hipNudgeTest" type="button" disabled>鼻でこつん・横の装甲</button>
       <button id="sofaSniffTest" type="button" disabled>服をクンクン・ソファ</button>
       <button id="bedSniffTest" type="button" disabled>服をクンクン・ベッドの縁</button>
+      <button id="dogCozyRollTest" type="button" disabled>ヘソ天でごろごろ</button>
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
@@ -6426,6 +6427,7 @@ const dogWatchScenes={
   sofaEdge:{label:'ソファでじゃれ合う',start:()=>dogTumble.request('sofaEdge',false,true)},
   sofaSniff:{label:'ソファで服をクンクン',start:()=>dogTumble.request('sofaSniff',false,true)},
   bedSniff:{label:'ベッドの縁で服をクンクン',start:()=>dogTumble.request('bedSniff',false,true)},
+  cozyRoll:{label:'ヘソ天でごろごろ',start:()=>dogTumble.request('cozyRoll',false,true)},
   bedFront:{label:'ベッド上・正面',start:()=>dogTumble.request('bedFront',false,true)},
   bedRear:{label:'ベッド上・背後',start:()=>dogTumble.request('bedRear',false,true)},
   winnerBed:{label:'ベッド上・レイラの勝ち',start:()=>dogTumble.request('winnerBed',false,true)},
@@ -13954,6 +13956,7 @@ function shepherdTouchSurface(model){
     return best;
   }
   const rows={
+    cozyFur:[bindSide(.402,-.041,1),bindSide(.392,-.014,1),bindSide(.380,.019,1)],
     flankNear:[bindSide(.42,-.324,1),bindSide(.474,-.307,1),bindSide(.512,-.300,1)],
     flankFar:[bindSide(.42,-.324,-1),bindSide(.474,-.307,-1),bindSide(.512,-.300,-1)],
     edgeNear:[bindSide(.379,.172,1),bindSide(.402,.178,1),bindSide(.418,.193,1)],
@@ -14256,7 +14259,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','sofaSniffTest','bedSniffTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try','lab144WindowTry','dogQuiet149Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','sofaSniffTest','bedSniffTest','dogCozyRollTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try','lab144WindowTry','dogQuiet149Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -14347,6 +14350,11 @@ function createShepherd() {
           const swing=new T.Quaternion().setFromAxisAngle(V(1,0,0),(1.10+.10*belly.press)*belly.roll);
           joint.quaternion.copy(body.quaternion).multiply(swing);
           movedSkull.copy(neckRest).applyQuaternion(joint.quaternion).add(joint.position);
+          const cozy=d.tumble.cozyGaze;
+          if(cozy?.weight>.001){
+            joint.position.y+=.037*cozy.weight;
+            movedSkull.y+=.112*cozy.weight;movedSkull.z-=.027*cozy.weight;
+          }
           return;
         }
         bodyInverse.copy(body.quaternion).invert();
@@ -14487,6 +14495,15 @@ function createShepherd() {
           const chinUp=new T.Quaternion().setFromEuler(new T.Euler(
             -.26+.025*Math.sin(belly.motion*3.8),0,Math.PI,'YXZ'));
           joint.quaternion.copy(body.quaternion).slerp(chinUp,open);
+          const cozy=d.tumble.cozyGaze;
+          if(cozy?.weight>.001){
+            const toward=cozy.point.clone().sub(joint.position);
+            const yaw=Math.atan2(toward.x,toward.z);
+            const pitch=clamp(-Math.atan2(toward.y,Math.hypot(toward.x,toward.z)),-.36,.42);
+            // Keep the upside-down head supported by the raised neck.
+            const look=new T.Quaternion().setFromEuler(new T.Euler(pitch,yaw,Math.PI,'YXZ'));
+            joint.quaternion.slerp(look,cozy.weight*.86);
+          }
           return;
         }
         const sideNose=d.tumble?.sideNose??d.helloNose;
@@ -14652,8 +14669,8 @@ function createShepherd() {
           ankle.y+=.021*curlDream;ankle.z-=.024*curlDream;
           const belly=d.tumble?.bellyUp;
           if(belly){
-            const pedal=Math.sin(belly.motion*(front?11.7:10.6)+index*1.64);
-            const tucked=V(hipRest.x+s*(front?.124:.074),front?.325:.197,
+            const pedal=Math.sin(belly.motion*(front?11.7:10.6)+index*1.64)*(belly.quiet?.15:1);
+            const tucked=V(hipRest.x+s*(front?.124:.074),(front?.325:.197)+(belly.quiet?.038:0),
               hipRest.z+(front?-.043:-.037)+(front?.032:.049)*pedal);
             tucked.y+=(front?.031:.067)*pedal+(front?0:.078*belly.press-.053*belly.tryLift);
             ankle.lerp(tucked,belly.roll).applyQuaternion(body.quaternion).add(body.position);
@@ -14824,6 +14841,7 @@ function createShepherd() {
       d.bellyChestPoint=(side,stroke=0)=>{
         const bodyJoint=bones[bodyIndex];
         if(side==='waist')return bodyJoint.localToWorld(V(-.040,.354,-.158));
+        if(side==='cozyFur')return d.touchSurface?.('cozyFur',.57+stroke*.78)?.point??bodyJoint.localToWorld(V(.149,.393,.020+stroke*.038));
         if(!side){
           return bodyJoint.localToWorld(V(-.068+stroke*.012,.301+stroke*.010,.174+stroke*.014));
         }
@@ -18600,7 +18618,7 @@ const dogTumble=(()=>{
   const pinClock=a=>playClock(a.t,a.hold,1.63,timing.release,a.front?frontTempo:1);
   const labels={front:'正面から',rear:'後ろから'};
   const ray=new T.Raycaster();
-  const playKinds=['front','rear','winner','hipBump','hipNudge'];
+  const playKinds=['front','rear','winner','hipBump','hipNudge','cozyRoll'];
   let active=null,nextRoughhouseAt=mood.seconds+110,nextBedPlayAt=mood.seconds+70,
     alternate=Math.floor(Math.random()*2),skin=null;
   // A third act: the dog offers its belly, and the android plays along.
@@ -18736,6 +18754,117 @@ const dogTumble=(()=>{
     });
     d.placeBellyPaws(targets,weight);
   }
+  function cozyReady(a,watch){
+    const h=groups.pelvis;
+    a.cozy=true;a.dogYaw=a.yaw;
+    a.start=local(a,.26,0,1.00);
+    a.finish=local(a,.247,0,.352);
+    settleStandingFeet();a.entry=captureSofaPose();
+    a.kneel=preparePose(a,false,false);
+    preparePose(a,false,true);
+    h.position.set(-.015,.116,.065);
+    orientWorld(h,angle(a,1.48,0,.10));
+    orientWorld(groups.abdomen,angle(a,1.49,.045,.15));
+    orientWorld(groups.chest,angle(a,1.50,.12,.18));
+    orientWorld(groups.neck,angle(a,1.37,.22,.13));
+    orientWorld(groups.head,angle(a,.40,1.12,.18));
+    for(const side of sofaSides){
+      const sg=side==='P'?1:-1;
+      const th=groups['thigh'+side],kn=groups['knee'+side];
+      aim(th,base['knee'+side],local(a,sg*.089,.076,-.11).sub(th.getWorldPosition(V(0,0,0))));
+      aim(kn,base['foot'+side],local(a,sg*.104,.071,-.30+(sg>0?.025:0)).sub(kn.getWorldPosition(V(0,0,0))));
+      orientWorld(groups['foot'+side],angle(a,-.89,sg*.1));
+      const u=groups['upper'+side],e=groups['elbow'+side];
+      aim(u,base['elbow'+side],local(a,sg*.121,.051,.245).sub(u.getWorldPosition(V(0,0,0))));
+      aim(e,base['hand'+side],local(a,sg*.145,.037,.438).sub(e.getWorldPosition(V(0,0,0))));
+      orientWorld(groups['hand'+side],orientPalm(side,V(0,0,1).applyAxisAngle(up,a.yaw),down));
+    }
+    safeFloor(1);a.floor=captureSofaPose();standing(a);
+    if(a.manual||watch)dogFollowCamera(local(a,.105,.26,.50),V(-1.38,1.00,1.45).applyAxisAngle(up,a.yaw));
+    setNote('犬がゴロンとお腹を見せ、レイラも隣に寝転びます');
+  }
+  function cozyLook(a,target,weight,tilt=0){
+    const h=groups.head, delta=target.clone().sub(h.getWorldPosition(V(0,0,0)));
+    const flat=Math.hypot(delta.x,delta.z);
+    const yaw=clamp(headingDelta(a.yaw,Math.atan2(delta.x,delta.z)),.10,1.64);
+    orientWorld(h,angle(a,clamp(-Math.atan2(delta.y,flat),-.52,.67),yaw,tilt),weight);
+  }
+  function cozyFrame(a,dt){
+    if(a.cancel){
+      const c=a.cancel;c.t+=dt;
+      blendSofaPose(c.from,1);blendSofaPose(a.kneel,ease(c.t,0,.74)*(1-ease(c.t,1.10,1.70))*(a.t>0?1:0));
+      blendSofaPose(a.entry,ease(c.t,a.t>0?.67:0,1.72));
+      safeFloor(0);
+      if(c.t>=1.74)finish();
+      return true;
+    }
+    standing(a);
+    if(a.t<0)return true;
+    const t=a.t+=dt;
+    const settled=ease(t,1.14,2.90)*(1-ease(t,15.15,16.75));
+    const kneel=ease(t,.31,1.35)*(1-ease(t,16.50,18));
+    const greeting=ease(t,4.35,5.45)*(1-ease(t,7.55,8.78))+.92*ease(t,10.36,11.40)*(1-ease(t,13.82,14.95));
+    const laugh=(ease(t,5.56,5.94)*(1-ease(t,6.48,7.21))+.85*ease(t,11.42,11.79)*(1-ease(t,12.30,13.05)))*Math.sin(t*10.9);
+    a.cozyPose={t,settled,greeting,laugh};
+    blendSofaPose(a.kneel,kneel);blendSofaPose(a.floor,settled);
+    if(settled>.001){
+      const snuggle=settled*(1-greeting);
+      orientWorld(groups.abdomen,angle(a,1.49,.32,.15),snuggle);
+      orientWorld(groups.chest,angle(a,1.50,.46,.18),snuggle);
+      groups.chest.rotateZ((.024*Math.sin(t*2.9)+.045*laugh)*settled);
+      groups.abdomen.rotateY(.027*Math.sin(t*2.9)*settled);
+      groups.neck.rotateX(-greeting*.25);
+      groups.head.rotateZ(.07*laugh);
+      safeFloor(settled*.70);
+    }
+    if(t>15.15)setNote('ふたりはごろごろ遊びを切り上げます');
+    else if(greeting>.60)setNote('犬が首をもたげ、レイラと見つめ合います。レイラの肩が小さく揺れました');
+    else if(settled>.80)setNote('レイラが犬のお腹のふわふわに頬を寄せています');
+    if(t>=18.03)finish();
+    return true;
+  }
+  function cozyDog(a,dt){
+    const obj=d.object, m=a.cozyPose??{t:0,settled:0,greeting:0,laugh:0};
+    const t=m.t, fade=a.cancel?1-ease(a.cancel.t,0,1.34):1;
+    const roll=ease(t,.36,1.97)*(1-ease(t,15.53,17.75))*fade;
+    const move=ease(t,.04,.96)*(1-ease(t,16.65,17.91))*fade;
+    const point=a.start.clone().lerp(a.finish,move),step=point.distanceTo(obj.position);
+    obj.position.copy(point);obj.rotation.y=a.dogYaw;
+    const wave=t*1.95;
+    const q=new T.Quaternion().setFromEuler(new T.Euler(.018*Math.sin(wave)*roll,0,roll*(Math.PI-.125+.065*Math.sin(wave)),'XYZ'));
+    const pivot=V(-.030,.44,.075);
+    const sideHeight=.132+Math.sin(Math.PI*roll)**2*.062;
+    const position=V(-.030,mix(.44,sideHeight,roll),.075).sub(pivot.applyQuaternion(q));
+    const where=groups.head.getWorldPosition(V(0,0,0));
+    d.tumble={front:false,hold:0,bodyY:0,bodyPitch:0,surge:0,
+      bellyUp:{q,position,roll,joy:0,motion:t*.19,lift:0,tryLift:0,press:0,quiet:true},
+      cozyGaze:{weight:m.greeting*roll,point:obj.worldToLocal(where)},
+      wagTime:d.time+t*.12};
+    d.pose(dt,roll>.1?0:step,null);
+    if(roll>.001)d.fitBellyFloor(0);
+    if(m.settled>.001&&!a.cancel&&d.bellyChestPoint){
+      // Brush the fur beside the barrel. The muzzle points along the dog's
+      // body on the look-up, while her supported arms stay on the floor.
+      const fur=d.bellyChestPoint('cozyFur',.4*Math.sin(t*2.55));
+      const eyes=d.bellyUpPoint('cheek',0);
+      const cheek=V(0,-.019,.074);
+      const peek=m.greeting;
+      const h=groups.head;
+      const wanted=fur.clone().lerp(eyes,peek);
+      cozyLook(a,wanted,m.settled,.12-.14*peek+.04*m.laugh);
+      if(peek<.90){
+        const toward=h.localToWorld(cheek).sub(fur);
+        const x=V(1,0,0).applyAxisAngle(up,a.yaw);
+        const nudge=clamp(-toward.dot(x)-.008,-.018,.067)*m.settled*(1-peek);
+        const along=V(0,0,1).applyAxisAngle(up,a.yaw);
+        const tuck=m.settled*(1-peek);
+        shift(groups.pelvis,x.multiplyScalar(nudge).addScaledVector(along,clamp(-toward.dot(along)-.010,-.028,.050)*tuck));
+        safeFloor(m.settled*.65);
+        cozyLook(a,wanted,m.settled,.12-.14*peek+.04*m.laugh);
+      }
+    }
+    return true;
+  }
   function winnerDog(a,dt){
     const obj=d.object,m=a.win??winnerPose(a);
     const {motion,roll,squeeze,tryLift,press,lift,t}=m;
@@ -18768,8 +18897,8 @@ const dogTumble=(()=>{
 
   // Test the full swept rectangle (both bodies and the approach), not only the feet.
   function stageFits(point,yaw,kind,boxes=stageBoxes()){
-    const flank=sidePlays.has(kind), halfX=flank?1.30:.54;
-    const lo=flank?-.87:kind==='front'?-.96:-1.25,hi=flank?1.08:kind==='winner'?.75:kind==='front'?1.19:1.02;
+    const flank=sidePlays.has(kind), cozy=kind==='cozyRoll', halfX=flank?1.30:cozy?.58:.54;
+    const lo=flank?-.87:kind==='front'?-.96:-1.25,hi=cozy?1.57:flank?1.08:kind==='winner'?.75:kind==='front'?1.19:1.02;
     const x=V(Math.cos(yaw),0,-Math.sin(yaw)),z=V(Math.sin(yaw),0,Math.cos(yaw));
     const center=point.clone().addScaledVector(z,(lo+hi)/2),halfZ=(hi-lo)/2;
     for(const i of [-1,1])for(const j of [-1,1])
@@ -18792,7 +18921,7 @@ const dogTumble=(()=>{
     const from=root.position.clone().setY(0), heading=root.rotation.y, boxes=stageBoxes();
     // Existing pin IK uses world-axis contact pads. The belly-up act
     // can rotate freely, so try the current heading before turning.
-    const turns=kind==='winner'||sidePlays.has(kind)?[0,Math.PI/4,-Math.PI/4,Math.PI/2,-Math.PI/2,Math.PI,3*Math.PI/4,-3*Math.PI/4]
+    const turns=kind==='winner'||kind==='cozyRoll'||sidePlays.has(kind)?[0,Math.PI/4,-Math.PI/4,Math.PI/2,-Math.PI/2,Math.PI,3*Math.PI/4,-3*Math.PI/4]
       .map(n=>heading+n):[0];
     const tryPoint=point=>{
       if(!inWalkingArea(point))return null;
@@ -19862,6 +19991,9 @@ const dogTumble=(()=>{
   function ready(a){
 
     if(!a)return;
+    if(a.kind==='cozyRoll'){
+      roam.phase='dogTumble';roam.elapsed=0;roam.pause=Infinity;cozyReady(a,a.watch);return;
+    }
     if(a.side){
       roam.phase='dogTumble';roam.elapsed=0;roam.pause=Infinity;
       settleStandingFeet();a.entry=captureSofaPose();sideReady(a,a.side);
@@ -19886,8 +20018,8 @@ const dogTumble=(()=>{
     if($('dogNote').textContent!==msg)$('dogNote').textContent=msg;
     if($('destination').textContent!==msg)$('destination').textContent=msg;
   }
-  function begin(kind,manual,hold,yaw,side){
-    const a={kind,front:kind==='front',winner:kind==='winner',manual,hold,yaw,origin:root.position.clone(),t:-1,waiting:0,side};
+  function begin(kind,manual,hold,yaw,side,watch=false){
+    const a={kind,front:kind==='front',winner:kind==='winner',manual,hold,yaw,watch,origin:root.position.clone(),t:-1,waiting:0,side};
     active=a; nextRoughhouseAt=mood.seconds+(manual?95:125)+Math.random()*65;
     a.start=local(a,a.winner?.019:kind==='front'?-.039:.15,0,a.winner?-.44:kind==='front'?.65:-.87);
     a.finish=local(a,kind==='front'?-.039:.058,0,kind==='front'?.035:-.055);
@@ -19902,6 +20034,7 @@ const dogTumble=(()=>{
       if(!d.sideNosePoint)return false;
       return kind==='sofaSniff'?requestCouch(manual,watch,false,true):requestEdge(manual,watch,false,true);
     }
+    if(kind==='cozyRoll'&&(!d.ready||!d.bellyChestPoint))return false;
     if(active?.kind===kind&&active.hold===hold&&!active.cancel)return;
     const target=roam?.pending?.target??roam?.target;
     if(mode==='roam'&&roam.phase==='route'&&target?.tumbleKind===kind&&target.dogWatch===watch&&target.dogHold===hold)return;
@@ -19916,7 +20049,7 @@ const dogTumble=(()=>{
       heading:stage.yaw,onArrival:()=>{
         if(watch&&!previewHas('dogPlayWatch')||hold&&(!previewHas('dogPlayHold')||developerPreview.option!==kind)){
           enterQuietRest('linger','その場で立ち止まっています',4);
-        }else{begin(kind,manual,hold,stage.yaw,stage.side);active.streak=streak;}
+        }else{begin(kind,manual,hold,stage.yaw,stage.side,watch);active.streak=streak;}
       }});
     return true;
   }
@@ -20048,7 +20181,7 @@ const dogTumble=(()=>{
     }
     if(next)requestDestination(next.target,next.acknowledge);
     else if(previewHas(a.front?'dogTumbleFront':'dogTumbleRear'))developerPreview.delay=1.2;
-    else if(!afterPlayCheck149.start(()=>rememberBeat(a)))rememberBeat(a);
+    else if(a.cozy||!afterPlayCheck149.start(()=>rememberBeat(a)))rememberBeat(a);
   }
   function defer(target,acknowledge){
     if(mode!=='roam'||roam.phase!=='dogTumble'||!active)return false;
@@ -20064,7 +20197,7 @@ const dogTumble=(()=>{
     if(a.surface){beginSurfaceExit(a);return;}
     a.cancel={t:0,from:captureSofaPose()};
     if(a.couch)a.cancel.feet=sofaSides.map(side=>groups['foot'+side].getWorldPosition(V(0,0,0)));
-    if(!a.bed&&!a.edge&&!a.surface)releaseDog();
+    if(!a.bed&&!a.edge&&!a.surface&&!a.cozy)releaseDog();
   }
   function reconcile(){
     if(surfaceQueue&&(mode!=='roam'||!ownsSurfaceQueue(surfaceQueue)))surfaceQueue=null;
@@ -20077,6 +20210,7 @@ const dogTumble=(()=>{
     const a=active;
     if(!a)return false;
     if(a.surface)return surfaceLeila(a,dt);
+    if(a.cozy)return cozyFrame(a,dt);
     if(a.side)return sideLeila(a,dt);
     if(a.cancel){
       const c=a.cancel;c.t+=dt;
@@ -20249,6 +20383,7 @@ const dogTumble=(()=>{
     const a=active;
     if(!a)return false;
     if(a.surface)return surfaceDog(a,dt);
+    if(a.cozy&&a.cancel){if(a.t>=0)return cozyDog(a,dt);releaseDog();return false;}
     const obj=d.object;
     if(a.cancel){
       if(a.edge){
@@ -20318,6 +20453,7 @@ const dogTumble=(()=>{
       return true;
     }
     if(a.edge){if(a.sniff)sniffDog(a,dt);else edgeDog(a,dt);return true;}
+    if(a.cozy)return cozyDog(a,dt);
     if(a.winner){winnerDog(a,dt);return true;}
     if(a.side)return sideDog(a,dt);
     return playDog(a,dt);
@@ -20435,7 +20571,7 @@ const dogTumble=(()=>{
   }
   $('dogTumbleFront').onclick=()=>request('front');
   $('dogTumbleRear').onclick=()=>request('rear');
-  for(const [id,kind] of [['hipBumpTest','hipBump'],['hipNudgeTest','hipNudge'],['sofaSniffTest','sofaSniff'],['bedSniffTest','bedSniff']])$(id).onclick=()=>{
+  for(const [id,kind] of [['hipBumpTest','hipBump'],['hipNudgeTest','hipNudge'],['sofaSniffTest','sofaSniff'],['bedSniffTest','bedSniff'],['dogCozyRollTest','cozyRoll']])$(id).onclick=()=>{
     clearDevPreview();windowSnow.clearPreview();return request(kind);
   };
   function afterExit(fn){
@@ -20509,7 +20645,7 @@ const dogTumble=(()=>{
     d.mixBellyEntry(c.dogBones,1-w);
     d.fitBellyFloor(0);
   }
-  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp,surfaceBlending:()=>!!active?.surface};
+  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp,surfaceBlending:()=>!!(active?.surface||active?.cozy)};
 })();
 // The courses begin at the two actual positions. Only the rolling area is
 // picked in advance, so neither actor has to walk to a starting marker.
