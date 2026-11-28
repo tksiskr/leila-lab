@@ -231,7 +231,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
 </button><div id="lab122InviteHud" role="group" aria-labelledby="lab122InviteMessage" hidden>
 <p id="lab122InviteMessage" aria-live="polite"></p>
 <button id="lab122InviteYes" type="button">ついて行く</button><button id="lab122InviteNo" type="button">今はいい</button>
-</div><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</div><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><p id="lab130BootHelp" hidden>表示できないときはSafariでこのページを開き直してください。<button type="button" onclick="location.reload()">もう一度読み込む</button></p><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button data-menu-hidden hidden type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button data-menu-hidden hidden type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -289,6 +289,11 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
 </select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <div class="leilaCard" role="group" aria-labelledby="lab130QualityTitle">
+      <h2 id="lab130QualityTitle">表示の軽さ</h2>
+      <button id="lab130Quality" type="button" aria-pressed="false">軽量表示：OFF</button>
+      <p id="lab130QualityInfo"></p>
+    </div>
     <div class="leilaCard" role="group" aria-labelledby="lab129ChargeTitle">
       <h2 id="lab129ChargeTitle">東窓の充電台</h2>
       <button id="lab129Charge" type="button">充電台でひと息を試す</button>
@@ -408,7 +413,29 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <div id="paintStatus" role="status"></div>
     </div>
   </div>
-</aside></div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>window.onerror=m=>document.getElementById('status').textContent='エラー: '+m;</script><script type="module">
+</aside></div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script><script>
+(()=>{
+  const status=document.getElementById('status'), help=document.getElementById('lab130BootHelp');
+  let phase='3Dライブラリ';
+  const show=(reason)=>{
+    status.textContent=reason;
+    help.hidden=false;
+  };
+  window.LeilaBoot130={
+    stage(next){phase=next;if(!help.hidden)status.textContent=phase+'を読み込み中…';},
+    ready(){clearTimeout(timer);help.hidden=true;},
+    failed(){clearTimeout(timer);help.hidden=false;}
+  };
+  const timer=setTimeout(()=>{
+    if(status.textContent==='読み込み中…'||status.textContent.endsWith('を読み込み中…'))
+      show(phase+'の読み込みに時間がかかっています。');
+  },8500);
+  window.addEventListener('error',event=>{
+    if(!event.message)return;
+    show('読み込み中にエラーが起きました。');
+  });
+})();
+</script><script type="module">
 async function loadAsset(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(path + ' を読み込めません（HTTP ' + response.status + '）');
@@ -426,7 +453,34 @@ const [T,{Reflector},{GLTFLoader},{OrbitControls}] = await Promise.all([
   throw new Error('3D表示ライブラリを読み込めません。通信状況を確認して再読み込みしてください。',{cause:error});
 });
 let handLink = null;
-const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();const resize=()=>{
+window.LeilaBoot130?.stage('端末の3D表示');
+const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();// An opt-in reduction of rendering cost, not animation speed or simulation.
+const scenicQuality130=(()=>{
+  const btn=$('lab130Quality'), info=$('lab130QualityInfo');
+  const key='leila.lab130.lightRenderer.v1';
+  let lite=false;
+  try{lite=localStorage.getItem(key)==='1';}catch{}
+  function label(){
+    btn.textContent='軽量表示：'+(lite?'ON':'OFF');btn.setAttribute('aria-pressed',String(lite));
+    info.textContent=lite?'描画だけ軽くします。動きや時間の進み方は変わりません。':'標準の画質で表示しています。';
+  }
+  btn.onclick=()=>{
+    lite=!lite;
+    try{localStorage.setItem(key,lite?'1':'0');}catch{}
+    label();resize();
+  };
+  label();
+  const density=()=>Math.min(devicePixelRatio,lite?1:1.5);
+  let lastDensity=Math.min(devicePixelRatio,1.5);
+  function keepDensity(){
+    const v=density();
+    if(Math.abs(v-lastDensity)>.001){lastDensity=v;r.setPixelRatio(v);}
+  }
+  return {keepDensity};
+})();
+
+const resize=()=>{
+  scenicQuality130.keepDensity();
   const width=view.clientWidth,height=view.clientHeight;
   if(!width||!height)return;
   r.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();
@@ -2617,7 +2671,7 @@ destinationMeshes.set(kitchenScene.counter,kitchenTarget);
 fresh126.register();
 home121.register();
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
-const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
+const defs={"pelvis": [null, 0, 0.6, 0.02], "abdomen": ["pelvis", 0, 0.64, 0.025], "chest": ["abdomen", 0, 0.72, 0.025], "neck": ["chest", 0, 0.785, 0.009], "head": ["neck", 0, 0.83, 0.009], "upperP": ["chest", 0.058, 0.766, 0.012], "shoulderP": ["upperP", 0.058, 0.766, 0.012], "elbowP": ["upperP", 0.121, 0.677, 0.01], "foreP": ["elbowP", 0.121, 0.677, 0.01], "handP": ["foreP", 0.196, 0.554, 0.015], "thighP": ["pelvis", 0.049, 0.589, 0.025], "kneeP": ["thighP", 0.043, 0.367, 0.037], "shinP": ["kneeP", 0.043, 0.367, 0.037], "footP": ["shinP", 0.049, 0.082, 0.015], "upperN": ["chest", -0.058, 0.766, 0.012], "shoulderN": ["upperN", -0.058, 0.766, 0.012], "elbowN": ["upperN", -0.121, 0.677, 0.01], "foreN": ["elbowN", -0.121, 0.677, 0.01], "handN": ["foreN", -0.196, 0.554, 0.015], "thighN": ["pelvis", -0.049, 0.589, 0.025], "kneeN": ["thighN", -0.043, 0.367, 0.037], "shinN": ["kneeN", -0.043, 0.367, 0.037], "footN": ["shinN", -0.049, 0.082, 0.015]}, mapping={"0": "shinN", "1": "head", "10": "shoulderN", "11": "chest", "12": "elbowP", "13": "neck", "14": "shinP", "15": "footP", "16": "thighN", "17": "handP", "18": "foreP", "19": "upperP", "2": "footN", "20": "kneeP", "21": "shoulderP", "22": "elbowN", "23": "elbowN", "24": "elbowN", "25": "elbowP", "26": "head", "27": "shinN", "28": "thighP", "29": "shinP", "3": "thighP", "30": "kneeP", "31": "shinN", "32": "thighP", "33": "thighP", "34": "shinN", "35": "head", "36": "chest", "37": "head", "38": "thighN", "39": "footN", "4": "handN", "40": "thighP", "41": "chest", "42": "head", "43": "head", "44": "shinN", "45": "chest", "46": "footN", "47": "thighN", "48": "chest", "49": "shoulderN", "5": "pelvis", "50": "handP", "51": "pelvis", "52": "shinP", "53": "footP", "54": "shinN", "55": "head", "56": "neck", "57": "shinN", "58": "shinN", "59": "shoulderP", "6": "upperN", "60": "head", "61": "head", "62": "elbowN", "63": "shinP", "64": "upperN", "65": "kneeP", "66": "upperN", "67": "footP", "68": "shinP", "69": "head", "7": "foreN", "70": "thighP", "71": "kneeP", "72": "handN", "73": "head", "74": "head", "76": "chest", "77": "kneeP", "78": "chest", "79": "head", "8": "kneeN", "9": "abdomen"}, groups={}, dots=[], root=new T.Group();scene.add(root);window.LeilaBoot130?.stage('レイラのモデル');const data=await (await loadAsset('./leila.glb')).arrayBuffer();const gl=await new GLTFLoader().parseAsync(data,'');scene.add(gl.scene);gl.scene.updateMatrixWorld(true);
 function build(k){if(groups[k])return groups[k];const [par,x,y,z]=defs[k],g=new T.Group();g.position.set(x,y,z);if(par){const p=build(par);g.position.sub(new T.Vector3(...defs[par].slice(1)));p.add(g)}else root.add(g);groups[k]=g;const dot=new T.Mesh(new T.SphereGeometry(.008,10,8),new T.MeshBasicMaterial({color:0xffb52a,depthTest:false}));dot.renderOrder=10;dot.visible=false;g.add(dot);dots.push(dot);return g}Object.keys(defs).forEach(build);scene.updateMatrixWorld(true);const parts=[];
 function accessoryShape(parent, material, points, depth=.007) {
   const shape = new T.Shape();
@@ -17844,7 +17898,7 @@ const cinema=(()=>{
   return {tick};
 })();
 
-installDevPreview();shepherd.lockControls();
+installDevPreview();shepherd.lockControls();window.LeilaBoot130?.ready();
 home121.install();
 fresh126.install();
 ambience128.install();
@@ -18007,5 +18061,5 @@ function lab900PhotoInit() {
 lab900PhotoInit();
 
 } catch (error) { console.warn('観測アルバムを開けません',error); }
-}catch(e){$('status').textContent='読み込みエラー: '+e.message;console.error(e)}
+}catch(e){$('status').textContent=/WebGL/i.test(e.message)?'端末で3D表示を初期化できませんでした。':'読み込みエラー: '+e.message;window.LeilaBoot130?.failed();console.error(e)}
 </script></html>
