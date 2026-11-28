@@ -351,6 +351,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="fresh126Preview" type="button">手入れ台を試す</button>
       <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
       <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
+      <button id="lab137NightTry" type="button">夜の足元灯を試す</button>
+      <p id="lab137NightStatus">暗い時間帯に、人や犬が通ると点灯します。</p>
       <button id="lab131MemoTest" type="button">南窓のメモ台を試す</button>
       <button id="tea132Preview" type="button">湯沸かし台を試す</button>
       <label>引き出しの中身 <select id="drawer135Kind"><option value="">おまかせ</option><option value="cards">索引カード</option><option value="clip">予備の留め具</option></select></label>
@@ -19460,6 +19462,74 @@ memo131.install();
 drawer135.install();
 tea132.install();
 ambience128.install();
+// Discrete, local night markers. Soft meshes, no new scene lights or shadow passes.
+const nightGuide137=(()=>{
+  const btn=$('lab137NightTry'), status=$('lab137NightStatus');
+  const refA=bedTarget.point.clone(), refB=sofaTarget.point.clone();
+  const points=[
+    {x:refA.x-.24,z:refA.z+.73},
+    {x:mix(refA.x,refB.x,.56)+.21,z:mix(refA.z,refB.z,.56)+.14},
+    {x:refB.x+.49,z:refB.z+.34}
+  ];
+  const holders=mat(0x485055,.91);
+  const haloGeo=new T.PlaneGeometry(1.35,.81);
+  for(const m of points){
+    const at=new T.Group();at.name='Night guide light';floorGroup.add(at);
+    at.position.set(m.x*2,.004,m.z*2);
+    block(at,holders,0,.013,0,.31,.024,.105);
+    const lens=new T.MeshBasicMaterial({color:0xf9ab63,transparent:true,opacity:0,depthWrite:false});
+    const diode=block(at,lens,0,.026,0,.243,.006,.052);diode.visible=false;
+    const surface=new T.ShaderMaterial({
+      transparent:true,depthWrite:false,
+      uniforms:{strength:{value:0}},
+      vertexShader:`varying vec2 p;void main(){p=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+      fragmentShader:`varying vec2 p;uniform float strength;void main(){vec2 d=(p-.5)*2.;float a=(1.-smoothstep(.13,.96,length(d)));gl_FragColor=vec4(1.,.62,.29,a*a*strength);}`
+    });
+    const glow=new T.Mesh(haloGeo,surface);glow.rotation.x=-Math.PI/2;glow.position.y=.004;
+    glow.visible=false;at.add(glow);
+    Object.assign(m,{lens,diode,surface,glow,level:0,hold:0});
+  }
+  let clock=0,test=0,poll=0,statusText='';
+  const l={x:NaN,z:NaN},d={x:NaN,z:NaN};
+  function sample(prev,next){
+    const distance=(next.x-prev.x)**2+(next.z-prev.z)**2;
+    prev.x=next.x;prev.z=next.z;
+    return Number.isFinite(distance)&&distance>.0085**2&&distance<1.3**2;
+  }
+  function reset(){l.x=d.x=NaN;for(const m of points)m.hold=0;test=0;}
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)reset();});
+  const near=(m,p)=>Math.hypot(m.x-p.x,m.z-p.z);
+  function tick(dt){
+    clock+=dt;const testing=test>clock;
+    const dark=(lab900Frame.night>.56&&lab900Frame.electric<.16)||testing;
+    poll+=dt;
+    if(poll>=.13){
+      poll=0;
+      const dog=shepherd.object.position;
+      const step=sample(l,root.position);
+      const paw=sample(d,dog);
+      const leilaSafe=mode==='roam'&&roam.phase!=='bed'&&root.position.y<.2;
+      const dogSafe=shepherd.ready&&dog.y<.10&&!shepherd.jump&&['idle','wander','bedApproach','couchApproach','matApproach'].includes(shepherd.state);
+      if(dark&&!document.hidden)for(const [i,m] of points.entries()){
+        if((step&&leilaSafe&&near(m,root.position)<1.42)||(paw&&dogSafe&&near(m,dog)<1.28)||
+           (testing&&clock>=test-7+i*.82&&clock<test-6.3+i*.82))m.hold=clock+3.6;
+      }
+      if(!dark)for(const m of points)m.hold=0;
+      const label=testing?'足元灯を順に試しています。':!dark?'暗い時間帯に、人や犬が通ると点灯します。':
+        points.some(m=>m.hold>clock)?'近くを通った足元灯が点灯しています。':'足元灯は消灯しています。';
+      if(label!==statusText){statusText=label;status.textContent=label;}
+    }
+    for(const m of points){
+      const on=dark&&!document.hidden&&m.hold>clock;
+      m.level+=(Number(on)-m.level)*(1-Math.exp(-dt*(on?4.6:2.1)));
+      m.diode.visible=m.glow.visible=m.level>.012;
+      m.lens.opacity=.84*m.level;m.surface.uniforms.strength.value=.23*m.level;
+    }
+  }
+  btn.onclick=()=>{test=clock+7;};
+  return {tick};
+})();
+
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);floorHello133.tick();dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 home121.cleanup();fresh126.tick();memo131.tick();drawer135.tick();
@@ -19490,7 +19560,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
