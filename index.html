@@ -312,6 +312,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <div class="leilaCard" role="group" aria-labelledby="lab130RainTitle">
       <h2 id="lab130RainTitle">雨の窓辺</h2>
       <button id="lab130RainTry" type="button">雨粒を眺めるのを試す</button>
+      <button id="lab142ClockTry" type="button">壁の時計を見上げる</button>
       <p id="lab130RainStatus" aria-live="polite">部屋の演出です。現地の天気とは連動しません。</p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab129ChargeTitle">
@@ -2989,6 +2990,72 @@ function updateCutaway(){
 // Additional furniture destinations for autonomous wandering.
 const walkTargets = [];
 const destinationMeshes = new Map();
+// Readable, device-local analog time. No network or new lights.
+const studioClock142=(()=>{
+  const v=(x,y,z)=>new T.Vector3(x,y,z);
+  const group=new T.Group();group.name='研究室の丸時計';wallGroups[0].add(group);
+  group.position.set(3,2.82,.275);
+  const bevel=mat(0x505d63,.48), paper=mat(0xe4dbc5,.87), fine=mat(0x4c4d46,.78), accent=mat(0xb8724a,.56);
+  function disc(r,depth,z,material){
+    const m=new T.Mesh(new T.CylinderGeometry(r,r,depth,32),material);
+    m.rotation.x=Math.PI/2;m.position.z=z;group.add(m);return m;
+  }
+  disc(.217,.048,.016,bevel);
+  const face=disc(.194,.009,.044,paper);
+  const ticks=new T.InstancedMesh(cube,fine,12), matrix=new T.Matrix4(), rotation=new T.Quaternion(), scale=v(1,1,1),at=v(0,0,0);
+  ticks.name='Clock ticks';group.add(ticks);
+  for(let i=0;i<12;i++){
+    const a=i*Math.PI/6;
+    at.set(.156*Math.sin(a),.156*Math.cos(a),.053);
+    rotation.setFromAxisAngle(v(0,0,1),-a);
+    scale.set(i%3?.010:.014,i%3?.015:.029,.006);matrix.compose(at,rotation,scale);ticks.setMatrixAt(i,matrix);
+  }
+  const arm=(len,w,z,m)=>{const p=new T.Group();group.add(p);p.position.z=z;block(p,m,0,(len-.017)/2,0,w,len,.008);return p;};
+  const hour=arm(.111,.015,.062,fine), minute=arm(.153,.011,.074,fine);
+  disc(.015,.009,.086,accent);
+  const target={kind:'window',clock142:true,name:'壁の時計',point:v(1.71,0,-4.77),heading:Math.PI+.19,
+    lookAt:group.localToWorld(v(0,0,.085))};
+  const headAt=v(0,0,0),gaze=v(0,0,0),worldQ=new T.Quaternion();
+  const test=$('lab142ClockTry');
+  let last=-1,next=135;
+  function tick(){
+    if(last===lastWorldMinute)return;
+    last=lastWorldMinute;
+    minute.rotation.z=-(last%60)*Math.PI/30;
+    hour.rotation.z=-(last%720)*Math.PI/360;
+  }
+  function visit(manual){
+    if(mode!=='roam')beginRoam();
+    if(root.position.distanceTo(target.point)>.04&&!destinationPath(root.position,target.point).length)return false;
+    next=mood.seconds+144+Math.random()*72;
+    requestDestination(target,manual);
+    return true;
+  }
+  function choose(){
+    if(devOwned()||reaction||contact||handLink||trackedPointers.size||document.hidden||
+       !['wait','rest','linger','window'].includes(roam.phase)||roam.pending||roam.target?.clock142||
+       mood.seconds<Math.max(next,leilaUserPriorityUntil)||root.position.distanceTo(target.point)>4.5||
+       currentMood()==='annoyed')return false;
+    const m=lastWorldMinute%60;
+    const chance=(m<10||m>50)?.25:.11;
+    next=mood.seconds+23;
+    return Math.random()<chance&&visit(false);
+  }
+  function arrive(){enterQuietRest('window','壁の時計を見上げて、時刻を確かめています',7.3);}
+  function watch(t){
+    const head=groups.head;
+    const w=rearRamp(t,.06,.96)*(1-rearRamp(t,4.9,6.6));
+    gaze.copy(target.lookAt).sub(head.getWorldPosition(headAt)).applyQuaternion(head.getWorldQuaternion(worldQ).invert());
+    const y=T.MathUtils.clamp(Math.atan2(gaze.x,gaze.z),-.41,.41);
+    const x=T.MathUtils.clamp(-Math.atan2(gaze.y,Math.hypot(gaze.x,gaze.z)),-.58,.36);
+    head.rotateY(y*w*.88);head.rotateX((x+.067*Math.sin(Math.PI*rearRamp(t,2.2,3.1)))*w);
+  }
+  test.onclick=()=>visit(true);
+  destinationMeshes.set(face,target);
+  tick();
+  return {tick,choose,arrive,watch};
+})();
+
 const capoeiraFloor = new T.Group();
 capoeiraFloor.position.set(3.45,0,5.85);
 facility.add(capoeiraFloor);
@@ -6396,6 +6463,7 @@ function pickSurface(x, y) {
   const dogHit=shepherd.ready?touchRay.intersectObjects(shepherd.hitMeshes.filter(mesh=>mesh.visible),false)[0]:null;
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
+    if(destination?.clock142)return wallGroups[0].visible;
     if(destination?.kind==='home121')return floorGroup.visible;
     if(destination?.kind==='fresh126')return floorGroup.visible;
     if(destination?.kind==='press137')return floorGroup.visible;
@@ -9093,7 +9161,7 @@ function chooseDestination() {
     return;
   }
   if(fresh126.choose())return;
-  if(hourglass135.choose()||coaster141.choose())return;
+  if(hourglass135.choose()||coaster141.choose()||studioClock142.choose())return;
   const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
   if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
     startDestination(bookTarget);
@@ -10388,6 +10456,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     charge129.stage(visit);
   } else if (target.evening124) {
     evening124.decorate(visit,target);
+  } else if(target.clock142){
+    visit.push(routeTurn(target.heading,'壁の時計に向いています'));
   } else if(target.galleryVisit){
     visit.push(routeTurn(target.heading,'ギャラリーの絵に向いています'));
   } else if (target===leilaObservatory.target) {
@@ -12219,6 +12289,7 @@ function applyQuietPose() {
     leilaObservatory.quiet(time);
     windowRain130.glance(time);
     if(roam.target?.galleryVisit)easelGallery127.showPose(time);
+    if(roam.target?.clock142)studioClock142.watch(time);
   } else {
     groups.head.rotateX((.06+breathe)*fade);
     radioTaste133.listen(time);
@@ -12329,6 +12400,7 @@ function arriveAtDestination() {
   if (roam.target.charge129){charge129.arrive();return;}
   if (roam.target.rain130){windowRain130.arrive();return;}
   if (roam.target.galleryVisit){easelGallery127.arrive();return;}
+  if (roam.target.clock142){studioClock142.arrive();return;}
   if (roam.target.evening124){evening124.finish();return;}
   if (roam.target===leilaObservatory.target){leilaObservatory.arrive();return;}
   if (roam.target.kind === 'window') {
@@ -20313,7 +20385,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
