@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 128｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 129｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 128: the scene stays in place; only the controls pane scrolls. */
+/* LAB 129: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 128</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 129</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -288,6 +288,11 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
 </select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <div class="leilaCard" role="group" aria-labelledby="lab129ChargeTitle">
+      <h2 id="lab129ChargeTitle">東窓の充電台</h2>
+      <button id="lab129Charge" type="button">充電台でひと息を試す</button>
+      <p id="lab129ChargeLabel" aria-live="polite">通常の行動に制限はありません。</p>
+    </div>
     <div class="leilaCard" role="group" aria-labelledby="lab127GalleryTitle">
       <h2 id="lab127GalleryTitle">レイラの絵の額</h2>
       <button id="lab127ArtNext" type="button" disabled>前の絵を飾る</button>
@@ -463,6 +468,7 @@ const lab900LifeNote=(()=>{
     sleep:'ベッドでうとうとした',
     dogPlay:'犬をボール遊びに誘った',
     lanternLit124:'ランタンを窓辺に出した',
+    charge129:'充電台で短い休憩を取った',
     lanternDock124:'ランタンを充電台に戻した',
     homeWater:'南窓の鉢に水をやった',
     homeLeaf:'南窓の芽の育ちを確かめた',
@@ -5419,6 +5425,7 @@ function pickSurface(x, y) {
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === wardrobeTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
     if (destination === lightSwitchTarget || destination === leilaObservatory.target || destination.evening124) return wallGroups[0].visible;
+    if(destination.charge129)return wallGroups[3].visible;
     return true;
   });
   if(dogHit&&(!leila||dogHit.distance<leila.distance)&&(!target||dogHit.distance<target.distance))return {dog:true};
@@ -8016,6 +8023,7 @@ const lab121Routines=(()=>{
 
 function chooseDestination() {
   if(devNextDestination())return;
+  if(charge129.prefer())return;
   if(lab121Routines.choose()||evening124.maybe()||leilaObservatory.maybe())return;
   const roll = Math.random();
   const feeling = currentMood();
@@ -8559,6 +8567,109 @@ const evening124=(()=>{
   return {target,decorate,act,finish,maybe,tick};
 })();
 
+// An unobtrusive visit to the east-wall induction dock. It never gates play.
+const charge129=(()=>{
+  const wall=wallGroups[3], dock=new T.Group();
+  dock.name='East induction dock';dock.position.set(3.8,1.42,.28);wall.add(dock);
+  const shell=mat(0x344351,.66), rim=mat(0x8b9d9f,.53);
+  const face=block(dock,shell,0,0,.052,.35,.35,.075);
+  const led=new T.MeshBasicMaterial({color:0x659ead});
+  const button=block(dock,led,.054,-.049,.104,.087,.074,.023);
+  block(dock,rim,0,.12,.099,.30,.031,.019);
+  const meter=Array.from({length:5},(_,i)=>block(dock,new T.MeshBasicMaterial({color:0x314b54}),
+    -.103+i*.052,.055,.102,.035,.031,.011));
+  const floorMark=new T.Group();floorMark.name='Induction standing mark';
+  floorMark.position.set(5.493,.002,3.40);facility.add(floorMark);
+  const strip=mat(0x597481,.93);
+  for(const a of [-1,1]){
+    block(floorMark,strip,a*.206,.001,0,.008,.003,.435);
+    block(floorMark,strip,0,.001,a*.22,.42,.003,.008);
+  }
+  const target={kind:'dock129',charge129:true,name:'東窓の充電台',heading:Math.PI/2,
+    point:V(5.51,0,3.40),lookAt:dock.localToWorld(V(.054,-.049,.122))};
+  function register(){destinationMeshes.set(face,target);destinationMeshes.set(button,target);}
+  const lip=V(0,0,0);
+  const beam=V(1,0,0).normalize();
+  const meterLabel=$('lab129ChargeLabel');
+  let next=155;
+  function clearLights(){
+    for(const dot of meter)dot.material.color.setHex(0x314b54);
+    led.color.setHex(0x659ead);
+  }
+  function tick(){
+    if(!floorGroup.visible&&floorMark.visible)floorMark.visible=false;
+    else if(floorGroup.visible&&!floorMark.visible)floorMark.visible=true;
+    const current=mode==='roam'&&roam.phase==='route'&&roam.visit?.[roam.visitIndex];
+    if(current?.type!=='dock129Work'||current.cancelAt!==undefined)clearLights();
+  }
+  function stage(visit){
+    visit.push(routeTurn(target.heading,'レイラが充電台の前で足をそろえます'),
+      {type:'dock129Work',time:9.4,message:'レイラが充電台を操作しています'});
+  }
+  function act(s,u){
+    blendSofaPose(s.pose,1);
+    if(roam.pending||reaction||contact||handLink){
+      s.cancelAt??=u;
+    }
+    const p=s.cancelAt??u;
+    const f=s.cancelAt===undefined?1:1-rearRamp(u,s.cancelAt,s.cancelAt+.07);
+    const push=rearRamp(p,.04,.15)*(1-rearRamp(p,.24,.36))*f;
+    const release=rearRamp(p,.72,.81)*(1-rearRamp(p,.87,.98))*f;
+    const reach=Math.max(push,release);
+    if(reach>.003){
+      const q=orientPalm('N',V(.74,.66,0),V(.66,-.74,0));
+      const at=target.lookAt.clone().addScaledVector(beam,-.026*(1-reach));
+      const wrist=at.clone().sub(middleFingertip.N.clone().applyQuaternion(q));
+      reachHand('N',wrist,q,reach,false,V(-.19,-.12,.035));
+      const distance=groups.handN.localToWorld(lip.copy(middleFingertip.N)).distanceTo(target.lookAt);
+      if(!s.joined&&p>.155&&p<.26&&distance<.032&&s.cancelAt===undefined){
+        s.joined=true;
+        $('destination').textContent='レイラが充電台で短くひと息ついています';
+        meterLabel.textContent='充電中';
+      }
+      if(s.joined&&!s.done&&p>.81&&distance<.032&&s.cancelAt===undefined){
+        s.done=true;
+        lab900LifeNote('charge129');
+        meterLabel.textContent='充電を終えました';
+      }
+    }
+    if(s.joined&&!s.done&&s.cancelAt===undefined){
+      const w=rearRamp(p,.34,.48)*(1-rearRamp(p,.68,.78));
+      const progress=rearRamp(p,.24,.78);
+      groups.chest.rotateX((.010+.014*Math.sin(roam.elapsed*2))*w);
+      groups.neck.rotateX(.070*w);
+      groups.head.rotateX(.067*w);
+      const lit=Math.ceil(5*progress);
+      for(let i=0;i<5;i++)meter[i].material.color.setHex(i<lit?0x88ecd4:0x314b54);
+      led.color.setHex(0xabe8d9);
+    }else clearLights();
+    if(s.cancelAt!==undefined)meterLabel.textContent='充電を中断しました';
+  }
+  function arrive(){
+    const completed=roam.visit?.some(s=>s.type==='dock129Work'&&s.done);
+    enterQuietRest('linger',completed?'充電を終え、腕をゆるめています':'東窓でひと息ついています',5);
+  }
+  function prefer(){
+    if(!roam||mode!=='roam'||mood.seconds<next||mood.seconds<leilaUserPriorityUntil||
+       reaction||contact||handLink||devOwned()||document.hidden||currentMood()==='annoyed'||
+       roam.target?.charge129||!['wait','rest','linger','window'].includes(roam.phase))return false;
+    const chance=lastWorldMinute>=18*60||lastWorldMinute<6*60?.45:.23;
+    next=mood.seconds+50;
+    if(Math.random()>=chance||!destinationPath(root.position,target.point).length)return false;
+    next=mood.seconds+235;
+    requestDestination(target);
+    return true;
+  }
+  $('lab129Charge').onclick=()=>{
+    if(devOwned()){clearDevPreview();windowSnow.clearPreview();}
+    if(mode!=='roam')beginRoam();
+    if(roam.phase==='route'&&(roam.pending?.target??roam.target)===target)return;
+    next=mood.seconds+160;
+    requestDestination(target);
+  };
+  return {register,target,stage,act,arrive,prefer,tick};
+})();
+
 function captureSofaPose() {
   return poseJoints.map(joint => ({
     position:joint.position.clone(),
@@ -8597,6 +8708,7 @@ function initializeSofaMotion() {
     });
   }
   walkTargets.push(sofaTarget);
+  charge129.register();
   pickableDestinations = [...destinationMeshes.keys()];
   travelPose(0);
   sofaStand = captureSofaPose();
@@ -8944,6 +9056,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
       const item = choices[Math.floor(Math.random()*choices.length)];
       visit.push({type:'accessory',time:2.55,message:item.name+'に付け替えています',item});
     }
+  } else if (target.charge129) {
+    charge129.stage(visit);
   } else if (target.evening124) {
     evening124.decorate(visit,target);
   } else if (target===leilaObservatory.target) {
@@ -10229,6 +10343,9 @@ function advanceDestinationRoute(dt) {
     case 'kitchenLower':
       if(!roam.pending)dogKitchen.lower(stage,progress);
       break;
+    case 'dock129Work':
+      charge129.act(stage,progress);
+      break;
     case 'lab124Lantern':
       evening124.act(stage,progress);
       break;
@@ -10583,6 +10700,7 @@ function arriveAtDestination() {
       ? (currentMood() === 'affectionate' ? 'beckon' : 'smallWave') : target.gesture);
     return;
   }
+  if (roam.target.charge129){charge129.arrive();return;}
   if (roam.target.evening124){evening124.finish();return;}
   if (roam.target===leilaObservatory.target){leilaObservatory.arrive();return;}
   if (roam.target.kind === 'window') {
@@ -17601,7 +17719,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);ambience128.tick(dt);evening124.tick();leilaObservatory.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);ambience128.tick(dt);charge129.tick();evening124.tick();leilaObservatory.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
