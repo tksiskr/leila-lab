@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 193｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 194｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 193</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 194</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -18401,9 +18401,13 @@ $('dogDreamPreview').onclick=dogDream.preview;
 // on the mat instead of asking for another round. The existing encore wins.
 const dogRestMat=(()=>{
   const d=shepherd,g=new T.Group();
-  const center=V(-3.57,0,1.52),watch=V(-4.25,0,1.89), height=.015;
-  const lookAt=center.clone().add(V(.32,.31,.035));
-  const chin=center.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0),upForMat=V(0,1,0);
+  const center=V(-3.57,0,1.52), height=.015;
+  // A two-person quilt: the dog settles on the far lane, leaving the
+  // near lane and tail end free for Leila's existing approach and roll.
+  const dogHome=center.clone().add(V(0,0,-.11));
+  const watch=dogHome.clone().add(V(-.68,0,.37));
+  const lookAt=dogHome.clone().add(V(.32,.31,.035));
+  const chin=dogHome.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0),upForMat=V(0,1,0);
   const heading=Math.PI/2, dogYaw=Math.PI/2, wakePivot=V(.182,0,0);
   g.name='犬のキルトマット';g.position.copy(center).multiplyScalar(2);g.scale.setScalar(2);floorGroup.add(g);
   const piping=mat(0x3d5052,.97),green=mat(0x597873,.91),sand=mat(0xd8be8a,.86);
@@ -18411,18 +18415,22 @@ const dogRestMat=(()=>{
     const o=block(g,m,x,y,z,w,h,depth);o.castShadow=false;o.receiveShadow=true;return o;
   };
   // Wide and flat, so it intentionally does not become a route obstacle.
-  patch(piping,.06,.006,0,1.26,.012,.81);
-  const quilt=new T.InstancedMesh(cube,green,15), square=new T.Matrix4(), tint=new T.Color();
+  const sizeX=1.88,sizeZ=1.32,cx=-.10,cz=.07;
+  patch(piping,cx,.006,cz,sizeX,.012,sizeZ);
+  const columns=7,rows=5,dx=(sizeX-.066)/columns,dz=(sizeZ-.066)/rows;
+  const quilt=new T.InstancedMesh(cube,green,columns*rows), square=new T.Matrix4(), tint=new T.Color();
   quilt.receiveShadow=true;g.add(quilt);
-  for(let i=0;i<5;i++)for(let j=0;j<3;j++){
-    quilt.setMatrixAt(i*3+j,square.makeScale(.227,.004,.228).setPosition(-.408+i*.234,.013,-.239+j*.239));
-    quilt.setColorAt(i*3+j,tint.setScalar((i+j)%2===0?1:1.20));
+  for(let i=0;i<columns;i++)for(let j=0;j<rows;j++){
+    quilt.setMatrixAt(i*rows+j,square.makeScale(dx-.008,.004,dz-.008)
+      .setPosition(cx+(i-(columns-1)/2)*dx,.013,cz+(j-(rows-1)/2)*dz));
+    quilt.setColorAt(i*rows+j,tint.setScalar((i+j)%2===0?1:1.20));
   }
-  const tag=patch(sand,.606,.015,.345,.12,.004,.10);tag.name='肉球の刺繍';
+  const labelX=cx+sizeX/2-.086,labelZ=cz+sizeZ/2-.070;
+  const tag=patch(sand,labelX,.015,labelZ,.12,.004,.10);tag.name='肉球の刺繍';
   const thread=mat(0x5b5441,.9), stitchGeo=new T.CircleGeometry(.011,8);
   for(const [x,z,s] of [[0,.008,1.3],[.020,-.011,.7],[-.019,-.011,.7],[0,-.020,.70]]){
     const stitch=new T.Mesh(stitchGeo,thread);stitch.rotation.x=-Math.PI/2;
-    stitch.position.set(.606+x,.0175,.345+z);stitch.scale.setScalar(s);g.add(stitch);
+    stitch.position.set(labelX+x,.0175,labelZ+z);stitch.scale.setScalar(s);g.add(stitch);
   }
   let queued=null,active=null,next=0,lastKind=-1;
   const messages=['犬がキルトの上で息をつき、レイラがほっとしたように見守っています。',
@@ -18509,15 +18517,15 @@ const dogRestMat=(()=>{
       const turn=.52*d.matWake;
       obj.rotation.y=dogYaw-turn;
       const wakeX=wakePivot.x*(1-Math.cos(turn)),wakeZ=-wakePivot.x*Math.sin(turn);
-      obj.position.x=center.x+wakeX;obj.position.z=center.z+wakeZ;
+      obj.position.x=dogHome.x+wakeX;obj.position.z=dogHome.z+wakeZ;
       d.matSigh=breath*(1-d.matWake);
       d.pillowPoint=obj.worldToLocal(chinLocal.copy(chin).addScaledVector(upForMat,.009*d.matSigh));
       d.pose(dt,0,d.matWake>0?leilaFaceForDog():null);return true;
     }
     if(d.state!=='matApproach'){
       d.change('matApproach');d.path=[];d.destination=null;
-      d.navigate(center);
-      if(!d.path.length&&obj.position.distanceTo(center)>.06){cancel();return false;}
+      d.navigate(dogHome);
+      if(!d.path.length&&obj.position.distanceTo(dogHome)>.06){cancel();return false;}
     }
     const ahead=d.path[0];
     const nearby=V(root.position.x-obj.position.x,0,root.position.z-obj.position.z);
@@ -18525,10 +18533,10 @@ const dogRestMat=(()=>{
     const clearAt=approach?.lengthSq()>1e-5?nearby.dot(approach)/approach.length():0;
     const yieldStep=clearAt>.025&&clearAt<.41&&nearby.lengthSq()-clearAt*clearAt<.24**2;
     const moved=yieldStep?0:d.follow(dt,1.04);
-    if(obj.position.distanceTo(center)<.029){
+    if(obj.position.distanceTo(dogHome)<.029){
       d.rotate(dogYaw,dt,3.6);
       if(Math.abs(headingDelta(obj.rotation.y,dogYaw))<.07){
-        obj.position.copy(center);obj.rotation.y=dogYaw;d.change('matRest');d.path=[];d.destination=null;
+        obj.position.copy(dogHome);obj.rotation.y=dogYaw;d.change('matRest');d.path=[];d.destination=null;
       }
     }
     d.pose(dt,moved,a.arrived?leilaFaceForDog():null);return true;
@@ -18559,7 +18567,7 @@ const dogRestMat=(()=>{
     if(!a.restSeen)return true;
     a.stageTime+=dt;
     const t=a.stageTime;
-    if(!a.quilt)a.quilt=dogTumble.quiltSetup(center);
+    if(!a.quilt)a.quilt=dogTumble.quiltSetup(center,height);
     if(a.quilt){
       dogTumble.quiltPose(a.quilt,t);
       $('destination').textContent=t<1.76?'レイラがしっぽ側からそっと膝をつきます':
@@ -21486,7 +21494,7 @@ const dogTumble=(()=>{
       t:d.t,bones:d.captureBellyEntry(),lap:d.lapPoint?.clone(),pillow:d.pillowPoint?.clone()};
     const home=matSession?matSession.quilt.plans[key].point:key==='cozyBed'?bedCenter.clone().setY(0).add(V(-.09,0,-.21)):edge?(room==='bed'?bedTarget.point:sofaDock).clone().setY(0):room==='bed'?bedCenter.clone().setY(0).add(V(-.14,0,kind==='rear'?(rollIn?.026:-.13):.112)):
       sofa.localToWorld(V(sofaMiddle,0,kind==='winner'?.181:.151)).setY(0).add(V(0,0,kind==='rear'?-.031:.036));
-    const height=matSession?.008:edge?0:room==='bed'?bedHeight:sofaSeat.y;
+    const height=matSession?matSession.quilt.height:edge?0:room==='bed'?bedHeight:sofaSeat.y;
     const yaw=matSession?matSession.quilt.plans[key].yaw:edge?(room==='bed'?bedTarget.heading:sofaHeading):rollIn?Math.PI:0;
     root.position.copy(home);root.rotation.y=yaw;root.updateWorldMatrix(true,false);
     const index=poseJoints.indexOf(groups.pelvis), q=root.getWorldQuaternion(new T.Quaternion());
@@ -21688,7 +21696,7 @@ const dogTumble=(()=>{
       d.mixBellyEntry(transform(dogFrom.bones,dogFrom.point,dogFrom.yaw),1);
       d.mixBellyEntry(transform(rest.bones,rest.point,rest.yaw),fade);
       if(d.lickTongue)d.lickTongue.visible=false;
-      if(s.mat)safeFloor(0,.005);
+      if(s.mat)safeFloor(0,s.height);
       return true;
     }
     obj.position.copy(a.start);
@@ -21729,7 +21737,7 @@ const dogTumble=(()=>{
       d.fitBellyFloor(Math.min(s.height,before.y,saved.point.y));
       if(d.lickTongue)d.lickTongue.visible=false;
     }
-    if(s.mat)safeFloor(0,.005);
+    if(s.mat)safeFloor(0,s.height);
     return true;
   }
 
@@ -22755,19 +22763,19 @@ const dogTumble=(()=>{
   // Keep run momentum through the hand-off, while the familiar pin clips take
   // over the actual limbs and contacts. No standing frame or launch marker.
   const quiltKeys=['matFront','matRear','matWinner','matCozy'];
-  function quiltSetup(center){
+  function quiltSetup(center,height){
     const plans={},home=root.position.clone(),heading=root.rotation.y;
     const boxes=stageBoxes();
     for(const [i,key] of quiltKeys.entries()){
       const kind=surfaceKinds[key][1],yaw=i?Math.PI/2:-Math.PI/2;
       const offset=[.065,-.055,-.06,-.30][i];
-      for(const dz of [.38,.52,.27]){
+      for(const dz of [.18,.25,.10]){
         const p=center.clone().add(V(offset,0,dz));
         if(stageFits(p,yaw,kind,boxes)){plans[key]={point:p,yaw};break;}
       }
     }
     if(!Object.keys(plans).length)return null;
-    return {standing:captureSofaPose(),origin:home,yaw:heading,plans,count:0,seen:new Set()};
+    return {standing:captureSofaPose(),origin:home,yaw:heading,height,plans,count:0,seen:new Set()};
   }
   function quiltAim(joint,point,weight,max){
     const ray=point.clone().sub(joint.getWorldPosition(V(0,0,0))).normalize();
@@ -22834,7 +22842,7 @@ const dogTumble=(()=>{
     }
     quiltAim(groups.neck,gaze,lower*(.24+.25*lean),.88);
     quiltAim(groups.head,gaze,lower*(.63+.28*lean),1.2);
-    safeFloor(0,.001);
+    safeFloor(0,mix(.002,a.height,rearRamp(t,.22,1.14)));
   }
   function quiltPick(a,last){
     const allowed=quiltKeys.filter(key=>a.plans[key]&&key!==last);
@@ -22852,7 +22860,7 @@ const dogTumble=(()=>{
     const key=quiltPick(session.quilt);
     if(!key)return false;
     startSurface(key,false,false,{mat:session},session.manual);
-    setNote('キルトのそばに寝転んだまま、ふたりがじゃれ合い始めました');
+    setNote('キルトの上に寝転んだまま、ふたりがじゃれ合い始めました');
     return true;
   }
   function chaseFits(point,yaw,kind){return stageFits(point,yaw,kind);}
