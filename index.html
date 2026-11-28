@@ -11897,7 +11897,7 @@ function createShepherd() {
         const h=bones[headIndex];
         joint.position.copy(lowerHinge).applyQuaternion(h.quaternion).add(h.position);
         joint.quaternion.copy(h.quaternion).multiply(jawTurn.setFromAxisAngle(
-          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14+.062*dogDream.muzzle()));
+          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14+.062*dogDream.muzzle()+.051*(d.matSigh??0)));
       });
       // Ear bases measured on the retargeted Shepherd's vertices. These
       // bones exactly match the head transform outside a dream.
@@ -13192,7 +13192,7 @@ const dogRestMat=(()=>{
   const d=shepherd,g=new T.Group();
   const center=V(-3.57,0,1.52),watch=V(-2.65,0,2.13), height=.015;
   const lookAt=center.clone().add(V(.32,.31,.035));
-  const chin=center.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0);
+  const chin=center.clone().add(V(.33,.023,.035)),chinLocal=V(0,0,0),upForMat=V(0,1,0);
   const heading=headingTo(watch,lookAt), dogYaw=Math.PI/2;
   g.name='犬のキルトマット';g.position.copy(center);floorGroup.add(g);
   const piping=mat(0x3d5052,.97),green=mat(0x597873,.91),sand=mat(0xd8be8a,.86);
@@ -13224,6 +13224,7 @@ const dogRestMat=(()=>{
       // A thin, compressible mat. Normal terrain is still ground level.
       d.object.position.y=0;
     }
+    d.matSigh=0;
     if(d.state==='chase'&&d.object.position.y<=height+.003)d.object.position.y=0;
     if($('dogNote').textContent===a.message)$('dogNote').textContent=a.originalNote;
     active=null;
@@ -13236,7 +13237,8 @@ const dogRestMat=(()=>{
     if(!entitled()||a.edge||a.surface||a.bed||a.hold||a.manual||a.cancel||mood.seconds<next||
        !d.ready||d.object.position.y>.05||root.position.distanceTo(watch)>6.4||d.object.position.distanceTo(center)>6.5)return;
     const f=currentMood();
-    const chance=f==='annoyed'?0:a.chase||a.streak>1?.58:f==='affectionate'?.49:f==='happy'?.36:.23;
+    const night=lastWorldMinute>=20*60||lastWorldMinute<7*60;
+    const chance=f==='annoyed'?0:a.chase||a.streak>1?.58:f==='affectionate'?.49:f==='happy'||night?.36:.23;
     if(chance>0&&Math.random()<chance)queued={owner:roam,until:mood.seconds+3};
   }
   function start(manual=false){
@@ -13288,7 +13290,9 @@ const dogRestMat=(()=>{
     const obj=d.object;
     if(d.state==='matRest'){
       obj.position.y=height*rearRamp(d.t,0,.5);
-      d.pillowPoint=obj.worldToLocal(chinLocal.copy(chin));
+      const breath=a.kind===0?rearRamp(d.t,.89,1.42)*(1-rearRamp(d.t,1.60,2.08)):0;
+      d.matSigh=breath;
+      d.pillowPoint=obj.worldToLocal(chinLocal.copy(chin).addScaledVector(upForMat,.009*breath));
       d.pose(dt,0,null);return true;
     }
     if(d.state!=='matApproach'){
