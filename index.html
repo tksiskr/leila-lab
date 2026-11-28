@@ -298,6 +298,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <div class="leilaCard" role="group" aria-labelledby="lab132ShadeTitle">
       <h2 id="lab132ShadeTitle">東窓のスクリーン</h2>
       <button type="button" id="lab132ShadeTest">開け閉めを試す</button>
+      <button type="button" id="hourglass135Try">読書用の砂時計を試す</button>
       <p id="lab132ShadeStatus" aria-live="polite"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab130RainTitle">
@@ -8775,6 +8776,7 @@ function chooseDestination() {
     return;
   }
   if(fresh126.choose())return;
+  if(hourglass135.choose())return;
   const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
   if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
     startDestination(bookTarget);
@@ -9972,6 +9974,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     dogKitchen.decorate(visit,target);
   } else if(target.kind==='tea132'){
     tea132.decorate(visit,target);
+  } else if(target.kind==='hourglass135'){
+    hourglass135.decorate(visit,target);
   } else if(target.kind==='drawer135'){
     drawer135.decorate(visit,target);
   } else if(target.kind==='memo131'){
@@ -11485,6 +11489,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'hourglass135Flip':
+      hourglass135.act(stage,progress);
+      break;
     case 'tea132Pour':
       tea132.draw(stage,progress);
       break;
@@ -11537,7 +11544,7 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='drawer135Sort') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='drawer135Sort') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -14426,6 +14433,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
+  hourglass135.interrupt();
   dogSit135.cancel();
   floorHello133.cancel();
   scent131.cancel();
@@ -16783,6 +16791,149 @@ const floorHello133=(()=>{
   $('dogHello133Try').onclick=preview;
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   return {advance,dog,maybe,tick,cancel:stop};
+})();
+
+// LAB 135 • A small, working reading timer beside the book.
+const hourglass135=(()=>{
+  const body=new T.Group();body.name='読書用の砂時計';facility.add(body);
+  const home=V(-4.441,tableTop+.073,-.387), mark=V(-4.091,0,-.387);
+  const up=V(0,1,0),turnAxisGlass=V(1,0,0),east=V(1,0,0),west=V(-1,0,0);
+  const brass=mat(0xa98a57,.45),walnut=mat(0x574e49,.88),grain=mat(0xe7ba79,.94);
+  for(const y of [-.064,.064]){
+    const cap=new T.Mesh(new T.CylinderGeometry(.037,.037,.016,24),walnut);
+    cap.position.y=y;body.add(cap);cap.castShadow=true;
+    const ring=new T.Mesh(new T.TorusGeometry(.033,.003,7,24),brass);
+    ring.rotation.x=-Math.PI/2;ring.position.y=y>0?y-.008:y+.008;body.add(ring);
+  }
+  for(const i of [0,1,2]){
+    const phi=i*Math.PI*2/3;
+    const rail=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.116,7),brass);
+    rail.position.set(Math.cos(phi)*.031,0,Math.sin(phi)*.031);body.add(rail);
+  }
+  const shape=[[-.053,.025],[-.043,.027],[-.030,.023],[-.013,.011],[0,.0048],
+    [.013,.011],[.030,.023],[.043,.027],[.053,.025]].map(([y,r])=>new T.Vector2(r,y));
+  const glass=new T.Mesh(new T.LatheGeometry(shape,28),
+    new T.MeshStandardMaterial({color:0xbee0e0,transparent:true,opacity:.28,roughness:.23,side:T.DoubleSide,depthWrite:false}));
+  glass.renderOrder=2;body.add(glass);
+  const settledSand=new T.CylinderGeometry(.28,1,1,24),
+    drainingSand=new T.CylinderGeometry(1,.23,1,24);
+  const fills=[new T.Mesh(settledSand,grain),new T.Mesh(drainingSand,grain)];
+  fills.forEach(o=>body.add(o));
+  const sandLine=new T.Mesh(new T.CylinderGeometry(.00145,.0017,.045,6),grain);
+  body.add(sandLine);sandLine.visible=false;
+  let flip=0,began=-Infinity,nextAt=39,active=null;
+  const button=$('hourglass135Try');
+  const pose=new T.Quaternion(),planned=V(0,0,0),pad=V(0,0,0);
+  const rim=.036,timerLength=64;
+  function onTable(){
+    body.position.copy(home);body.quaternion.setFromAxisAngle(turnAxisGlass,flip*Math.PI);
+  }
+  function sands(){
+    const t=(mood.seconds-began)/timerLength;
+    const volume=Number.isFinite(t)?T.MathUtils.clamp(t,0,1):1;
+    for(let i=0;i<2;i++){
+      const lower=i===flip, amount=lower?volume:1-volume,o=fills[i];
+      o.visible=amount>.007;
+      const h=.038*Math.pow(amount,.63),r=lower?.015+.009*amount:.010+.015*Math.sqrt(amount);
+      const sign=i===0?-1:1;
+      o.geometry=lower?settledSand:drainingSand;
+      o.rotation.z=flip*Math.PI;
+      o.position.y=sign*(lower?.048-h*.5:.010+h*.5);o.scale.set(r,h,r);
+    }
+    sandLine.visible=volume>.007&&volume<.995;
+    sandLine.position.y=(flip===0?-1:1)*.019;
+    sandLine.scale.y=.58+.31*Math.sin(.5+volume*Math.PI);
+  }
+  onTable();
+  function target(manual){
+    return {kind:'hourglass135',name:'読書用の砂時計',point:mark,heading:-Math.PI/2,lookAt:home,manual,
+      onArrival(){
+        const a=active?.target===roam.target?active:null;
+        const good=!!a?.done&&!a?.failed&&!a?.cancelAt;
+        active=null;onTable();
+        if(good&&!manual&&currentMood()!=='annoyed'&&Math.random()<.54){startDestination(bookTarget);return;}
+        enterQuietRest('linger',good?'砂が落ち始め、レイラはひと息つきました':'レイラはサイドテーブルのそばで立ち止まりました',good?6:4);
+      }};
+  }
+  function entitled(){
+    return mode==='roam'&&floorGroup.visible&&!devOwned()&&!contact&&!reaction&&!handLink&&
+      !document.hidden&&mood.seconds>=leilaUserPriorityUntil;
+  }
+  function choose(){
+    if(!entitled()||currentMood()==='annoyed'||mood.seconds<nextAt||roam.target?.kind==='hourglass135'||root.position.distanceTo(mark)>4.6)return false;
+    nextAt=mood.seconds+14+Math.random()*18;
+    const chance=currentMood()==='affectionate'?.38:currentMood()==='neutral'?.28:.23;
+    if(Math.random()>chance||!destinationPath(root.position.clone().setY(0),mark).length&&root.position.distanceTo(mark)>.035)return false;
+    nextAt=mood.seconds+145+Math.random()*62;
+    startDestination(target(false));return true;
+  }
+  function decorate(visit,dest){
+    const stage={type:'hourglass135Flip',time:5.44,target:dest,heading:dest.heading,message:'レイラが砂時計に手を伸ばしています'};
+    visit.push(routeTurn(dest.heading,'レイラがサイドテーブルの前に立ちました'),stage);
+  }
+  function interrupt(){
+    const a=active;
+    if(a&&a.cancelAt===undefined&&mode==='roam'&&roam.phase==='route')a.cancelAt=roam.elapsed;
+  }
+  function act(stage,n){
+    active=stage;
+    if((reaction||contact||handLink||roam.pending)&&stage.cancelAt===undefined)stage.cancelAt=roam.elapsed;
+    if(stage.cancelAt!==undefined)n=stage.cancelAt/stage.time;
+    const ease=rearRamp,fade=stage.cancelAt===undefined?1:1-ease(roam.elapsed,stage.cancelAt,stage.cancelAt+.35);
+    stage.stance??=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
+    blendSofaPose(stage.pose,1);
+    const squat=ease(n,.03,.29)*(1-ease(n,.82,.99))*fade;
+    groups.pelvis.position.y-=.268*squat;
+    groups.pelvis.position.z+=.126*squat;
+    groups.pelvis.rotateX(.150*squat);
+    groups.abdomen.rotateX(.38*squat);
+    groups.chest.rotateX(.39*squat);
+    groups.head.rotateX(.33*squat);
+    groups.head.rotateY(.13*ease(n,.84,.93)*(1-ease(n,.95,1))*fade);
+    for(const {side,ankle} of stage.stance)solveLeg(side,ankle,stage.heading);
+    const raise=ease(n,.34,.51)*(1-ease(n,.68,.82));
+    const u=ease(n,.45,.65),direction=1-2*flip;
+    planned.copy(home).addScaledVector(east,rim+.058*raise);planned.y+=.108*raise;
+    const q=orientPalm('N',up,west).premultiply(pose.setFromAxisAngle(turnAxisGlass,direction*Math.PI*u));
+    const wrist=planned.clone().sub(palmRig.N.center.clone().applyQuaternion(q));
+    const hold=ease(n,.15,.32)*(1-ease(n,.87,.96))*fade;
+    if(hold>.001)reachHand('N',wrist,q,hold,false,V(-.176,-.139,.062),true);
+    groups.handN.localToWorld(pad.copy(palmRig.N.center));
+    if(n>.335&&!stage.checked){
+      stage.checked=true;stage.gap=pad.distanceTo(planned);
+      if(stage.gap<.028&&fade>.98)stage.grab=true;else stage.failed=true;
+    }
+    if(stage.grab&&!stage.done){
+      body.position.copy(pad).addScaledVector(west,rim);
+      body.quaternion.setFromAxisAngle(turnAxisGlass,(flip+direction*u)*Math.PI);
+      if(fade<1){
+        pose.setFromAxisAngle(turnAxisGlass,flip*Math.PI);
+        body.position.lerp(home,1-fade);body.quaternion.slerp(pose,1-fade);
+      }
+      if(n>.827&&fade>.999){
+        stage.land=body.position.distanceTo(home);
+        if(stage.land<.034){flip=1-flip;began=mood.seconds;stage.done=true;$('destination').textContent='レイラが砂時計を返しました';}
+        else stage.failed=true;
+        stage.grab=false;onTable();
+      }
+    }
+  }
+  function tick(){
+    const stage=mode==='roam'&&roam.phase==='route'?roam.visit[roam.visitIndex]:null;
+    if(active&&stage!==active&&!(stage===undefined&&roam.target?.kind==='hourglass135')){
+      if(!active.done)onTable();
+      // Keep the just-finished stage for the synchronous destination completion.
+      if(roam.target?.kind!=='hourglass135'||roam.phase!=='wait')active=null;
+    }
+    sands();
+  }
+  button.onclick=()=>{
+    if(active||roam?.target?.kind==='hourglass135'&&roam.phase==='route')return;
+    clearDevPreview();
+    if(mode!=='roam')beginRoam();
+    nextAt=mood.seconds+88;requestDestination(target(true));
+  };
+  return {choose,decorate,act,interrupt,tick};
 })();
 
 const dogKitchen=(()=>{
@@ -19564,7 +19715,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);hourglass135.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
