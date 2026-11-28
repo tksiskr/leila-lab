@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 167｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 168｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 167</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 168</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -393,7 +393,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button><label>じゃれ合いの型 <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option><option value="bedFront">ベッド上・正面</option><option value="bedRear">ベッド上・背後</option><option value="winnerBed">ベッド上・レイラの勝ち</option><option value="bedEdge">ベッドの縁・正面</option><option value="sofaEdge">ソファ・正面</option><option value="sofaFront">ソファ座面・正面</option><option value="sofaRear">ソファ座面・背後</option><option value="sofaWinner">ソファ座面・レイラの勝ち</option><option value="bedCycle">ベッドでずっと（4パターン）</option><option value="sofaCycle">ソファでずっと（4パターン）</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><small id="devLoopStatus" role="status"></small>
       <button id="hipBumpTest" type="button" disabled>腰をこつん・横並び</button>
       <button id="hipNudgeTest" type="button" disabled>鼻でこつん・横の装甲</button>
-      <button id="dogCozyRollTest" type="button" disabled>ヘソ天でごろごろ</button>
+      <button id="dogCozyRollTest" type="button" disabled>ヘソ天でごろごろ・床</button>
+      <button id="dogCozyBedTest" type="button" disabled>ヘソ天でごろごろ・ベッド</button>
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
@@ -6423,7 +6424,8 @@ const dogWatchScenes={
   winner:{label:'レイラの勝ち（ヘソ天）',start:()=>dogTumble.request('winner',false,true)},
   bedEdge:{label:'ベッドの縁でじゃれ合う',start:()=>dogTumble.request('bedEdge',false,true)},
   sofaEdge:{label:'ソファでじゃれ合う',start:()=>dogTumble.request('sofaEdge',false,true)},
-  cozyRoll:{label:'ヘソ天でごろごろ',start:()=>dogTumble.request('cozyRoll',false,true)},
+  cozyRoll:{label:'床でヘソ天ごろごろ',start:()=>dogTumble.request('cozyRoll',false,true)},
+  cozyBed:{label:'ベッドでヘソ天ごろごろ',start:()=>dogTumble.request('cozyBed',false,true)},
   bedFront:{label:'ベッド上・正面',start:()=>dogTumble.request('bedFront',false,true)},
   bedRear:{label:'ベッド上・背後',start:()=>dogTumble.request('bedRear',false,true)},
   winnerBed:{label:'ベッド上・レイラの勝ち',start:()=>dogTumble.request('winnerBed',false,true)},
@@ -13341,6 +13343,8 @@ const standingWaitPose = captureSofaPose();
 let standingWait;
 
 function beginStandingWait(offerHand) {
+  if(mode==='roam'&&roam.phase==='dogTumble'&&dogTumble.isBedCozy()&&
+    dogTumble.afterExit(()=>beginStandingWait(offerHand)))return;
   if (handlingBook()) {
     requestDestination({kind:'linger',name:'ソファのそば',onArrival:()=>beginStandingWait(offerHand)});
     return;
@@ -14255,7 +14259,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogCozyRollTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try','lab144WindowTry','dogQuiet149Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogCozyRollTest','dogCozyBedTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogScent131Try','dogRope128Try','dogRope130Try','dogHello133Try','dogSit135Try','lab144WindowTry','dogQuiet149Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -18767,13 +18771,16 @@ const dogTumble=(()=>{
     });
     d.placeBellyPaws(targets,weight);
   }
-  function cozyReady(a,watch){
+  function cozyReady(a,watch,supported=false){
     const h=groups.pelvis;
     a.cozy=true;a.dogYaw=a.yaw;
     a.start=local(a,.26,0,1.00);
     // Keep Layla lengthwise on the tail line; only the dog enters from the side.
     a.finish=local(a,.001,0,.379);
-    settleStandingFeet();a.entry=captureSofaPose();
+    const original=a.entry;
+    if(supported)blendSofaPose(sofaStand,1);
+    else settleStandingFeet();
+    a.entry=captureSofaPose();
     a.kneel=preparePose(a,false,false);
     preparePose(a,false,true);
     h.position.set(0,.134,.110);
@@ -18793,8 +18800,13 @@ const dogTumble=(()=>{
       aim(e,base['hand'+side],local(a,sg*.172,.037,.411).sub(e.getWorldPosition(V(0,0,0))));
       orientWorld(groups['hand'+side],orientPalm(side,V(0,0,1).applyAxisAngle(up,a.yaw),down));
     }
-    safeFloor(1);a.floor=captureSofaPose();standing(a);
-    if(a.manual||watch)dogFollowCamera(local(a,.02,.28,.43),V(-1.38,1.02,1.50).applyAxisAngle(up,a.yaw));
+    safeFloor(1);a.floor=captureSofaPose();
+    if(supported){
+      a.entry=original;
+      a.start.copy(a.finish);
+    }
+    standing(a);
+    if(!supported&&(a.manual||watch))dogFollowCamera(local(a,.02,.28,.43),V(-1.38,1.02,1.50).applyAxisAngle(up,a.yaw));
     setNote('犬がゴロンとお腹を見せ、レイラも隣に寝転びます');
   }
   function cozyLook(a,target,weight,tilt=0){
@@ -19259,11 +19271,11 @@ const dogTumble=(()=>{
   // The accepted edge scenes are independent. These acts run only once both
   // actors are already on the seat/mattress, and enter the game at its hold.
   const surfaceKinds={
-    bedFront:['bed','front'],bedRear:['bed','rear'],winnerBed:['bed','winner'],
+    bedFront:['bed','front'],bedRear:['bed','rear'],winnerBed:['bed','winner'],cozyBed:['bed','cozyRoll'],
     sofaFront:['sofa','front'],sofaRear:['sofa','rear'],sofaWinner:['sofa','winner']
   };
   const surfaceLoops={bedCycle:['bedFront','bedRear','winnerBed','bedEdge'],sofaCycle:['sofaFront','sofaRear','sofaWinner','sofaEdge']};
-  const surfaceOrder={bed:['bedFront','bedRear','winnerBed'],sofa:['sofaFront','sofaRear','sofaWinner']};
+  const surfaceOrder={bed:['bedFront','bedRear','winnerBed','cozyBed'],sofa:['sofaFront','sofaRear','sofaWinner']};
   const surfaceCursor={bed:0,sofa:0};
   let surfaceQueue=null;
   let nextSofaSurface=mood.seconds+125;
@@ -19280,7 +19292,7 @@ const dogTumble=(()=>{
     }
     if(manual)prepareDogCommand();
     const target=room==='bed'?bedTarget:sofaTarget;
-    surfaceQueue={key,target,watch,hold,until:mood.seconds+80};
+    surfaceQueue={key,target,watch,hold,manual,until:mood.seconds+80};
     if(roam.target!==target||!['route',room==='bed'?'bed':'seated'].includes(roam.phase))requestDestination(target);
     return true;
   }
@@ -19299,7 +19311,7 @@ const dogTumble=(()=>{
       if(surfaceReady((surfaceKinds[queue.key]??surfaceKinds[surfaceLoops[queue.key][0]])[0])){
         surfaceQueue=null;
         const loop=surfaceLoops[queue.key];
-        startSurface(loop?.[0]??queue.key,queue.hold,queue.watch,loop?{loop,index:0}:null);return true;
+        startSurface(loop?.[0]??queue.key,queue.hold,queue.watch,loop?{loop,index:0}:null,queue.manual);return true;
       }
       if(roam.phase!=='route')roam.pause=Math.max(roam.pause,roam.elapsed+4);
       return false;
@@ -19317,7 +19329,7 @@ const dogTumble=(()=>{
     if(Math.random()>(feeling==='playful'?.56:.72)){
       startSurface(loop[0],false,false,{loop,index:0,auto:{rounds:0}});
     }else{
-      startSurface(surfaceOrder[room][surfaceCursor[room]++%3]);
+      startSurface(surfaceOrder[room][surfaceCursor[room]++%surfaceOrder[room].length]);
     }
   }
   function wantsAnotherRound(session,feeling){
@@ -19326,7 +19338,7 @@ const dogTumble=(()=>{
     // after a longer play session. A manually started loop never asks.
     return Math.random()<enthusiasm/(1+.45*(session.rounds-1));
   }
-  function startSurface(key,held=false,watch=false,chain=null){
+  function startSurface(key,held=false,watch=false,chain=null,manual=false){
     const edge=key==='bedEdge'||key==='sofaEdge';
     const [room,kind]=surfaceKinds[key]??[key==='bedEdge'?'bed':'sofa','front'];
     if(key==='winnerBed'&&!chain){beginBedPlay(held);return;}
@@ -19339,7 +19351,7 @@ const dogTumble=(()=>{
       pelvisQ=groups.pelvis.getWorldQuaternion(new T.Quaternion());
     const obj=d.object, normalDog={point:obj.position.clone(),yaw:obj.rotation.y,state:d.state,
       t:d.t,bones:d.captureBellyEntry(),lap:d.lapPoint?.clone(),pillow:d.pillowPoint?.clone()};
-    const home=edge?(room==='bed'?bedTarget.point:sofaDock).clone().setY(0):room==='bed'?bedCenter.clone().setY(0).add(V(-.14,0,kind==='rear'?(rollIn?.026:-.13):.112)):
+    const home=key==='cozyBed'?bedCenter.clone().setY(0).add(V(-.09,0,-.21)):edge?(room==='bed'?bedTarget.point:sofaDock).clone().setY(0):room==='bed'?bedCenter.clone().setY(0).add(V(-.14,0,kind==='rear'?(rollIn?.026:-.13):.112)):
       sofa.localToWorld(V(sofaMiddle,0,kind==='winner'?.181:.151)).setY(0).add(V(0,0,kind==='rear'?-.031:.036));
     const height=edge?0:room==='bed'?bedHeight:sofaSeat.y;
     const yaw=edge?(room==='bed'?bedTarget.heading:sofaHeading):rollIn?Math.PI:0;
@@ -19360,7 +19372,11 @@ const dogTumble=(()=>{
     a.start=local(a,kind==='front'?-.039:.049,0,kind==='front'?.25:kind==='rear'?-.26:-.30);
     a.startYaw=a.dogYaw;
     a.finish=local(a,kind==='front'?-.039:.058,0,kind==='front'?.035:-.055);
-    if(edge){
+    if(key==='cozyBed'){
+      cozyReady(a,false,true);
+      // Enter from the current pillows/curl without getting up or jumping.
+      a.t=2.81;
+    }else if(edge){
       if(a.couch)sitAtSofa(1,0);else sitWithMotion(1,0,true);
       a.middle=captureSofaPose();a.couchFeet=sofaSides.map(side=>groups['foot'+side].getWorldPosition(V(0,0,0)));
       a.start=local(a,-.036,0,a.couch?.46:.34);a.finish=local(a,-.036,0,a.couch?.28:.30);
@@ -19373,7 +19389,8 @@ const dogTumble=(()=>{
     active=a;roam.phase='dogTumble';roam.pause=Infinity;roam.roughhouseChecked=true;roam.surfaceChecked=true;
     if(room==='sofa')nextSofaSurface=mood.seconds+120;else nextBedPlayAt=mood.seconds+110;
     d.change('tumble');d.pillowPoint=null;d.lapPoint=null;d.destination=null;d.path=[];d.rivalQueued=false;
-    if((held||watch)&&!prev)dogFollowCamera(home.clone().add(V(0,height+.27,0)),V(room==='sofa'?1.54:-1.65,1.13,1.29));
+    if((held||watch||key==='cozyBed'&&manual)&&!prev)
+      dogFollowCamera(home.clone().add(V(0,height+.27,key==='cozyBed'?.42:0)),V(room==='sofa'?1.54:-1.65,1.13,1.29));
   }
   function endSurface(a){
     const s=a.surface, saved=s.dog;
@@ -19408,7 +19425,9 @@ const dogTumble=(()=>{
         return surfaceLeila(active,0);
       }
     }
-    if(!s.loop&&!s.held&&s.t>=surfaceEntrySeconds+minPlay&&!a.cancel)beginSurfaceExit(a,true);
+    // Capture the last mattress-height pose before the floor-space solver runs.
+    if(a.cozy&&a.t+dt>=15.27&&!a.cancel)beginSurfaceExit(a,true);
+    if(!a.cozy&&!s.loop&&!s.held&&s.t>=surfaceEntrySeconds+minPlay&&!a.cancel)beginSurfaceExit(a,true);
     if(a.cancel){
       a.cancel.t+=dt;
       if(a.cancel.t>=1.19)finish();
@@ -19418,6 +19437,11 @@ const dogTumble=(()=>{
     // Floor solvers see the local plane at zero; both actors are moved to
     // the cushion together only after all hand/paw contacts have been solved.
     standing(a);
+    if(a.cozy){
+      // Hold the first cuddle pose until both bodies finish the entry blend.
+      if(s.blend<.999)return cozyFrame(a,0);
+      return cozyFrame(a,dt);
+    }
     if(s.edge)edgeFrame(a,dt);else leanOnSurface(a,dt);
     return true;
   }
@@ -19508,9 +19532,9 @@ const dogTumble=(()=>{
     obj.position.copy(a.start);
     if(s.edge)edgeDog(a,dt);
     else{
-      if(a.winner)winnerDog(a,dt);else playDog(a,dt);
+      if(a.cozy)cozyDog(a,dt);else if(a.winner)winnerDog(a,dt);else playDog(a,dt);
       shift(groups.pelvis,V(0,s.height,0));obj.position.y+=s.height;
-      if(!a.winner&&!a.front)d.fitBellyFloor(s.height);
+      if(!a.winner&&!a.front&&!a.cozy)d.fitBellyFloor(s.height);
     }
     if(s.blend<.99999){
       if(s.rollIn&&!a.cancel)rollOntoKnees(a,s.blend);
@@ -20554,7 +20578,7 @@ const dogTumble=(()=>{
   }
   $('dogTumbleFront').onclick=()=>request('front');
   $('dogTumbleRear').onclick=()=>request('rear');
-  for(const [id,kind] of [['hipBumpTest','hipBump'],['hipNudgeTest','hipNudge'],['dogCozyRollTest','cozyRoll']])$(id).onclick=()=>{
+  for(const [id,kind] of [['hipBumpTest','hipBump'],['hipNudgeTest','hipNudge'],['dogCozyRollTest','cozyRoll'],['dogCozyBedTest','cozyBed']])$(id).onclick=()=>{
     clearDevPreview();windowSnow.clearPreview();return request(kind);
   };
   function afterExit(fn){
@@ -20628,7 +20652,7 @@ const dogTumble=(()=>{
     d.mixBellyEntry(c.dogBones,1-w);
     d.fitBellyFloor(0);
   }
-  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp,surfaceBlending:()=>!!(active?.surface||active?.cozy)};
+  return {maybe,leila,dog,defer,stop,reconcile,afterExit,request,skirtRear,maybeEdge,surfacePending,chaseFits,fromChase,followUp,isBedCozy:()=>active?.surface?.key==='cozyBed',surfaceBlending:()=>!!(active?.surface||active?.cozy)};
 })();
 // The courses begin at the two actual positions. Only the rolling area is
 // picked in advance, so neither actor has to walk to a starting marker.
