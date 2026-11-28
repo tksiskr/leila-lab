@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 124｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 125｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 124: the scene stays in place; only the controls pane scrolls. */
+/* LAB 125: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 124</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 125</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -335,6 +335,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
+      <button id="dogWater125Try" type="button" disabled>犬の水飲みを試す</button>
       <button id="dogRestMatPreview" type="button" disabled>犬のキルト休憩を試す</button>
     </div>
     <div class="leilaCard leilaMood"><h2>レイラの反応</h2>
@@ -11596,7 +11597,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','dogWater125Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -11807,6 +11808,18 @@ function createShepherd() {
           joint.position.addScaledVector(mealSkull,lower);
         }
         tongueSkin.visible=false;
+        if(d.state==='water125'&&d.mealPose?.waterLap>.44){
+          const start=lickSpot.copy(mealUpperLip).applyQuaternion(joint.quaternion).add(joint.position);
+          const end=lickTip.copy(d.mealPoint);
+          end.y=.047/shepherdScale;
+          const axis=end.sub(start);
+          const len=Math.min(.053,axis.length())*d.mealPose.waterLap;
+          if(len>.004){
+            axis.normalize();tongueSkin.position.copy(start).addScaledVector(axis,len*.44);
+            tongueSkin.scale.set(.011,.005,len*.56);tongueSkin.quaternion.setFromUnitVectors(lickAxis,axis);
+            tongueSkin.visible=true;
+          }
+        }
         const belly=d.tumble?.bellyUp;
         if(belly){
           // Untwisted and belly-up: the centerline stays straight, with the
@@ -12495,6 +12508,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
+  dogWater125.cancel();
   lab122Invite.cancel();
   const newAttention=mood.seconds>=leilaUserPriorityUntil;
   leilaUserPriorityUntil=mood.seconds+5.8;
@@ -12556,6 +12570,7 @@ function dogView(){
   orbit.target.copy(point);camera.position.copy(point).add(offset);orbit.update();
 }
 function prepareDogCommand(){
+  dogWater125.cancel();
   if(mode!=='roam'){
     endHandLink(false);restoreReactionPose();
     const entry=captureSofaPose();
@@ -12660,7 +12675,7 @@ function updateShepherd(dt){
     d.edgeExit=false;d.change('idle');d.wait=d.time+4;d.destination=null;
   }
   if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
-  if(dogRestMat.dog(dt))return;
+  if(dogRestMat.dog(dt)||dogWater125.anim(dt))return;
   const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
     ['bedSit','bedLie'].includes(roam.visit?.[roam.visitIndex]?.type);
@@ -13054,7 +13069,7 @@ let nextDogBondAt=6;
 function privateDogBondAllowed(){
   return mode==='roam'&&['wait','rest','linger','window'].includes(roam.phase)&&
     !reaction&&!contact&&!handLink&&!roam.attention&&!activeCameraGreeting&&
-    shepherd.ready&&!shepherd.play&&!shepherd.jump&&shepherd.state!=='rival'&&shepherd.state!=='curl'&&shepherd.state!=='meal'&&
+    shepherd.ready&&!shepherd.play&&!shepherd.jump&&shepherd.state!=='rival'&&shepherd.state!=='curl'&&shepherd.state!=='meal'&&shepherd.state!=='water125'&&
     shepherd.object.position.y<.05&&mood.seconds>=leilaUserPriorityUntil;
 }
 function bondNeighbor(){
@@ -13872,6 +13887,114 @@ function counterPropPath(home,weight,lift){
   p.y=home.y-.169*(1-pick)+lift*pick*(1-settle);
   return p;
 }
+
+// A self-directed water break, separate from the existing meal and rest.
+const dogWater125=(()=>{
+  const d=shepherd, center=V(-2.69,.032,-5.52), foot=V(-2.69,0,-5.015), facing=Math.PI;
+  const stand=new T.Group();stand.name='Dog water bowl';stand.position.copy(center).setY(0);
+  facility.add(stand);
+  const blue=mat(0x477b90,.38), edge=mat(0x97c6c6,.48), matting=mat(0x426d71,.9);
+  block(stand,matting,0,.003,0,.31,.006,.275);
+  const cup=new T.Mesh(new T.LatheGeometry([
+    new T.Vector2(0,.007),new T.Vector2(.078,.007),new T.Vector2(.106,.026),
+    new T.Vector2(.108,.047),new T.Vector2(.097,.049),new T.Vector2(.087,.027),
+    new T.Vector2(0,.020)
+  ],26),blue); stand.add(cup);
+  const rim=new T.Mesh(new T.TorusGeometry(.102,.004,8,28),edge);
+  rim.position.y=.047;rim.rotation.x=-Math.PI/2;stand.add(rim);
+  const waterMat=new T.MeshBasicMaterial({color:0x407c98,transparent:true,opacity:.83});
+  const water=new T.Mesh(new T.CircleGeometry(.093,26),waterMat);
+  water.position.y=.039;water.rotation.x=-Math.PI/2;stand.add(water);
+  const geom=new T.RingGeometry(.88,1,22);
+  const rings=Array.from({length:3},()=>{
+    const m=new T.MeshBasicMaterial({color:0xc1ece6,transparent:true,opacity:0,depthWrite:false,side:T.DoubleSide});
+    const o=new T.Mesh(geom,m);o.rotation.x=-Math.PI/2;o.position.y=.042;o.visible=false;stand.add(o);
+    return o;
+  });
+  let active=null,nextAllowed=132;
+  const lip=V(0,0,0);
+  const description='犬が窓辺の器から水を飲んでいます。';
+  function clear(done=false){
+    const a=active;if(!a)return;
+    active=null;
+    if(d.state==='water125'){
+      d.mealLower=0;d.mealPose=null;d.mealPoint=null;
+      d.change('idle');d.destination=null;d.path=[];d.wait=d.time+3.5;
+    }
+    if($('dogNote').textContent===description||$('dogNote').textContent===a.approach)
+      $('dogNote').textContent=done?'犬は水を飲んで、ひと息つきました。':a.old;
+    for(const r of rings)r.visible=false;
+    if(d.lickTongue)d.lickTongue.visible=false;
+  }
+  function free(manual=false){
+    if(!d.ready||d.jump||d.play||d.bond||d.tumble||d.object.position.y>.045||
+       !['idle','wander'].includes(d.state)||document.hidden||handLink||!floorGroup.visible)return false;
+    if(mode==='roam'&&['dogTumble','dogChase','dogPlay','dogMeal','dogBond','bed','seated','reading','route'].includes(roam.phase))return false;
+    if(!manual&&(!privateDogBondAllowed()||devOwned()||currentMood()==='annoyed'))return false;
+    return true;
+  }
+  function begin(manual=false){
+    if(active||!free(manual))return false;
+    const near=d.object.position.distanceTo(foot)<.041;
+    d.destination=null;d.path=[];
+    if(!near){d.navigate(foot);if(!d.path.length)return false;}
+    d.change('water125');d.rivalQueued=false;
+    active={age:0,drink:0,old:$('dogNote').textContent,approach:'犬が水の器まで歩いていきます。'};
+    nextAllowed=mood.seconds+108+(manual?0:Math.random()*70);
+    $('dogNote').textContent=active.approach;
+    return true;
+  }
+  function after(a){
+    if(a.manual||a.surface||a.edge||a.bed||a.cancel||a.hold||(!a.chase&&(a.streak??0)<2)||
+       mood.seconds<nextAllowed||Math.random()>.39)return false;
+    return begin();
+  }
+  function anim(dt){
+    const s=active;if(!s)return false;
+    if(d.state!=='water125'||document.hidden||d.jump||handLink){clear();return false;}
+    if(mode==='roam'&&(['dogTumble','dogChase','dogPlay','dogMeal','dogBond','bed','seated','reading'].includes(roam.phase)||
+       (roam.phase==='route'&&['kitchen','dogChase','dogTumble','dogBond','dogPlay'].includes(roam.target?.kind)))){clear();return false;}
+    s.age+=dt;
+    if(s.age>24){clear();return false;}
+    const obj=d.object;
+    const arrived=obj.position.distanceTo(foot)<.043;
+    const moved=arrived?0:d.follow(dt,1.26);
+    if(arrived){
+      d.rotate(facing,dt,4.5);
+      if(Math.abs(headingDelta(obj.rotation.y,facing))<.13){
+        s.drink+=dt;
+        if(s.drink>=1&&$('dogNote').textContent!==description)$('dogNote').textContent=description;
+        const low=rearRamp(s.drink,.04,.89)*(1-rearRamp(s.drink,6.48,7.45));
+        const phase=s.drink*7.1, pulse=.5+.5*Math.sin(phase*Math.PI*2);
+        const lap=low*rearRamp(s.drink,.75,1.05)*(1-rearRamp(s.drink,6.02,6.40));
+        d.mealLower=low;d.mealPose={lower:low,jaw:lap*(.045+.125*pulse),pitch:.95,waterLap:lap*pulse};
+        lip.copy(center);lip.y=.078+.009*(1-pulse);lip.z+=.018;
+        d.mealPoint=obj.worldToLocal(lip);
+        for(let i=0;i<rings.length;i++){
+          const p=(phase*.32+i*.31)%1,r=rings[i];
+          r.visible=lap>.004;r.material.opacity=lap*(1-p)*.48;r.scale.setScalar(.014+.074*p);
+        }
+      }
+    }
+    d.pose(dt,moved,center);
+    if(s.drink>=7.55)clear(true);
+    return true;
+  }
+  function look(){
+    if(!active||active.drink<.8||active.drink>5||mode!=='roam'||
+       !['wait','linger','rest','window'].includes(roam.phase)||roam.attention||reaction||contact||handLink||
+       root.position.distanceTo(center)>2.9)return;
+    const turn=T.MathUtils.clamp(headingDelta(root.rotation.y,headingTo(root.position,center)),-.92,.92);
+    const w=rearRamp(active.drink,.84,1.37)*(1-rearRamp(active.drink,3.6,4.9));
+    groups.neck.rotateY(turn*.26*w);groups.head.rotateY(turn*.58*w);groups.head.rotateX(.28*w);
+  }
+  function preview(){
+    if(devOwned())clearDevPreview();
+    if(!begin(true)&&!active)$('dogNote').textContent='ふたりが床で落ち着いているときに水飲みを試せます。';
+  }
+  $('dogWater125Try').onclick=preview;
+  return {after,anim,look,cancel:clear};
+})();
 
 const dogKitchen=(()=>{
   const k=kitchenScene,d=shepherd;
@@ -15529,7 +15652,7 @@ const dogTumble=(()=>{
        document.hidden||reaction||contact||handLink||mood.seconds<leilaUserPriorityUntil)return;
     const streak=a.streak??0;
     const chance=encoreChance(currentMood(),streak);
-    if(chance<=0||Math.random()>=chance){dogRestMat.after(a);return;}
+    if(chance<=0||Math.random()>=chance){if(!dogWater125.after(a))dogRestMat.after(a);return;}
     const room=roam.phase==='bed'?'bed':roam.phase==='seated'?'sofa':null;
     nextBeat={owner:roam,phase:roam.phase,target:roam.target,room,
       last:a.surface?.key??(a.bed?'winnerBed':a.kind),streak:streak+1,
@@ -16579,7 +16702,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);evening124.tick();leilaObservatory.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);evening124.tick();leilaObservatory.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
