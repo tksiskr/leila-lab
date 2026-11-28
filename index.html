@@ -298,6 +298,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button><label>じゃれ合いの型 <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option><option value="bedFront">ベッド上・正面</option><option value="bedRear">ベッド上・背後</option><option value="winnerBed">ベッド上・レイラの勝ち</option><option value="bedEdge">ベッドの縁・正面</option><option value="sofaEdge">ソファ・正面</option><option value="sofaFront">ソファ座面・正面</option><option value="sofaRear">ソファ座面・背後</option><option value="sofaWinner">ソファ座面・レイラの勝ち</option><option value="bedCycle">ベッドでずっと（4パターン）</option><option value="sofaCycle">ソファでずっと（4パターン）</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><small id="devLoopStatus" role="status"></small>
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
+      <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
     </div>
     <div class="leilaCard leilaMood"><h2>レイラの反応</h2>
       <label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><button id="nodPreview">うなずく</button>
@@ -8118,7 +8119,7 @@ function advanceReading(dt) {
       $('destination').textContent = '本を読んでいます';
     }
   } else {
-    roam.readTime += dt;
+    if(dogDream.readWeight()<.001)roam.readTime += dt;
     if (roam.pendingBookCue) cueReading(roam.pendingBookCue);
   }
   poseReadingBook(1,1,roam.readTime,cue?.kind === 'show' ? weight : 0,
@@ -10832,7 +10833,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -11153,7 +11154,7 @@ function createShepherd() {
         const happy=d.tumble?.front?Math.sin(swing+3.1*(d.tumble.motion??0)):0;
         looseTail.set((onSofa?.67:.55)*lie-.055*d.wag+.12*joy+(d.tumble?.surfaceRear??0)*.64+(d.tumble?.edge ? (d.tumble.couch?.59:.93)*joy : 0),
           (onSofa?.05:.38)*lie+(d.tumble?.hold?.57:.31)*d.wag*
-            mix(Math.sin(swing),1.36*happy,joy),
+            mix(Math.sin(swing),1.36*happy,joy)+.18*dogDream.tail(),
           -.05*lie+.075*joy*happy,'YXZ');
         joint.position.copy(bindTail).applyQuaternion(body.quaternion).add(body.position);
         joint.quaternion.copy(body.quaternion).multiply(tailLocal.setFromEuler(looseTail));
@@ -11193,6 +11194,10 @@ function createShepherd() {
           const fold=Math.max(front?d.sofaForeFold:d.sofaHindFold,
             d.tumble?.front?tuck:(front?.47*tuck:.12*tuck));
           ankle.lerp(foldedAnkle,fold);
+          // At full sofa fold the authored paw target replaces the proxy, so
+          // preserve a small upward-only tremor in actual mesh contacts.
+          const curlDream=dogDream.paw(index)*fold;
+          ankle.y+=.021*curlDream;ankle.z-=.024*curlDream;
           const belly=d.tumble?.bellyUp;
           if(belly){
             const pedal=Math.sin(belly.motion*(front?11.7:10.6)+index*1.64);
@@ -11265,7 +11270,18 @@ function createShepherd() {
         const h=bones[headIndex];
         joint.position.copy(lowerHinge).applyQuaternion(h.quaternion).add(h.position);
         joint.quaternion.copy(h.quaternion).multiply(jawTurn.setFromAxisAngle(
-          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14));
+          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14+.062*dogDream.muzzle()));
+      });
+      // Ear bases measured on the retargeted Shepherd's vertices. These
+      // bones exactly match the head transform outside a dream.
+      const earLocal=new T.Quaternion(),earAxis=V(0,0,1);
+      const earIndices=[V(-.153,.736,.473),V(-.046,.740,.411)].map((pivot,i)=>{
+        const offset=pivot.clone().sub(skull),side=i?1:-1;
+        return bone(pivot,joint=>{
+          const h=bones[headIndex];
+          joint.position.copy(offset).applyQuaternion(h.quaternion).add(h.position);
+          joint.quaternion.copy(h.quaternion).multiply(earLocal.setFromAxisAngle(earAxis,-side*.19*dogDream.ears(side)));
+        });
       });
       const positions=geometry.getAttribute('position');
       const indices=new Uint16Array(positions.count*4);
@@ -11274,7 +11290,7 @@ function createShepherd() {
       for(let i=0;i<positions.count;i++){
         const x=positions.getX(i),y=positions.getY(i),z=positions.getZ(i);
         // Diagonal cuts follow the shoulder and the underside of the jaw.
-        // The muzzle and ears keep a single rigid transform.
+        // The ear tips blend separately above the measured root seam.
         const neck=fade(y+.64*(z-.30),.43,.60)*(fade(z,.16,.30));
         const headShare=fade(y+.95*(z-.38),.55,.635);
         // Exclude haunches; start the transition where the real tail leaves the rump.
@@ -11292,10 +11308,13 @@ function createShepherd() {
         const jawShare=fade(z,.455,.503)*(1-fade(y,lipLine-.006,lipLine+.008))
           *fade(y,.504,.535);
         const rigidHead=(1-tailShare)*neck*headShare;
+        const pinna=fade(y,.741,.806)*fade(Math.abs(x+.101),.038,.064);
+        const earIndex=earIndices[x>-.101?1:0];
         const influences=[
           [bodyIndex,(1-tailShare)*(1-neck)*(1-leg)],
           [neckIndex,(1-tailShare)*neck*(1-headShare)],
-          [headIndex,rigidHead*(1-jawShare)],[jawIndex,rigidHead*jawShare],
+          [headIndex,rigidHead*(1-jawShare)*(1-pinna)],[jawIndex,rigidHead*jawShare],
+          [earIndex,rigidHead*(1-jawShare)*pinna],
           [tailIndex,tailShare],
           [limb[0],legShare*upper],[limb[1],legShare*(1-upper-paw)],[limb[2],legShare*paw]
         ];
@@ -11385,7 +11404,7 @@ function createShepherd() {
   loadShepherdModel();
   function pose(dt,move,focus,running=false){
     const couch=d.state==='couchCurl', sleeping=d.state==='curl'||couch, inJump=d.state==='up'||d.state==='down';
-    dogDream.step(d,d.state==='curl');
+    dogDream.step(d);
     const rival=d.state==='rival'&&d.rivalPose>0;
     const petted=d.petEnds>d.time&&!sleeping;
     const notice=rival?Math.sin(Math.min(1,d.rivalPose/1.7)*Math.PI):0;
@@ -11461,7 +11480,7 @@ function createShepherd() {
     const blink=(d.time+1.2)%4.7;
     for(const eye of eyes)eye.scale.y=mix(blink<.16 ? .1+.9*Math.abs(blink-.08)/.08 : 1,.065,c);
     for(const [ear,s] of ears){
-      ear.rotation.z=-s*(.16+.18*c);
+      ear.rotation.z=-s*(.16+.18*c+.155*dogDream.ears(s));
       ear.rotation.x=-.09-.46*c+.08*Math.sin(d.time*3+s)*(.28+w);
     }
     if(meal>0&&!d.visibleMealLip){
@@ -11497,7 +11516,7 @@ function createShepherd() {
     tail.position.set(.035*c,.490+.162*c,-.407+.098*c);
     tail.rotation.y=(.17+1.03*c*(1-.62*lap))+.72*d.wag*Math.sin(d.time*(p||petted||rival?13:5));
     tail.rotation.x=1.12*c-.26*d.wag;
-    tailTip.rotation.y=1.55*c*(1-.56*lap)+.32*d.wag*Math.sin(d.time*9-.55);
+    tailTip.rotation.y=1.55*c*(1-.56*lap)+.32*d.wag*Math.sin(d.time*9-.55)+.29*dogDream.tail();
     tailTip.rotation.x=.44*c+.12*Math.sin(d.time*4)*d.wag;
     for(let i=0;i<legs.length;i++){
       const {front,s,paw,anklePiece,toes,upper,lower}=legs[i];
@@ -12397,59 +12416,146 @@ function advanceCouchCompanion(d,dt,canStay){
   }
   return moved;
 }
-// LAB98 • 睡眠中の犬 / 犬の夢は家具や入力の状態を変えない。
+// LAB 121 • 椅子／ベッドの夢。犬の姿勢とレイラの反応だけを重ねる。
 const dogDream = (() => {
-  const secondsBetween = () => 12+Math.random()*8;
-  const note = '眠ったまま、犬の足先がぴくぴくしています。';
-  let scene='', nextAt=Infinity, startAt=-Infinity, elapsed=-1, oldNote='';
-  function pulse(t,at,length) {
-    const q=(t-at)/length;
-    return q>0&&q<1 ? Math.sin(q*Math.PI)**2 : 0;
+  const patterns=[
+    {name:'駆ける夢',note:'眠ったまま、犬の足先がときどき駆けています。',duration:3.75,steps:[[1,.10,.30,.86],[2,.27,.36,.56],[0,.52,.33,.44],[3,.69,.34,.31],[1,.90,.34,.77],[2,1.04,.40,.48],[0,1.32,.37,.31],[1,1.69,.43,.46],[2,1.83,.44,.25]],nose:.54,tail:.38},
+    {name:'耳を澄ます夢',note:'犬が眠ったまま、片耳をぴくっと動かしました。',duration:3.35,steps:[[0,.39,.39,.28],[1,1.20,.36,.18]],nose:.31,tail:.12},
+    {name:'ごきげんな夢',note:'犬は眠ったまま、しっぽの先を楽しそうに振っています。',duration:4.05,steps:[[2,.39,.46,.35],[0,1.01,.38,.19],[3,1.40,.44,.29]],nose:.69,tail:.82}
+  ];
+  let scene='',nextAt=Infinity,queued=null,active=null,last=-1,settledAt=-Infinity,skipAutoAt=-Infinity;
+  const point=new T.Vector3(),worldHead=new T.Vector3();
+  const time=()=>active?shepherd.t-active.start:-1;
+  const pulse=(t,at,length)=>{
+    const p=(t-at)/length;
+    return p>0&&p<1?Math.sin(p*Math.PI)**2:0;
+  };
+  function clear(){
+    if(active&&$('dogNote').textContent===active.pattern.note)$('dogNote').textContent=active.oldNote;
+    active=null;
   }
-  function clearNote() {
-    if($('dogNote').textContent===note)$('dogNote').textContent=oldNote;
+  function sleepingHere(d){
+    if(!d.ready||d.jump||mode!=='roam'||!roam)return '';
+    if(d.state==='curl'&&roam.phase==='bed')return 'curl';
+    if(d.state==='couchCurl'&&(roam.phase==='reading'||roam.phase==='seated')&&d.lapPoint)return 'couchCurl';
+    return '';
   }
-  function step(d,sleeping) {
-    const key=sleeping&&!d.jump ? d.state : '';
-    if(key!==scene){
-      clearNote();
-      scene=key;elapsed=-1;startAt=-Infinity;
-      nextAt=key ? d.t+2.9+Math.random()*1.5 : Infinity;
+  function canNotice(){
+    return mode==='roam'&&roam&&!roam.pending&&!roam.attention&&!reaction&&!contact&&!handLink&&
+      !document.hidden&&mood.seconds>=leilaUserPriorityUntil;
+  }
+  function choosePattern(){
+    // A warm mood favors watching the longer, playful dream. A sleepy
+    // evening favors a little ear twitch; never play the same one twice.
+    const feeling=currentMood(),night=lastWorldMinute<7*60||lastWorldMinute>=20*60;
+    const weights=night?[2,5,2]:feeling==='playful'?[5,2,3]:[3,3,4];
+    if(last>=0)weights[last]=0;
+    let roll=Math.random()*(weights[0]+weights[1]+weights[2]);
+    for(let i=0;i<weights.length;i++){roll-=weights[i];if(roll<0)return i;}
+    return weights.findIndex(x=>x>0);
+  }
+  function step(d){
+    const key=sleepingHere(d);
+    if(key!==scene||key&&d.t<settledAt){
+      clear();scene=key;settledAt=key?d.t:-Infinity;
+      nextAt=key?d.t+(key==='curl'?7:5.4)+Math.random()*2:Infinity;
     }
-    if(!scene)return;
-    if(d.t>=nextAt){
-      startAt=d.t;nextAt=d.t+secondsBetween();
-      oldNote=$('dogNote').textContent;
-      $('dogNote').textContent=note;
+    if(queued&&(mood.seconds>queued.until||mode!=='roam'||
+       mood.seconds>queued.routeGrace&&(roam.pending?.target??roam.target)!==queued.desired&&
+        !(key===queued.key&&(key==='curl'||roam.phase==='reading'))))queued=null;
+    if(!key)return;
+    if(active&&time()>=active.pattern.duration)clear();
+    if(active||!canNotice()||devOwned())return;
+    const forced=queued&&key===queued.key&&d.t>=(key==='curl'?6.7:2.0)&&(key!=='couchCurl'||roam.phase==='reading');
+    if(!forced&&(queued||d.t<nextAt||mood.seconds<skipAutoAt))return;
+    if(!forced&&roam.phase==='bed'&&roam.bedBlendFrom)return;
+    const n=forced&&queued.index!==null?queued.index:choosePattern();
+    const pattern=patterns[n];
+    active={pattern,start:d.t,oldNote:$('dogNote').textContent,offset:Math.random()<.5?1:0,
+      readOwner:null,noticed:false};
+    last=n;nextAt=d.t+pattern.duration+15+Math.random()*10;skipAutoAt=mood.seconds+18;
+    if(forced)queued=null;
+    $('dogNote').textContent=pattern.note;
+  }
+  function paw(index){
+    const t=time();
+    if(t<0)return 0;
+    const i=active.offset?(index^1):index;
+    let lift=0;
+    for(const row of active.pattern.steps)if(row[0]===i)lift+=row[3]*pulse(t,row[1],row[2]);
+    return lift;
+  }
+  function ears(side){
+    const t=time();
+    if(t<0)return 0;
+    const focal=(side>0)===(active.offset===1);
+    return (focal?1:.36)*(pulse(t,.18,.29)+.61*pulse(t,.79,.37)+.27*pulse(t,1.20,.40));
+  }
+  function muzzle(){
+    const t=time();
+    return t<0?0:active.pattern.nose*(pulse(t,.19,.25)+.64*pulse(t,.54,.34)+.40*pulse(t,1.08,.35));
+  }
+  function tail(){
+    const t=time();
+    return t<0?0:active.pattern.tail*Math.sin(t*17)*
+      (.7*pulse(t,.40,.96)+.36*pulse(t,1.46,.53));
+  }
+  function readWeight(){
+    if(!active||!canNotice()||roam.phase!=='reading'||roam.bookCue||roam.pendingBookCue||bookPageReach(roam.readTime)>0||active.readOwner!==roam)return 0;
+    const t=time();
+    return rearRamp(t,.31,.91)*(1-rearRamp(t,2.25,3.17));
+  }
+  function look(weight){
+    if(weight<.001)return;
+    shepherd.head.getWorldPosition(point);
+    groups.head.getWorldPosition(worldHead);
+    point.sub(worldHead);
+    const yaw=T.MathUtils.clamp(headingDelta(root.rotation.y,Math.atan2(point.x,point.z)),-1.21,1.21);
+    const pitch=T.MathUtils.clamp(Math.atan2(-point.y,Math.hypot(point.x,point.z)),.19,.80);
+    groups.neck.rotateY(yaw*.25*weight);
+    groups.head.rotateY(yaw*.59*weight);
+    groups.head.rotateX(pitch*.55*weight);
+    groups.head.rotateZ((yaw>0?1:-1)*.082*weight);
+  }
+  function comfort(){
+    const t=time();
+    if(t<.27||!canNotice()||sleepingHere(shepherd)!==scene||devOwned())return false;
+    if(roam.phase==='reading'){
+      if(!active.noticed&&t<1.30&&!roam.bookCue&&!roam.pendingBookCue&&bookPageReach(roam.readTime)===0){
+        active.readOwner=roam;active.noticed=true;
+      }
+      // Once the glance ends, release the page clock and never restart it
+      // for this dream. Gestures still take precedence in advanceReading.
+      look(readWeight());
+      return false;
     }
-    elapsed=d.t-startAt;
-    if(elapsed>=2.7)clearNote();
-  }
-  function paw(index) {
-    if(!scene||elapsed<0||elapsed>2.6)return 0;
-    // A first forepaw flutters, then a much smaller response in the back paw.
-    if(index===1)return .84*pulse(elapsed,.08,.24)+.59*pulse(elapsed,.42,.25)+.42*pulse(elapsed,.75,.27)+.31*pulse(elapsed,1.26,.34);
-    if(index===2)return .46*pulse(elapsed,.22,.33)+.37*pulse(elapsed,.63,.32)+.27*pulse(elapsed,1.34,.33);
-    if(index===0)return .26*pulse(elapsed,.61,.29)+.18*pulse(elapsed,1.04,.24);
-    return .16*pulse(elapsed,.90,.35);
-  }
-  function muzzle() {
-    return scene && elapsed>=0 && elapsed<2.1
-      ? .45*pulse(elapsed,.19,.24)+.24*pulse(elapsed,.51,.29)+.19*pulse(elapsed,.94,.37) : 0;
-  }
-  function comfort() {
-    if(!scene||elapsed<.37||elapsed>2.65||mode!=='roam'||contact||reaction||handLink||
-       document.hidden||mood.seconds<leilaUserPriorityUntil||shepherd.state!==scene||
-       shepherd.jump) return false;
-    const bed=scene==='curl'&&roam.phase==='bed'&&!roam.bedBlendFrom;
-    // Keep Leila's hands on the book while reading, and don't interfere with a bed roll.
-    if(!bed)return false;
-    const weight=rearRamp(elapsed,.37,.91)*(1-rearRamp(elapsed,2.0,2.65));
+    const weight=rearRamp(t,.28,.94)*(1-rearRamp(t,2.34,3.17));
     if(weight<.001)return false;
-    return petDogInBed(weight,.5+.25*Math.sin(4.6*elapsed));
+    if(scene==='curl'&&roam.phase==='bed'&&!roam.bedBlendFrom)
+      return petDogInBed(weight,.54+.24*Math.sin(3.6*t));
+    if(scene==='couchCurl'&&roam.phase==='seated'){
+      look(weight);
+      return false;
+    }
+    return false;
   }
-  return {step,paw,muzzle,comfort};
+  function preview(){
+    if(!shepherd.ready||!restClips)return;
+    clearDevPreview();
+    const choice=$('dogDreamLocation').value;
+    const key=choice==='bed'?'curl':'couchCurl', desired=choice==='bed'?bedTarget:bookTarget;
+    const option=$('dogDreamType').value;
+    if(mode!=='roam')beginRoam();
+    clear();
+    queued={key,desired,index:option===''?null:Number(option),until:mood.seconds+70,routeGrace:mood.seconds+2};
+    const current=roam.pending?.target??roam.target;
+    if(current!==desired&&(sleepingHere(shepherd)!==key||choice==='sofa'&&roam.phase!=='reading'))
+      requestDestination(desired);
+    $('dogNote').textContent=choice==='bed'?'犬がベッドで落ち着くと、夢のしぐさを再生します。':'ソファでふたりが落ち着くと、夢のしぐさを再生します。';
+  }
+  return {step,paw,muzzle,ears,tail,comfort,readWeight,preview};
 })();
+$('dogDreamPreview').onclick=dogDream.preview;
 
 function petDogFromSofa(){
   const d=shepherd;
