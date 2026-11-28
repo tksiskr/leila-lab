@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 171｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 172｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 171</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 172</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -4964,6 +4964,46 @@ const leilaTee = (() => {
     set(on);foldedTee.visible=!on;
     try{localStorage.setItem(key,on?'1':'0');}catch{}
   };
+  // LAB172: a strapless pattern measured with the tee's armor sampler.
+  // It does not use the tee's armholes or shoulder weights.
+  garment.strapless172=(seat,cloth,binding)=>{
+    const geom=new T.BufferGeometry(), xyz=[], ix=[], sw=[], si=[];
+    const count=56, edges=[0,.05,.12,.20,.30,.40,.49,.58,.68,.77,.85,.92,.976,1,1];
+    const pos=seat.geometry.attributes.position, half=pos.count/2;
+    for(let row=0;row<edges.length;row++)for(let i=0;i<count;i++){
+      const angle=i*tau/count, x=Math.sin(angle), z=Math.cos(angle);
+      const edge=.733+.012*Math.max(0,z)+.011*Math.exp(-(((Math.abs(x)-.38)/.28)**2))*smoothing(z,.1,.85);
+      const y=T.MathUtils.lerp(.650,edge,edges[row])-(row===edges.length-1?.0007:0);
+      const seam=i<=count/2?i:half+count-i;
+      const sx=pos.getX(seam),sz=pos.getZ(seam)-dorsalMid;
+      const ease=smoothing(y,.650,.673);
+      const fitted=Math.max(
+        fitTorso(y,angle),fitTorso(y-.001,angle),fitTorso(y+.001,angle),
+        .46*(fitTorso(y,angle-.12)+fitTorso(y,angle+.12)),
+        (.041+.010*smoothing(y,.69,.726))*(.93+.07*Math.abs(z))
+      )+.004;
+      const radius=fitted+(row===edges.length-1?-.002:0);
+      xyz.push(T.MathUtils.lerp(sx*1.006,x*radius,ease),y,
+        dorsalMid+T.MathUtils.lerp(sz*1.006,z*radius,ease));
+      const chest=smoothing(y,.675,.720);
+      si.push(0,1,2,0);sw.push(1-ease,ease*(1-chest),ease*chest,0);
+      if(row===0)continue;
+      const a=(row-1)*count+i,b=(row-1)*count+(i+1)%count;
+      ix.push(a,b,a+count,b,b+count,a+count);
+    }
+    geom.setAttribute('position',new T.Float32BufferAttribute(xyz,3));
+    geom.setAttribute('skinIndex',new T.Uint16BufferAttribute(si,4));
+    geom.setAttribute('skinWeight',new T.Float32BufferAttribute(sw,4));
+    geom.setIndex(ix);
+    const hem=(edges.length-3)*count*6;
+    geom.addGroup(0,hem,0);geom.addGroup(hem,ix.length-hem,1);geom.computeVertexNormals();
+    const mesh=new T.SkinnedMesh(geom,[cloth,binding]);
+    mesh.name='Classic Bunny / strapless bodice';
+    mesh.castShadow=true;mesh.receiveShadow=true;mesh.frustumCulled=false;
+    const rig=new T.Skeleton([groups.pelvis,groups.abdomen,groups.chest]);
+    mesh.updateMatrixWorld(true);mesh.bind(rig);
+    return mesh;
+  };
   return garment;
 })();
 
@@ -5657,8 +5697,8 @@ function createWardrobePants(){
         const blend=1-smooth(y,.548,.595);
         for(let i=0;i<polar;i++){
           const [s,c]=dirs[i], side=i<=halfPolar;
-          const rx=Math.max(.033, y>.48?.045:.029),rz=y>.46?.044:.034;
-          const thighEase=.0026*smooth(y,.478,.538)*(1-smooth(y,.592,.633));
+          const rx=spec.highCut?.034:Math.max(.033,y>.48?.045:.029),rz=spec.highCut?.036:y>.46?.044:.034;
+          const thighEase=(spec.highCut?.0008:.0026)*smooth(y,.478,.538)*(1-smooth(y,.592,.633));
           const flare=(spec.flare??0)*smooth(y,spec.end,spec.end+.16);
           const hemFullness=(spec.flare??0)-flare;
           const radius=Math.max(leg([s*sign,c])+.006+thighEase,1/Math.hypot(s/rx,c/rz))+hemFullness;
@@ -5691,6 +5731,15 @@ function createWardrobePants(){
           const u=i/polar,h=(topY-y)/(topY-spec.end), out=s>.3;
           const cargo=spec.cargo&&out&&h>.23&&h<.45&&Math.abs(u-.25)<.106;
           if(cargo){x+=sign*.0032*Math.sin(Math.PI*clamp((h-.23)/.22,0,1));}
+          if(spec.highCut){
+            // Raise the outer arc smoothly, without dragging the center seam
+            // or putting the opening's side seam on the moving thigh.
+            const lift=.066*Math.pow(Math.max(0,s),.94)*(1-smooth(y,spec.end,.642));
+            yy+=lift;
+            const pull=smooth(lift,0,.056);
+            const outer=Math.max(0,Math.abs(x)-.049);
+            x-=sign*Math.min(.016,outer*.41)*pull;
+          }
           positions.push(x,yy,z);
           const t=!centerSeam&&(side||j>crotch)?turn*(j<=crotch?smooth(Math.abs(s),0,.45)*(.35+.65*blend):1):0;
           const k=t*knee;
@@ -5732,12 +5781,13 @@ function createWardrobePants(){
                 (Math.abs(Math.sin(tau*(u*6-h*9)))<.32))color.lerp(thread,.42);
               break;
           }
-          if(j<3||j>=n-2||fly||beltLoop||cargoFlap||pocket)color.copy(edge);
+          if(spec.highCut)color.copy(j>=n-2?edge:main);
+          else if(j<3||j>=n-2||fly||beltLoop||cargoFlap||pocket)color.copy(edge);
           if(spec.cuff&&h>=1-spec.cuff){
             color.lerp(edge,.72);
             if(h<1-spec.cuff*.73||j===n-3)color.lerp(thread,.54);
           }
-          if((spec.stripe&&sideSeam&&j>2)||((j===2||j===n-3)&&i%4!==0)||beltLoop&&j===2)
+          if(!spec.highCut&&((spec.stripe&&sideSeam&&j>2)||((j===2||j===n-3)&&i%4!==0)||beltLoop&&j===2))
             color.lerp(thread,spec.stripe&&sideSeam?.88:.44);
           rgb.push(color.r,color.g,color.b);
         }
@@ -6616,6 +6666,58 @@ const wardrobe109=(()=>{
       colors:[0x202033,0x392644,0xd1a8de],collection:'night',rough:.62,
       rule:(x,y,z)=> y<.661?1:front169(z)&&Math.abs(Math.abs(x)-(.023+(y-.674)*.24))<.0033?2:0,
       pant:{end:.523,roughness:.66,cuff:.075},detail:bow169});
+    // LAB172: separate from the saved Noir outfit; independent bunny ears
+    // can be combined with either outfit from the accessory slot.
+    {
+      const name='クラシック・バニースーツ', ink=0x191824, edge=0x262332;
+      const waist=pants.trouser({name:'Classic Bunny / curved leg openings',main:ink,
+        edge,trim:0x534962,end:.538,highCut:true,roughness:.47});
+      const shell=new T.Group();shell.name=name;root.add(shell);
+      const cloth=palette169(ink,.47), binding=palette169(edge,.50);
+      const cream=palette169(0xf9f6ed,.73), charcoal=palette169(0x17131f,.54);
+      shell.add(leilaTee.strapless172(waist,cloth,binding));
+      const details=[];
+      function detail(name,bone){
+        const node=new T.Group();node.name=name;bone.add(node);details.push(node);return node;
+      }
+      const neck=detail('Classic Bunny / wing collar and bow',groups.neck);
+      const neckCloth=new T.Mesh(new T.CylinderGeometry(.019,.024,.013,28,1,true),cream);
+      neckCloth.scale.z=1.06;neckCloth.position.set(0,.003,.018);neck.add(neckCloth);
+      const prow=neckBow.position.z+.004;
+      function insert(points,material){
+        const geom=new T.BufferGeometry();
+        geom.setAttribute('position',new T.Float32BufferAttribute(points.flat(),3));
+        geom.computeVertexNormals();neck.add(new T.Mesh(geom,material));
+      }
+      for(const side of [-1,1]){
+        insert([[side*.007,.007,prow-.003],[side*.025,-.009,prow-.010],[side*.006,-.016,prow+.001]],cream);
+        insert([[0,-.005,prow+.004],[side*.021,.004,prow],[side*.019,-.014,prow]],charcoal);
+      }
+      const knot=new T.Mesh(new T.SphereGeometry(.0052,10,7),charcoal);
+      knot.scale.set(1,.83,.66);knot.position.set(0,-.005,prow+.004);neck.add(knot);
+      for(const side of ['P','N']){
+        const hand=groups['hand'+side], wrist=detail('Classic Bunny / cuff '+side,hand);
+        const band=new T.Mesh(new T.CylinderGeometry(.022,.019,.024,18,1,true),cream);
+        const stud=new T.Mesh(new T.SphereGeometry(.0033,8,5),charcoal);
+        stud.position.z=.022;wrist.add(band,stud);
+        const axis=hand.position.clone().negate().normalize();
+        wrist.position.copy(axis).multiplyScalar(.013);
+        wrist.quaternion.setFromUnitVectors(V169(0,1,0),axis);
+      }
+      const tail=detail('Classic Bunny / powder-puff tail',groups.pelvis);
+      tail.position.set(0,.010,-.050);
+      const fur=new T.IcosahedronGeometry(.021,1);
+      for(const [x,y,z,scale] of [[0,0,0,1],[.012,.006,-.007,.54],[-.012,.006,-.007,.54],
+        [0,.013,-.006,.58],[0,-.012,-.007,.55]]){
+        const puff=new T.Mesh(fur,cream);
+        puff.position.set(x,y,z);puff.scale.set(scale,scale,scale*.9);puff.castShadow=true;tail.add(puff);
+      }
+      let shown=false;
+      for(const model of details)model.visible=false;
+      Object.defineProperty(shell,'visible',{configurable:true,enumerable:true,
+        get:()=>shown,set:on=>{shown=!!on;for(const model of details)model.visible=shown;}});
+      item('classicBunny','set',name,shell,ink,{collection:'night',bottom:waist,coverHem:.604});
+    }
     outfit169({id:'aeroTracksuit',name:'エアロ・トラックスーツ',source:jacket169,
       colors:[0x2b4875,0x141d35,0xef8657,0xedebe5],collection:'sport',
       rule:(x,y,z,m)=> m===1?1:front169(z)&&Math.abs(x)<.0039&&y>.664?2:
