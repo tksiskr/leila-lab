@@ -13351,7 +13351,7 @@ const dogRestMat=(()=>{
     if(active){cancel();return;}
     if(!start(true)&&d.ready)$('dogNote').textContent='今はキルトで休憩できません。';
   }
-  return {after,advance,scout,dog,cancel,preview,busy:()=>!!active};
+  return {after,advance,scout,dog,cancel,preview,busy:()=>!!active,framed:()=>!!active?.arrived&&d.state==='matRest'};
 })();
 $('dogRestMatPreview').onclick=dogRestMat.preview;
 
@@ -16136,9 +16136,9 @@ const cinema=(()=>{
     for(const cluster of movingObstacles)refreshCluster(cluster);
     const measure=shepherd.object;
     dog.copy(measure.position);
-    const episode=mode==='roam'?roam.phase:'';
+    const episode=mode==='roam'?(dogRestMat.framed()?'dogRestMat':roam.phase):'';
     const paired=shepherd.ready&&Math.hypot(dog.x-hip.x,dog.z-hip.z)<(episode==='dogChase'?1.95:1.46)&&
-      ['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal'].includes(episode);
+      ['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat'].includes(episode);
     if(paired){
       dogMarks[0].copy(dog).add(V(0,.085,0));
       dogMarks[1].copy(dog).add(V(.28,.39,0));
