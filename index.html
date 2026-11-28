@@ -9022,8 +9022,9 @@ const cool134=(()=>{
     const rise=Math.max(0,.48+lift*.52)*v;
     for(const side of sofaSides){
       const sign=side==='P'?1:-1;
-      const arm=a.style==='side'?Math.max(0,-sign*shift):.5*rise;
-      groups['upper'+side].rotateZ(-sign*(.22*v+.56*arm));
+      const sideStretch=a.style==='side';
+      const arm=sideStretch?Math.max(0,-sign*shift):.5*rise;
+      groups['upper'+side].rotateZ(sign*(sideStretch?(.22*v+.56*arm):(.12*v+.24*arm)));
       groups['upper'+side].rotateX(-.22*arm);
       groups['elbow'+side].rotateX(-.16*arm);
     }
