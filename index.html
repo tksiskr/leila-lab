@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 158｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 159｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 158</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 159</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -282,7 +282,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <p id="lab130QualityInfo"></p>
       <label><input id="lab140StayAwake" type="checkbox"> 全画面中は画面の消灯を防ぐ</label>
       <p id="lab140StayStatus" role="status"></p>
-      <button type="button" id="lab132ShadeTest">東窓のシャッターを開閉</button>
+      <button type="button" id="lab132ShadeTest">全窓のシャッターを開閉</button>
       <label><input id="lab147ShadeAuto" type="checkbox" checked> 朝晩の開閉をレイラに任せる</label>
       <p id="lab132ShadeStatus" aria-live="polite"></p>
     </details>
@@ -790,7 +790,11 @@ const floorGroup=new T.Group(), ceilingGroup=new T.Group(), wallGroups=[];
 architecture.add(floorGroup,ceilingGroup);
 block(floorGroup,floor,0,-.12,3,24,.24,30);
 block(ceilingGroup,wall,0,8.12,3,24,.24,30);
-for(const [x,z,angle,length] of [[0,-12,0,24],[0,18,Math.PI,24],[-12,3,Math.PI/2,30],[12,3,-Math.PI/2,30]]){
+const windowWalls=[
+  [0,-12,0,24,'North'],[0,18,Math.PI,24,'South'],
+  [-12,3,Math.PI/2,30,'West'],[12,3,-Math.PI/2,30,'East']
+];
+for(const [x,z,angle,length] of windowWalls){
  const side=new T.Group();side.position.set(x,0,z);side.rotation.y=angle;architecture.add(side);wallGroups.push(side);
  block(side,wall,0,.35,0,length,.7,.42);block(side,wall,0,7.35,0,length,1.3,.42);
  const n=Math.round(length/3), span=length/n;
@@ -10145,17 +10149,21 @@ const windowRain130=(()=>{
   return {target,maybe,arrive,tick,glance,watching};
 })();
 
-// East shutter routine. A manual choice wins for the whole current morning/night period.
+// Room shutter routine. A manual choice wins for the whole current morning/night period.
 const shade132=(()=>{
-  const h=new T.Group();h.name='East privacy shade';wallGroups[3].add(h);
+  const h=new T.Group();h.name='Room shutter switch';wallGroups[3].add(h);
   h.position.set(9.36,.64,.23);
   const shell=mat(0x525f65,.79),fabric=mat(0xb0a595,.98),gray=mat(0x736b61,.86);
-  const shutter=new T.Group();shutter.name='East exterior shutter';
-  wallGroups[3].add(shutter);shutter.position.z=-.32;
-  block(shutter,shell,0,6.91,0,30.12,.30,.19);
-  const slats=new T.InstancedMesh(cube,fabric,32);
-  slats.frustumCulled=false;shutter.add(slats);
-  const end=block(shutter,gray,0,6.76,0,30.03,.055,.05);
+  const shutters=windowWalls.map(([, , , length, direction],i)=>{
+    const shutter=new T.Group();shutter.name=direction+' exterior shutter';
+    // The parent preserves the camera's existing wall cutaway behavior.
+    wallGroups[i].add(shutter);shutter.position.z=-.32;
+    block(shutter,shell,0,6.91,0,length+.12,.30,.19);
+    const slats=new T.InstancedMesh(cube,fabric,32);
+    slats.frustumCulled=false;shutter.add(slats);
+    const width=length+.03, end=block(shutter,gray,0,6.76,0,width,.055,.05);
+    return {width,slats,end};
+  });
   const pull=block(h,shell,.886,.69,.142,.047,.081,.038);
   const cap=block(h,gray,.886,.769,.137,.075,.206,.028);
 
@@ -10182,7 +10190,7 @@ const shade132=(()=>{
       localStorage.setItem(configKey,JSON.stringify({auto,hold:manualPeriod}));
     }catch{}
   }
-  const target={kind:'shade132',shade132:true,name:'東窓のシャッター',heading:Math.PI/2,
+  const target={kind:'shade132',shade132:true,name:'全窓シャッターのスイッチ',heading:Math.PI/2,
     point:V(5.55,0,6.66),lookAt:h.localToWorld(V(.886,.69,.167))};
   function register(){destinationMeshes.set(cap,target);destinationMeshes.set(pull,target);}
   let rendered=-1,next=161;
@@ -10190,21 +10198,25 @@ const shade132=(()=>{
     if(down!==rendered){
       rendered=down;
       const top=6.79,length=.035+6.12*down,base=top-length;
-      for(let i=0;i<slats.count;i++){
-        const y=top-(i+.5)*length/slats.count;
-        m.makeScale(30.03,length/slats.count+.004,.035);m.setPosition(0,y,0);slats.setMatrixAt(i,m);
+      for(const {width,slats,end} of shutters){
+        const pitch=length/slats.count;
+        m.makeScale(width,pitch+.004,.035);
+        for(let i=0;i<slats.count;i++){
+          m.setPosition(0,top-(i+.5)*pitch,0);
+          slats.setMatrixAt(i,m);
+        }
+        slats.instanceMatrix.needsUpdate=true;
+        end.position.y=base;
       }
-      slats.instanceMatrix.needsUpdate=true;
-      end.position.y=base;
     }
     pull.position.y=.69-.23*pulling;
 
   }
   function label(shift=period()){
     const holding=auto&&manualPeriod===shift.id;
-    note.textContent=(closed?'シャッター：閉':'シャッター：開')+
+    note.textContent=(closed?'全窓のシャッター：閉':'全窓のシャッター：開')+
       (!auto?' ・ 手動のみ':holding?` ・ 手動設定を${shift.night?'朝6:45':'夜20:00'}まで維持`:' ・ 朝6:45に開け、夜20:00に閉める');
-    button.textContent=closed?'東窓のシャッターを開ける':'東窓のシャッターを閉める';
+    button.textContent=closed?'全窓のシャッターを開ける':'全窓のシャッターを閉める';
   }
   draw(Number(closed),0);label();
   let wasWorking=false, manualSlide=false, lastLabelMinute=-2;
@@ -10261,7 +10273,7 @@ const shade132=(()=>{
   }
   function arrive(){
     const done=roam.visit?.some(s=>s.type==='shade132Work'&&s.done);
-    enterQuietRest('window',done?(closed?'レイラが東窓のシャッターを下ろしました':'レイラがシャッターを開けました'):'東窓でひと息ついています',7);
+    enterQuietRest('window',done?(closed?'レイラが全窓のシャッターを下ろしました':'レイラが全窓のシャッターを開けました'):'東窓でひと息ついています',7);
   }
   function maybe(){
     if(!auto||mode!=='roam'||devOwned()||document.hidden||mood.seconds<next||
