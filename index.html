@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 169｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 170｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 169</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 170</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -16489,7 +16489,9 @@ function updateShepherd(dt){
   }else if(d.state==='bond'&&d.bond){
     const b=d.bond;b.t+=dt;
     focus=leilaFaceForDog();
-    if(!b.ready&&obj.position.distanceTo(b.point)>.042)moved=d.follow(dt,1.33);
+    if(!b.ready&&obj.position.distanceTo(b.point)>.042){
+      if(!waitingForDogCallShot(b.t,b.cameraLead))moved=d.follow(dt,1.33);
+    }
     else {
       d.rotate(b.yaw,dt,4.9);
       if(Math.abs(headingDelta(obj.rotation.y,b.yaw))<.20||b.ready>0){
@@ -16855,16 +16857,26 @@ function bondNeighbor(){
   }
   return null;
 }
+function dogCallCameraLead(dog,actor){
+  // In cinema only, leave a beat for her call before the distant dog responds.
+  return cinemaOwnsView&&document.body.classList.contains('leilaFullView')?
+    .50+.59*rearRamp(dog.distanceTo(actor),1.00,3.65):0;
+}
+function waitingForDogCallShot(elapsed,lead){
+  if(!cinemaOwnsView||!lead)return false;
+  return elapsed<lead||elapsed<lead+.82&&!cinema.callReady();
+}
 function startDogBond(manual=false){
   const d=shepherd;
   const bond=bondNeighbor();
   if(!bond)return false;
+  bond.cameraLead=dogCallCameraLead(d.object.position,root.position);
   d.bond=bond;d.change('bond');
   roam.phase='dogBond';roam.elapsed=0;roam.pause=Infinity;
   settleStandingFeet();roam.bondPose=captureSofaPose();
   nextDogBondAt=mood.seconds+17+Math.random()*9;
   $('destination').textContent='レイラが犬をそばに呼んでいます';
-  if(manual){
+  if(manual&&!cinemaOwnsView){
     const center=root.position.clone().add(V(bond.side*.25,.49,0).applyAxisAngle(V(0,1,0),root.rotation.y));
     dogFollowCamera(center,V(-bond.side*.95,1.0,2.17).applyAxisAngle(V(0,1,0),root.rotation.y));
   }
@@ -19236,6 +19248,7 @@ const dogKitchen=(()=>{
       return;
     }
     run.phase='meal';
+    run.cameraLead=dogCallCameraLead(d.object.position,root.position);
     run.grip=0;k.restTools();nextMeal=mood.seconds+245+Math.random()*105;
     enterQuietRest('dogMeal','レイラが器を置いて、犬を呼びました',Infinity);
     $('dogNote').textContent='犬がごはんの器へ向かっています。';
@@ -19262,7 +19275,7 @@ const dogKitchen=(()=>{
     if(d.state!=='meal'){d.change('meal');d.destination=null;d.path=[];d.rivalQueued=false;}
     d.navigate(dogDock);
     const close=d.object.position.distanceTo(dogDock)<.038;
-    const moved=close?0:d.follow(dt,1.29);
+    const moved=close||waitingForDogCallShot(a.dogTime,a.cameraLead)?0:d.follow(dt,1.29);
     if(close){
       const h=headingTo(dogDock,k.pad);
       d.rotate(h,dt,5);
@@ -19303,7 +19316,7 @@ const dogKitchen=(()=>{
   btn.onclick=()=>start(true);btn.disabled=false;
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&isCooking())interrupt();});
   return {start,maybeStart,decorate,stageStart,cook,lower,holdOnWalk,advanceLeila,dogStep,
-    onOtherTarget,interrupt,reconcile,isBusyDog:()=>run?.phase==='meal'};
+    onOtherTarget,interrupt,reconcile,isBusyDog:()=>run?.phase==='meal',called:()=>run?.phase==='meal'&&run.chew<.55};
 })();
 
 // Rear cuddle: use the barrel and waist as the primary fitted surfaces.
@@ -21596,6 +21609,7 @@ const cinema=(()=>{
   const fetchCenter=V(0,0,0), fetchHeading=V(0,0,0), fetchPeak=V(0,0,0);
   const fetchMin=V(0,0,0), fetchMax=V(0,0,0);
   let fetchCount=0, fetchFar=null;
+  const dogCallSight=V(0,0,0), callPredict=V(0,0,0);
   function fetchAdd(p,minY=0){
     if(!p||fetchCount>=fetchPoints.length)return;
     const m=fetchPoints[fetchCount++].copy(p);m.y=Math.max(minY,m.y);
@@ -21618,12 +21632,36 @@ const cinema=(()=>{
       }
     }
     if(fetchCount===0)fetchAdd(marks.handN);
+    centerWideShot();
+    return true;
+  }
+  function readDogCall(episode){
+    const d=shepherd;
+    if(!d.ready||!(episode==='dogBond'&&d.bond&&d.bond.ready<.85||episode==='dogMeal'&&dogKitchen.called()))return false;
+    const body=d.object;
+    d.head.getWorldPosition(dogCallSight);
+    fetchAdd(dogCallSight,.34);
+    fetchAdd(body.localToWorld(callPredict.set(0,.10,-.63)),.075);
+    fetchAdd(body.localToWorld(callPredict.set(.19,.36,.10)),.20);
+    if(d.path[0]){
+      const path=d.path[0];
+      callPredict.copy(path).sub(body.position).clampLength(0,.76).add(body.position);
+      callPredict.y=Math.max(.42,body.position.y+.39);
+      fetchAdd(callPredict);
+      // Include the tail's new position when the dog turns toward the path.
+      callPredict.copy(body.position).sub(path).setY(0).normalize().multiplyScalar(.53).add(body.position);
+      fetchAdd(callPredict,.085);
+    }
+    centerWideShot();
+    return true;
+  }
+  const wideKind=kind=>kind==='fetch'||kind==='call';
+  function centerWideShot(){
     // Hold a midpoint of the composed scene, not the flying ball itself.
     fetchMin.copy(hip);fetchMin.y=Math.min(marks.footP.y,marks.footN.y);
     fetchMax.copy(head).max(hip);
     for(let i=0;i<fetchCount;i++){fetchMin.min(fetchPoints[i]);fetchMax.max(fetchPoints[i]);}
     fetchCenter.copy(fetchMin).lerp(fetchMax,.5);
-    return true;
   }
   const tall=['head','pelvis','chest','upperP','upperN','handP','handN','footP','footN','kneeP','kneeN'];
   const chestUp=['head','chest','neck','upperP','upperN'];
@@ -21776,7 +21814,8 @@ const cinema=(()=>{
     if(from.y<.14||from.y>3.79||from.x< -6.02||from.x>6.02||from.z< -6.02||from.z>9.02)return 24;
     return (blocked(from,sightHead,.046)?8:0)+(blocked(from,sightChest,.06)?5:0)+
       (blocked(from,sightHip,.074)?2:0)+(kind==='together'?panelCoverage(from):0)+
-      (kind==='fetch'&&fetchFar&&blocked(from,fetchFar,.17)?2:0);
+      (kind==='fetch'&&fetchFar&&blocked(from,fetchFar,.17)?2:0)+
+      (kind==='call'&&blocked(from,dogCallSight,.16)?7:0);
   }
   function framingCost(from,aim,kind,paired){
     offset.subVectors(from,aim);
@@ -21864,6 +21903,7 @@ const cinema=(()=>{
     fetchCount=0;fetchFar=null;
     if(type)return {paired:false,type};
     if(episode==='dogPlay'&&readFetch())return {paired,type:'fetch'};
+    if(readDogCall(episode))return {paired:false,type:'call'};
     const station=episode==='route'&&workStages.has(stage);
     return {paired,type:paired?'pair':mode==='dance'?'stage':station?'work':
       (episode==='route'&&roam.target?.kind!=='wardrobeMirror'||['walk','travel','mixamo'].includes(mode))?'moving':
@@ -21883,7 +21923,7 @@ const cinema=(()=>{
     return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
-    if(kind==='fetch'&&fetchCount){
+    if(wideKind(kind)&&fetchCount){
       desired.copy(fetchCenter);
     }else if(kind==='together'&&panel){
       desired.copy(marks.chest).lerp(head,.34).lerp(panelCenter,.63);
@@ -21901,21 +21941,21 @@ const cinema=(()=>{
     }
   }
   function select(type,paired){
-    if(type==='fetch'){
-      focus('fetch',paired);
+    if(wideKind(type)){
+      focus(type,paired);
       fetchHeading.copy(fetchFar??hip).sub(hip);
       const lane=fetchHeading.x**2+fetchHeading.z**2>.045?Math.atan2(fetchHeading.x,fetchHeading.z):root.rotation.y;
       let best=Infinity,chosen=yaw,e=.34;
       const candidates=[yaw,lane-.54,lane+.54,lane-1.0,lane+1.0,lane+Math.PI-.54,lane+Math.PI+.54,
         lane-Math.PI/2,lane+Math.PI/2,lane,lane+Math.PI];
       for(const a of candidates)for(const h of [.28,.42,.54]){
-        const rad=fit(place(a,h,direction),2.12,'fetch',paired,desired);
+        const rad=fit(place(a,h,direction),2.12,type,paired,desired);
         trial.copy(desired).addScaledVector(direction,rad);
-        const score=coverage(trial,'fetch')*5+outsideCost(trial)*2.15+rad*.31+
+        const score=coverage(trial,type)*5+outsideCost(trial)*2.15+rad*.31+
           .31*Math.abs(headingDelta(yaw,a))+.38*Math.abs(h-.34);
         if(score<best){best=score;chosen=a;e=h;}
       }
-      shot={kind:'fetch',type,e,r:2.12,seconds:32,elapsed:0,fromYaw:yaw,
+      shot={kind:type,type,e,r:2.12,seconds:32,elapsed:0,fromYaw:yaw,
         toYaw:yaw+headingDelta(yaw,chosen),fromPitch:pitch,fromDist:distance};
       facing=root.rotation.y;angleTravel=0;
       return;
@@ -21978,13 +22018,13 @@ const cinema=(()=>{
     for(const k of use)include(marks[k],k==='head'?.13:k.startsWith('foot')?.14:.085);
     if(paired)for(const p of dogMarks)include(p,.12);
     if(kind==='together'&&panel)for(const p of panelCorners)include(p,.041);
-    if(kind==='fetch')for(let i=0;i<fetchCount;i++)include(fetchPoints[i],.105);
+    if(wideKind(kind))for(let i=0;i<fetchCount;i++)include(fetchPoints[i],kind==='call'?.14:.105);
     return r;
   }
   function tick(dt){
     const full=document.body.classList.contains('leilaFullView');
     if(!full){if(wasFull){quietFor(firstWait);fingers.clear();}wasFull=false;return;}
-    if(!wasFull){wasFull=true;quietFor(roam?.phase==='dogPlay'?.18:firstWait);}
+    if(!wasFull){wasFull=true;quietFor(['dogPlay','dogBond','dogMeal'].includes(roam?.phase)?.18:firstWait);}
     if(document.hidden||fingers.size||trackedPointers.size||contact||handLink)return;
     if(wait>0){wait-=dt;return;}
     const view=sample();
@@ -21994,18 +22034,18 @@ const cinema=(()=>{
       distance=Math.max(.35,offset.length());yaw=Math.atan2(offset.x,offset.z);
       pitch=Math.asin(clamp(offset.y/distance,-.988,.988));
       context=nextContext=view.type;contextAge=0;resetStability();
-      focus(panels[view.type]?'together':view.type==='fetch'?'fetch':view.paired?'pair':view.type==='work'?'work':'wide',view.paired);
+      focus(panels[view.type]?'together':wideKind(view.type)?view.type:view.paired?'pair':view.type==='work'?'work':'wide',view.paired);
       poseOffset.copy(desired).sub(root.position);
       select(context,view.paired);
     }
     shot.elapsed+=dt;
     if(view.type!==nextContext){nextContext=view.type;contextAge=0;}else contextAge+=dt;
     const enteringPanel=panels[nextContext]&&context!==nextContext&&contextAge>.16;
-    const enteringFetch=nextContext==='fetch'&&context!==nextContext&&contextAge>.07;
+    const enteringFetch=wideKind(nextContext)&&context!==nextContext&&contextAge>(nextContext==='call'?.02:.07);
     if(shot.elapsed>=shot.seconds||enteringPanel||enteringFetch||(context!==nextContext&&contextAge>.75&&shot.elapsed>2.1)){
       context=nextContext;select(context,view.paired);
     }
-    const s=shot, fetch=s.kind==='fetch'&&fetchCount>0, panTime=fetch?1.12:1.95, u=ease(s.elapsed/panTime);
+    const s=shot, call=s.kind==='call'&&fetchCount>0, fetch=wideKind(s.kind)&&fetchCount>0, panTime=call?.79:fetch?1.12:1.95, u=ease(s.elapsed/panTime);
     const kind=view.paired&&['portrait','medium','work'].includes(s.kind)?'pair':s.kind;
     focus(kind,view.paired);
     // Follow the travel direction, not every bounce of the face and limbs.
@@ -22026,8 +22066,8 @@ const cinema=(()=>{
     repair(yaw,pitch,distance,kind,view.paired,dt);
     // Every positional change, including an obstruction escape, is glided.
     // A bounded velocity also prevents one-frame jumps when a clip ends.
-    speedGoal.subVectors(proposed,camera.position).multiplyScalar(6.2).clampLength(0,4.2);
-    speedGoal.sub(cameraSpeed).multiplyScalar(blend(dt,10)).clampLength(0,22*dt);
+    speedGoal.subVectors(proposed,camera.position).multiplyScalar(call?7.5:6.2).clampLength(0,call?5.1:4.2);
+    speedGoal.sub(cameraSpeed).multiplyScalar(blend(dt,10)).clampLength(0,(call?27:22)*dt);
     cameraSpeed.add(speedGoal);
     camera.position.addScaledVector(cameraSpeed,dt);
     // A fast pass can take the subject across the camera's own position.
@@ -22046,7 +22086,18 @@ const cinema=(()=>{
     place(targetYaw,targetPitch,nextLook);
     orbit.target.copy(camera.position).addScaledVector(nextLook,range);
   }
-  return {tick};
+  function callReady(){
+    if(shot?.kind!=='call'||!fetchCount)return false;
+    camera.updateMatrixWorld(true);
+    const onScreen=p=>{
+      callPredict.copy(p).project(camera);
+      return Math.abs(callPredict.x)<.88&&Math.abs(callPredict.y)<.88&&callPredict.z<1;
+    };
+    if(!onScreen(head)||!onScreen(hip))return false;
+    for(let i=0;i<fetchCount;i++)if(!onScreen(fetchPoints[i]))return false;
+    return true;
+  }
+  return {tick,callReady};
 })();
 
 installDevPreview();shepherd.lockControls();window.LeilaBoot130?.ready();
@@ -22158,7 +22209,7 @@ if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmR
 updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick(dt);evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);
  // Sofa and mattress contacts finish Leila's blend in the dog pass.
  // Camera and shadows must use that final pose, not the unblended pose.
- const surfaceBlend=dogTumble.surfaceBlending()||(mode==='roam'&&roam.phase==='dogPlay');
+ const surfaceBlend=dogTumble.surfaceBlending()||(mode==='roam'&&['dogPlay','dogBond','dogMeal'].includes(roam.phase));
  if(surfaceBlend)updateShepherd(dt);
  cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();
  if(!surfaceBlend)updateShepherd(dt);
