@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 180｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 181｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 180</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 181</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -17350,7 +17350,8 @@ function bondNeighbor(){
   const local=d.object.position.clone().sub(root.position).applyAxisAngle(V(0,1,0),-yaw);
   const preferred=local.x<0?-1:1;
   for(const s of [preferred,-preferred]){
-    const spot=root.position.clone().add(V(s*.30,0,-.25).applyAxisAngle(V(0,1,0),yaw));
+    // Leave room for the longer reach to the offset ear on the positive side.
+    const spot=root.position.clone().add(V(s>0?.42:-.30,0,-.25).applyAxisAngle(V(0,1,0),yaw));
     if(!inWalkingArea(spot)||!walkingClearance(sofaWalkingBounds())(root.position,spot))continue;
     if(d.object.position.distanceTo(spot)>3.9)continue;
     d.destination=null;d.navigate(spot);
@@ -17405,7 +17406,7 @@ function requestDogBond(){
 $('dogBond').onclick=requestDogBond;
 $('dogBond').disabled=false;
 // Solve for the actual palm pad on the visible surface, after this frame's dog pose.
-function dogTouch(side,patch,weight,guide){
+function dogTouch(side,patch,weight,guide,transition=null){
   if(!patch||weight<.001)return false;
   const {point,normal}=patch;
   const shoulder=groups['upper'+side].getWorldPosition(V(0,0,0));
@@ -17419,6 +17420,20 @@ function dogTouch(side,patch,weight,guide){
     .sub(dogPalmPads[side].clone().applyQuaternion(q));
   const length=base['elbow'+side].length()+base['hand'+side].length();
   if(wrist.distanceTo(shoulder)>length+.002)return false;
+  if(transition && (weight<1 || !transition.halfPose)){
+    // A stroke can turn the target past 180 degrees from the idle pose.
+    // Reuse the first stroke's halfway pose so the blend stays on the same arc.
+    const joints=['upper','elbow','fore','hand'].map(name=>groups[name+side]);
+    const idle=joints.map(joint=>joint.quaternion.clone());
+    reachHand(side,wrist,q,1,false,guide,true);
+    transition.halfPose??=joints.map((joint,i)=>idle[i].clone().slerp(joint.quaternion,.5));
+    if(weight<1)joints.forEach((joint,i)=>{
+      const half=transition.halfPose[i];
+      if(weight<.5)joint.quaternion.copy(idle[i]).slerp(half,2*weight);
+      else joint.quaternion.slerp(half,2*(1-weight));
+    });
+    return true;
+  }
   return reachHand(side,wrist,q,weight,false,guide,true);
 }
 const dogPalmPads={P:palmRig.P.center,N:palmRig.N.center};
@@ -17452,14 +17467,15 @@ function petDogWhileStanding(){
   groups.head.rotateY(b.side*.33*amount);
   groups.head.rotateX(.36*amount);
   for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
-  const guide=V(.15*b.side,-.16,.1);
+  // Keep the elbow below the shoulder and behind the wrist as the palm strokes the ear.
+  const guide=b.side>0?V(.24,-.30,-.18):V(-.15,-.16,.1);
   const t=.5+.37*stroke;
   // Keep the same strip of fur until the whole pet ends. A fallback on a
   // single frame can otherwise skip from an ear to the neck and back.
   const order=b.petKind?[b.petKind]:[b.side>0?'far':'near','head','neck'];
   for(const kind of order){
     const patch=dogTouchPatch(d,kind,t,stroke);
-    if(dogTouch(side,patch,amount,guide)){b.petKind=kind;break;}
+    if(dogTouch(side,patch,amount,guide,b.side>0?b:null)){b.petKind=kind;break;}
   }
 }
 function advanceCouchCompanion(d,dt,canStay){
