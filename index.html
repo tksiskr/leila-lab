@@ -325,6 +325,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     </div>
     <div class="leilaCard leilaWatch"><h2>じゃれ合い観察</h2>
       <button id="dogPlayWatch" type="button" aria-pressed="false" disabled>ずっとじゃれ合う：OFF</button><label>じゃれ合いの型 <select id="dogHoldDirection"><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option><option value="bedFront">ベッド上・正面</option><option value="bedRear">ベッド上・背後</option><option value="winnerBed">ベッド上・レイラの勝ち</option><option value="bedEdge">ベッドの縁・正面</option><option value="sofaEdge">ソファ・正面</option><option value="sofaFront">ソファ座面・正面</option><option value="sofaRear">ソファ座面・背後</option><option value="sofaWinner">ソファ座面・レイラの勝ち</option><option value="bedCycle">ベッドでずっと（4パターン）</option><option value="sofaCycle">ソファでずっと（4パターン）</option></select><button id="dogPlayHold" type="button" aria-pressed="false" disabled>押さえ込んだまま：OFF</button></label><small id="devLoopStatus" role="status"></small>
+      <button id="hipBumpTest" type="button" disabled>腰をこつん・横並び</button>
+      <button id="hipNudgeTest" type="button" disabled>鼻でこつん・横の装甲</button>
       <label>先に駆け出す <select id="dogChaseLead"><option value="">おまかせ</option><option value="dog">レイラ</option><option value="leila">犬</option></select></label>
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
@@ -11162,6 +11164,8 @@ function shepherdTouchSurface(model){
     return best;
   }
   const rows={
+    flankNear:[bindSide(.42,-.324,1),bindSide(.474,-.307,1),bindSide(.512,-.300,1)],
+    flankFar:[bindSide(.42,-.324,-1),bindSide(.474,-.307,-1),bindSide(.512,-.300,-1)],
     edgeNear:[bindSide(.379,.172,1),bindSide(.402,.178,1),bindSide(.418,.193,1)],
     edgeFar:[bindSide(.368,.170,-1),bindSide(.390,.179,-1),bindSide(.407,.191,-1)],
     couchNear:[bindSide(.376,.218,1),bindSide(.399,.228,1),bindSide(.423,.236,1)],
@@ -11460,7 +11464,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','dogRestMatPreview'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -11649,6 +11653,7 @@ function createShepherd() {
           joint.position.lerp(playCenter,hold);
         }
       });
+      const sideNoseOffset=V(.057,-.077,.197), sideNoseEuler=new T.Euler(0,0,0,'YXZ');
       const headIndex=bone(skull,joint=>{
         joint.position.copy(movedSkull);
         headTurn.set(clamp(head.rotation.x,-.38,.58),
@@ -11678,6 +11683,18 @@ function createShepherd() {
           const chinUp=new T.Quaternion().setFromEuler(new T.Euler(
             -.26+.025*Math.sin(belly.motion*3.8),0,Math.PI,'YXZ'));
           joint.quaternion.copy(body.quaternion).slerp(chinUp,open);
+          return;
+        }
+        const sideNose=d.tumble?.sideNose;
+        if(sideNose){
+          const a=sideNose.point.clone().sub(joint.position);
+          const yaw=clamp(Math.atan2(a.x,a.z)-.14,-.46,.46);
+          const pitch=clamp(-Math.atan2(a.y,Math.hypot(a.x,a.z))-.30,-.62,.27);
+          const q=lickRot.setFromEuler(sideNoseEuler.set(pitch,yaw,0,'YXZ'));
+          joint.quaternion.slerp(q,sideNose.weight);
+          a.copy(sideNose.point).sub(lickTip.copy(sideNoseOffset).applyQuaternion(joint.quaternion))
+            .sub(joint.position).clampLength(0,.092);
+          joint.position.addScaledVector(a,sideNose.weight);
           return;
         }
         if(d.tumble?.cuddle){
@@ -11963,6 +11980,7 @@ function createShepherd() {
       // Cache a thinned set of actual skin vertices; guard the roll against the floor/mattress.
       const rollSamples=[];
       for(let i=0;i<positions.count;i+=11)rollSamples.push(i);
+      d.sideNosePoint=()=>bones[headIndex].localToWorld(sideNoseOffset.clone());
       d.captureBellyEntry=()=>bones.map(b=>({p:b.position.clone(),q:b.quaternion.clone()}));
       d.mixBellyEntry=(from,weight)=>{
         if(weight<=0)return;
@@ -14130,7 +14148,7 @@ const dogTumble=(()=>{
   const pinClock=a=>playClock(a.t,a.hold,1.63,timing.release,a.front?frontTempo:1);
   const labels={front:'正面から',rear:'後ろから'};
   const ray=new T.Raycaster();
-  const playKinds=['front','rear','winner'];
+  const playKinds=['front','rear','winner','hipBump','hipNudge'];
   let active=null,nextRoughhouseAt=mood.seconds+110,nextBedPlayAt=mood.seconds+70,
     alternate=Math.floor(Math.random()*2),skin=null;
   // A third act: the dog offers its belly, and the android plays along.
@@ -14298,8 +14316,8 @@ const dogTumble=(()=>{
 
   // Test the full swept rectangle (both bodies and the approach), not only the feet.
   function stageFits(point,yaw,kind,boxes=stageBoxes()){
-    const halfX=.54;
-    const lo=kind==='front'?-.96:-1.25,hi=kind==='winner'?.75:kind==='front'?1.19:1.02;
+    const flank=sidePlays.has(kind), halfX=flank?1.30:.54;
+    const lo=flank?-.87:kind==='front'?-.96:-1.25,hi=flank?1.08:kind==='winner'?.75:kind==='front'?1.19:1.02;
     const x=V(Math.cos(yaw),0,-Math.sin(yaw)),z=V(Math.sin(yaw),0,Math.cos(yaw));
     const center=point.clone().addScaledVector(z,(lo+hi)/2),halfZ=(hi-lo)/2;
     for(const i of [-1,1])for(const j of [-1,1])
@@ -14322,11 +14340,15 @@ const dogTumble=(()=>{
     const from=root.position.clone().setY(0), heading=root.rotation.y, boxes=stageBoxes();
     // Existing pin IK uses world-axis contact pads. The belly-up act
     // can rotate freely, so try the current heading before turning.
-    const turns=kind==='winner'?[0,Math.PI/4,-Math.PI/4,Math.PI/2,-Math.PI/2,Math.PI,3*Math.PI/4,-3*Math.PI/4]
+    const turns=kind==='winner'||sidePlays.has(kind)?[0,Math.PI/4,-Math.PI/4,Math.PI/2,-Math.PI/2,Math.PI,3*Math.PI/4,-3*Math.PI/4]
       .map(n=>heading+n):[0];
     const tryPoint=point=>{
       if(!inWalkingArea(point))return null;
-      for(const yaw of turns)if(stageFits(point,yaw,kind,boxes))return {point,yaw};
+      for(const yaw of turns)if(stageFits(point,yaw,kind,boxes)){
+        if(!sidePlays.has(kind))return {point,yaw};
+        const dogPos=d.object.position, d0=sideStart(point,yaw,kind,1),d1=sideStart(point,yaw,kind,-1);
+        return {point,yaw,side:dogPos.distanceToSquared(d0)<=dogPos.distanceToSquared(d1)?1:-1};
+      }
       return null;
     };
     let stage=tryPoint(from);
@@ -15150,9 +15172,147 @@ const dogTumble=(()=>{
     const hip=groups.pelvis.getWorldPosition(V(0,0,0)).add(back);
     return patch(cachedSkin().shell,hip.clone().add(V(0,.25,0)),down,hip.add(V(0,.035,0)));
   }
+
+  // Two play variations on clear floor. The Shepherd works alongside Leila,
+  // never enters her stance lane. Keep duration separate from walk-up time.
+  const sidePlays=new Set(['hipBump','hipNudge']);
+  const playSpan=12.4;
+  const fixedPaws=[V(-.128,.035,.249),V(.128,.035,.249),V(-.128,.035,-.386),V(.128,.035,-.386)];
+  function sideStart(point,yaw,kind,sign){
+    return V(sign*(kind==='hipBump'?.46:.76),0,kind==='hipBump'?.268:.035)
+      .applyAxisAngle(up,yaw).add(point);
+  }
+  function sideSense(a){
+    const hip=groups.pelvis.getWorldPosition(V(0,0,0));
+    const normal=V(a.side,0,0).applyAxisAngle(up,a.yaw);
+    const plate=cachedSkin().hips.map(x=>x.mesh);
+    for(const dy of a.kind==='hipBump'?[-.091,-.076,-.060,-.045]:[-.045,-.071,-.019,0]){
+      const edge=hip.clone().add(V(0,dy,0)).addScaledVector(normal,.31);
+      const found=patch(plate,edge,normal.clone().negate(),null);
+      if(found&&(found.clone().sub(hip).dot(normal)>.085))return found;
+    }
+    return hip.addScaledVector(normal,.15).add(V(0,-.044,0));
+  }
+  function sideReady(a,sign){
+    a.side=sign;a.start=sideStart(a.origin,a.yaw,a.kind,sign);
+    a.dogYaw=a.yaw-(a.kind==='hipNudge'?sign*Math.PI/2:0);
+    a.footPins=sofaSides.map(key=>groups['foot'+key].getWorldPosition(V(0,0,0)));
+    if(a.manual)dogFollowCamera(local(a,0,.66,.036),
+      V(a.side*1.65,1.04,a.kind==='hipNudge'?1.48:-1.33).applyAxisAngle(up,a.yaw));
+    setNote(a.kind==='hipNudge'?'犬が横から、気になる装甲を見つめています':'犬がレイラの横に並んで、ごきげんに尻尾を振っています');
+  }
+  function beatAt(a){
+    const t=a.t, k=a.kind==='hipBump';
+    const widths=k?[.78,1.02,.82,1.01]:[1.03,.88,1.08,.89];
+    const hits=k?[1.22,4.07,6.72,9.50]:[1.08,3.74,6.62,9.36];
+    const pulse=(s,w)=>ease(t,s-.38*w,s+.08*w)*(1-ease(t,s+.20*w,s+.76*w));
+    const pressure=Math.max(...hits.map((s,i)=>pulse(s,widths[i])));
+    const react=Math.max(...hits.map((s,i)=>pulse(s+(k?.24:.38),widths[i]*1.15)));
+    const alert=ease(t,.14,.59)*(1-ease(t,11.25,playSpan-.10));
+    const consent=ease(t,1.66,2.26)*(1-ease(t,10.52,11.30));
+    return {pressure,react,alert,consent};
+  }
+  function transition(a,from,t,weight){
+    const s=a.side;
+    const fwd=V(0,0,1).applyAxisAngle(up,a.yaw);
+    const outward=V(s,0,0).applyAxisAngle(up,a.yaw);
+    const recovery=ease(t,1.44,1.86)*(1-ease(t,2.50,2.92))+
+      .58*ease(t,6.86,7.16)*(1-ease(t,7.88,8.21));
+    const lift=(phase,lo,hi)=>Math.sin(Math.PI*ease(phase,lo,hi));
+    const recoverLift=.035*lift(t,1.44,1.86)+.029*lift(t,2.50,2.92)+.022*lift(t,6.86,7.16)+.019*lift(t,7.88,8.21);
+    const step=(s>0?'N':'P');
+    for(let i=0;i<2;i++){
+      const side=sofaSides[i], pt=a.footPins[i].clone();
+      if(side===step&&a.kind==='hipNudge'){
+        pt.addScaledVector(outward,-.138*recovery*weight).addScaledVector(fwd,-.046*recovery*weight);
+        pt.y+=recoverLift*weight;
+      }
+      solveLeg(side,pt,a.yaw,0,a.yaw+(i===0?1:-1)*.075*weight);
+    }
+  }
+  function sideLeila(a,dt){
+    if(a.cancel){
+      a.cancel.t+=dt;
+      blendSofaPose(a.cancel.from,1);
+      blendSofaPose(a.entry,ease(a.cancel.t,0,.62));
+      if(a.cancel.t>=.65)finish();
+      return true;
+    }
+    standing(a);
+    if(a.t<0){
+      groups.head.rotateY(a.side*.32*ease(a.waiting,0,.85));
+      groups.head.rotateX(.10*ease(a.waiting,.3,1));
+      return true;
+    }
+    a.t+=dt;
+    const k=a.kind==='hipBump',s=a.side,{pressure,react,alert,consent}=a.play=beatAt(a);
+    // Leila first yields, then leans back into the game with an open hand.
+    const shiftAway=(k?.033:.038)*react;
+    const leanBack=k?.019*consent*pressure:0;
+    groups.pelvis.position.x+=s*(leanBack-shiftAway);
+    groups.pelvis.position.y-=k?.075*alert+.049*pressure+.014*react:.064*react+.023*alert;
+    groups.pelvis.rotateZ(s*.067*react);
+    groups.chest.rotateZ(-s*(.058*react-.045*pressure));
+    groups.chest.rotateY(s*.09*alert);
+    groups.neck.rotateY(s*.17*alert);
+    groups.head.rotateY(s*(k?.31:.47)*alert);
+    groups.head.rotateX((.20+.14*react)*alert);
+    groups.head.rotateZ(s*.085*alert);
+    const free=s>0?'P':'N';
+    groups['upper'+free].rotateZ(-s*(k?.28:.34)*alert);
+    groups['upper'+free].rotateX(-.23*(.60*pressure+.24*react));
+    groups['elbow'+free].rotateX(-.19*alert);
+    transition(a,a.entry,a.t,alert);
+    a.pad=sideSense(a);
+    if(a.t<1.03)setNote(k?'並んだまま、レイラもそっと体を寄せました':'犬は鼻を少し下げて、腰装甲の横の匂いをかいでいます');
+    else if(a.t<2.7)setNote(k?'腰がこつんと触れて、ふたりでよろけないように踏ん張ります':'鼻で装甲を軽くつつかれて、レイラが半歩よけました');
+    else if(a.t<10.92)setNote(k?'ふたりは交互に体重を戻して、横並びで遊んでいます':'犬がまた軽く鼻を寄せ、レイラも楽しそうに振り返ります');
+    else setNote('ふたりは間をあけて、尻尾の揺れが落ち着きます');
+    if(a.t>=playSpan)finish();
+    return true;
+  }
+  function sideDog(a,dt){
+    const obj=d.object, k=a.kind==='hipBump',s=a.side;
+    const outward=V(s,0,0).applyAxisAngle(up,a.yaw);
+    const {pressure,alert}=a.play??{pressure:0,alert:0};
+    const move=(k?.213:.101)*pressure;
+    const baseSpot=a.start.clone().addScaledVector(outward,-move);
+    const step=baseSpot.distanceTo(obj.position);
+    obj.position.copy(baseSpot);obj.rotation.y=a.dogYaw;
+    if(!a.pawPins)a.pawPins=fixedPaws.map(p=>p.clone().multiplyScalar(shepherdScale)
+      .applyAxisAngle(up,a.dogYaw).add(a.start));
+    // Feet stay registered to the same floor marks. The near forepaw
+    // repositions a few centimeters to bear the weight, then plants again.
+    const push=ease(pressure,.18,.70),pawArc=Math.sin(Math.PI*push);
+    let steps=a.pawPins.map((paw,i)=>{
+      const point=paw.clone().addScaledVector(outward,-(k?(i<2?.025:.030):i<2?.052:.016)*push);
+      point.y+=i===0?.023*pawArc:0;
+      return obj.worldToLocal(point);
+    });
+    const data={front:false,hold:0,bodyY:k?.035*pressure:-.064*alert,bodyPitch:k?-.022*pressure:.069*pressure,
+      surge:0,catchRoll:k?s*.13*pressure:.020*s*pressure,
+      steps,pawBlend:1,wagTime:d.time+1.5*pressure};
+    if(!k&&a.pad){
+      const nose=a.pad.clone().addScaledVector(outward,.019+.167*(1-pressure));
+      // Gently lower the head to sniff, then raise the muzzle within its
+      // normal linear reach toward the lateral armor (never its underside).
+      const p=ease(a.t,.13,.48)*(1-ease(a.t,1.02,1.29));
+      nose.y-=.12*p;
+      data.sideNose={point:obj.worldToLocal(nose),weight:(.25+.65*pressure)*alert};
+    }
+    d.tumble=data;
+    d.pose(dt,step*.12,k?null:a.pad,false);
+    return true;
+  }
+
   function ready(a){
 
     if(!a)return;
+    if(a.side){
+      roam.phase='dogTumble';roam.elapsed=0;roam.pause=Infinity;
+      settleStandingFeet();a.entry=captureSofaPose();sideReady(a,a.side);
+      d.rivalQueued=false;return;
+    }
     if(a.manual||a.winner&&previewHas('dogPlayWatch'))dogFollowCamera(local(a,.08,a.winner?.37:.48,a.winner?.16:-.23),
       V(a.front?-1.59:1.80,a.winner?1.29:a.front?1.02:.93,a.winner?1.44:a.front?-.61:.69).applyAxisAngle(up,a.yaw));
     roam.phase='dogTumble';roam.elapsed=0;roam.pause=Infinity;
@@ -15172,8 +15332,8 @@ const dogTumble=(()=>{
     if($('dogNote').textContent!==msg)$('dogNote').textContent=msg;
     if($('destination').textContent!==msg)$('destination').textContent=msg;
   }
-  function begin(kind,manual,hold,yaw){
-    const a={kind,front:kind==='front',winner:kind==='winner',manual,hold,yaw,origin:root.position.clone(),t:-1,waiting:0};
+  function begin(kind,manual,hold,yaw,side){
+    const a={kind,front:kind==='front',winner:kind==='winner',manual,hold,yaw,origin:root.position.clone(),t:-1,waiting:0,side};
     active=a; nextRoughhouseAt=mood.seconds+(manual?95:125)+Math.random()*65;
     a.start=local(a,a.winner?.019:kind==='front'?-.039:.15,0,a.winner?-.44:kind==='front'?.65:-.87);
     a.finish=local(a,kind==='front'?-.039:.058,0,kind==='front'?.035:-.055);
@@ -15198,7 +15358,7 @@ const dogTumble=(()=>{
       heading:stage.yaw,onArrival:()=>{
         if(watch&&!previewHas('dogPlayWatch')||hold&&(!previewHas('dogPlayHold')||developerPreview.option!==kind)){
           enterQuietRest('linger','その場で立ち止まっています',4);
-        }else{begin(kind,manual,hold,stage.yaw);active.streak=streak;}
+        }else{begin(kind,manual,hold,stage.yaw,stage.side);active.streak=streak;}
       }});
     return true;
   }
@@ -15358,6 +15518,7 @@ const dogTumble=(()=>{
     const a=active;
     if(!a)return false;
     if(a.surface)return surfaceLeila(a,dt);
+    if(a.side)return sideLeila(a,dt);
     if(a.cancel){
       const c=a.cancel;c.t+=dt;
       blendSofaPose(c.from,1);
@@ -15568,6 +15729,7 @@ const dogTumble=(()=>{
     }
     if(a.edge){edgeDog(a,dt);return true;}
     if(a.winner){winnerDog(a,dt);return true;}
+    if(a.side)return sideDog(a,dt);
     return playDog(a,dt);
   }
   function playDog(a,dt){
@@ -15683,6 +15845,9 @@ const dogTumble=(()=>{
   }
   $('dogTumbleFront').onclick=()=>request('front');
   $('dogTumbleRear').onclick=()=>request('rear');
+  for(const [id,kind] of [['hipBumpTest','hipBump'],['hipNudgeTest','hipNudge']])$(id).onclick=()=>{
+    clearDevPreview();windowSnow.clearPreview();return request(kind);
+  };
   function afterExit(fn){
     if(!active)return false;
     active.next=null;active.afterExit=fn;stop();return true;
