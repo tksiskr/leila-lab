@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 126｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 127｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 126: the scene stays in place; only the controls pane scrolls. */
+/* LAB 127: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 126</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 127</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -288,6 +288,11 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
 </select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <div class="leilaCard" role="group" aria-labelledby="lab127GalleryTitle">
+      <h2 id="lab127GalleryTitle">レイラの絵の額</h2>
+      <button id="lab127ArtNext" type="button" disabled>前の絵を飾る</button>
+      <p id="lab127ArtStatus" aria-live="polite">完成した絵はまだありません。</p>
+    </div>
     <div class="leilaCard" role="group" aria-labelledby="lab124LampTitle">
       <h2 id="lab124LampTitle">窓辺の夕支度</h2>
       <button type="button" id="lab124LampTry">ランタンを出す・片づける</button>
@@ -9587,7 +9592,7 @@ function tuneRoomRadio(stage,progress) {
 }
 
 // Each visit lays down part of one composition; subsequent visits continue it.
-const easelPicture=[
+const easelPrograms=[[
   [0,.13,.23,.31,.18,.79,.22,26],[0,.16,.34,.50,.23,.87,.33,30],
   [0,.15,.39,.46,.34,.86,.42,31],[1,.69,.35,.73,.30,.78,.34,18],
   [1,.68,.39,.72,.35,.80,.39,19],[2,.16,.62,.30,.38,.44,.49,20],
@@ -9596,26 +9601,119 @@ const easelPicture=[
   [5,.16,.74,.37,.67,.82,.77,26],[5,.18,.79,.49,.75,.85,.80,23],
   [6,.15,.85,.34,.75,.78,.81,22],[6,.24,.89,.54,.81,.84,.87,29],
   [7,.23,.73,.41,.77,.57,.73,6],[7,.45,.77,.64,.79,.77,.76,5]
-];
+],[
+  [2,.14,.25,.49,.15,.86,.24,36],[1,.13,.36,.50,.26,.87,.35,37],
+  [0,.14,.45,.51,.36,.87,.44,33],[4,.71,.27,.66,.33,.71,.37,13],
+  [4,.71,.37,.78,.32,.71,.27,13],[4,.33,.33,.35,.30,.36,.32,5],
+  [4,.52,.26,.54,.23,.55,.25,5],[4,.23,.46,.24,.43,.26,.45,5],
+  [3,.13,.67,.29,.52,.49,.62,27],[3,.45,.62,.68,.49,.87,.64,31],
+  [2,.13,.77,.48,.62,.85,.75,33],[1,.15,.84,.50,.73,.86,.83,25],
+  [4,.38,.77,.48,.73,.64,.75,7],[4,.37,.81,.50,.79,.61,.82,7],
+  [4,.46,.85,.51,.83,.60,.86,5],[4,.68,.70,.72,.73,.75,.70,4]
+],[
+  [6,.14,.31,.40,.15,.86,.30,35],[6,.14,.51,.47,.36,.86,.45,37],
+  [5,.15,.78,.45,.68,.86,.76,26],[2,.39,.71,.43,.61,.38,.47,12],
+  [2,.51,.70,.49,.60,.54,.39,12],[2,.59,.69,.63,.58,.67,.47,11],
+  [1,.43,.63,.33,.62,.30,.53,13],[1,.54,.58,.65,.55,.66,.49,13],
+  [3,.32,.43,.38,.36,.43,.42,18],[4,.34,.48,.39,.54,.44,.45,19],
+  [3,.49,.34,.55,.29,.60,.35,20],[4,.50,.40,.54,.46,.60,.37,18],
+  [3,.62,.43,.68,.38,.74,.44,18],[4,.63,.49,.69,.54,.74,.45,19],
+  [4,.33,.76,.51,.82,.66,.75,21],[3,.34,.78,.50,.87,.66,.78,11]
+]];
+let easelProgram=0,easelPicture=easelPrograms[0];
 let easelPictureIndex=0,easelPictureNumber=0,easelStrokeProgress=0;
 function easelSample(line,p) {
   const q=1-p;
   return [q*q*line[1]+2*q*p*line[3]+p*p*line[5],
     q*q*line[2]+2*q*p*line[4]+p*p*line[6]];
 }
-function layEaselInk(line,start,end) {
+function strokeEaselInk(ctx,canvas,line,start,end,tone) {
   let [x,y]=easelSample(line,start);
-  easelInk.beginPath();
-  easelInk.moveTo(x*easelPixels.width,y*easelPixels.height);
+  ctx.beginPath();
+  ctx.moveTo(x*canvas.width,y*canvas.height);
   const segments=Math.max(1,Math.ceil((end-start)*24));
   for (let i=1;i<=segments;i++) {
     [x,y]=easelSample(line,mix(start,end,i/segments));
-    easelInk.lineTo(x*easelPixels.width,y*easelPixels.height);
+    ctx.lineTo(x*canvas.width,y*canvas.height);
   }
-  easelInk.lineWidth=line[7]; easelInk.lineCap='round'; easelInk.lineJoin='round';
-  easelInk.strokeStyle=easelPaints[(line[0]+easelPictureNumber)%easelPaints.length];
-  easelInk.stroke(); easelTexture.needsUpdate=true;
+  ctx.lineWidth=line[7]*canvas.width/384; ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.strokeStyle=easelPaints[(line[0]+tone)%easelPaints.length];
+  ctx.stroke();
 }
+function layEaselInk(line,start,end){
+  strokeEaselInk(easelInk,easelPixels,line,start,end,easelPictureNumber);
+  easelTexture.needsUpdate=true;
+}
+// A small wall gallery. Store only composition IDs and finished strokes,
+// not screenshots or data URLs; replay those strokes onto the actual canvas.
+const easelGallery127=(()=>{
+  const key='leila.lab127.gallery.v1';
+  const ids=['川辺の朝','月の通り道','窓辺の花'];
+  const contextLabel=$('lab127ArtStatus');
+  const frame=new T.Group();frame.name='Easel gallery frame';wallGroups[0].add(frame);
+  frame.position.set(-4.16,2.08,.29);
+  const walnut=mat(0x74513d,.77), gold=mat(0xb38c60,.70), paper=mat(0xefe5cb,.91);
+  block(frame,walnut,0,0,.022,.63,.566,.042);
+  block(frame,gold,0,0,.046,.592,.533,.018);
+  block(frame,paper,0,0,.055,.555,.497,.010);
+  const canvas=document.createElement('canvas');canvas.width=192;canvas.height=178;
+  const ctx=canvas.getContext('2d');const tex=new T.CanvasTexture(canvas);
+  tex.colorSpace=T.SRGBColorSpace;
+  const surface=new T.Mesh(new T.PlaneGeometry(.442,.410),new T.MeshStandardMaterial({map:tex,roughness:.93}));
+  surface.position.z=.064;frame.add(surface);
+  let archive=[],seen=0;
+  const validTone=n=>Number.isInteger(n)&&n>=0&&n<8;
+  const validId=n=>Number.isInteger(n)&&n>=0&&n<easelPrograms.length;
+  try{
+    const persisted=JSON.parse(localStorage.getItem(key)??'null');
+    if(persisted&&validId(persisted.program)&&validTone(persisted.tone)&&
+       Number.isInteger(persisted.stroke)&&persisted.stroke>=0&&persisted.stroke<=easelPrograms[persisted.program].length){
+      easelProgram=persisted.program;easelPicture=easelPrograms[easelProgram];
+      easelPictureIndex=persisted.stroke;easelPictureNumber=persisted.tone;
+      for(let i=0;i<easelPictureIndex;i++)layEaselInk(easelPicture[i],0,1);
+      archive=Array.isArray(persisted.archive)?persisted.archive.slice(0,3).filter(x=>Array.isArray(x)&&
+        x.length===2&&validId(x[0])&&validTone(x[1])):[];
+    }
+  }catch{}
+  function render(){
+    if(!ctx)return;
+    ctx.fillStyle='#f7edda';ctx.fillRect(0,0,canvas.width,canvas.height);
+    const entry=archive[seen];
+    if(entry){
+      const [program,tone]=entry;
+      for(const line of easelPrograms[program])strokeEaselInk(ctx,canvas,line,0,1,tone);
+      contextLabel.textContent=ids[program]+' ／ '+(seen+1)+'・'+archive.length+'枚';
+    }else{
+      ctx.fillStyle='#ddcdb0';ctx.fillRect(32,85,128,2);ctx.fillRect(60,94,72,2);
+      contextLabel.textContent='完成した絵はまだありません。';
+    }
+    tex.needsUpdate=true;
+    $('lab127ArtNext').disabled=archive.length<2;
+  }
+  function save(){
+    try{localStorage.setItem(key,JSON.stringify({program:easelProgram,tone:easelPictureNumber,
+      stroke:easelPictureIndex,archive}));}catch{}
+  }
+  function checkpoint(){
+    if(easelPictureIndex===easelPicture.length){
+      archive.unshift([easelProgram,easelPictureNumber]);archive.length=Math.min(3,archive.length);
+      seen=0;render();
+    }
+    save();
+  }
+  function reset(){
+    easelProgram=(easelProgram+1)%easelPrograms.length;easelPicture=easelPrograms[easelProgram];
+    easelPictureIndex=0;easelStrokeProgress=0;
+    // Rotate the palettes by composition family: twilight stays blue;
+    // botanical studies lean warm or green rather than repeating.
+    easelPictureNumber=easelProgram===0?0:easelProgram===1?3:5;
+    clearEaselSurface();save();
+  }
+  $('lab127ArtNext').onclick=()=>{seen=(seen+1)%Math.max(1,archive.length);render();};
+  render();
+  return {reset,checkpoint};
+})();
+
 function easelStrokeTip(line,p,lift) {
   const [x,y]=easelSample(line,p);
   return artistEasel.localToWorld(V((x-.5)*easelWidth,easelFaceY+(.5-y)*easelHeight,easelFaceZ+lift));
@@ -9624,7 +9722,7 @@ function paintAtEasel(stage,progress) {
   if (stage.startIndex===undefined) {
     if (easelPictureIndex>=easelPicture.length) {
       if (roam.pending || progress<.11) return;
-      easelPictureIndex=0; easelStrokeProgress=0; easelPictureNumber++; clearEaselSurface();
+      easelGallery127.reset();
     }
     stage.startIndex=easelPictureIndex;
     stage.resume=easelStrokeProgress;
@@ -9672,6 +9770,7 @@ function paintAtEasel(stage,progress) {
     easelStrokeProgress=p;
     if (p>=.99999) {
       easelPictureIndex++; easelStrokeProgress=0;
+      easelGallery127.checkpoint();
       if (easelPictureIndex===easelPicture.length) lab900LifeNote('paintDone');
     }
   }
