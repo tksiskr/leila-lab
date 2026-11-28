@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 147｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 148｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 147</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 148</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -5411,7 +5411,54 @@ function createWardrobeTops(){
     line(.033,.695,.036,.681,.007,2,.0018);
     line(-.025,.678,.030,.678,.0012,2);
   });
-  return {jacket,crop,velvetTop};
+  // Palette and cut variants reuse the approved body fit and arm bones.
+  // Hidden looks share their source geometry unless the neckline is recut.
+  function remix(source,name,palette,rework=null){
+    const ob=bundle(name),drivers=[];
+    for(const child of source.children){
+      if(!child.isSkinnedMesh)continue;
+      const mesh=child.clone(false);
+      mesh.name=name+' / '+(child.geometry===body.jacket.geometry?'body':'cloth');
+      const mats=Array.isArray(child.material)?child.material:[child.material];
+      mesh.material=mats.map((original,i)=>{
+        const m=original.clone();
+        m.color.setHex(palette[i]??palette[0]);
+        m.roughness=name.includes('Noir')?.57:.88;
+        if(i===2)m.metalness=.16;
+        return m;
+      });
+      if(!Array.isArray(child.material))mesh.material=mesh.material[0];
+      if(rework&&child.geometry===body.crop.geometry){
+        mesh.geometry=child.geometry.clone();
+        rework(mesh.geometry);
+      }
+      ob.add(mesh);
+      if(mesh.morphTargetInfluences)drivers.push(mesh);
+    }
+    ob.updateTension=()=>{
+      if(!ob.visible)return;
+      for(let i=0;i<armData.length;i++){
+        const {joint,from}=armData[i];
+        const value=smooth(aim.copy(from).applyQuaternion(joint.quaternion).y,-.61,.42);
+        for(const mesh of drivers)mesh.morphTargetInfluences[i]=value;
+      }
+    };
+    return ob;
+  }
+  const inkCrop=remix(crop,'Noir diagonal dance top',[0x171c29,0x0e1119,0x9ea6d5,0x352c49],g=>{
+    const p=g.attributes.position;
+    for(let i=0;i<p.count;i++){
+      const x=p.getX(i),y=p.getY(i),z=p.getZ(i);
+      // Subtle diagonal hem, without moving the arm attachment.
+      const fall=1-smooth(y,.700,.733);
+      p.setY(i,y+.010*smooth(x,-.040,.040)*fall);
+    }
+    p.needsUpdate=true;g.computeVertexNormals();
+  });
+  const roseWrap=remix(velvetTop,'Rose ballet wrap',[0xb87191,0x72455e,0xf5dbca,0xd69bb0]);
+  const creamCardigan=remix(jacket,'Vanilla rib-knit cardigan',[0xe6d6b5,0xc4a783,0xe8b783,0x9e755e,0xf9ebd4]);
+  const lilacTee=remix(crop,'Lilac sugar dance tee',[0xb7a0cf,0x7b638e,0xf1e2f1,0xa58cba]);
+  return {jacket,crop,velvetTop,inkCrop,roseWrap,creamCardigan,lilacTee};
 }
 
 // Separate fitted trouser shells on the existing armor rig. The two trouser
@@ -5506,7 +5553,7 @@ function createWardrobePants(){
     m.needsUpdate=true;
   }
   function cover(id){
-    const hem=id==='half'?.373:id==='short'?.502:id==='cargo'?.138:0;
+    const hem=id==='half'?.373:id==='short'||id==='inkShorts'?.502:id==='cargo'?.138:0;
     pantCover.value.set(hem?hem+.009:1,hem?.644:0);
   }
   function trouser(spec){
@@ -5601,10 +5648,21 @@ function createWardrobePants(){
     trousers.visible=false;
     return trousers;
   }
+  const short=trouser({name:'ストリート・ショートパンツ',main:0x1e3b4b,edge:0x142a36,trim:0x60cebf,stripe:true,end:.502});
+  const inkShorts=short.clone(false);
+  inkShorts.name='黒×銀のダンスショーツ';
+  inkShorts.geometry=short.geometry.clone();
+  const colors=inkShorts.geometry.attributes.color,tone=new T.Color();
+  const bodyTone=new T.Color(0x242438),silver=new T.Color(0xb9b8da);
+  for(let i=0;i<colors.count;i++){
+    const brightness=smooth(colors.getY(i),.05,.48);
+    tone.copy(bodyTone).multiplyScalar(.56+clamp(colors.getZ(i),0,1)*5.5).lerp(silver,brightness*.93);
+    colors.setXYZ(i,tone.r,tone.g,tone.b);
+  }
+  colors.needsUpdate=true;root.add(inkShorts);
   return {
-    cover,
+    cover,short,inkShorts,
     half:trouser({name:'テーパード・ハーフパンツ',main:0x575052,edge:0x372f32,trim:0x988684,end:.373}),
-    short:trouser({name:'ストリート・ショートパンツ',main:0x1e3b4b,edge:0x142a36,trim:0x60cebf,stripe:true,end:.502}),
     cargo:trouser({name:'アッシュオリーブ・カーゴ',main:0x515947,edge:0x353e32,trim:0xc0a477,cargo:true,long:true,end:.138})
   };
 }
@@ -5618,6 +5676,7 @@ function createWardrobeSetTops(){
   const smooth=T.MathUtils.smoothstep;
   const rootFit=(type,materials)=>{
     const geo=vanilla.clone(), p=geo.attributes.position, groupsBefore=[...geo.groups];
+    const dressLike=['dress','noir','merlot'].includes(type), ribbon=type==='ribbon';
     // Narrow the low front drape into a fitted bodice and extend it under
     // the skirt waistband so the two pieces read as one dress.
     for(let i=0;i<p.count;i++){
@@ -5627,9 +5686,11 @@ function createWardrobeSetTops(){
         y-=.010*f;
         if(z>.037&&type!=='sailor')z-=.013*f*smooth(z,.042,.087);
       }
-      if(type==='dress'&&i>=18*rings&&i<bodyEnd){
+      if(dressLike&&i>=18*rings&&i<bodyEnd){
         // Lower a wide scoop neck; the central shoulder remains covered.
-        y-=.020*smooth(z,.026,.064)*(1-smooth(Math.abs(x),.018,.043));
+        const scoop=type==='noir'?.026:type==='merlot'?.018:.020;
+        y-=scoop*smooth(z,.026,.064)*(1-smooth(Math.abs(x),type==='dress'?.018:.015,type==='dress'?.043:.044));
+        if(type==='merlot')y+=.008*smooth(x,-.028,.028)*smooth(z,.025,.066);
       }
       p.setXYZ(i,x,y,z);
     }
@@ -5639,8 +5700,8 @@ function createWardrobeSetTops(){
       // Separate sleeveless cocktail bodice; only tee sleeve stitches are
       // removed, keeping the original armhole and shoulder seam topology.
       const sleeve=[a,b,c].some(k=>k>=bodyEnd&&k<p.count-rings);
-      if(type==='dress'&&sleeve)continue;
-      const id=type==='santa'&&centerY<.666?2:materialIndex;
+      if(dressLike&&sleeve)continue;
+      const id=(type==='santa'||ribbon)&&centerY<.666?2:materialIndex;
       bins[id].push(a,b,c);
     }
     geo.clearGroups();
@@ -5825,7 +5886,33 @@ function createWardrobeSetTops(){
     enumerable:true,configurable:true,get:()=>santaVisible,
     set:on=>{santaVisible=!!on;hat.visible=santaVisible;}
   });
-  return {dressTop,sailorTop,santaTop};
+  const onyx=fabric(0x141421,.69), blackTrim=fabric(0x353045,.55), pearl=fabric(0xbbabc8,.53);
+  const [noirTop,noir]=ensemble('noir',[onyx,blackTrim]);
+  noir.seam([[-.041,.766],[-.027,.752],[-.015,.742],[.010,.740],[.025,.751],[.041,.766]],.0037,blackTrim);
+  noir.seam([[-.033,.704],[-.016,.686],[.005,.672],[.033,.668]],.0029,pearl);
+  noir.emblem(.033,.668,.0048,.0042,pearl);
+  const wine=fabric(0x67233b,.64), ruby=fabric(0x8f3752,.70), champagne=fabric(0xd3a57f,.59);
+  const [merlotTop,merlot]=ensemble('merlot',[wine,ruby]);
+  merlot.seam([[-.046,.761],[-.019,.740],[.015,.726],[.035,.690],[.035,.665]],.0050,ruby);
+  merlot.seam([[-.035,.703],[-.019,.691],[.003,.680],[.024,.674]],.0017,champagne);
+  function ribbonLook(baseColor,lighter,darker){
+    const base=fabric(baseColor),collar=fabric(lighter),bow=fabric(darker);
+    const [top,design]=ensemble('ribbon',[base,collar,bow]);
+    for(const sign of [-1,1]){
+      const reflect=rows=>rows.map(([x,y])=>[x*sign,y]);
+      design.ladder(reflect([[.038,.773],[.035,.756],[.023,.745],[.003,.742]]),
+        reflect([[.054,.771],[.052,.751],[.035,.735],[.006,.735]]),collar);
+      design.ladder(reflect([[.002,.738],[.015,.746],[.033,.745]]),
+        reflect([[.003,.729],[.018,.724],[.033,.730]]),bow,true,.0042);
+      design.ladder(reflect([[.004,.730],[.015,.716],[.022,.701]]),
+        reflect([[.001,.726],[.008,.714],[.014,.697]]),bow,true,.0043);
+    }
+    design.emblem(0,.733,.0056,.0057,bow,.0065);
+    return top;
+  }
+  const mintRibbonTop=ribbonLook(0xd5e6db,0xf7efd5,0x528a80);
+  const lilacRibbonTop=ribbonLook(0xddcce9,0xfdf2f7,0x9a567e);
+  return {dressTop,sailorTop,santaTop,noirTop,merlotTop,mintRibbonTop,lilacRibbonTop};
 }
 
 function makeLeilaSkirtStyle(style){
@@ -5879,6 +5966,27 @@ const wardrobe109=(()=>{
     label:'santa',depth:.155,x:.006,z:.003,wave:1.02,pleat:.002,color:0xb32842,band:0x2f2028,hem:0xf7ead8,wideHem:true
   })});
 
+  // New pieces in the same top, bottom and coordinated-set catalogue.
+  item('inkCrop','top','ノワール・ダンスクロップ',tops.inkCrop,0x272235,{collection:'night'});
+  item('roseWrap','top','ローズ・バレエラップ',tops.roseWrap,0xb87191,{collection:'sweet'});
+  item('creamCardigan','top','バニラのリブカーディガン',tops.creamCardigan,0xe6d6b5,{collection:'sweet'});
+  item('lilacTee','top','ライラックのショートT',tops.lilacTee,0xb7a0cf,{collection:'sweet'});
+  const newSkirt=(id,color,band,hem,depth,options={})=>makeLeilaSkirtStyle({
+    label:id,depth,x:.006,z:.003,wave:1.05,pleat:.005,color,band,hem,...options
+  });
+  item('champagneMidi','bottom','シャンパン・サテンミディ',newSkirt('champagneMidi',0xc4a487,0xac856a,0xe7c7a1,.255,
+    {below:true,cut:.032,pleat:.0018}),0xc4a487,{collection:'night'});
+  item('berryPleats','bottom','ベリーのリボンプリーツ',newSkirt('berryPleats',0x9b587b,0x744361,0xd799b4,.177,
+    {wideHem:true,pleat:.0102}),0x9b587b,{collection:'sweet'});
+  item('inkShorts','bottom','黒×銀のダンスショーツ',pants.inkShorts,0x28293f,{collection:'night'});
+  item('noirEvening','set','ノワール・ナイトドレス',sets.noirTop,0x171624,
+    {collection:'night',bottom:newSkirt('noirEvening',0x191823,0x292438,0x514659,.218,{below:true,cut:.019,pleat:.002})});
+  item('merlot','set','メルローの斜め襟ドレス',sets.merlotTop,0x67233b,
+    {collection:'night',bottom:newSkirt('merlot',0x67233b,0x5a2335,0x963d5d,.260,{below:true,cut:.031,pleat:.002})});
+  item('mintRibbon','set','ミントリボンのワンピース',sets.mintRibbonTop,0x7db2a1,
+    {collection:'sweet',bottom:newSkirt('mintRibbon',0x8bbb9f,0x528a80,0xf2e9cd,.205,{wideHem:true,pleat:.008})});
+  item('lilacRibbon','set','すみれリボンのワンピース',sets.lilacRibbonTop,0xaa83b4,
+    {collection:'sweet',bottom:newSkirt('lilacRibbon',0xad83b5,0x9a567e,0xf2deef,.221,{wideHem:true,pleat:.008})});
   // Folded items occupy actual shelves, and the worn item disappears from its slot.
   let shelfSlot=0;
   for(const row of Object.values(registry)){
@@ -5886,7 +5994,7 @@ const wardrobe109=(()=>{
     const g=new T.Group(), n=shelfSlot++;
     g.name='クローゼット / '+row.name;
     wardrobeCabinet.add(g);
-    g.position.set(-.258+(n%3)*.109,.612-Math.floor(n/3)*.105,.060);
+    g.position.set(-.258+(n%3)*.109,.612-Math.floor((n%12)/3)*.105+(n>=12?.026:0),.060);
     const fabric=mat(row.shade,.93), crease=mat(new T.Color(row.shade).multiplyScalar(.78).getHex(),.95);
     block(g,fabric,0,0,0,.094,.020,.119);
     block(g,crease,0,.012,.046,.090,.006,.014);
@@ -5931,14 +6039,16 @@ const wardrobe109=(()=>{
     for(const which of keys){
       const select=$(prefix+'-'+which);
       const special=document.createElement('optgroup');special.label='お楽しみ';
+      const night=document.createElement('optgroup');night.label='夜のおめかし';
+      const sweet=document.createElement('optgroup');sweet.label='リボンと淡い色';
       const base=[];const seasonal=[];
       for(const row of Object.values(registry).filter(v=>v.slot===which)){
         const opt=new Option(row.name,row.id);
         if(row.seasonal)seasonal.push(opt);
-        else (row.surprise?special:select).append(opt);
+        else (row.collection==='night'?night:row.collection==='sweet'?sweet:row.surprise?special:select).append(opt);
         base.push(opt);
       }
-      if(special.children.length)select.append(special);
+      for(const group of [special,night,sweet])if(group.children.length)select.append(group);
       for(const node of seasonal)select.append(node);
       controls.push({prefix,which,select,base});
       select.disabled=false;
@@ -6031,6 +6141,14 @@ const wardrobe109=(()=>{
       [{top:'tee',bottom:'skirt',set:''},5],
       [{top:'',bottom:'',set:'dress'},currentMood()==='affectionate'?10:5],
       [{top:'',bottom:'',set:'sailor'},5],
+      [{top:'inkCrop',bottom:'inkShorts',set:''},currentMood()==='playful'?9:3],
+      [{top:'roseWrap',bottom:'champagneMidi',set:''},5],
+      [{top:'creamCardigan',bottom:'berryPleats',set:''},currentMood()==='affectionate'?8:4],
+      [{top:'lilacTee',bottom:'berryPleats',set:''},currentMood()==='playful'?7:4],
+      [{top:'',bottom:'',set:'noirEvening'},lastWorldMinute>=18*60?7:3],
+      [{top:'',bottom:'',set:'merlot'},lastWorldMinute>=18*60?6:3],
+      [{top:'',bottom:'',set:'mintRibbon'},5],
+      [{top:'',bottom:'',set:'lilacRibbon'},5],
       [empty(),2]
     ];
     return weightedChoice(choices.filter(([look])=>signature(look)!==signature(current)));
