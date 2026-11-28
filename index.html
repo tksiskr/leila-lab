@@ -282,6 +282,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <p id="lab130QualityInfo"></p>
       <label><input id="lab140StayAwake" type="checkbox"> 全画面中は画面の消灯を防ぐ</label>
       <p id="lab140StayStatus" role="status"></p>
+      <button type="button" id="lab132ShadeTest">東窓のシャッターを開閉</button>
+      <p id="lab132ShadeStatus" aria-live="polite"></p>
     </details>
     <details id="wardrobe109Panel" class="wardrobe109Panel">
       <summary>クローゼット <small id="wardrobe-readout">装甲のみ</small></summary>
@@ -308,11 +310,6 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <div class="leilaCard"><h2>運動のあと</h2>
       <button id="lab134CoolTry" type="button">ひと息つくストレッチを試す</button>
       <p>自律ダンスのあとに、気分によって体をゆっくり伸ばします。</p>
-    </div>
-    <div class="leilaCard" role="group" aria-labelledby="lab132ShadeTitle">
-      <h2 id="lab132ShadeTitle">東窓のシャッター</h2>
-      <button type="button" id="lab132ShadeTest">シャッターを開閉</button>
-      <p id="lab132ShadeStatus" aria-live="polite"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab130RainTitle">
       <h2 id="lab130RainTitle">窓辺と足元灯</h2>
@@ -1888,7 +1885,7 @@ const kitchenScene=(()=>{
       piece.scale.copy(piece.userData.full).multiplyScalar(Math.max(.001,s));
     }
   }
-  const pad=vec(4.63,0,-1.57), worker=vec(4.61,0,-3.51), handler=vec(4.43,0,-1.79);
+  const pad=vec(4.63,0,-1.57), worker=vec(4.36,0,-3.66), handler=vec(4.43,0,-1.79);
   const boardHome=group.localToWorld(vec(board.x,.519,board.z));
   const bowlHome=boardHome.clone();
   cuttingBoard.position.copy(boardHome);
@@ -16623,12 +16620,12 @@ const windowSnow=(()=>{
 // Reversing the same route stows the board without passing through the worktop.
 function counterPropPath(home,weight,lift){
   const p=home.clone();
-  const near=home.x-.110;
+  const near=home.x-.275;
   const pick=rearRamp(weight,0,.44);
   const slide=rearRamp(weight,.44,.84);
   const settle=rearRamp(weight,.84,1);
   p.x=mix(near,home.x,slide);
-  p.z-=.045*Math.sin(Math.PI*weight);
+  p.z+=.035*Math.sin(Math.PI*weight);
   p.y=home.y-.169*(1-pick)+lift*pick*(1-settle);
   return p;
 }
@@ -17838,6 +17835,7 @@ const dogKitchen=(()=>{
       a.phase='lower';a.floorFeet=sofaSides.map(side=>({
         side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0)).setY(standingAnkleHeights[side])
       }));
+      lower(stage,0);
     }
   }
   function palm(side,target,pointing,normal,weight){
@@ -17854,8 +17852,26 @@ const dogKitchen=(()=>{
     blendSofaPose(stage.pose,1);
     if(!a)return;
     const clock=u*stage.time;
+    // Step forward with the raised prop, then step back when reaching for storage.
+    // The cabinet lip stays clear while each sole has its own swing interval.
+    let stance=1;
+    if(clock<prepLead)stance=at(at(clock,.24,1.29),.44,.84);
+    else if(clock>=exchangeAt&&clock<exchangeAt+exchangeTime){
+      const t=clock-exchangeAt;
+      stance=t<1.31?at(1-at(t,.15,1.12),.44,.84):at(at(t-1.31,.24,1.34),.44,.84);
+    }else if(clock>exchangeAt+exchangeTime)stance=1-at(clock-prepLead-exchangeTime,11.95,12.72);
+    const stride=.25;
+    const feet=sofaSides.map((side,i)=>{
+      const ankle=groups['foot'+side].getWorldPosition(V(0,0,0));
+      const step=at(stance,i*.42,.58+i*.42);
+      ankle.x+=stride*step;ankle.y+=.025*Math.sin(Math.PI*step);
+      return {side,ankle};
+    });
+    groups.pelvis.position.z+=stride*stance;
+    lowerPelvisForFeet(feet);
+    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
     if(clock<prepLead){
-      const intoPlace=at(clock,.10,1.31);
+      const intoPlace=at(clock,.24,1.29);
       k.cuttingBoard.visible=clock>.10;
       const place=counterPropPath(k.boardHome,intoPlace,.050);
       k.cuttingBoard.position.copy(place);
@@ -17870,7 +17886,7 @@ const dogKitchen=(()=>{
       k.utensil.visible=false;k.falling.visible=false;k.fill(0);
       k.steam(clock,.34+.36*at(handoff,0,exchangeTime));
       if(handoff<1.31){
-        const away=at(handoff,.12,1.19);
+        const away=at(handoff,.15,1.12);
         const place=counterPropPath(k.boardHome,1-away,.050);
         k.cuttingBoard.visible=away<1;
         k.cuttingBoard.position.copy(place);
@@ -17879,7 +17895,7 @@ const dogKitchen=(()=>{
       }else{
         k.cuttingBoard.visible=false;
         const placeTime=handoff-1.31;
-        const intoPlace=at(placeTime,.10,1.34);
+        const intoPlace=at(placeTime,.24,1.34);
         k.largeBowl.visible=placeTime>.10;
         const place=counterPropPath(k.bowlHome,intoPlace,.058);
         const weight=easeBetween(placeTime,.02,.24,1.37,1.59);
@@ -17899,7 +17915,7 @@ const dogKitchen=(()=>{
     const cutting=easeBetween(t,.12,.76,3.48,4.08);
     const stirring=easeBetween(t,4.08,5.21,8.98,9.63);
     const serving=easeBetween(t,9.0,9.42,10.86,11.44);
-    a.grip=at(t,11.18,12.11);a.phase=t>=11.38?'carry':'cook';
+    a.grip=at(t,11.18,11.67);a.phase=t>=11.38?'carry':'cook';
     const steam=easeBetween(t,4.5,6,9.3,11.8);
     k.steam(t,steam);
     groups.abdomen.rotateX(.105*(1-a.grip));
@@ -17960,8 +17976,10 @@ const dogKitchen=(()=>{
       else setStatus('犬のごはんを、両手で持ち上げています');
     }
     if(a.grip>.005){
-      const lift=k.bowlHome.clone().lerp(carryCenter(),a.grip);
-      holdBowl(lift,a.grip);
+      const lifted=at(t,11.67,12.45);
+      leanToProp(k.bowlHome,a.grip*(1-lifted));
+      const center=k.bowlHome.clone().lerp(carryCenter(),lifted);
+      holdBowl(center,a.grip);
     }
   }
   function leanToProp(center,weight){
@@ -17969,32 +17987,34 @@ const dogKitchen=(()=>{
     const feet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
     const low=(1-rearRamp(center.y,.38,.57))*weight;
     const extend=rearRamp(center.x,4.68,4.93)*weight;
-    groups.pelvis.position.y-=.144*low+.060*extend;
-    groups.pelvis.position.z+=.028*extend;
-    groups.pelvis.position.x+=.050*weight;
+    groups.pelvis.position.y-=.158*low+.060*extend;
+    groups.pelvis.position.z+=.048*weight+.028*extend;
+    groups.pelvis.position.x+=.024*weight;
     groups.abdomen.rotateX(.18*low+.10*extend);
     groups.chest.rotateX(.20*low+.16*extend);
     groups.head.rotateX(.27*weight);
     lowerPelvisForFeet(feet);
-    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
+    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y,0,root.rotation.y+(side==='P'?1:-1)*.90*weight);
   }
   function guideBoard(center,weight){
     leanToProp(center,weight);
     for(const side of ['P','N']){
       const sign=side==='P'?-1:1;
-      const edge=center.clone().add(V(-.037,.016,sign*.153));
+      const edge=center.clone().add(V(-.111,.022,sign*.098));
       palm(side,edge,V(1,-.12,0),V(0,0,-sign),weight);
     }
   }
   function carryCenter(){
-    return root.position.clone().add(V(0,.563,.205).applyAxisAngle(up,root.rotation.y));
+    const center=groups.upperP.getWorldPosition(V(0,0,0));
+    center.lerp(groups.upperN.getWorldPosition(V(0,0,0)),.5);
+    return center.add(V(0,-.123,.285).applyAxisAngle(up,root.rotation.y));
   }
   function holdBowl(center,weight){
     const yaw=root.rotation.y;
     const f=V(0,-.08,1).applyAxisAngle(up,yaw);
     for(const side of ['P','N']){
       const sign=side==='P'?1:-1;
-      const x=V(sign*.123,.025,.006).applyAxisAngle(up,yaw);
+      const x=V(sign*.100,.043,-.080).applyAxisAngle(up,yaw);
       const normal=V(-sign*.89,-.46,0).applyAxisAngle(up,yaw);
       palm(side,center.clone().add(x),f,normal,weight);
     }
@@ -18031,7 +18051,8 @@ const dogKitchen=(()=>{
         solveLeg(side,ankle,h,0,h+outward*1.18*bend);
       }
     }
-    const center=carryCenter().lerp(floorBowl,settle);
+    const waist=root.position.clone().add(V(0,.563,.205).applyAxisAngle(up,h));
+    const center=carryCenter().lerp(waist,at(u,.12,.34)).lerp(floorBowl,settle);
     center.addScaledVector(V(Math.sin(h),0,Math.cos(h)),.048*Math.sin(Math.PI*settle));
     holdBowl(center,hold);
     if(settle>=.99){
@@ -19670,10 +19691,17 @@ const dogTumble=(()=>{
       const step=ease(rise,.74,1.31)*(1-ease(rise,1.89,2.35));
       groups.pelvis.position.x-=.031*support;
       groups.chest.rotateZ(.11*support);
-      groups.abdomen.rotateX(.16*step);
+      groups.pelvis.rotateX(.39*step);
+      groups.abdomen.rotateX(.41*step);
+      groups.chest.rotateX(.22*step);
+      for(const side of sofaSides){
+        const shoulder=groups['upper'+side], elbow=groups['elbow'+side];
+        shoulder.quaternion.slerp(a.entry[poseJoints.indexOf(shoulder)].rotation,step);
+        elbow.quaternion.slerp(a.entry[poseJoints.indexOf(elbow)].rotation,step);
+      }
       if(support>.001){
         const palm=orientPalm('N',V(0,0,1).applyAxisAngle(up,a.yaw),down);
-        const wrist=local(a,-.22,.018,-.07).sub(palmRig.N.center.clone().applyQuaternion(palm));
+        const wrist=local(a,-.22,.018,-.35).sub(palmRig.N.center.clone().applyQuaternion(palm));
         reachHand('N',wrist,palm,support,false,V(-.18,-.12,-.03));
       }
       for(const side of sofaSides){
