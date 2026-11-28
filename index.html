@@ -18005,17 +18005,20 @@ const dogKitchen=(()=>{
     const settle=at(u,.09,.59);
     const hold=1-at(u,.61,.72);
     const h=root.rotation.y;
-    const toward=V(0,0,1).applyAxisAngle(up,h);
     groups.pelvis.position.y-=.462*bend;
-    groups.pelvis.position.addScaledVector(toward,-.064*bend);
+    groups.pelvis.position.z-=.064*bend;
     groups.abdomen.rotateX(.76*bend);
     groups.chest.rotateX(.53*bend);
     groups.head.rotateX(-.43*bend);
     if(a.floorFeet){
       lowerPelvisForFeet(a.floorFeet);
-      for(const {side,ankle} of a.floorFeet)solveLeg(side,ankle,h);
+      for(const {side,ankle} of a.floorFeet){
+        const outward=side==='P'?1:-1;
+        solveLeg(side,ankle,h,0,h+outward*1.18*bend);
+      }
     }
     const center=carryCenter().lerp(floorBowl,settle);
+    center.addScaledVector(V(Math.sin(h),0,Math.cos(h)),.048*Math.sin(Math.PI*settle));
     holdBowl(center,hold);
     if(settle>=.99){
       k.largeBowl.position.copy(floorBowl);
