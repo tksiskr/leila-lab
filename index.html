@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 157｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 158｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 157</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 158</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -3115,11 +3115,13 @@ capoeiraFloor.add(capoeiraRing);
 // LAB 131 | A pocket record for the things Leila actually noticed today.
 const memo131=(()=>{
   const group=new T.Group();group.name='南窓のメモ台';
-  group.position.set(-5.92,0,17.42);group.scale.setScalar(2);floorGroup.add(group);
+  // Move the entire wall-mounted station, including the working props and drawer.
+  const scale=2, writingBase=.730, heightDrop=.31;
+  group.position.set(-5.92,-heightDrop,17.42);group.scale.setScalar(scale);floorGroup.add(group);
   const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
   const slate=mat(0x365052,.72), grain=mat(0xb18b67,.80), brass=mat(0xb5a07b,.50), felt=mat(0x627976,.96);
   const blue=mat(0x47717b,.65), cap=mat(0xd9c09a,.55), ink=mat(0x334452,.8);
-  const writingBase=.730, cardY=writingBase+.006, cardW=.208, cardD=.180;
+  const cardY=writingBase+.006, cardW=.208, cardD=.180;
   const tray=block(group,grain,0,writingBase-.019,.008,.581,.035,.322);
   for(const x of [-.221,.221]){
     block(group,slate,x,.581,.091,.024,.254,.125);
@@ -3293,7 +3295,7 @@ const memo131=(()=>{
     const cancel=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
     blendSofaPose(a.pose,1);
     const reach=rearRamp(u,.042,.158)*(1-rearRamp(u,.89,.993))*cancel;
-    groups.abdomen.rotateX(.15*reach);groups.chest.rotateX(.19*reach);
+    lean(reach);
     const transport=rearRamp(u,.185,.300)*(1-rearRamp(u,.75,.858));
     const writing=rearRamp(u,.237,.323)*(1-rearRamp(u,.733,.813));
     const c=contactFor(a,u);
@@ -3344,7 +3346,11 @@ const memo131=(()=>{
     journal.length=0;queue.length=0;view=0;updateLabel();dirty=true;
     try{localStorage.removeItem(key);}catch{}
   }
-  return {group,bounds,target,register,install,record,choose,invite,decorate,draw,finish,tick,reset};
+  function lean(w){
+    // Work from the planted standing pose, with a modest forward lean.
+    groups.abdomen.rotateX(.23*w);groups.chest.rotateX(.20*w);
+  }
+  return {group,bounds,target,register,install,record,choose,invite,decorate,draw,finish,tick,reset,lean};
 })();
 
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
@@ -3437,8 +3443,15 @@ const drawer135=(()=>{
     const pick=rearRamp(u,.338,.405)*(1-rearRamp(u,.663,.747))*fade;
     const reach=rearRamp(u,.031,.145)*(1-rearRamp(u,.318,.37))*fade
       +rearRamp(u,.711,.773)*(1-rearRamp(u,.92,.994))*fade;
-    groups.abdomen.rotateX(.14*Math.max(pick,reach));
-    groups.chest.rotateX(.14*Math.max(pick,reach));
+    const lean=Math.max(pick,reach);
+    // A lower handle needs a shallow dip without shifting the planted feet.
+    if(!a.drawerFeet)a.drawerFeet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(v()).setY(standingAnkleHeights[side])}));
+    groups.pelvis.position.y-=.078*lean;
+    groups.pelvis.position.z+=.015*lean;
+    groups.pelvis.rotateX(.12*lean);
+    memo131.lean(lean);
+    lowerPelvisForFeet(a.drawerFeet);
+    for(const {side,ankle} of a.drawerFeet)solveLeg(side,ankle,root.rotation.y);
     const depth=.135, card=a.kind==='cards', aim=(a.gripped?desired:0)*depth;
     pull.position.z=-aim*fade;
     const actual=hand(pull.localToWorld(world.copy(gripPose)),reach,fingersUp,handleNormal);
