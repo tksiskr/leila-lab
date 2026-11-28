@@ -19563,7 +19563,7 @@ const dogTumble=(()=>{
   }
   function leanOnSurface(a,dt){
     const rollingIn=a.chase&&a.chase.t<a.chase.duration;
-    a.t+=dt*(a.front?frontTempo:a.winner?winnerTempo*(rollingIn?1.50:1):1);
+    a.t+=dt*(a.front?(pinClock(a)>timing.release?.78:frontTempo):a.winner?winnerTempo*(rollingIn?1.50:1):1);
     a.skirtRear=0;
     if(a.winner){
       a.win=winnerPose(a);
@@ -19646,6 +19646,25 @@ const dogTumble=(()=>{
         }
       }
     }else if(downToKnees>0)safeFloor(0);
+    if(a.front&&t>timing.release){
+      const rise=t-timing.release;
+      const support=ease(rise,.36,.80)*(1-ease(rise,1.11,1.63));
+      const step=ease(rise,.74,1.31)*(1-ease(rise,1.89,2.35));
+      groups.pelvis.position.x-=.031*support;
+      groups.chest.rotateZ(.11*support);
+      groups.abdomen.rotateX(.16*step);
+      if(support>.001){
+        const palm=orientPalm('N',V(0,0,1).applyAxisAngle(up,a.yaw),down);
+        const wrist=local(a,-.22,.018,-.07).sub(palmRig.N.center.clone().applyQuaternion(palm));
+        reachHand('N',wrist,palm,support,false,V(-.18,-.12,-.03));
+      }
+      for(const side of sofaSides){
+        const sign=side==='P'?1:-1;
+        const foot=groups['foot'+side].getWorldPosition(V(0,0,0));
+        foot.lerp(local(a,.105*sign,standingAnkleHeights[side],side==='P'?.08:-.05),step);
+        if(step>.001)solveLeg(side,foot,a.yaw,0,a.yaw+sign*.36*step);
+      }
+    }
     if(t<timing.impact){
       const startle=ease(t,.19,timing.impact)*(1-ease(t,timing.impact,.51));
       if(a.front)groups.chest.rotateX(-.17*startle);
