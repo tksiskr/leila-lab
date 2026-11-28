@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 139｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 140｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -189,7 +189,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 139: the scene stays in place; only the controls pane scrolls. */
+/* LAB 140: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -222,7 +222,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 139</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 140</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -271,6 +271,13 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   </div>
   <div class="leilaCard" role="group" aria-labelledby="controls-look">
     <h2 id="controls-look">カメラ・外見</h2><div class="cameraButtons" role="group" aria-label="カメラの向き"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button data-menu-hidden hidden id="loungeView">居住区</button></div>
+    <details class="wardrobe109Panel" id="displaySettings"><summary>表示設定</summary>
+      <button id="lab130Quality" type="button" aria-pressed="false">軽量表示：OFF</button>
+      <label><input id="lab138AutoQuality" type="checkbox"> 描画が重いときだけ画質を自動調整</label>
+      <p id="lab130QualityInfo"></p>
+      <label><input id="lab140StayAwake" type="checkbox"> 全画面中は画面の消灯を防ぐ</label>
+      <p id="lab140StayStatus" role="status"></p>
+    </details>
     <details id="wardrobe109Panel" class="wardrobe109Panel">
       <summary>クローゼット <small id="wardrobe-readout">装甲のみ</small></summary>
       <div class="wardrobe109Fields"><label>トップス<select id="wardrobe-top" disabled><option value="">なし・装甲</option></select></label><label>ボトムス<select id="wardrobe-bottom" disabled><option value="">なし・装甲</option></select></label><label>上下セット<select id="wardrobe-set" disabled><option value="">なし・上下別</option></select></label></div>
@@ -305,12 +312,6 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <h2 id="lab130RainTitle">雨の窓辺</h2>
       <button id="lab130RainTry" type="button">雨粒を眺めるのを試す</button>
       <p id="lab130RainStatus" aria-live="polite">部屋の演出です。現地の天気とは連動しません。</p>
-    </div>
-    <div class="leilaCard" role="group" aria-labelledby="lab130QualityTitle">
-      <h2 id="lab130QualityTitle">表示の軽さ</h2>
-      <button id="lab130Quality" type="button" aria-pressed="false">軽量表示：OFF</button>
-      <label><input id="lab138AutoQuality" type="checkbox"> 描画が重いときだけ画質を自動調整</label>
-      <p id="lab130QualityInfo"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab129ChargeTitle">
       <h2 id="lab129ChargeTitle">東窓の充電台</h2>
@@ -546,6 +547,67 @@ const resize=()=>{
   r.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();
 };
 new ResizeObserver(resize).observe(view);resize();
+// Opt-in Screen Wake Lock for the existing full-screen view, never the OS settings.
+const standDisplay140=(()=>{
+  const input=$('lab140StayAwake'), status=$('lab140StayStatus');
+  const key='leila.lab140.standDisplay.v1';
+  const browser=navigator.wakeLock;
+  const available=typeof browser?.request==='function';
+  let shown=true, full=false, opted=false, inFlight=false, lock=null, cycle=0;
+  try{opted=localStorage.getItem(key)==='1';}catch{}
+  input.checked=opted;input.disabled=!available;
+  const wanted=()=>available&&opted&&full&&shown&&!document.hidden;
+  const say=text=>{if(status.textContent!==text)status.textContent=text;};
+  const base=()=>say(!available?'このブラウザーでは画面の消灯防止に対応していません。':
+    !opted?'初期設定はオフです。オンにすると全画面表示中だけ消灯を防ぎます。':
+    !full?'全画面にすると消灯防止を開始します。バッテリーの消費が増えることがあります。':
+    '消灯防止は一時停止中です。');
+  const release=prior=>{try{Promise.resolve(prior.release()).catch(()=>{});}catch{}};
+  async function sync(){
+    if(!wanted()){
+      if(lock){const prior=lock;lock=null;release(prior);}
+      base();return;
+    }
+    if(lock&&!lock.released)return;
+    if(inFlight)return;
+    const pass=cycle;
+    inFlight=true;say('画面の消灯防止を開始しています。');
+    try{
+      const current=await browser.request('screen');
+      if(!wanted()||pass!==cycle){
+        release(current);return;
+      }
+      if(current.released){
+        say('端末が消灯防止を解除しました。必要なら全画面に入り直してください。');return;
+      }
+      lock=current;
+      current.addEventListener('release',()=>{
+        if(lock!==current)return;
+        lock=null;
+        if(wanted())say('端末が消灯防止を解除しました。必要なら全画面に入り直してください。');
+        else base();
+      },{once:true});
+      say('消灯防止中。全画面を閉じると停止します。');
+    }catch{
+      if(pass===cycle&&wanted())say('今は消灯防止を開始できません。省電力設定やブラウザーの制限を確認してください。');
+    }finally{
+      inFlight=false;
+      if(pass!==cycle)void sync();
+    }
+  }
+  function changed(){cycle++;void sync();}
+  input.addEventListener('change',()=>{
+    opted=input.checked;
+    try{localStorage.setItem(key,opted?'1':'0');}catch{}
+    changed();
+  });
+  document.addEventListener('visibilitychange',changed);
+  window.addEventListener('pagehide',()=>{shown=false;changed();});
+  window.addEventListener('pageshow',()=>{shown=true;changed();});
+  base();
+  return {setFull(value){full=value;changed();}};
+})();
+
 {
   const toggle=$('viewModeToggle'), menu=$('controlScroll');
   let expanded=false, savedScroll=0;
@@ -555,6 +617,7 @@ new ResizeObserver(resize).observe(view);resize();
     expanded=next;
     if(!expanded)cinemaOwnsView=false;
     document.body.classList.toggle('leilaFullView',expanded);
+    standDisplay140.setFull(expanded);
     const label=expanded?'通常表示に戻る':'全画面表示';
     toggle.setAttribute('aria-label',label);toggle.title=label;
     if(!expanded)menu.scrollTop=savedScroll;
