@@ -286,8 +286,18 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab121ObserveTitle">
       <h2 id="lab121ObserveTitle">窓辺の観測</h2>
+      <label>観測の種類 <select id="lab121ObserveChoice">
+        <option value="">その時刻に合わせる</option><option value="horizon">朝夕の光</option>
+        <option value="birds">鳥の群れ</option><option value="stars">星探し</option>
+      </select></label>
       <button id="lab121Observe" type="button">窓辺の観測を試す</button>
       <p id="lab121ObserveStatus" aria-live="polite">時間帯に合わせて地平線、鳥、星を観察します。</p>
+    </div>
+    <div class="leilaCard" role="group" aria-labelledby="lab121HomeTitle">
+      <h2 id="lab121HomeTitle">南窓の園芸・点検台</h2>
+      <button id="home121Plant" type="button">園芸台を試す</button>
+      <button id="home121Service" type="button">セルフ点検台を試す</button>
+      <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
     </div>
     <div class="leilaCard leilaDevWardrobe" role="group" aria-labelledby="devWardrobeTitle">
       <h2 id="devWardrobeTitle">衣装チェック</h2>
@@ -1360,7 +1370,7 @@ const home121=(()=>{
     const dest=targets[lane], epoch=mood.seconds;
     if(lane==='plant')nextPlant=epoch+78;else nextService=epoch+88;
     restoreReactionPose();reaction=null;cancelCameraGreeting();
-    requestDestination({...dest,action:variant(lane,true)},false);
+    requestDestination({...dest,action:variant(lane,true),manual:true},false);
   }
   function decorate(visit,target){
     const action=target.action??'leaf';
@@ -1470,7 +1480,7 @@ const home121=(()=>{
   }
   function finish(target){
     const job=roam.visit?.find(stage=>stage.type==='home121Work');
-    if(job?.logged)lastWork=job.action;
+    if(job?.logged){lastWork=job.action;if(!target.manual)lab121Routines.offer('home',job.action);}
     reduceToRest();display.material=sleepy;button.material=signal;
     enterQuietRest('linger',job?.logged?done[job.action]:'南窓の台の前でひと休みしています',4.4+Math.random()*2.3);
   }
@@ -7170,9 +7180,40 @@ function advanceRoam(dt) {
   }
 }
 
+// A short afterthought, not a new autonomous mode. Only the source visit
+// can claim its follow-up, once, and explicit work or attention wins.
+const lab121Routines=(()=>{
+  let queued=null,cooldown=0;
+  function offer(source,detail){
+    if(devOwned()||mood.seconds<cooldown||roam.pending||roam.acknowledge||reaction||contact||handLink||
+       document.hidden||mood.seconds<leilaUserPriorityUntil||currentMood()==='annoyed')return;
+    if(source==='home'&&!['water','leaf'].includes(detail))return;
+    const feeling=currentMood();
+    if(Math.random()>= (feeling==='affectionate'?.76:feeling==='happy'?.65:.54))return;
+    queued={target:roam.target,source,detail,until:mood.seconds+25};
+    cooldown=mood.seconds+88;
+  }
+  function choose(){
+    const job=queued;if(!job)return false;
+    queued=null;
+    if(roam.target!==job.target||mood.seconds>=job.until||devOwned()||roam.pending||
+       reaction||contact||handLink||document.hidden||mood.seconds<leilaUserPriorityUntil||
+       currentMood()==='annoyed')return false;
+    let next;
+    if(job.source==='home')next=windows[1];
+    else if(job.detail==='stars'&&restClips&&mood.seconds>=(mood.nextBookAt??0))next=bookTarget;
+    else if(!radioSoundEnabled||mood.seconds<(mood.nextRadioAt??0))next=sofaTarget;
+    else next=radioTarget;
+    if(!next?.point||!destinationPath(root.position,next.point).length)return false;
+    startDestination(next);
+    return true;
+  }
+  return {offer,choose};
+})();
+
 function chooseDestination() {
   if(devNextDestination())return;
-  if(leilaObservatory.maybe())return;
+  if(lab121Routines.choose()||leilaObservatory.maybe())return;
   const roll = Math.random();
   const feeling = currentMood();
   if(['wait','rest','linger','window','mirror'].includes(roam.phase)&&roam.target?.kind!=='wardrobeMirror'&&
@@ -7488,7 +7529,7 @@ const leilaObservatory=(()=>{
   const target={kind:'window',name:'窓辺の観測パネル',point:rootPoint,heading:Math.PI,
     lookAt:dome.localToWorld(V(.119,.054,.098)),observatory:true};
   for(const o of [backing,face,dial])destinationMeshes.set(o,target);
-  let nextVisit=108,lastAuto=-Infinity,burst=0,skyKind='',observed='';
+  let nextVisit=108,lastAuto=-Infinity,burst=0,skyKind='',observed='',requested='',burstOverride=false;
   const tracking=V(0,0,0),localGaze=V(0,0,0),worldHead=V(0,0,0),gazeQuat=new T.Quaternion();
   const aimGaze=(p,w)=>{
     const h=groups.head;
@@ -7501,7 +7542,7 @@ const leilaObservatory=(()=>{
   const en=(p,a,b)=>rearRamp(p,a,b);
   function advance(stage,p){
     blendSofaPose(stage.pose,1);
-    if(!stage.reading)stage.reading=modeFor(lab900SceneMinute);
+    if(!stage.reading)stage.reading=requested||modeFor(lab900SceneMinute);
     const requestLeave=!!roam.pending||!!reaction;
     if(requestLeave){
       stage.interrupt??=p;
@@ -7524,7 +7565,7 @@ const leilaObservatory=(()=>{
       if(!stage.pressed&&!requestLeave&&p>=.29&&p<.46&&tip.distanceTo(target.lookAt)<.024){
         stage.pressed=true;
         observed=stage.reading;
-        skyKind=observed;burst=observed==='birds'?15:0;
+        skyKind=observed;burst=observed==='birds'?15:0;burstOverride=requested==='birds';
         lab900LifeNote('observatory'+observed);
         text(labels[observed]);$('destination').textContent=labels[observed];
       }
@@ -7549,16 +7590,16 @@ const leilaObservatory=(()=>{
     const action=roam.visit?.find(s=>s.type==='lab121Observe');
     if(action?.pressed){
       observed=action.reading;
+      if(!requested)lab121Routines.offer('look',observed);
       enterQuietRest('window',labels[observed],13.5);
     }else enterQuietRest('window','窓の外を静かに見渡しています',8.5);
   }
   function go(manual=false){
     if(mode==='roam'&&(roam.target===target||roam.pending?.target===target))return false;
-    if(!manual&&(!wallGroups[0].visible&&camera.position.z<-5.85))return false;
     if(manual){clearDevPreview();windowSnow.clearPreview();}
     if(mode!=='roam')beginRoam();
     nextVisit=mood.seconds+175+Math.random()*120;
-    observed='';requestDestination(target,manual);
+    observed='';requested=manual?$('lab121ObserveChoice').value:'';requestDestination(target,manual);
     return true;
   }
   function maybe(){
@@ -7574,7 +7615,7 @@ const leilaObservatory=(()=>{
   }
   function tick(dt){
     burst=Math.max(0,burst-dt);
-    birds.visible=burst>0&&!document.hidden&&modeFor(lab900SceneMinute)==='birds';
+    birds.visible=burst>0&&!document.hidden&&(burstOverride||modeFor(lab900SceneMinute)==='birds');
     const power=skyKind&&roam?.target?.observatory;
     mark.color.setHex(power?0x7ce7c5:0x599592);
     mobile.visible=!!power;
