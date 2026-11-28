@@ -280,6 +280,10 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
   <option value="sunset">夕暮れ</option><option value="moon">月夜</option>
 </select></label><details id="developer"><summary>開発者用メニュー</summary>
   <div class="leilaDevGrid">
+    <div class="leilaCard"><h2>LAB 121・レイラの仕草</h2>
+      <button id="lab121SocialTry" type="button">仕草を順に試す</button>
+      <p id="lab121SocialStatus" aria-live="polite">全7種。静かな待機中に試せます。ご機嫌のとき、同じ前腕を短く2回タップしても反応が変わります。</p>
+    </div>
     <div class="leilaCard" role="group" aria-labelledby="lab121ObserveTitle">
       <h2 id="lab121ObserveTitle">窓辺の観測</h2>
       <button id="lab121Observe" type="button">窓辺の観測を試す</button>
@@ -5153,6 +5157,7 @@ function respondToContact(action, current) {
   const head = /^(crown|face|cheek|temple|backHead)/.test(id);
   const hand = /^hand[PN]$/.test(id);
   const forearm = /^fore[PN]$/.test(id);
+  if(!forearm||action!=='tap')social121.clearTap();
   const shoulder = /^shoulder[PN]$/.test(id);
   const flank = id.startsWith('flank');
   const cheek = id.startsWith('cheek');
@@ -5222,7 +5227,8 @@ function respondToContact(action, current) {
     return;
   }
   else if (hand || forearm) {
-    beginReaction(armContactKind(action,feeling,moving,hand),true,side,action === 'drag');
+    const paired=forearm?social121.foreTap(side,feeling,action==='tap'&&!moving):null;
+    beginReaction(paired??armContactKind(action,feeling,moving,hand),true,side,action === 'drag');
     return;
   }
   else if (situation === 'focused') choices = [['softGlance',4],['nod',1]];
@@ -5750,7 +5756,7 @@ function beginReaction(kind,fromTap=false,touchSide,fromStroke=false,strokeConta
   if (reaction && reaction.elapsed < reaction.duration-.38 && fromTap && kind !== 'welcome' &&
       !continuingOffer && (!continuousStroke || kind === 'chestGuard')) {
     if (reaction.fromTap && !fromStroke && !faceContact && !torsoContact && !legContact && kind !== 'handReply' &&
-        kind !== 'flinch') return;
+        kind !== 'flinch' && kind !== 'lab121Echo' && kind !== 'lab121Palm') return;
     if (faceContact && !strokeContact.action && reaction.pose === 'face' && reaction.elapsed < .28) return;
     reaction.duration = Math.min(reaction.duration,reaction.elapsed+.38);
     reaction.next = kind;
@@ -6635,6 +6641,10 @@ function applyReaction(dt) {
     applyRearReaction(reaction,time,weight,pitch);
     return;
   }
+  if (reaction.pose==='lab121Gesture') {
+    social121.pose(reaction,time,weight,yaw,pitch);
+    return;
+  }
   if (reaction.pose) {
     applyTouchPose(reaction.pose,side,yaw,pitch,time,weight);
     return;
@@ -6871,13 +6881,191 @@ function advanceCameraGreeting(dt){
       (roam.phase==='rest' && roam.glanceAt-roam.elapsed<.66) || !canSeeGreeting()) return false;
   nextCameraGreetingAt=mood.seconds+34+Math.random()*27;
   mood.nextSocialAt=Math.max(mood.nextSocialAt,mood.seconds+20);
-  beginReaction('cameraWave');
+  beginReaction(social121.greet('cameraWave'));
   activeCameraGreeting={owner:roam,entry:reaction,after:0,invitation:0};
   return true;
 }
 function pruneCameraGreeting(){
   if(activeCameraGreeting && (!cameraGreetingIdle() || activeCameraGreeting.owner!==roam || document.hidden)) cancelCameraGreeting();
 }
+
+// LAB 121 — subtle gestures layer over the current pose, using the existing
+// reaction snapshot/fade so a walk, touch or explicit command can still win.
+const social121=(()=>{
+  const entries={
+    lab121Wrist:{label:'手首を返して、指先を確かめています',duration:2.62,pose:'lab121Gesture'},
+    lab121Stretch:{label:'肩をゆっくりゆるめて息をついています',duration:2.83,pose:'lab121Gesture'},
+    lab121Ponder:{label:'考え事をするように視線を少し上げています',duration:2.30,pose:'lab121Gesture'},
+    lab121Bow:{label:'こちらに気づいて、小さく会釈しました',duration:1.83,pose:'lab121Gesture'},
+    lab121Hello:{label:'こちらに気づき、手のひらをひらいて挨拶しました',duration:2.22,pose:'lab121Gesture'},
+    lab121Echo:{label:'とん、とん。レイラが同じリズムでうなずきました',duration:1.81,pose:'lab121Gesture'},
+    lab121Palm:{label:'レイラが腕を返し、手のひらを見せて見返しました',duration:2.34,pose:'lab121Gesture'}
+  };
+  Object.assign(reactions,entries);
+  const mid=V(0,0,0), wrist=V(0,0,0), forward=V(0,0,0), normal=V(0,0,0);
+  const gazeTarget=V(0,0,0), local=V(0,0,0), guide=V(0,0,0);
+  const neckQ=new T.Quaternion(), chestQ=new T.Quaternion();
+  let next=16+Math.random()*9, lastIdle=null, lastSide='N', priorWaveCount=0;
+  let tap=null, tapAt=-Infinity, owner=null, mine=null, previewIndex=0;
+
+  function still(){
+    return mode==='roam'&&roam&&['wait','rest','linger','window','seated'].includes(roam.phase)
+      &&!roam.pending&&!roam.attention&&!roam.handRelease&&!roam.idle?.joke;
+  }
+  function clearTap(){tap=null;}
+  function foreTap(side,feeling,eligible){
+    if(!eligible||!still()||devOwned()||(feeling!=='playful'&&feeling!=='happy'&&feeling!=='affectionate')){
+      clearTap();
+      return null;
+    }
+    const prev=tap;
+    tap={side,time:mood.seconds};
+    if(!prev||prev.side!==side||mood.seconds-tapAt<7.2)return null;
+    const gap=mood.seconds-prev.time;
+    if(gap<.135){tap=prev;return null;}
+    if(gap>.51)return null;
+    tapAt=mood.seconds;
+    tap=null;
+    return feeling==='playful'?'lab121Echo':'lab121Palm';
+  }
+  function greet(original){
+    const first=priorWaveCount++===0;
+    // A real wave still appears on start and regularly thereafter, so the
+    // established wave-back input is never replaced by a fake invitation.
+    if(first||priorWaveCount%3===1)return original;
+    const feel=currentMood();
+    const candidates=feel==='playful'?['lab121Hello',original]:
+      feel==='affectionate'||feel==='happy'?['lab121Bow','lab121Hello',original]:
+      ['lab121Bow',original,original];
+    return candidates[Math.floor(Math.random()*candidates.length)];
+  }
+  function idle(dt){
+    if(mine){
+      if(reaction===mine&&owner===roam&&still()&&!contact&&!handLink&&!document.hidden)return true;
+      mine=null;owner=null;
+    }
+    if(mood.seconds<next||!still()||devOwned()||activeCameraGreeting||trackedPointers.size||
+       reaction||contact||handLink||document.hidden||performance.now()<waveReplyUntil||
+       currentMood()==='annoyed'||mood.seconds<mood.avoidedUntil||
+       mood.seconds-mood.lastContact<5||roam.elapsed<1.10||roam.pause-roam.elapsed<2.92||
+       roam.phase==='rest'&&roam.glanceAt-roam.elapsed<2.92)return false;
+    const feel=currentMood(), night=lastWorldMinute<6*60||lastWorldMinute>=22*60;
+    const pool=roam.phase==='window'?['lab121Ponder','lab121Stretch']:
+      night||feel==='affectionate'?['lab121Stretch','lab121Ponder']:
+      feel==='bored'||feel==='playful'?['lab121Wrist','lab121Ponder','lab121Wrist']:
+        ['lab121Ponder','lab121Wrist','lab121Stretch'];
+    const list=pool.filter(k=>k!==lastIdle);
+    lastIdle=list[Math.floor(Math.random()*list.length)];
+    lastSide=lastSide==='P'?'N':'P';
+    next=mood.seconds+27+Math.random()*27;
+    beginReaction(lastIdle,false,lastSide);
+    owner=roam;mine=reaction;
+    return true;
+  }
+  // Detect a transition in the same frame (before the gesture renderer runs),
+  // without cancelling any user reaction that has already replaced ours.
+  function prune(){
+    if(!mine)return;
+    if(reaction===mine&&(owner!==roam||!still()||handLink||document.hidden)){
+      reaction=null;
+      $('reactionStatus').hidden=true;
+    }
+    if(reaction!==mine){mine=null;owner=null;}
+  }
+
+  function pose(entry,time,weight,yaw,pitch){
+    const {kind,side,duration}=entry, sign=side==='P'?1:-1;
+    const phase=time/(entries[kind]?.duration??duration);
+    const bell=(a,b,c,d)=>rearRamp(phase,a,b)*(1-rearRamp(phase,c,d));
+    const {chest,neck,head}=groups;
+    if(kind==='lab121Stretch'){
+      const lift=bell(.10,.42,.54,.92)*weight;
+      const unwind=Math.sin(Math.PI*rearRamp(phase,.39,.79))*lift;
+      chest.rotateX(-.061*lift);
+      chest.rotateZ(sign*.045*unwind);
+      neck.rotateX(.065*lift);
+      neck.rotateZ(-sign*.089*unwind);
+      head.rotateZ(sign*.092*lift);
+      head.rotateX(-.041*lift);
+      for(const s of ['P','N']){
+        const sg=s==='P'?1:-1;
+        groups['upper'+s].rotateZ(-sg*.13*lift);
+        groups['upper'+s].rotateX(-.067*lift);
+        groups['elbow'+s].rotateX(.035*lift);
+      }
+      return;
+    }
+    if(kind==='lab121Ponder'){
+      const look=bell(.06,.29,.66,.98)*weight;
+      const settle=rearRamp(phase,.46,.83);
+      chest.rotateY(sign*.057*look);
+      neck.rotateY(sign*(.13-.06*settle)*look);
+      head.rotateY(sign*(.31-.15*settle)*look);
+      head.rotateX((-.18+.15*settle)*look);
+      head.rotateZ(sign*.10*look);
+      return;
+    }
+    if(kind==='lab121Bow'||kind==='lab121Echo'){
+      // A nod travels through the neck and head first, rather than bending
+      // the pelvis over the feet. Echo gives two distinct little pulses.
+      const beats=kind==='lab121Echo'?
+        bell(.24,.33,.37,.47)+.74*bell(.48,.58,.63,.75):bell(.24,.48,.50,.80);
+      chest.rotateX(.035*beats*weight);
+      neck.rotateY(.24*yaw*weight);
+      head.rotateY(.63*yaw*weight);
+      neck.rotateX(.10*beats*weight);
+      head.rotateX((pitch*.76+.215*beats)*weight);
+      head.rotateZ(sign*.074*weight);
+      if(kind==='lab121Echo')groups['upper'+side].rotateZ(-sign*.08*beats*weight);
+      return;
+    }
+    const hello=kind==='lab121Hello', palm=kind==='lab121Palm';
+    const raised=bell(.07,.37,.69,.99)*weight;
+    const turnover=rearRamp(phase,.30,.62);
+    const rocking=Math.sin(phase*Math.PI*2.2);
+    // Compute shoulders/aims in chest space. Targets stay outside the shell,
+    // and the outward elbow guide is the same signed hinge used for petting.
+    const cx=sign*(hello?.210:palm?.207:.187);
+    const cy=hello?.052:palm?-.134:-.122;
+    const cz=hello?.225:palm?.216:.207;
+    chest.getWorldQuaternion(chestQ);
+    chest.localToWorld(wrist.set(cx,cy+.013*rocking,cz));
+    forward.set(sign*(hello?.14:-.20+turnover*.32),hello?.91:.34+turnover*.16,hello?.27:.86).normalize().applyQuaternion(chestQ);
+    normal.set(sign*(hello?-.10:-.68+1.18*turnover),hello?.13:.77,hello?.97:.14);
+    normal.addScaledVector(local.copy(forward).applyQuaternion(neckQ.copy(chestQ).invert()),
+      -normal.dot(local)).normalize().applyQuaternion(chestQ);
+    if(raised>.001)reachHand(side,wrist,orientPalm(side,forward,normal),raised,false,
+      guide.set(sign*.31,-.23,.015),true);
+    const eyesOnHand=hello?0:bell(.15,.38,palm?.48:.67,palm?.75:.94)*.86;
+    head.getWorldPosition(mid);
+    head.getWorldQuaternion(neckQ).invert();
+    gazeTarget.copy(wrist).sub(mid).applyQuaternion(neckQ);
+    const toWrist=T.MathUtils.clamp(Math.atan2(gazeTarget.x,gazeTarget.z),-.62,.62);
+    const down=T.MathUtils.clamp(-Math.atan2(gazeTarget.y,Math.hypot(gazeTarget.x,gazeTarget.z)),-.25,.55);
+    const toward=kind==='lab121Wrist'?0:yaw;
+    neck.rotateY(.20*mix(toward,toWrist,eyesOnHand)*weight);
+    head.rotateY(.58*mix(toward,toWrist,eyesOnHand)*weight);
+    head.rotateX(mix(hello?pitch-.045:pitch,down,eyesOnHand)*.83*weight);
+    head.rotateZ(sign*.103*weight*(.7+.3*rocking));
+  }
+
+  function preview(){
+    // Does not seek or move the camera; refuse if an existing scene owns
+    // the actors, including the manual wave/reply and handhold.
+    if((!still()&&mode!=='standWait')||devOwned()||reaction||contact||handLink||
+       activeCameraGreeting||performance.now()<waveReplyUntil){
+      $('lab121SocialStatus').textContent='立ったまま待つか、静かに休んでいるときに試せます。';
+      return;
+    }
+    const demos=Object.keys(entries);
+    const k=demos[previewIndex++%demos.length];
+    beginReaction(k,false,previewIndex%2?'P':'N');
+    if(still()){owner=roam;mine=reaction;}
+    $('lab121SocialStatus').textContent=entries[k].label+'（'+(1+(previewIndex-1)%demos.length)+' / '+demos.length+'）';
+  }
+  $('lab121SocialTry').addEventListener('click',preview);
+  return {idle,prune,greet,foreTap,clearTap,pose};
+})();
 
 function advanceRoam(dt) {
   const nextPlay=dogTumble.followUp();
@@ -6953,6 +7141,7 @@ function advanceRoam(dt) {
     else roam.handRelease = null;
   }
   if (!nextPlay && !devOwned() && !lingeringReaction && advanceCameraGreeting(dt)) return;
+  if (!nextPlay && !devOwned() && !lingeringReaction && social121.idle(dt)) return;
   if (!nextPlay && !lingeringReaction && roam.elapsed >= roam.pause) {
     if(devNextDestination())return;
     if (!reaction && mood.seconds >= mood.avoidedUntil && mood.seconds >= mood.followUpAt) {
@@ -15482,7 +15671,7 @@ if (mode==='idle' && $('ik').checked) {
   lowerSupportingHeels(1-cur.step);
   alignSupportToFloor(1-cur.step,true);
 }
-sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();dogKitchen.holdOnWalk();applyReaction(dt);
+sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
 updateLabMusic();updateWorld(dt);leilaObservatory.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
