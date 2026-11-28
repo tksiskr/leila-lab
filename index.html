@@ -306,6 +306,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <h2 id="lab132ShadeTitle">東窓のスクリーン</h2>
       <button type="button" id="lab132ShadeTest">開け閉めを試す</button>
       <button type="button" id="hourglass135Try">読書用の砂時計を試す</button>
+      <button type="button" id="coaster141Try">コースターを整える</button>
       <p id="lab132ShadeStatus" aria-live="polite"></p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab130RainTitle">
@@ -663,6 +664,7 @@ const lab900LifeNote=(()=>{
     petalDisplay137:'押し花のしおりを園芸台に飾った',
     memo131:'青いペンでひとことを残した',
     tea132:'湯のみを受け皿に置き、湯気を眺めた',
+    coaster141:'サイドテーブルのコースターを整えた',
     observatorybirds:'窓辺で鳥の群れを追った',
     observatoryhorizon:'窓辺で地平線の光を観察した',
     observatorystars:'窓辺で星を探した',
@@ -9091,7 +9093,7 @@ function chooseDestination() {
     return;
   }
   if(fresh126.choose())return;
-  if(hourglass135.choose())return;
+  if(hourglass135.choose()||coaster141.choose())return;
   const readingChance = feeling === 'bored' ? .22 : feeling === 'affectionate' ? .06 : .14;
   if (roam.target !== bookTarget && mood.seconds >= (mood.nextBookAt ?? 0) && Math.random() < readingChance) {
     startDestination(bookTarget);
@@ -10345,6 +10347,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     tea132.decorate(visit,target);
   } else if(target.kind==='hourglass135'){
     hourglass135.decorate(visit,target);
+  } else if(target.kind==='coaster141'){
+    coaster141.decorate(visit,target);
   } else if(target.kind==='press137'){
     press137.decorate(visit,target);
   } else if(target.kind==='drawer135'){
@@ -11863,6 +11867,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'coaster141Slide':
+      coaster141.act(stage,progress);
+      break;
     case 'hourglass135Flip':
       hourglass135.act(stage,progress);
       break;
@@ -11922,7 +11929,7 @@ function advanceDestinationRoute(dt) {
   }
   if (progress < 1 && !(stage.type==='wake140' && stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35) &&
       !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='drawer135Sort' || stage.type==='press137Make') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='coaster141Slide' || stage.type==='drawer135Sort' || stage.type==='press137Make') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -14875,7 +14882,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
-  hourglass135.interrupt();
+  hourglass135.interrupt();coaster141.interrupt();
   dogSit135.cancel();
   floorHello133.cancel();
   scent131.cancel();
@@ -17374,6 +17381,104 @@ const hourglass135=(()=>{
     clearDevPreview();
     if(mode!=='roam')beginRoam();
     nextAt=mood.seconds+88;requestDestination(target(true));
+  };
+  return {choose,decorate,act,interrupt,tick};
+})();
+
+// A cork coaster can move between the side table's outer edge and its brass rest.
+const coaster141=(()=>{
+  const y=tableTop, slots=[V(-4.531,y+.0037,-.361),V(-4.536,y+.0037,-.437)], mark=V(-4.222,0,-.399);
+  const body=new T.Group(), station=new T.Group(), east=V(1,0,0), up=V(0,1,0), down=V(0,-1,0);
+  body.name='コルクのコースター';station.name='コースターの定位置';facility.add(body,station);
+  station.position.copy(slots[1]);station.position.y=y+.00025;
+  const cork=mat(0xb89666,.96), border=mat(0x795942,.87), brass=mat(0xb99659,.49), trim=mat(0xe0c59b,.86);
+  function disc(parent,r,h,Y,material){
+    const o=new T.Mesh(new T.CylinderGeometry(r,r,h,24),material);parent.add(o);o.position.y=Y;return o;
+  }
+  disc(body,.038,.0057,0,border);
+  disc(body,.0364,.0019,.0023,cork);
+  const grain=new T.Mesh(new T.TorusGeometry(.027,.00055,5,24),trim);
+  grain.rotation.x=-Math.PI/2;grain.position.y=.00328;body.add(grain);
+  block(body,trim,0,.00328,.0145,.008,.00028,.0012).rotation.y=.8;
+  for(const [x,z,run] of [[-.046,0,0],[.046,0,0],[0,-.046,1],[0,.046,1]]){
+    block(station,brass,x,0,z,run?.028:.0028,.00075,run?.0028:.028);
+  }
+  let slot=0,active=null,notBefore=51;
+  const planned=V(0,0,0),pad=V(0,0,0),rel=V(0,.0058,0);
+  const land=()=>body.position.copy(slots[slot]);land();
+  function destination(manual){
+    return {kind:'coaster141',name:'サイドテーブルのコースター',heading:-Math.PI/2,point:mark,lookAt:slots[slot],
+      onArrival(){
+        const done=active?.done&&!active?.cancelAt;
+        active=null;land();
+        enterQuietRest('linger',done?'レイラがサイドテーブルのコースターを整えました':'レイラはサイドテーブルのそばで立ち止まりました',done?4.8:3.6);
+      }};
+  }
+  function choose(){
+    const roomMinute=lab900SceneMinute>=0?lab900SceneMinute:lastWorldMinute;
+    const wanted=roomMinute>=7*60&&roomMinute<20*60?0:1;
+    if(slot===wanted||mood.seconds<notBefore||mode!=='roam'||devOwned()||contact||reaction||handLink||
+      document.hidden||!floorGroup.visible||mood.seconds<leilaUserPriorityUntil||currentMood()==='annoyed'||
+      root.position.distanceTo(mark)>3.4)return false;
+    notBefore=mood.seconds+21;
+    if(Math.random()>.41||!destinationPath(root.position.clone().setY(0),mark).length&&root.position.distanceTo(mark)>.035)return false;
+    notBefore=mood.seconds+160;
+    startDestination(destination(false));return true;
+  }
+  function decorate(visit,dst){
+    visit.push(routeTurn(dst.heading,'レイラがサイドテーブルを見ています'),
+      {type:'coaster141Slide',time:4.45,target:dst,heading:dst.heading,message:'レイラがコースターに手を伸ばしています'});
+  }
+  function interrupt(){
+    if(active&&active.cancelAt===undefined&&mode==='roam'&&roam.phase==='route')active.cancelAt=roam.elapsed;
+  }
+  function act(a,n){
+    active=a;
+    if(reaction||contact||handLink||roam.pending)interrupt();
+    if(a.cancelAt!==undefined)n=a.cancelAt/a.time;
+    const e=rearRamp, fade=a.cancelAt===undefined?1:1-e(roam.elapsed,a.cancelAt,a.cancelAt+.29);
+    a.stance??=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
+    blendSofaPose(a.pose,1);
+    const bend=e(n,.025,.29)*(1-e(n,.76,.99))*fade;
+    groups.pelvis.position.y-=.324*bend;
+    groups.pelvis.position.z+=.133*bend;
+    groups.pelvis.rotateX(.16*bend);groups.abdomen.rotateX(.42*bend);
+    groups.chest.rotateX(.45*bend);groups.head.rotateX(.36*bend);
+    for(const {side,ankle} of a.stance)solveLeg(side,ankle,a.heading);
+    a.source??=slot;
+    const slide=e(n,.40,.69);
+    planned.copy(slots[a.source]).lerp(slots[1-a.source],slide).add(rel);
+    // Approach from above, then let the palm travel with the coaster on the surface.
+    planned.y+=.105*((1-e(n,.22,.36))+e(n,.71,.79));
+    const q=orientPalm('N',east,down);
+    const wrist=planned.clone().sub(palmRig.N.center.clone().applyQuaternion(q));
+    const hold=e(n,.10,.30)*(1-e(n,.83,.96))*fade;
+    if(hold>.001)reachHand('N',wrist,q,hold,false,V(-.174,-.133,.071),true);
+    groups.handN.localToWorld(pad.copy(palmRig.N.center));
+    if(n>=.363&&!a.checked){
+      a.checked=true;a.gap=pad.distanceTo(planned);a.touch=a.gap<.020&&fade>.98;
+    }
+    if(a.touch){
+      if(fade<.999){body.position.lerp(slots[slot],1-fade);return;}
+      body.position.set(pad.x,y+.0037,pad.z);
+      if(n>=.693){
+        a.land=body.position.distanceTo(slots[1-slot]);
+        if(a.land<.020){slot=1-slot;a.done=true;lab900LifeNote('coaster141');}
+        a.touch=false;land();
+      }
+    }
+  }
+  function tick(){
+    body.visible=station.visible=floorGroup.visible;
+    if(active&&(mode!=='roam'||roam.target?.kind!=='coaster141'||
+      (roam.phase==='route'&&roam.visit[roam.visitIndex]&&roam.visit[roam.visitIndex]!==active))){
+      land();active=null;
+    }
+  }
+  $('coaster141Try').onclick=()=>{
+    if(active||roam?.target?.kind==='coaster141'&&roam.phase==='route')return;
+    clearDevPreview();if(mode!=='roam')beginRoam();
+    requestDestination(destination(true));
   };
   return {choose,decorate,act,interrupt,tick};
 })();
@@ -20158,7 +20263,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);hourglass135.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);hourglass135.tick();coaster141.tick();tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
