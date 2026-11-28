@@ -346,6 +346,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="ambience128Breeze" type="button">東窓の風鈴を試す</button>
       <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
       <button id="lab131MemoTest" type="button">南窓のメモ台を試す</button>
+      <button id="tea132Preview" type="button">湯沸かし台を試す</button>
       <button id="lab131MemoPrior" type="button" disabled>前のメモを見る</button>
       <p id="lab131MemoStatus" aria-live="polite">まだメモはありません。</p>
       <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
@@ -549,6 +550,7 @@ const lab900LifeNote=(()=>{
     freshWipe:'姿見の手入れ台を布で拭いた',
     freshFold:'乾いた布をたたみ、姿見のそばを整えた',
     memo131:'青いペンでひとことを残した',
+    tea132:'湯のみを受け皿に置き、湯気を眺めた',
     observatorybirds:'窓辺で鳥の群れを追った',
     observatoryhorizon:'窓辺で地平線の光を観察した',
     observatorystars:'窓辺で星を探した',
@@ -1816,6 +1818,201 @@ const kitchenScene=(()=>{
     fill,steam,restTools,boardTop,boardHome,cuttingBoard,potTop,bowlHome,pad,handler,target,bounds};
 })();
 const kitchenBounds=kitchenScene.bounds,kitchenTarget=kitchenScene.target;
+// LAB 132 | a small hot-water tray, away from the stove and the dog's bowls.
+const tea132=(()=>{
+  const area=new T.Group();area.name='東窓近くの白い湯沸かし台';
+  area.position.set(10.68,0,.37);area.rotation.y=Math.PI/2;area.scale.setScalar(2);floorGroup.add(area);
+  const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
+  const wood=mat(0x9d7857,.79), iron=mat(0x31494d,.60), metal=mat(0x9baaa4,.42),
+    porcelain=mat(0xd9dcca,.43), ceramic=mat(0x67958e,.42);
+  const cobalt=mat(0x3f7674,.50), standby=new T.MeshBasicMaterial({color:0x707e78}),
+    active=new T.MeshBasicMaterial({color:0xf8cd87});
+  const shelf=.590, cupHeight=.084;
+  const counter=block(area,wood,0,shelf-.024,0,.544,.048,.333);
+  block(area,iron,0,.426,.077,.532,.038,.126);
+  for(const x of [-.221,.221]) {
+    const b=block(area,iron,x,.499,.015,.024,.175,.175);b.rotation.x=.42;
+    block(area,metal,x,.571,-.105,.023,.020,.086);
+  }
+  block(area,iron,-.145,shelf+.013,.004,.169,.027,.163);
+  block(area,metal,.009,shelf+.008,.019,.119,.016,.141);
+  block(area,iron,.116,shelf+.013,-.012,.143,.026,.146);
+  const body=block(area,porcelain,.013,shelf+.145,.123,.166,.272,.093);
+  block(area,ceramic,.013,shelf+.164,.179,.123,.218,.032);
+  block(area,metal,.009,shelf+.223,.057,.043,.035,.113);
+  const nozzle=block(area,iron,.009,shelf+.202,.012,.038,.044,.047);
+  const light=block(area,standby,-.04,shelf+.183,.065,.022,.030,.015);
+  const button=block(area,metal,-.046,shelf+.135,.027,.039,.042,.026);
+  block(area,iron,-.046,shelf+.135,.067,.047,.055,.094);
+  const wt=(x,y,z)=>area.localToWorld(v(x,y,z));
+  const cup=new T.Group();cup.name='青緑の湯のみ';area.add(cup);
+  const profile=[[0,0],[.032,0],[.044,.015],[.048,.075],[.046,.084],[.042,.085],[.041,.072],[.035,.014],[0,.013]];
+  const cupBody=new T.Mesh(new T.LatheGeometry(profile.map(([x,y])=>new T.Vector2(x,y)),22),ceramic);cup.add(cupBody);
+  const rim=new T.Mesh(new T.TorusGeometry(.045,.003,5,20),porcelain);
+  rim.rotation.x=-Math.PI/2;rim.position.y=.082;cup.add(rim);
+  const handle=new T.Mesh(new T.TorusGeometry(.026,.0048,5,16),cobalt);
+  handle.position.set(.057,.046,0);handle.scale.set(.65,1,1);cup.add(handle);
+  const surface=new T.Mesh(new T.CircleGeometry(.039,16),new T.MeshStandardMaterial({color:0xc79b63,roughness:.31,metalness:.08}));
+  surface.rotation.x=-Math.PI/2;surface.visible=false;cup.add(surface);
+  const take=v(.117,shelf+.027,-.012), under=v(.009,shelf+.016,.019), serve=v(-.120,shelf+.027,.004);
+  const handlePt=v(.067,.053,0), cupHome=new T.Vector3().copy(take);
+  const cupAim=v(), handPoint=v(), wrist=v(), offset=v(), direction=v(1,0,0);
+  const rightNormal=v(0,-.12,.99).normalize(), leftNormal=v(-1,0,0), up=v(0,1,0);
+  const elbowP=v(.167,-.16,.063), elbowN=v(-.162,-.133,.072);
+  const headAim=v(), headOrigin=v(), rotation=new T.Quaternion();
+  const water=new T.Mesh(new T.CylinderGeometry(.005,.003,1,8),new T.MeshBasicMaterial({color:0xc5e6ec,transparent:true,opacity:.64,depthWrite:false}));
+  water.position.copy(under);area.add(water);water.visible=false;
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=48;
+  const ctx=canvas.getContext('2d'), radial=ctx.createRadialGradient(24,24,0,24,24,24);
+  radial.addColorStop(0,'rgba(255,255,255,.82)');radial.addColorStop(.45,'rgba(255,255,255,.50)');
+  radial.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=radial;ctx.fillRect(0,0,48,48);
+  const vapour=new T.CanvasTexture(canvas);vapour.colorSpace=T.SRGBColorSpace;
+  const fogM=new T.MeshBasicMaterial({map:vapour,color:0xe0dfca,transparent:true,opacity:0,depthWrite:false,toneMapped:false});
+  const steam=new T.InstancedMesh(new T.PlaneGeometry(1,1),fogM,6);
+  steam.name='冷めていく湯気';steam.visible=false;steam.frustumCulled=false;facility.add(steam);
+  const s=v(), cloud=v(), matrix=new T.Matrix4(), steamOrigin=v();
+  const target={kind:'tea132',name:'湯沸かし台',point:v(5.107,0,.181),lookAt:wt(.012,shelf+.13,-.05),heading:Math.PI/2};
+  const bounds=new T.Box3(v(5.158,-1,-.104),v(5.57,1,.474));
+  let amount=0,warmUntil=-Infinity,nextTea=79,restAfter=-Infinity,owner=null,dirty=false;
+  function resetPhysical(){
+    cup.position.copy(cupHome);
+    water.visible=false;light.material=standby;button.position.z=.027;
+    updateLevel(amount);
+  }
+  function updateLevel(n){
+    surface.visible=n>.035;
+    if(surface.visible){surface.position.y=.016+.053*n;surface.scale.setScalar(.78+.17*n);}
+  }
+  resetPhysical();
+  function teaClock(){
+    return lastWorldMinute>=6*60&&lastWorldMinute<10*60+50
+      ||lastWorldMinute>=16*60+20&&lastWorldMinute<21*60+20;
+  }
+  function eligibility(manual=false){
+    if(handLink||document.hidden||!floorGroup.visible||dogKitchen.isBusyDog()||
+       mode==='roam'&&(roam.target?.kind==='kitchen'&&roam.phase==='route'||roam.pending?.target?.kind==='kitchen')){
+      if(manual)$('destination').textContent='食事の支度や別の動作が終わったら、湯沸かし台を使えます。';
+      return false;
+    }
+    return true;
+  }
+  function choose(){
+    if(devOwned()||reaction||contact||!eligibility()||currentMood()==='annoyed'||
+       !['wait','rest','linger','window','seated'].includes(roam.phase)||roam.pending||mood.seconds<leilaUserPriorityUntil)return false;
+    if(roam.target?.kind==='tea132'){
+      if(owner!==roam||mood.seconds>restAfter)return false;
+      restAfter=-Infinity;owner=null;
+      if(!destinationPath(root.position,sofaTarget.point).length)return false;
+      requestDestination(sofaTarget,false);
+      return true;
+    }
+    if(mood.seconds<nextTea||!teaClock()||Math.random()>(currentMood()==='affectionate'?.23:.12))return false;
+    if(root.position.distanceTo(target.point)>.032&&!destinationPath(root.position,target.point).length)return false;
+    requestDestination(target,false);nextTea=mood.seconds+185+Math.random()*90;return true;
+  }
+  function request(){
+    if(!eligibility(true))return;
+    if(devOwned()){clearDevPreview();windowSnow.clearPreview();}
+    if(mode!=='roam')beginRoam();
+    if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='tea132')return;
+    restoreReactionPose();reaction=null;mood.offeredHand=null;closeWaveReply();cancelCameraGreeting();
+    requestDestination({...target,manual:true},false);nextTea=mood.seconds+145;
+  }
+  function decorate(visit,dest){
+    visit.push(routeTurn(target.heading,'湯沸かし台の前に立ちました'),{
+      type:'tea132Pour',time:8.2,manual:dest.manual,message:'空いている受け皿に湯のみを用意しています'
+    });
+  }
+  function look(at,w){
+    const h=groups.head;
+    headAim.copy(at).sub(h.getWorldPosition(headOrigin)).applyQuaternion(h.getWorldQuaternion(rotation).invert());
+    h.rotateX(T.MathUtils.clamp(-Math.atan2(headAim.y,Math.hypot(headAim.x,headAim.z)),-.46,.66)*w);
+    h.rotateY(T.MathUtils.clamp(Math.atan2(headAim.x,headAim.z),-.69,.69)*w);
+  }
+  function hand(side,point,fwd,norm,weight,bend){
+    const q=orientPalm(side,fwd,norm);
+    wrist.copy(point).sub(offset.copy(palmRig[side].center).applyQuaternion(q));
+    if(weight>.001)reachHand(side,wrist,q,weight,false,bend,true);
+    return groups['hand'+side].localToWorld(handPoint.copy(palmRig[side].center));
+  }
+  function draw(a,u){
+    if((roam.pending||reaction||contact||handLink)&&a.cancelAt===undefined)a.cancelAt=roam.elapsed;
+    if(a.cancelAt!==undefined)u=a.cancelAt/a.time;
+    const fade=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
+    blendSofaPose(a.pose,1);
+    const grasp=rearRamp(u,.037,.186)*(1-rearRamp(u,.88,.99))*fade;
+    groups.abdomen.rotateX(.20*grasp);groups.chest.rotateX(.18*grasp);
+    const pickup=rearRamp(u,.191,.345), setDown=rearRamp(u,.635,.825);
+    cupAim.copy(cupHome).lerp(under,pickup).lerp(serve,setDown);
+    cupAim.y+=.040*Math.sin(pickup*Math.PI)+.044*Math.sin(setDown*Math.PI);
+    const actual=hand('P',area.localToWorld(cupAim.clone().add(handlePt)),direction,rightNormal,grasp,elbowP);
+    const hold=rearRamp(u,.176,.214)*(1-rearRamp(u,.818,.865))*fade;
+    cup.position.copy(u<.818?cupHome:serve).lerp(area.worldToLocal(actual).sub(handlePt),hold);
+    if(a.cancelAt!==undefined)cup.position.lerp(cupHome,1-fade);
+    // The other hand presses a real control; only then can the cup fill.
+    const push=rearRamp(u,.334,.42)*(1-rearRamp(u,.597,.683))*fade;
+    const toggle=wt(-.046,shelf+.135,.012+.006*push);
+    const palm=orientPalm('N',up,leftNormal);
+    if(push>.001){
+      wrist.copy(toggle).sub(offset.copy(middleFingertip.N).applyQuaternion(palm));
+      reachHand('N',wrist,palm,push,false,elbowN,true);
+    }
+    const finger=groups.handN.localToWorld(handPoint.copy(middleFingertip.N));
+    if(a.cancelAt===undefined&&push>.89&&finger.distanceTo(toggle)<.032&&cup.position.distanceTo(under)<.029)
+      a.engaged=true;
+    const filling=a.engaged&&a.cancelAt===undefined&&u>=.432&&u<=.616&&cup.position.distanceTo(under)<.031;
+    if(filling)a.fill=Math.max(a.fill??0,rearRamp(u,.446,.599));
+    water.visible=!!filling;light.material=filling?active:standby;
+    button.position.z=.027+.006*push;
+    if(filling){
+      const rimY=cup.position.y+cupHeight;
+      const spoutY=shelf+.181;
+      water.position.set(under.x,(rimY+spoutY)/2,.012);
+      water.scale.y=Math.max(.018,spoutY-rimY);
+    }
+    updateLevel(a.engaged?mix(amount,.92,a.fill??0):amount);
+    look(cup.getWorldPosition(steamOrigin),grasp*.8);
+    dirty=true;
+    if(u>=.859&&a.cancelAt===undefined&&!a.logged&&(a.fill??0)>.76&&cup.position.distanceTo(serve)<.024){
+      a.logged=true;amount=.92;cupHome.copy(serve);warmUntil=mood.seconds+22;
+      lab900LifeNote('tea132');
+    }
+    const text=$('destination'), line=filling?'湯のみへお湯を注いでいます':u>.73?'湯気の立つ湯のみを受け皿に置いています':'湯のみを湯口の下へ運んでいます';
+    if(u>.20&&a.cancelAt===undefined&&text.textContent!==line)text.textContent=line;
+  }
+  function finish(){
+    const a=roam.visit?.find(x=>x.type==='tea132Pour');
+    resetPhysical();dirty=false;
+    if(a?.logged&&!a.manual&&currentMood()!=='annoyed'&&Math.random()<(currentMood()==='affectionate'?.58:.34)){
+      owner=roam;restAfter=mood.seconds+26;
+    }
+    enterQuietRest('linger',a?.logged?'湯のみを置いて、揺れる湯気をしばらく見ています':'湯沸かし台のそばでひと休みしています',7.4);
+  }
+  function tick(){
+    const stage=mode==='roam'&&roam?.phase==='route'?roam.visit?.[roam.visitIndex]:null;
+    const working=stage?.type==='tea132Pour';
+    if(!working&&dirty){resetPhysical();dirty=false;}
+    if(!working&&owner&&(!roam||owner!==roam||roam.target?.kind!=='tea132')){owner=null;restAfter=-Infinity;}
+    const steaming=!document.hidden&&floorGroup.visible&&(water.visible||warmUntil>mood.seconds);
+    steam.visible=steaming;
+    if(!steaming)return;
+    const clock=mood.seconds;
+    fogM.opacity=water.visible?.26:rearRamp(warmUntil-clock,0,7)*.33;
+    cup.getWorldPosition(steamOrigin);steamOrigin.y+=.086;
+    for(let i=0;i<steam.count;i++){
+      const t=(clock*.61+i/steam.count)%1, radius=.013+.013*t;
+      cloud.copy(steamOrigin).add(s.set(.029*Math.sin(t*3.7+i)*t,.132*t,.023*Math.cos(i*1.7+t*4)*t));
+      s.set(radius*(.82+t),radius*(1.4+t*.8),1);
+      matrix.compose(cloud,camera.quaternion,s);steam.setMatrixAt(i,matrix);
+    }
+    steam.instanceMatrix.needsUpdate=true;
+  }
+  function install(){$('tea132Preview')?.addEventListener('click',request);}
+  function register(){for(const prop of [body,counter,nozzle,cupBody])destinationMeshes.set(prop,target);}
+  return {bounds,group:area,target,choose,request,decorate,draw,finish,tick,install,register};
+})();
+
 // LAB 121 • South-window care bench. Shared shelf, independent afternoon and evening routines.
 const home121=(()=>{
   const g=new T.Group();g.name='South window • propagation & service bench';
@@ -2926,6 +3123,7 @@ const memo131=(()=>{
 })();
 
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
+tea132.register();
 memo131.register();memo131Observe=memo131.record;memo131Forget=memo131.reset;
 fresh126.register();
 home121.register();
@@ -5736,6 +5934,7 @@ function pickSurface(x, y) {
     if(destination?.kind==='home121')return floorGroup.visible;
     if(destination?.kind==='fresh126')return floorGroup.visible;
     if(destination?.kind==='memo131')return floorGroup.visible;
+    if(destination?.kind==='tea132')return floorGroup.visible;
     if (destination === kitchenTarget) return floorGroup.visible;
     if (destination === bookTarget) return book.visible && (hit.object.parent !== bookPage || bookPage.visible);
     if (destination === sofaTarget || destination === bedTarget || destination === mirrorTarget || destination === accessoryTarget || destination === wardrobeTarget || destination === radioTarget || destination === easelTarget || destination === terrariumTarget) return floorGroup.visible;
@@ -6457,7 +6656,9 @@ function endPointer(event) {
       clearDevPreview();windowSnow.clearPreview();
       if(mode==='dance')dance.previewLoop=false;
     }
-    if(destination?.kind==='memo131'){
+    if(destination?.kind==='tea132'){
+      tea132.request();
+    }else if(destination?.kind==='memo131'){
       memo131.invite();
     }else if(destination?.kind==='fresh126'){
       fresh126.invite();
@@ -8367,7 +8568,7 @@ function chooseDestination() {
     startDestination(Math.random() < .60 ? accessoryTarget : mirrorTarget);
     return;
   }
-  if(home121.choose()||memo131.choose())return;
+  if(tea132.choose()||home121.choose()||memo131.choose())return;
   const terraChance=feeling==='annoyed' ? 0 : feeling==='playful' || feeling==='happy' ? .18 : .075;
   if (terraChance && roam.target !== terrariumTarget && !reaction && moodSituation()==='free' &&
       mood.seconds >= (mood.nextTerrariumAt ?? 18) && Math.random()<terraChance) {
@@ -9265,7 +9466,7 @@ function clearOfFurniture(from,to) {
   const delta = to.clone().sub(from);
   const length = delta.length();
   const ray = new T.Ray(from,delta.divideScalar(length));
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds]) {
     const hit = ray.intersectBox(bounds,V(0,0,0));
     if (bounds.containsPoint(from) || hit && from.distanceTo(hit) < length) return false;
   }
@@ -9302,7 +9503,7 @@ function destinationPath(from,to,couch=sofaWalkingBounds()) {
       for (const z of [couch.min.z-.16,couch.max.z+.16]) waypoints.push(V(x,0,z));
     }
   }
-  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds]) {
+  for (const bounds of bed.visible ? [bedBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds] : [tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds]) {
     for (const x of [bounds.min.x-.16,bounds.max.x+.16]) {
       for (const z of [bounds.min.z-.16,bounds.max.z+.16]) waypoints.push(V(x,0,z));
     }
@@ -9551,6 +9752,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     visit.push(routeTurn(target.heading,message));
   } else if (target.kind==='kitchen') {
     dogKitchen.decorate(visit,target);
+  } else if(target.kind==='tea132'){
+    tea132.decorate(visit,target);
   } else if(target.kind==='memo131'){
     memo131.decorate(visit,target);
   } else if(target.kind==='fresh126'){
@@ -11006,6 +11209,9 @@ function advanceDestinationRoute(dt) {
       if (fitting > 0) showAccessory(stage.item,fitting,0);
       break;
     }
+    case 'tea132Pour':
+      tea132.draw(stage,progress);
+      break;
     case 'memo131Write':
       memo131.draw(stage,progress);
       break;
@@ -11052,7 +11258,7 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -11304,6 +11510,7 @@ function arriveAtDestination() {
     return;
   }
   if(roam.target.ambience128){ambience128.arrive(roam.target.ambience128);return;}
+  if(roam.target.kind==='tea132'){tea132.finish();return;}
   if(roam.target.kind==='memo131'){memo131.finish();return;}
   if(roam.target.kind==='fresh126'){fresh126.finish();return;}
   if(roam.target.kind==='home121'){home121.finish(roam.target);return;}
@@ -12834,7 +13041,7 @@ function createShepherd() {
   function navigate(to,edgeApproach=false){
     if(d.destination?.distanceToSquared(to)<.0001)return;
     d.destination=to.clone();d.path=[];
-    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds];
+    const boxen=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds];
     if(bed.visible)boxen.push(bedBounds);
     const boxes=boxen.map(b=>{
       const box=b.clone();
@@ -16582,7 +16789,7 @@ const dogTumble=(()=>{
     });
   }
   function stageBoxes(){
-    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds];
+    const boxes=[sofaBounds,tableBounds,dressingBounds,radioBounds,easelBounds,terrariumBounds,kitchenBounds,home121.bounds,memo131.bounds,scentBounds,tea132.bounds];
     if(bed.visible)boxes.push(bedBounds);
     return boxes;
   }
@@ -18669,6 +18876,7 @@ installDevPreview();shepherd.lockControls();window.LeilaBoot130?.ready();
 home121.install();
 fresh126.install();
 memo131.install();
+tea132.install();
 ambience128.install();
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
@@ -18700,7 +18908,7 @@ if (mode==='idle' && $('ik').checked) {
 }
 sync()}else if($('ik').checked&&$('joint').value==='pelvis'){leg('P');leg('N');}pruneCameraGreeting();social121.prune();dogKitchen.holdOnWalk();applyReaction(dt);
 if (easelBrush.visible) groups.handN.localToWorld(easelBrush.position.copy(palmRig.N.center));
-updateLabMusic();updateWorld(dt);ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
+updateLabMusic();updateWorld(dt);tea132.tick();ambience128.tick(dt);charge129.tick();shade132.tick();evening124.tick();leilaObservatory.tick(dt);windowRain130.tick(dt);updateLeilaGlow(dt);lostSofaBall.tick(dt);cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();updateShepherd(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
 // Observation Album: no continuous capture/rendering, and no network or cloud storage.
