@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 190｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 191｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 190</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 191</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -275,7 +275,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
 </details>
 <div class="leilaDeck">
   <div class="leilaCard" role="group" aria-labelledby="controls-actions">
-    <h2 id="controls-actions">行動</h2><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="standWait" class="primary">その場で待つ</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="capoeiraRushPlay" class="primary" type="button" disabled>助走つき演舞</button><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><button data-menu-hidden hidden id="offerHandButton" class="primary">手を差し出す</button></div>
+    <h2 id="controls-actions">行動</h2><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="standWait" class="primary">その場で待つ</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="capoeiraRushPlay" class="primary" type="button" disabled>助走つき演舞</button><button id="terrace191Try" class="primary" type="button">テラスへ</button><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><button data-menu-hidden hidden id="offerHandButton" class="primary">手を差し出す</button></div>
   </div>
   <div class="leilaCard" role="group" aria-labelledby="controls-look">
     <h2 id="controls-look">カメラ・外見</h2><div class="cameraButtons" role="group" aria-label="カメラの向き"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button data-menu-hidden hidden id="loungeView">居住区</button></div>
@@ -697,6 +697,8 @@ const lab900LifeNote=(()=>{
     observatorystars:'窓辺で星を探した',
     capoeiraRush186:'運動場を横切るカポエイラ演舞を通しで披露した',
     windowRest187:'運動のあと、犬と東窓で静かにひと休みした',
+    terrace191:'東のテラスで外の風を感じた',
+    terrace191Pair:'犬と東のテラスに出て、外の空気を楽しんだ',
     meteor182:'北窓で流れ星を見つけた',
     teeOn:'クローゼットで白Tシャツに着替えた',
     teeOff:'白Tシャツをたたんでクローゼットに戻した',
@@ -809,13 +811,40 @@ const windowWalls=[
   [0,-12,0,24,'North'],[0,18,Math.PI,24,'South'],
   [-12,3,Math.PI/2,30,'West'],[12,3,-Math.PI/2,30,'East']
 ];
-for(const [x,z,angle,length] of windowWalls){
+let terraceDoor191;
+for(const [x,z,angle,length,direction] of windowWalls){
  const side=new T.Group();side.position.set(x,0,z);side.rotation.y=angle;architecture.add(side);wallGroups.push(side);
- block(side,wall,0,.35,0,length,.7,.42);block(side,wall,0,7.35,0,length,1.3,.42);
+ const east=direction==='East';
+ if(east){
+   for(const [a,b] of [[-15,0],[3,15]]){
+     block(side,wall,(a+b)*.5,.35,0,b-a,.7,.42);
+     block(side,frame,(a+b)*.5,3.65,0,b-a,.09,.19);
+   }
+   block(side,frame,1.50,.014,.025,2.84,.025,.61);
+   block(side,frame,1.50,3.82,.09,2.84,.13,.29);
+   block(side,glass,1.50,5.27,0,2.81,2.78,.035);
+   const leaf=new T.Group();leaf.position.set(1.50,0,.14);side.add(leaf);
+   const panel=block(leaf,glass,0,1.92,0,2.78,3.74,.055);
+   for(const x of [-1.379,1.379])block(leaf,frame,x,1.92,.01,.065,3.78,.095);
+   for(const y of [.069,1.21,3.77])block(leaf,frame,0,y,.014,2.80,.075,.095);
+   block(leaf,wall,0,.28,.009,2.71,.46,.062);
+   const handle=block(leaf,frame,-.29,1.22,.128,.060,.32,.095);
+   const jamb=block(side,frame,2.88,1.89,.047,.064,3.78,.095);
+   terraceDoor191={leaf,panel,handle,jamb};
+ }else{
+   block(side,wall,0,.35,0,length,.7,.42);
+   block(side,frame,0,3.65,0,length,.09,.19);
+ }
+ block(side,wall,0,7.35,0,length,1.3,.42);
  const n=Math.round(length/3), span=length/n;
- for(let j=0;j<=n;j++) block(side,frame,-length/2+j*span,3.7,0,.18,6.1,.42);
- for(let j=0;j<n;j++) block(side,glass,-length/2+(j+.5)*span,3.7,0,span-.18,6,.035);
- block(side,frame,0,3.65,0,length,.09,.19);
+ for(let j=0;j<=n;j++){
+   const p=-length/2+j*span;
+   block(side,frame,p,east&&(p===0||p===3)?3.37:3.7,0,.18,east&&(p===0||p===3)?6.72:6.1,.42);
+ }
+ for(let j=0;j<n;j++){
+   const p=-length/2+(j+.5)*span;
+   if(!east||p!==1.50)block(side,glass,p,3.7,0,span-.18,6,.035);
+ }
 }
 for(let x=-9;x<=9;x+=6)for(let z=-8;z<=14;z+=7){block(ceilingGroup,frame,x,7.91,z,3.8,.16,.38);block(ceilingGroup,lamp,x,7.79,z,3.6,.08,.27);}
 // Floor panel joints, not a test grid.
@@ -3041,7 +3070,7 @@ function updateCutaway(){
  wallGroups[0].visible=z>-5.85;
  wallGroups[1].visible=z<8.85;
  wallGroups[2].visible=x>-5.85;
- wallGroups[3].visible=x<5.85;
+ wallGroups[3].visible=x<5.85||root.position.x>6.15&&x>6.15;
 }
 
 
@@ -7641,6 +7670,7 @@ function pickSurface(x, y) {
   const dogHit=shepherd.ready?touchRay.intersectObjects(shepherd.hitMeshes.filter(mesh=>mesh.visible),false)[0]:null;
   const target = touchRay.intersectObjects(pickableDestinations, false).find(hit => {
     const destination=destinationMeshes.get(hit.object);
+    if(destination?.terrace191)return wallGroups[3].visible;
     if(destination?.clock142)return wallGroups[0].visible;
     if(destination?.kind==='home121')return floorGroup.visible;
     if(destination?.kind==='fresh126')return floorGroup.visible;
@@ -8393,6 +8423,8 @@ function endPointer(event) {
       requestEasel();
     } else if (destination === radioTarget) {
       requestRadio();
+    } else if(destination?.terrace191){
+      terrace191.start(true);
     } else if(destination===wardrobeTarget){
       promptWardrobe190();
     } else if (destination === mirrorTarget || destination === accessoryTarget) {
@@ -10403,7 +10435,7 @@ const lab121Routines=(()=>{
 
 function chooseDestination() {
   if(devNextDestination())return;
-  if(starAtlas177.choose()||windowChime176.choose())return;
+  if(terrace191.choose()||starAtlas177.choose()||windowChime176.choose())return;
   if(shade132.maybe()||charge129.prefer())return;
   if(lab121Routines.choose()||windowRain130.maybe()||evening124.maybe()||leilaObservatory.maybe())return;
   const roll = Math.random();
@@ -11601,16 +11633,19 @@ const shade132=(()=>{
   const h=new T.Group();h.name='Room shutter switch';wallGroups[3].add(h);
   h.position.set(9.36,.64,.23);
   const shell=mat(0x525f65,.79),fabric=mat(0xb0a595,.98),gray=mat(0x736b61,.86);
-  const shutters=windowWalls.map(([, , , length, direction],i)=>{
+  const shutters=windowWalls.flatMap(([, , , length, direction],i)=>
+    (i===3?[[-15,0],[3,15]]:[[-length/2,length/2]]).map(([start,finish])=>{
+    const width=finish-start;
+
     const shutter=new T.Group();shutter.name=direction+' exterior shutter';
     // The parent preserves the camera's existing wall cutaway behavior.
-    wallGroups[i].add(shutter);shutter.position.z=-.32;
-    block(shutter,shell,0,6.91,0,length+.12,.30,.19);
+    wallGroups[i].add(shutter);shutter.position.set((start+finish)*.5,0,-.32);
+    block(shutter,shell,0,6.91,0,width+.05,.30,.19);
     const slats=new T.InstancedMesh(cube,fabric,32);
     slats.frustumCulled=false;shutter.add(slats);
-    const width=length+.03, end=block(shutter,gray,0,6.76,0,width,.055,.05);
+    const end=block(shutter,gray,0,6.76,0,width,.055,.05);
     return {width,slats,end};
-  });
+  }));
   const pull=block(h,shell,.886,.69,.142,.047,.081,.038);
   const cap=block(h,gray,.886,.769,.137,.075,.206,.028);
 
@@ -12223,6 +12258,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     charge129.stage(visit);
   } else if (target.evening124) {
     evening124.decorate(visit,target);
+  } else if(target.terrace191){
+    terrace191.decorate(visit);
   } else if(target.atlas177){
     starAtlas177.decorate(visit,target);
   } else if(target.clock142){
@@ -13874,6 +13911,9 @@ function advanceDestinationRoute(dt) {
     case 'lab124Lantern':
       evening124.act(stage,progress);
       break;
+    case 'terrace191Visit':
+      terrace191.perform(stage,progress,dt);
+      break;
     case 'starControls184':
       starAtlas177.controls(stage,progress);
       break;
@@ -14247,6 +14287,7 @@ function arriveAtDestination() {
   if (roam.target.charge129){charge129.arrive();return;}
   if (roam.target.rain130){windowRain130.arrive();return;}
   if (roam.target.chime176){windowChime176.arrive();return;}
+  if(roam.target.terrace191){terrace191.arrive();return;}
   if (roam.target.atlas177){starAtlas177.arrive();return;}
   if (roam.target.galleryVisit){easelGallery127.arrive();return;}
   if (roam.target.clock142){studioClock142.arrive();return;}
@@ -17316,6 +17357,230 @@ const windowRest187=(()=>{
   return {start,arrive,pose,palmAt};
 })();
 
+// A single gated excursion: the indoor pathfinder never treats the exterior as a hallway.
+const terrace191=(()=>{
+  const z=2.25, h=Math.PI/2, inside=V(5.62,0,z), edge=V(7.28,0,z);
+  const door=terraceDoor191, deck=new T.Group();deck.name='東の小さなテラス';facility.add(deck);
+  deck.position.set(6,0,z);
+  const wood=mat(0x7a5e4a,.88), edgeMat=mat(0x394d51,.73), dark=mat(0x253b40,.74), bronze=mat(0x9c8864,.48);
+  const floor=block(deck,wood,.86,-.061,0,1.75,.122,2.36);floor.receiveShadow=true;
+  for(let i=-5;i<=5;i++)block(deck,dark,.87,.002,i*.20,1.70,.003,.007);
+  block(deck,edgeMat,1.72,-.065,0,.055,.13,2.37);
+  const flanks=[-1,1].map(side=>{
+    const rail=new T.Group();deck.add(rail);
+    const zz=side*1.14;
+    block(rail,edgeMat,.92,.49,zz,1.65,.042,.052);
+    block(rail,dark,.92,.25,zz,1.65,.017,.018);
+    for(const x of [.12,.92,1.72]){
+      block(rail,edgeMat,x,.248,zz,.040,.49,.040);
+      block(rail,bronze,x,.031,zz,.077,.030,.077);
+    }
+    return rail;
+  });
+  block(deck,edgeMat,1.72,.49,0,.054,.047,2.34);
+  block(deck,dark,1.72,.25,0,.021,.016,2.34);
+  block(deck,edgeMat,1.72,.248,0,.040,.49,.040);
+  block(deck,bronze,1.72,.031,0,.077,.030,.077);
+  const planter=mat(0x52676a,.98), earth=mat(0x594639,1), green=mat(0x45665c,.98), pale=mat(0x688273,.95);
+  for(const side of [-1,1]){
+    const x=side<0?1.37:.84,p=.918*side;
+    block(deck,planter,x,.10,p,.34,.20,.300);
+    block(deck,earth,x,.203,p,.302,.012,.258);
+    for(let i=0;i<6;i++){
+      const frond=new T.Mesh(new T.ConeGeometry(.050,.19+(i%3)*.057,5),i%2?green:pale);
+      frond.position.set(x+.11*Math.cos(i*2.399),.284+(i%3)*.016,p+.082*Math.sin(i*2.399));
+      frond.rotation.set(.19*Math.sin(i),i,.35*Math.cos(i));deck.add(frond);
+    }
+  }
+  const light=block(deck,new T.MeshBasicMaterial({color:0xdcad6f}),.21,.072,1.09,.076,.041,.023);
+  const target={kind:'terrace191',terrace191:true,name:'東のテラス',point:inside,lookAt:door.handle.getWorldPosition(V(0,0,0)),heading:h};
+  for(const mesh of [door.panel,door.handle,door.jamb]){destinationMeshes.set(mesh,target);pickableDestinations.push(mesh);}
+  let live=null,next=170,checkAt=115;
+  const at=V(0,0,0),wrist=V(0,0,0),armForward=V(1,0,0);
+  const dogInside=V(5.06,0,z), dogTarget=V(7.08,0,z+.58);
+  const note=$('dogNote'), status=$('destination');
+  const setText=text=>{if(status.textContent!==text)status.textContent=text;};
+  const lower=shepherd;
+  function slide(value){door.leaf.position.x=1.5+2.82*T.MathUtils.clamp(value,0,1);}
+  function start(manual=false){
+    if(document.hidden||roam?.target?.terrace191||roam?.pending?.target?.terrace191||live||handLink||
+       (!manual&&(devOwned()||trackedPointers.size||reaction||contact||currentMood()==='annoyed'||mood.seconds<Math.max(next,leilaUserPriorityUntil))))return false;
+    if(inside.distanceTo(root.position)>.06&&!destinationPath(root.position,inside).length)return false;
+    if(manual){
+      clearDevPreview();windowSnow.clearPreview();restoreReactionPose();reaction=null;closeWaveReply();cancelCameraGreeting();followLeila=true;
+    }
+    if(mode!=='roam')beginRoam();
+    next=mood.seconds+179+Math.random()*95;
+    requestDestination(target,manual);
+    return true;
+  }
+  function choose(){
+    if(mood.seconds<Math.max(next,checkAt)||!['wait','linger','window','rest'].includes(roam.phase))return false;
+    checkAt=mood.seconds+31+Math.random()*24;
+    return Math.random()<.28&&start();
+  }
+  function decorate(visit){
+    visit.push(routeTurn(h,'東の引き戸の前に立っています'),{type:'terrace191Visit',time:29.3,message:'レイラがテラスの引き戸に手を伸ばしています'});
+  }
+  function begin(stage){
+    const d=lower;
+    live={stage,owner:roam,total:0,previous:note.textContent,dog:null,lift:0,
+      night:lab900Stars.visible&&lab900StarMaterial.opacity>.15};
+    if(d.ready&&!d.jump&&!d.play&&!d.bond&&!d.tumble&&!d.edgeExit&&
+       ['idle','wander'].includes(d.state)&&Math.abs(d.object.position.y)<.065){
+      d.destination=null;d.path=[];d.navigate(dogInside);
+      if(d.path.length||d.object.position.distanceTo(dogInside)<.11){
+        live.dog={from:null,outside:false};d.change('terrace191');d.rivalQueued=false;
+        note.textContent='犬もテラスの戸に向かっています。';
+      }
+    }
+  }
+  function releaseDog(s){
+    const d=lower;
+    if(!s.dog)return;
+    if(d.state==='terrace191'){
+      d.sit135=null;d.change('idle');d.path=[];d.destination=null;d.wait=d.time+4.5;
+      note.textContent=s.previous;
+    }
+    s.dog=null;
+  }
+  function finish(){
+    if(!live)return;
+    releaseDog(live);live=null;slide(0);
+  }
+  function tick(){
+    deck.visible=floorGroup.visible;
+    // Match the room's cutaway convention, but only on the camera-side rail.
+    const cameraSide=live&&cinemaOwnsView&&root.position.x>6.3&&camera.position.x>6.10;
+    flanks[0].visible=!(cameraSide&&camera.position.z<z-1.14);
+    flanks[1].visible=!(cameraSide&&camera.position.z>z+1.14);
+    light.visible=lastWorldMinute>=18*60||lastWorldMinute<6*60;
+    if(live&&(mode!=='roam'||roam!==live.owner||roam.phase!=='route'||roam.visit[roam.visitIndex]!==live.stage)){
+      // A direct mode switch skips the route queue. Restore both occupants to
+      // the inner landing, so every other action still starts inside the room.
+      if(root.position.x>5.75)setTravelPosition(inside.x,inside.z,true);
+      if(live.dog&&lower.object.position.x>5.75)lower.object.position.copy(dogInside);
+      finish();
+    }
+  }
+  function doorPose(stage,u,closing){
+    const reach=rearRamp(u,.02,.32)*(1-rearRamp(u,.49,.86));
+    groups.chest.rotateX(.18*reach);groups.neck.rotateX(.15*reach);
+    if(!closing&&reach>.001){
+      door.handle.getWorldPosition(at);
+      const palm=orientPalm('N',armForward,palmDown);
+      wrist.copy(at).sub(palmRig.N.center.clone().applyQuaternion(palm));
+      reachHand('N',wrist,palm,reach,false,V(-.21,-.21,-.10),true);
+    }
+  }
+  function walk(from,to,u,yaw,entry){
+    const weight=rearRamp(u,0,1),dist=from.distanceTo(to),p=at.copy(from).lerp(to,weight);
+    root.rotation.y=yaw;setTravelPosition(p.x,p.z);
+    runRetarget.pose('jog',weight*dist/(runRetarget.clips.jog.span*transferScale)*.89,null,0,
+      rearRamp(u,0,.24),entry,rearRamp(u,.78,1));
+  }
+  function perform(stage,progress,dt){
+    if(stage.complete)return;
+    if(!live)begin(stage);
+    const s=live,t=roam.elapsed; s.total=t;
+    blendSofaPose(stage.pose,1);
+    if((roam.pending||reaction||contact||handLink)&&!s.exit){
+      s.exit={t:0,from:root.position.clone(),dog:lower.object.position.clone(),yaw:root.rotation.y};
+    }
+    if(s.exit){
+      const e=s.exit; e.t+=dt;
+      const u=rearRamp(e.t,.56,3.45);
+      slide(1-rearRamp(e.t,3.45,4.04));
+      root.rotation.y=e.yaw+headingDelta(e.yaw,-h)*rearRamp(e.t,0,.56);
+      if(e.from.x>inside.x+.025&&e.t>.56)walk(e.from,inside,(e.t-.56)/2.89,-h,stage.pose);
+      else setTravelPosition(mix(e.from.x,inside.x,u),z,true);
+      if(e.t>=4.10){
+        if(s.dog&&lower.object.position.x>5.75)lower.object.position.copy(dogInside);
+        stage.complete=true;roam.elapsed=stage.time;finish();
+      }
+      setText('レイラがテラスから室内へ戻っています');return;
+    }
+    const open=rearRamp(t,.58,2.30)*(1-rearRamp(t,26.40,28.30));slide(open);s.lift=open;
+    if(t<2.55){
+      doorPose(stage,t/2.15,false);
+      setText('レイラが東の引き戸を開けています');
+    }else if(t<6.60){
+      setText(s.dog?.from?'犬がひと足先にテラスへ出ました':'戸を開けて、レイラが少し待っています');
+    }else if(t<10.02){
+      walk(inside,edge,(t-6.60)/3.42,h,stage.pose);
+      setText('レイラが敷居をまたいでテラスに出ます');
+    }else if(t<20.1){
+      setTravelPosition(edge.x,edge.z,true);
+      const turn=rearRamp(t,19.05,20.1),quiet=1-turn,breath=Math.sin(t*1.4)*.025;
+      root.rotation.y=h+Math.PI*turn;
+      const gaze=s.dog?.outside?rearRamp(t,10.3,11.22)*(1-rearRamp(t,12.70,13.55)):0;
+      groups.chest.rotateX((.06+breath)*quiet);
+      groups.neck.rotateY(-.29*gaze);groups.head.rotateY(-.62*gaze);
+      groups.head.rotateX(quiet*(s.night?-.27+.53*gaze:.11+.24*gaze));
+      setText(s.night?'レイラがガラス越しではない星空を見上げています':
+        s.dog?.outside?'犬が風の匂いを嗅ぎ、レイラがそばで眺めています':'レイラがテラスで外の風を感じています');
+      if(!s.logged&&t>=15){s.logged=true;stage.wasPaired=!!s.dog?.outside;lab900LifeNote(stage.wasPaired?'terrace191Pair':'terrace191');}
+    }else if(t<22.55){
+      setTravelPosition(edge.x,edge.z,true);root.rotation.y=-h;
+      setText(s.dog?.from?'犬が先に室内へ戻るのを待っています':'レイラが部屋へ戻ろうとしています');
+    }else if(t<26.10){
+      walk(edge,inside,(t-22.55)/3.55,-h,stage.pose);
+      setText('レイラが室内へ戻っています');
+    }else{
+      setTravelPosition(inside.x,inside.z,true);
+      root.rotation.y=-h+Math.PI*rearRamp(t,26.1,27.42);
+      doorPose(stage,(t-26.25)/1.95,true);
+      setText('レイラが引き戸を閉めています');
+    }
+    if(progress>=1)finish();
+  }
+  function dog(dt){
+    const s=live,d=lower,a=s?.dog;
+    if(!a||d.state!=='terrace191')return false;
+    const o=d.object,old=o.position.clone(),t=s.total;
+    if(s.exit){
+      if(o.position.x>5.75||s.exit.dog.x>5.75){
+        const u=rearRamp(s.exit.t,.16,2.8);
+        o.position.copy(s.exit.dog).lerp(dogInside,u);
+        d.rotate(-h,dt,5);
+      }
+      d.sit135=null;d.pose(dt,o.position.distanceTo(old),null);return true;
+    }
+    if(!a.from){
+      if(t<5.87&&o.position.distanceTo(dogInside)>.11){
+        const moved=d.follow(dt,1.60);
+        d.pose(dt,moved,null);return true;
+      }
+      if(o.position.distanceTo(dogInside)>.15){releaseDog(s);return false;}
+      if(t<2.45){d.rotate(h,dt,4);d.pose(dt,0,null);return true;}
+      a.from=o.position.clone();a.start=t;
+    }
+    const ramp=rearRamp(t-a.start,0,Math.min(2.7,8.60-a.start));
+    const retreat=rearRamp(t,20.05,23.12);
+    const straight=at.copy(a.from).lerp(dogTarget,ramp);
+    straight.z=z+(dogTarget.z-z)*rearRamp(straight.x,6.23,7.02);
+    if(t<20.05){
+      const sniff=rearRamp(t,9.2,10.7)*(1-rearRamp(t,17.32,19.1));
+      if(!s.night){straight.x-=.14*sniff*(.5+.5*Math.cos(t*1.9));straight.z+=.18*sniff*Math.sin(t*1.63);}
+      o.position.copy(straight);
+    }else{
+      o.position.copy(dogTarget).lerp(dogInside,retreat);
+      o.position.z=z+(dogTarget.z-z)*rearRamp(o.position.x,6.23,7.02);
+    }
+    a.outside=o.position.x>6.33&&t<20.05;
+    const sit=s.night?rearRamp(t,10.0,11.6)*(1-rearRamp(t,19.3,20.1)):0;
+    d.sit135=sit>.001?{amount:sit,tilt:.13*Math.sin(t*.7),fold:Math.sin(sit*Math.PI),cheer:0}:null;
+    d.rotate(t<19.82?h:-h,dt,4.9);
+    const look=s.night?V(11,3.3,z+.60):V(8.2,.19,z+.65+.28*Math.sin(t*1.6));
+    d.pose(dt,o.position.distanceTo(old),a.outside?look:null,t-a.start<1.36&&ramp>.08);
+    if(t>=23.3){releaseDog(s);return false;}
+    return true;
+  }
+  function arrive(){const paired=roam.visit.some(s=>s.type==='terrace191Visit'&&s.wasPaired);enterQuietRest('linger',paired?'ふたりがテラスから戻りました':'レイラがテラスから戻りました',7);}
+  $('terrace191Try').onclick=()=>start(true);
+  return {start,choose,decorate,perform,tick,dog,arrive,live:()=>live,deck,inside,edge};
+})();
+
 // Two small dog-only gestures, lower priority than all shared scenes.
 const dogQuiet149=(()=>{
   const d=shepherd,note=$('dogNote'),btn=$('dogQuiet149Try');
@@ -17398,7 +17663,7 @@ function updateShepherd(dt){
     d.edgeExit=false;d.change('idle');d.wait=d.time+4;d.destination=null;
   }
   windowBuddy144.reconcile();
-  if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
+  if(terrace191.dog(dt)||dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
   if(easelCompanion126.dog(dt)||windowBuddy144.dog(dt))return;
   if(dogRestMat.dog(dt)||dogWater125.anim(dt)||dogWater125.maybe()||dogRope128.runDog(dt)||scent131.step(dt)||floorHello133.dog(dt)||dogSit135.dog(dt))return;
   if(mode==='dance'&&dance.rush&&!d.jump&&['idle','wander'].includes(d.state)){
@@ -22985,6 +23250,16 @@ const cinema=(()=>{
       dogMarks[1].copy(dog).add(V(.28,.39,0));
       dogMarks[2].copy(dog).add(V(-.28,.39,0));
     }
+    const terrace=terrace191.live();
+    if(terrace&&root.position.x>=6.21){
+      const outsideDog=!!terrace.dog?.outside;
+      if(outsideDog){
+        dogMarks[0].copy(dog).add(V(.29,.125,0));
+        dogMarks[1].copy(dog).add(V(0,.46,0));
+        dogMarks[2].copy(dog).add(V(-.38,.24,0));
+      }
+      return {paired:outsideDog,type:'terrace'};
+    }
     const stage=episode==='route'?roam.visit?.[roam.visitIndex]?.type:null;
     const type=episode==='mirror'?'mirrorOver':stage==='paintEasel'||episode==='linger'&&roam.target===easelTarget?'easelOver':null;
     readPanel(type);
@@ -23025,7 +23300,11 @@ const cinema=(()=>{
     return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
-    if(kind==='atlasSky'&&shot?.starPortrait){
+    if(kind==='terrace'){
+      const open=terrace191.live();desired.copy(hip);
+      if(paired)desired.lerp(dog,.30);
+      desired.y=open?.night?.745:.52;
+    }else if(kind==='atlasSky'&&shot?.starPortrait){
       lowStarPose(shot.starPortrait,starFrom,desired);
     }else if(kind==='atlasSky'){desired.copy(head).lerp(northSky,.45);desired.x+=.08;}
     else if(wideKind(kind)&&fetchCount){
@@ -23131,6 +23410,16 @@ const cinema=(()=>{
     return score;
   }
   function select(type,paired){
+    if(type==='terrace'){
+      const night=terrace191.live()?.night;
+      resetStability();focus('terrace',paired);
+      const r=camera.aspect<.85?3.39:2.78;
+      // Stay outside on the side of the performers, looking partly east.
+      // A low nighttime composition leaves room for the real sky points.
+      shot={kind:'terrace',type,court:true,e:night?.042:.19,r,seconds:35,elapsed:0,
+        fromYaw:yaw,toYaw:yaw+headingDelta(yaw,night?-.12:.14),fromPitch:pitch,fromDist:distance};
+      facing=root.rotation.y;angleTravel=0;return;
+    }
     if(type==='rushStage'){
       // One court-side shot throughout this routine. Do not pan around the
       // performer every time a cartwheel or spin changes the rig's heading.
@@ -23302,7 +23591,7 @@ const cinema=(()=>{
     const enteringPanel=panels[nextContext]&&context!==nextContext&&contextAge>.16;
     const enteringFetch=wideKind(nextContext)&&context!==nextContext&&contextAge>(nextContext==='call'?.02:.07);
     const reframe=shot.starPortrait&&nextContext==='atlasSky'&&Math.abs(camera.aspect-shot.aspect)>.065;
-    const changingCourt=(nextContext==='rushStage'||context==='rushStage')&&context!==nextContext&&contextAge>.075;
+    const changingCourt=([nextContext,context].some(n=>n==='rushStage'||n==='terrace'))&&context!==nextContext&&contextAge>.075;
     if(shot.elapsed>=shot.seconds||enteringPanel||enteringFetch||reframe||changingCourt||
       (shot.starPortrait||context==='fountain')&&nextContext!==context&&contextAge>.10||
       (context!==nextContext&&contextAge>.75&&shot.elapsed>2.1)){
@@ -23331,7 +23620,7 @@ const cinema=(()=>{
       const zoom=aimDistance-distance;
       if(Math.abs(zoom)>.045)distance=mix(distance,aimDistance,blend(dt,zoom>0?(fetch?8.3:4.4):1.42));
       proposed.copy(aimAt).addScaledVector(direction,distance);
-      repair(yaw,pitch,distance,kind,view.paired,dt);
+      if(s.type!=='terrace')repair(yaw,pitch,distance,kind,view.paired,dt);
     }
     // Every positional change, including an obstruction escape, is glided.
     // A bounded velocity also prevents one-frame jumps when a clip ends.
@@ -23487,7 +23776,7 @@ updateLabMusic();updateWorld(dt);studioClock142.tick();hourglass135.tick();coast
  if(surfaceBlend)updateShepherd(dt);
  cinema.tick(dt);orbit.update();updateCutaway();updateContactShadows();
  if(!surfaceBlend)updateShepherd(dt);
- dogWater125.flow(dt);
+ dogWater125.flow(dt);terrace191.tick();
  nightGuide137.tick(dt);dogWater125.look();petDogWhileStanding();petDogFromSofa();if(!bedWarmth())dogDream.comfort();settleWardrobeDoor(dt);wardrobe109.update(dt,dogTumble.skirtRear());r.render(scene,camera);frames++;if(t-last>1000){$('fps').textContent=Math.round(frames*1000/(t-last))+' FPS';frames=0;last=t}});
 
 try {
