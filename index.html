@@ -3081,7 +3081,9 @@ const studioClock142=(()=>{
 
 const capoeiraFloor = new T.Group();
 capoeiraFloor.position.set(3.45,0,5.85);
-facility.add(capoeiraFloor);
+// Match facility coordinates inside the half-scale architecture.
+const courtLayer=new T.Group();courtLayer.scale.setScalar(2);
+floorGroup.add(courtLayer);courtLayer.add(capoeiraFloor);
 const capoeiraMat = block(capoeiraFloor,mat(0x253e46,.92),0,.0015,0,4.25,.003,3.85);
 capoeiraMat.receiveShadow=true;
 const capoeiraLine = mat(0x7aa49e,.88);
