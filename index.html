@@ -503,7 +503,7 @@ const [T,{Reflector},{GLTFLoader},{OrbitControls}] = await Promise.all([
 });
 let handLink = null;
 window.LeilaBoot130?.stage('端末の3D表示');
-const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);const orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();// An opt-in reduction of rendering cost, not animation speed or simulation.
+const scene=new T.Scene();scene.background=new T.Color(0x262d39);const camera=new T.PerspectiveCamera(38,1,.01,150);const chinViewHeight=.81, characterViewDistance=2.55;camera.position.set(0,chinViewHeight+.12,characterViewDistance);const r=new T.WebGLRenderer({antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));view.appendChild(r.domElement);let orbit=new OrbitControls(camera,r.domElement);orbit.target.set(0,chinViewHeight,0);orbit.update();// An opt-in reduction of rendering cost, not animation speed or simulation.
 const scenicQuality130=(()=>{
   const btn=$('lab130Quality'), info=$('lab130QualityInfo');
   const key='leila.lab130.lightRenderer.v1';
@@ -2984,9 +2984,17 @@ bed.traverse(enableShadowCasting);
 dressingArea.traverse(object => { if (object !== dressingMirror) enableShadowCasting(object); });
 roomRadio.traverse(enableShadowCasting);
 // LAB 26.1: full orbit and two-finger dolly/pan; cut away crossed architectural surfaces.
-orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
-orbit.enablePan=true;orbit.screenSpacePanning=true;
-orbit.touches.ONE=T.TOUCH.ROTATE;orbit.touches.TWO=T.TOUCH.DOLLY_PAN;
+const orbitChangeListeners=[];
+function onOrbitChange(listener){
+  orbitChangeListeners.push(listener);
+  orbit.addEventListener('change',listener);
+}
+function configureOrbit(){
+  orbit.maxDistance=40;orbit.minPolarAngle=0;orbit.maxPolarAngle=Math.PI;
+  orbit.enablePan=true;orbit.screenSpacePanning=true;
+  orbit.touches.ONE=T.TOUCH.ROTATE;orbit.touches.TWO=T.TOUCH.DOLLY_PAN;
+}
+configureOrbit();
 function updateCutaway(){
  const {x,y,z}=camera.position;
  floorGroup.visible=y>0.005;
@@ -7168,8 +7176,7 @@ function interruptHeldPointer(event){
   clearContact();
 }
 canvas.addEventListener('lostpointercapture',interruptHeldPointer);
-window.addEventListener('blur',interruptHeldPointer);
-document.addEventListener('visibilitychange',interruptHeldPointer);
+
 canvas.addEventListener('pointermove', event => {
   if (contact?.id === event.pointerId) updateDrag(event, contact);
   if (backgroundTap?.id === event.pointerId &&
@@ -7254,13 +7261,29 @@ for (const type of ['pointerup','pointercancel','lostpointercapture']) {
   canvas.addEventListener(type, endPointer, true);
 }
 canvas.addEventListener('contextmenu', event => event.preventDefault());
-window.addEventListener('blur', () => {
+function suspendSceneInput(){
+  // A suspended tab can miss every terminal pointer event, including OrbitControls' own.
+  if(trackedPointers.size){
+    for(const id of trackedPointers){
+      if(canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);
+    }
+    const target=orbit.target.clone(), position=camera.position.clone();
+    orbit.dispose();
+    orbit=new OrbitControls(camera,canvas);
+    configureOrbit();
+    camera.position.copy(position);
+    orbit.target.copy(target);
+    orbit.update();
+    for(const listener of orbitChangeListeners)orbit.addEventListener('change',listener);
+  }
   closeWaveReply();
   waveReplyConsumed=null;
   trackedPointers.clear();
   backgroundTap = null;
   clearContact();
-});
+}
+window.addEventListener('blur',suspendSceneInput);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)suspendSceneInput();});
 
 // Angles are head pitch, yaw toward the touched side, head tilt, neck pitch and chest pitch.
 const faceReactions = {
@@ -7455,7 +7478,7 @@ function watchForApproach() {
   }
 }
 
-orbit.addEventListener('change',watchForApproach);
+onOrbitChange(watchForApproach);
 
 function restoreReactionPose() {
   if (!reactionApplied) return;
@@ -16462,7 +16485,7 @@ const windowSnow=(()=>{
     $('destination').textContent='犬がレイラに身を寄せて、３人で雪を眺めています';
     d.destination=null;d.navigate(snuggle);
   }
-  orbit.addEventListener('change',()=>{
+  onOrbitChange(()=>{
     const a=event;
     if(a?.phase!=='invite'||mode!=='roam')return;
     if(cinemaOwnsView){
