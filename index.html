@@ -338,6 +338,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
       <button id="dogWater125Try" type="button" disabled>犬の水飲みを試す</button>
       <button id="dogRestMatPreview" type="button" disabled>犬のキルト休憩を試す</button>
+      <button id="easelAudience126Preview" type="button" disabled>犬と絵を描く場面を試す</button>
     </div>
     <div class="leilaCard leilaMood"><h2>レイラの反応</h2>
       <label>気分を固定 <select id="moodOverride"><option value="">自動</option></select></label><div id="moodStatus"></div><button id="nodPreview">うなずく</button>
@@ -8688,6 +8689,7 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   } else if (target === easelTarget) {
     visit.push(routeTurn(target.heading,'イーゼルの前に立っています'),
       {type:'paintEasel',time:7.2,message:'キャンバスに絵を描いています'});
+    easelCompanion126.attach(visit);
   } else if (target === radioTarget) {
     visit.push(routeTurn(target.heading,'卓上ラジオの前に立っています'),
       {type:'radioTune',time:3.60,message:'ラジオの選局ダイヤルに手を伸ばしています'});
@@ -9878,6 +9880,9 @@ function advanceDestinationRoute(dt) {
       break;
     case 'terrariumVisit':
       viewTerrarium(stage,stage.cancelAt===undefined ? progress : stage.cancelAt/stage.time);
+      break;
+    case 'easelAudience126':
+      easelCompanion126.pose(stage,progress);
       break;
     case 'paintEasel':
       if (roam.pending && stage.cancelAt===undefined) stage.cancelAt=roam.elapsed;
@@ -11761,7 +11766,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','dogWater125Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -12678,6 +12683,7 @@ function prioritizeLeilaUser(){
   leilaUserPriorityUntil=mood.seconds+5.8;
   if(newAttention)queueRivalNotice();
   if(mode!=='roam')return;
+  easelCompanion126.interrupt();
   dogRestMat.cancel();
   windowSnow.interrupt();
   lostSofaBall.interrupt();
@@ -12839,6 +12845,7 @@ function updateShepherd(dt){
     d.edgeExit=false;d.change('idle');d.wait=d.time+4;d.destination=null;
   }
   if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
+  if(easelCompanion126.dog(dt))return;
   if(dogRestMat.dog(dt)||dogWater125.anim(dt))return;
   const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
@@ -13683,6 +13690,93 @@ const dogRestMat=(()=>{
   return {after,advance,scout,dog,cancel,preview,busy:()=>!!active,framed:()=>!!active?.arrived&&d.state==='matRest'};
 })();
 $('dogRestMatPreview').onclick=dogRestMat.preview;
+// LAB 126 • A familiar audience at the easel, without rerouting the painter.
+const easelCompanion126=(()=>{
+  const d=shepherd,mark=V(-1.47,0,-3.39),canvas=easelTarget.lookAt;
+  const headPoint=V(0,0,0),view=V(0,0,0),toward=V(0,0,0),near=V(0,0,0);
+  const ready=d=>d.ready&&!d.jump&&!d.play&&!d.bond&&d.object.position.y<.05&&
+    ['idle','wander','easelCompanion'].includes(d.state);
+  let active=null,forced=false,cooldown=0,last=-1;
+  const phrases=['犬がレイラの筆先を目で追っています。','犬がそっと近くに立ち、絵ができるのを待っています。'];
+  function clear(){
+    if(d.state==='easelCompanion'){
+      d.change('idle');d.wait=d.time+3;d.path=[];d.destination=null;
+    }
+    if(active&&$('dogNote').textContent===active.note)$('dogNote').textContent=active.old;
+    active=null;
+  }
+  function interrupt(){forced=false;clear();}
+  function allowed(){return mode==='roam'&&roam.phase==='route'&&roam.target===easelTarget&&
+      !roam.pending&&!contact&&!handLink&&!reaction&&!document.hidden;}
+  function attach(visit){
+    const ask=forced;forced=false;
+    if(!ready(d)||!floorGroup.visible||d.object.position.distanceTo(mark)>(ask?12:5.1)||
+       (!ask&&(devOwned()||mood.seconds<Math.max(leilaUserPriorityUntil,cooldown)||currentMood()==='annoyed'||
+       Math.random()>({affectionate:.76,playful:.59,happy:.62}[currentMood()]??.49))))return;
+    const type=last<0?Number(Math.random()>.5):1-last;last=type;
+    const ending={type:'easelAudience126',time:2.85,message:'レイラは筆を下ろしました'};
+    const a={visit,ending,type,note:phrases[type],old:$('dogNote').textContent,joined:false,failed:false};
+    active=a;cooldown=mood.seconds+85;
+    visit.push(ending);
+  }
+  function tick(){
+    if(active&&(!allowed()||roam.visit!==active.visit))clear();
+  }
+  function dog(dt){
+    const a=active;
+    if(!a||!allowed()||a.failed||!ready(d))return false;
+    const stage=roam.visit[roam.visitIndex]?.type;
+    // The dog doesn't sprint across the room to meet the scene.
+    const o=d.object;
+    if(d.state!=='easelCompanion'){
+      d.change('easelCompanion');d.destination=null;d.navigate(mark);
+      if(!d.path.length&&o.position.distanceTo(mark)>.04){a.failed=true;clear();return false;}
+    }
+    const aim=d.path[0];
+    let yieldStep=false;
+    if(aim){
+      toward.copy(aim).sub(o);toward.y=0;
+      near.copy(root.position).sub(o);near.y=0;
+      const along=toward.lengthSq()>1e-5?near.dot(toward)/toward.length():0;
+      yieldStep=along>.025&&along<.39&&near.lengthSq()-along*along<.22**2;
+    }
+    const moved=yieldStep?0:d.follow(dt,1.05);
+    if(o.position.distanceTo(mark)<.055&&stage==='paintEasel'&&!a.joined){
+      a.joined=true;$('dogNote').textContent=a.note;
+    }
+    if(o.position.distanceTo(mark)<.13)
+      d.rotate(headingTo(o.position,stage==='easelAudience126'?root.position:canvas),dt,3);
+    const look=a.joined&&(a.type===0&&stage==='paintEasel'&&roam.elapsed%3<2.2)?canvas:leilaFaceForDog();
+    d.pose(dt,moved,look);return true;
+  }
+  function pose(stage,p){
+    const a=active;
+    if(!a?.joined){roam.elapsed=stage.time;return;}
+    blendSofaPose(stage.pose,1);
+    groups.head.getWorldPosition(headPoint);
+    view.copy(d.object.position).sub(headPoint);view.y+=.51;
+    const yaw=T.MathUtils.clamp(headingDelta(root.rotation.y,Math.atan2(view.x,view.z)),-1.23,1.23);
+    const w=rearRamp(p,0,.28)*(1-rearRamp(p,.70,1));
+    const nod=.11*rearRamp(p,.35,.50)*(1-rearRamp(p,.50,.67));
+    groups.neck.rotateY(yaw*.27*w);
+    groups.head.rotateY(yaw*.53*w);
+    groups.head.rotateX(.31*w+nod);
+    groups.head.rotateZ((a.type===0?.08:-.06)*w);
+    if(p>.3&&!stage.ack){stage.ack=true;$('destination').textContent='レイラが絵から目を上げ、待っていた犬にうなずきました';}
+  }
+  function preview(){
+    if(!ready(d)){ $('dogNote').textContent='犬が床で起きている時に試せます。';return; }
+    if(mode==='roam'&&roam.phase==='route'&&roam.target===easelTarget){
+      $('dogNote').textContent='いまの絵が終わってから、もう一度押してください。';return;
+    }
+    clearDevPreview();prepareDogCommand();forced=true;requestEasel();
+    if((roam.pending?.target??roam.target)!==easelTarget)forced=false;
+  }
+  return {attach,tick,dog,pose,interrupt,preview,framed:()=>!!active?.joined};
+})();
+$('easelAudience126Preview').onclick=easelCompanion126.preview;
+
+
 
 function petDogFromSofa(){
   const d=shepherd;
@@ -16722,7 +16816,7 @@ const cinema=(()=>{
     dog.copy(measure.position);
     const episode=mode==='roam'?(dogRestMat.framed()?'dogRestMat':roam.phase):'';
     const paired=shepherd.ready&&Math.hypot(dog.x-hip.x,dog.z-hip.z)<(episode==='dogChase'?1.95:1.46)&&
-      ['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat'].includes(episode);
+      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat'].includes(episode)||easelCompanion126.framed());
     if(paired){
       dogMarks[0].copy(dog).add(V(0,.085,0));
       dogMarks[1].copy(dog).add(V(.28,.39,0));
@@ -16838,7 +16932,7 @@ installDevPreview();shepherd.lockControls();
 home121.install();
 fresh126.install();
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 home121.cleanup();fresh126.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
