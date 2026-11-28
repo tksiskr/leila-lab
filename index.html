@@ -10162,6 +10162,59 @@ function requestDestination(target, acknowledge=false) {
   startDestination(target,acknowledge);
 }
 
+// A small wake-up transition that follows the original get-out-of-bed clip.
+const wake140=(()=>{
+  let nextWake=0,previous=null;
+  const q=new T.Quaternion(), headWorld=new T.Quaternion();
+  const handAt=V(0,0,0), aim=V(0,0,0), headAt=V(0,0,0);
+  const rise=(u,a,b)=>rearRamp(u,a,b);
+  const windowPoint=V(.55,.97,-5.8);
+  function maybeStage(visit,target,manual){
+    if(manual||roam.pending||devOwned()||reaction||contact||handLink||document.hidden||
+       target===bedTarget||lastWorldMinute<5*60||lastWorldMinute>=10*60+30||
+       roam.elapsed<12||mood.seconds<Math.max(nextWake,leilaUserPriorityUntil)||Math.random()>.81)return;
+    const style=previous==='open'?'check':previous==='check'?'open':lastWorldMinute<415?'check':'open';
+    previous=style;nextWake=mood.seconds+158;
+    visit.push({type:'wake140',style,time:5.8,
+      message:style==='check'?'起き上がって、手首と指を軽く動かしています':'起き上がって、窓の明るさに目を慣らしています'});
+  }
+  function pose(stage,u){
+    if((roam.pending||reaction||contact||handLink)&&stage.cancelAt===undefined)stage.cancelAt=roam.elapsed;
+    const fade=stage.cancelAt===undefined?1:1-rise(roam.elapsed,stage.cancelAt,stage.cancelAt+.34);
+    if(stage.cancelAt!==undefined)u=stage.cancelAt/stage.time;
+    blendSofaPose(stage.pose,1);
+    const activity=rise(u,.055,.28)*(1-rise(u,.73,.98))*fade;
+    const second=rise(u,.38,.58)*(1-rise(u,.67,.87))*fade;
+    if(activity<.001)return;
+    if(stage.style==='open'){
+      groups.chest.rotateX(-.078*activity);
+      for(const side of sofaSides){
+        const sign=side==='P'?1:-1;
+        groups.chest.localToWorld(handAt.set(sign*(.267+.048*second),.034+.084*second,.131));
+        aim.set(sign*.68,.43,.34).normalize().applyAxisAngle(turnAxis,root.rotation.y);
+        q.copy(orientPalm(side,aim,V(0,0,1).applyAxisAngle(turnAxis,root.rotation.y)));
+        handAt.sub(palmRig[side].center.clone().applyQuaternion(q));
+        reachHand(side,handAt,q,activity,false,V(sign*.29,-.12,.14));
+      }
+      const h=groups.head;
+      aim.copy(windowPoint).sub(h.getWorldPosition(headAt)).applyQuaternion(h.getWorldQuaternion(headWorld).invert());
+      h.rotateY(T.MathUtils.clamp(Math.atan2(aim.x,aim.z),-.31,.31)*.66*activity);
+      h.rotateX((-.045-.09*second)*activity);
+    }else{
+      const side='P', h=groups.head;
+      groups.chest.localToWorld(handAt.set(.19,-.12+.027*second,.225));
+      aim.set(.09+.26*second,.59,.76).normalize().applyAxisAngle(turnAxis,root.rotation.y);
+      q.copy(orientPalm(side,aim,V(0,0,-1).applyAxisAngle(turnAxis,root.rotation.y)));
+      handAt.sub(palmRig[side].center.clone().applyQuaternion(q));
+      reachHand(side,handAt,q,activity,false,V(.30,-.17,.10));
+      h.rotateX(.22*activity);
+      h.rotateY(.17*activity*(1-.36*second));
+      h.rotateZ(.11*second);
+    }
+  }
+  return {maybeStage,pose};
+})();
+
 function startDestination(target, acknowledge=false, seated=roam.phase==='seated') {
   dogSit135.cancel();
   lab122Invite.hideOnNextRoute();
@@ -10188,9 +10241,10 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     seated = true;
   }
   const alreadyAtBookSeat = seated && target === bookTarget && from.distanceTo(sofaDock) < .025;
-  if (roam.phase === 'bed') visit.push({
-    type:'bedRise',time:bedSitUpTime+furnitureStandTime,message:'ベッドから起き上がっています'
-  });
+  if (roam.phase === 'bed') {
+    visit.push({type:'bedRise',time:bedSitUpTime+furnitureStandTime,message:'ベッドから起き上がっています'});
+    wake140.maybeStage(visit,target,acknowledge);
+  }
   if (seated && !alreadyAtBookSeat) visit.push({type:'rise',time:restClips ? furnitureStandTime : 1.55,message:'ソファから立ち上がっています'});
   if (acknowledge && !alreadyAtBookSeat) {
     visit.push({type:'look',point:target.lookAt,time:1.45,message:target.name+'を見ています'});
@@ -11721,6 +11775,9 @@ function advanceDestinationRoute(dt) {
       }
       break;
     }
+    case 'wake140':
+      wake140.pose(stage,progress);
+      break;
     case 'wardrobeChange':
       changeAtWardrobe(stage,progress);
       break;
@@ -11800,7 +11857,8 @@ function advanceDestinationRoute(dt) {
       roam.switchPressed=stage.pressed;
       break;
   }
-  if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
+  if (progress < 1 && !(stage.type==='wake140' && stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35) &&
+      !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
       (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='hourglass135Flip' || stage.type==='drawer135Sort' || stage.type==='press137Make') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
