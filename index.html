@@ -344,6 +344,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <label>追いかけっこの結末 <select id="dogChaseResult"><option value="">おまかせ</option><option value="front">正面</option><option value="rear">背後</option><option value="winner">レイラの勝ち</option></select></label><button id="dogChaseTest" type="button" disabled>追いかけっこを試す</button>
       <div><label>夢を見る場所 <select id="dogDreamLocation"><option value="sofa">ソファ・読書中</option><option value="bed">ベッド</option></select></label> <label>夢のしぐさ <select id="dogDreamType"><option value="">おまかせ</option><option value="0">駆ける夢</option><option value="1">耳を澄ます夢</option><option value="2">ごきげんな夢</option></select></label> <button id="dogDreamPreview" type="button" disabled>犬の夢を試す</button></div>
       <button id="dogWater125Try" type="button" disabled>犬の水飲みを試す</button>
+      <button id="dogRope128Try" type="button" disabled>布リングのお誘いを試す</button>
       <button id="dogRestMatPreview" type="button" disabled>犬のキルト休憩を試す</button>
       <button id="easelAudience126Preview" type="button" disabled>犬と絵を描く場面を試す</button>
     </div>
@@ -7881,6 +7882,7 @@ function advanceRoam(dt) {
   if(dogChase.leila(dt)||!matBusy&&!nextPlay&&dogChase.maybe())return;
   if(lostSofaBall.pose(dt)||!matBusy&&!nextPlay&&!devOwned()&&lostSofaBall.chance())return;
   if(dogTumble.leila(dt))return;
+  if(dogRope128.advance(dt)||!nextPlay&&dogRope128.maybe())return;
   if(dogRestMat.advance(dt,nextPlay))return;
   if(windowSnow.advance(dt))return;
   if(dogKitchen.advanceLeila()||!nextPlay&&!devOwned()&&dogKitchen.maybeStart())return;
@@ -12100,7 +12102,7 @@ function createShepherd() {
   let updateModelPose=()=>{};
   const retry=$('dogRetry');
   const dogCommands=['dogView','dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed',
-    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try'];
+    'dogTumbleFront','dogTumbleRear','snowVisitPreview','dogPlayWatch','dogPlayHold','dogChaseTest','dogDreamPreview','hipBumpTest','hipNudgeTest','dogRestMatPreview','easelAudience126Preview','dogWater125Try','dogRope128Try'];
   function dogControls(disabled){
     for(const id of dogCommands)$(id).disabled=disabled||id==='dogBed'&&!restClips;
   }
@@ -12562,7 +12564,7 @@ function createShepherd() {
         const h=bones[headIndex];
         joint.position.copy(lowerHinge).applyQuaternion(h.quaternion).add(h.position);
         joint.quaternion.copy(h.quaternion).multiply(jawTurn.setFromAxisAngle(
-          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14+.062*dogDream.muzzle()+.051*(d.matSigh??0)));
+          jawAxis,(d.mealPose?.jaw??0)*(d.mealPose?.lower??0)+.25*(d.tumble?.lick??0)+(d.tumble?.bellyUp?.joy??0)*.14+.062*dogDream.muzzle()+.051*(d.matSigh??0)+.105*(d.ropeClasp??0)));
       });
       // Ear bases measured on the retargeted Shepherd's vertices. These
       // bones exactly match the head transform outside a dream.
@@ -12705,8 +12707,8 @@ function createShepherd() {
     blend('walk',Math.min(1,move/Math.max(dt,.001)/.6),dt,10);
     const p=d.play;
     const fetchLower=threeWayFetch.loweredMuzzle(p),meal=d.mealLower??0;
-    blend('bow',p&&p.phase==='ready'?.8:rival?.68*notice:petted?.20:.19*meal,dt,6);
-    blend('wag',sleeping?0:p||petted||rival||d.tumble||d.bond?.ready>0||d.state==='chase'?1:.24,dt,5);
+    blend('bow',d.ropeInvitation>.001?.60*d.ropeInvitation:p&&p.phase==='ready'?.8:rival?.68*notice:petted?.20:.19*meal,dt,6);
+    blend('wag',sleeping?0:p||petted||rival||d.tumble||d.bond?.ready>0||d.state==='chase'?1:.24+.72*(d.ropeInvitation??0),dt,5);
     const c=d.curl,w=d.walk, snowLean=d.snowLean??0;
     const lap=couch&&d.lapPoint?rearRamp(d.t,.86,1.95):0;
     const pillow=d.pillowPoint?rearRamp(d.t,.54,2.28):0;
@@ -13011,6 +13013,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
+  dogRope128.cancel();
   dogWater125.cancel();
   lab122Invite.cancel();
   const newAttention=mood.seconds>=leilaUserPriorityUntil;
@@ -13074,6 +13077,7 @@ function dogView(){
   orbit.target.copy(point);camera.position.copy(point).add(offset);orbit.update();
 }
 function prepareDogCommand(){
+  dogRope128.cancel();
   dogWater125.cancel();
   if(mode!=='roam'){
     endHandLink(false);restoreReactionPose();
@@ -13180,7 +13184,7 @@ function updateShepherd(dt){
   }
   if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
   if(easelCompanion126.dog(dt))return;
-  if(dogRestMat.dog(dt)||dogWater125.anim(dt))return;
+  if(dogRestMat.dog(dt)||dogWater125.anim(dt)||dogRope128.runDog(dt))return;
   const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
     ['bedSit','bedLie'].includes(roam.visit?.[roam.visitIndex]?.type);
@@ -14586,6 +14590,307 @@ const dogWater125=(()=>{
   }
   $('dogWater125Try').onclick=preview;
   return {after,anim,look,cancel:clear};
+})();
+
+// LAB 128: a cloth ring as an invitation, not another automatic ball throw.
+// The ring stays wherever the dog put it; pickup and drop use the actual muzzle.
+const dogRope128=(()=>{
+  const d=shepherd;
+  const up=V(0,1,0),ew=V(0,0,1),rx=V(1,0,0);
+  const radius=.108,tube=.019;
+  const basket=V(-3.76,0,3.44),basketTop=.034;
+  // The architecture floor is half-scale; use a compensated branch so
+  // the shared route, muzzle, and the visible object use the same space.
+  const art=new T.Group();art.name='布リングの遊び道具';art.scale.setScalar(2);floorGroup.add(art);
+  const tray=new T.Group();tray.name='布のリングの収納トレー';tray.position.copy(basket);art.add(tray);
+  const birch=mat(0x79654e,.85),felt=mat(0x687473,.96);
+  block(tray,birch,0,.010,0,.45,.020,.39);
+  block(tray,felt,0,.024,0,.37,.019,.31);
+  // A low soft tray has no route collision and is behind the pickup contact.
+  block(tray,birch,-.213,.041,0,.023,.043,.39);
+  block(tray,birch,.213,.041,0,.023,.043,.39);
+  block(tray,birch,0,.041,-.185,.43,.043,.021);
+  const mesh=new T.TorusGeometry(radius,tube,10,56);
+  const verts=mesh.attributes.position,col=new Float32Array(verts.count*3);
+  const flax=new T.Color(0xe8c48c),rust=new T.Color(0xa55145),teal=new T.Color(0x547d76),tone=new T.Color();
+  for(let i=0;i<verts.count;i++){
+    const x=verts.getX(i),y=verts.getY(i),z=verts.getZ(i),a=Math.atan2(y,x);
+    const cross=Math.atan2(z,Math.hypot(x,y)-radius);
+    const twist=Math.sin(9*a+1.95*cross);
+    tone.copy(Math.cos(a*3)>.35?teal:rust).lerp(flax,rearRamp(twist,-.22,.3));
+    tone.toArray(col,i*3);
+  }
+  mesh.setAttribute('color',new T.Float32BufferAttribute(col,3));
+  const ring=new T.Mesh(mesh,new T.MeshStandardMaterial({vertexColors:true,roughness:.94,metalness:0}));
+  ring.name='編み模様の布リング';ring.receiveShadow=true;ring.castShadow=true;art.add(ring);
+  const placed=basket.clone().setY(basketTop+tube),stationYaw=0;
+  let active=null,fall=null,nextAllowed=46,previous=-1;
+  const qYaw=new T.Quaternion(),qPitch=new T.Quaternion(),handLook=V(0,0,0),muzzle=V(0,0,0),offset=V(0,-radius,0);
+  const haveFeet=[V(0,0,0),V(0,0,0)];
+  const message={
+    toRing:'犬が布のリングを取りに向かいました。',
+    lift:'犬は布のリングをそっとくわえました。',
+    carry:'犬がリングをくわえて、レイラのところへ戻ります。',
+    place:'犬がレイラの前にリングを置きました。',
+    invite:'犬がレイラを見上げて遊びに誘っています。',
+    soft:'レイラは手を開き、誘ってくれた犬にうなずきました。'
+  };
+  function orientation(yaw,angle){
+    ring.quaternion.copy(qYaw.setFromAxisAngle(up,yaw)).multiply(qPitch.setFromAxisAngle(rx,angle));
+  }
+  function atRest(yaw=stationYaw){
+    ring.position.copy(placed);orientation(yaw,-Math.PI/2);
+  }
+  atRest();
+  function dropNow(a,animate){
+    if(!a?.held)return;
+    a.held=false;placed.copy(ring.position);placed.y=tube+.002;
+    if(animate){
+      fall={p:ring.position.clone(),q:ring.quaternion.clone(),yaw:d.object.rotation.y,t:0};
+    }else atRest(d.object.rotation.y);
+  }
+  function animateFall(dt){
+    if(!fall)return;
+    const f=fall;f.t+=dt;
+    const progress=clampExposure(f.t/.35);
+    ring.position.lerpVectors(f.p,placed,progress*progress);
+    orientation(f.yaw,-Math.PI/2);
+    ring.quaternion.slerp(f.q,1-smooth(progress));
+    const n=V(0,0,1).applyQuaternion(ring.quaternion).y;
+    ring.position.y=Math.max(ring.position.y,placed.y+radius*Math.sqrt(Math.max(0,1-n*n)));
+    if(progress>=1){fall=null;atRest(f.yaw);}
+  }
+  const clampExposure=n=>Math.min(1,Math.max(0,n));
+  function note(a,text){
+    a.note=text;
+    if($('dogNote').textContent!==text)$('dogNote').textContent=text;
+  }
+  function clean(a){
+    d.ropeClasp=0;d.ropeInvitation=0;
+    if(d.state==='rope128'){
+      d.mealPose=null;d.mealLower=0;
+      d.change('idle');d.wait=d.time+3.2;d.path=[];d.destination=null;
+    }
+    if($('dogNote').textContent===a.note)$('dogNote').textContent=a.old;
+  }
+  function stop(interrupted=true){
+    const a=active;if(!a)return;
+    dropNow(a,true);clean(a);active=null;
+    if(mode==='roam'&&roam===a.owner&&roam.phase==='dogRope128')
+      enterQuietRest('linger',interrupted?'レイラはあなたに注意を戻しました':'レイラと犬はひと休みしています',interrupted?4.2:3.5);
+  }
+  function available(manual){
+    if(active||fall||!floorGroup.visible||!d.ready||!d.visibleMealLip||d.jump||d.play||d.bond||
+       !['idle','wander'].includes(d.state)||d.object.position.y>.042||handLink||contact||document.hidden)return false;
+    if(mode!=='roam')return !!manual&&['standWait','idle','manual'].includes(mode);
+    if(!['wait','rest','linger','window'].includes(roam.phase)||roam.pending)return false;
+    return manual||privateDogBondAllowed()&&!devOwned()&&currentMood()!=='annoyed'&&mood.seconds>=leilaUserPriorityUntil;
+  }
+  function plans(manual){
+    const from=root.position.clone().setY(0),clear=walkingClearance(sofaWalkingBounds());
+    // Remember the previous idle path, then try a clear approach to the ring
+    // from several angles. Respect the larger clearance of the dog navigator.
+    const saved={path:d.path,dest:d.destination};
+    let pickup;
+    for(const phi of [headingTo(placed,d.object.position),1.57,0,-1.57,Math.PI,2.35,-2.35,.79,-.79]){
+      const outward=V(Math.sin(phi),0,Math.cos(phi)),foot=placed.clone().setY(0).addScaledVector(outward,.62);
+      if(!inWalkingArea(foot)||!clear(foot,placed.clone().setY(0)))continue;
+      d.destination=null;d.navigate(foot);
+      if(!d.path.length&&d.object.position.distanceTo(foot)>.04)continue;
+      pickup={foot,grip:placed.clone().addScaledVector(outward,radius),yaw:phi+Math.PI,
+        path:d.path.map(p=>p.clone())};break;
+    }
+    d.path=saved.path;d.destination=saved.dest;
+    if(!pickup)return null;
+    if(!manual){
+      const gather=d.object.position.distanceTo(pickup.foot),deliver=from.distanceTo(pickup.foot);
+      if(gather>6.4||deliver>5.4||gather+deliver>9.3)return null;
+    }
+    const outcomes=[];
+    for(const bias of [0,.47,-.47,.88,-.88,1.22,-1.22,1.50,-1.50]){
+      const yaw=root.rotation.y+bias,dir=V(Math.sin(yaw),0,Math.cos(yaw));
+      const dock=from.clone().addScaledVector(dir,1.21);
+      const center=from.clone().addScaledVector(dir,.61);center.y=tube+.002;
+      const pad=dock.clone().addScaledVector(dir,.26);
+      const cross=V(dir.z,0,-dir.x);
+      if(!inWalkingArea(dock)||!inWalkingArea(pad)||!clear(from,dock)||!clear(dock,pad)||
+         !clear(dock,dock.clone().addScaledVector(cross,.33))||
+         !clear(dock,dock.clone().addScaledVector(cross,-.33))||
+         !clear(center,center.clone().addScaledVector(cross,.145))||
+         !clear(center,center.clone().addScaledVector(cross,-.145)))continue;
+      outcomes.push({dock,center,grip:center.clone().addScaledVector(dir,radius),dir,yaw:yaw+Math.PI});
+    }
+    return outcomes.length?{pickup,outcomes}:null;
+  }
+  function begin(manual=false){
+    if(!available(manual))return false;
+    const p=plans(manual);if(!p)return false;
+    if(manual){clearDevPreview();prepareDogCommand();}
+    const style=previous<0?Number(Math.random()>.56):1-previous;
+    previous=style;nextAllowed=mood.seconds+97+Math.random()*53;
+    const a={...p,owner:roam,entry:captureSofaPose(),stage:'toRing',t:0,age:0,
+      style,held:false,arrived:false,old:$('dogNote').textContent,note:'',manual};
+    active=a;d.rivalQueued=false;d.change('rope128');d.path=p.pickup.path;d.destination=p.pickup.foot.clone();
+    roam.phase='dogRope128';roam.pause=Infinity;
+    note(a,message.toRing);$('destination').textContent='レイラが犬の様子を見守っています';
+    return true;
+  }
+  function maybe(){
+    if(mood.seconds<nextAllowed||roam.elapsed<1.3||!available(false))return false;
+    nextAllowed=mood.seconds+16+Math.random()*16;
+    const f=currentMood();
+    const chance=f==='playful'?.72:f==='happy'?.58:f==='affectionate'?.56:.34;
+    return Math.random()<chance&&begin();
+  }
+  function stage(a,id){
+    a.stage=id;a.t=0;
+  }
+  function carryRoute(a){
+    for(const p of a.outcomes){
+      d.destination=null;d.navigate(p.dock);
+      if(d.path.length||d.object.position.distanceTo(p.dock)<.05){a.drop=p;return true;}
+    }
+    return false;
+  }
+  function lower(grip,amount,jaw){
+    const target=muzzle.copy(grip);target.y+=.030;
+    d.mealLower=amount;
+    d.mealPose=amount>.0001?{lower:amount,jaw,pitch:.98}:null;
+    if(d.mealPose)d.mealPoint=d.object.worldToLocal(target);
+  }
+  function muzzleGrip(out){
+    // mouth upper-lip marker comes from the skinned Shepherd, not the hidden proxy
+    out.copy(d.visibleMealLip());
+    out.y-=.027;
+    return out;
+  }
+  const realGrip=V(0,0,0),floorOffset=V(0,0,0);
+  function heldPose(yaw,lean,surface=0){
+    const grip=muzzleGrip(realGrip);
+    // A vertical ring extends two radii below its held edge. Lay it more
+    // horizontal as the muzzle approaches the floor, without sliding the grip.
+    const bound=clampExposure((grip.y-tube-surface)/(2*radius));
+    orientation(yaw,Math.min(lean,-Math.acos(bound)));
+    ring.position.copy(grip).add(floorOffset.copy(offset).applyQuaternion(ring.quaternion));
+  }
+  const grin=V(0,0,0),turn=V(0,0,0);
+  function follow(to,dt,speed){
+    const ob=d.object;
+    const p=d.path[0];
+    if(p){
+      grin.copy(root.position).sub(ob).setY(0);turn.copy(p).sub(ob).setY(0);
+      const dot=turn.lengthSq()>.0001?grin.dot(turn)/turn.length():0;
+      if(dot>.025&&dot<.42&&grin.lengthSq()-dot*dot<.25**2)return 0;
+    }
+    return ob.position.distanceTo(to)<.042?0:d.follow(dt,speed);
+  }
+  function runDog(dt){
+    const a=active;if(!a)return false;
+    if(d.state!=='rope128'||d.jump){stop();return false;}
+    const obj=d.object;a.t+=dt;a.age+=dt;
+    if(a.age>54){stop();return false;}
+    let moved=0,focus=leilaFaceForDog();
+    if(a.stage==='toRing'){
+      const p=a.pickup;focus=p.grip;moved=follow(p.foot,dt,1.20);
+      if(obj.position.distanceTo(p.foot)<.05){
+        d.rotate(p.yaw,dt,4);
+        if(Math.abs(headingDelta(obj.rotation.y,p.yaw))<.07)stage(a,'lift');
+      }
+      d.pose(dt,moved,focus);
+    }else if(a.stage==='lift'){
+      const p=a.pickup,low=rearRamp(a.t,.05,.75)*(1-rearRamp(a.t,1.04,1.83));
+      lower(p.grip,low,.052);
+      d.ropeClasp=rearRamp(a.t,.65,.88)*.78;
+      d.pose(dt,0,p.grip);
+      if(a.t>.83&&!a.held){
+        if(muzzleGrip(realGrip).distanceTo(p.grip)>.084){stop();return true;}
+        a.held=true;note(a,message.lift);
+      }
+      if(a.held)heldPose(p.yaw,mix(-Math.PI/2,-.19,rearRamp(a.t,.87,1.84)),Math.max(0,placed.y-tube));
+      if(a.t>1.91){
+        lower(p.grip,0,0);
+        if(!carryRoute(a)){stop();return true;}
+        stage(a,'carry');note(a,message.carry);
+      }
+    }else if(a.stage==='carry'){
+      const p=a.drop;
+      moved=follow(p.dock,dt,1.16);
+      if(obj.position.distanceTo(p.dock)<.05){
+        d.rotate(p.yaw,dt,4.2);
+        if(Math.abs(headingDelta(obj.rotation.y,p.yaw))<.07)stage(a,'place');
+      }
+      d.pose(dt,moved,focus);
+      heldPose(obj.rotation.y,-.19+.07*Math.sin(d.stride*2*Math.PI));
+    }else if(a.stage==='place'){
+      const p=a.drop,low=rearRamp(a.t,.14,.91);
+      lower(p.grip,low,.029);
+      d.ropeClasp=.78*(1-rearRamp(a.t,.86,1.07));
+      d.pose(dt,0,p.grip);
+      heldPose(p.yaw,mix(-.19,-Math.PI/2,rearRamp(a.t,.26,.90)));
+      if(a.t>=1.12){
+        // Keep the laydown smooth. At release the ring's contact edge is the
+        // actual muzzle grip; the final centimetres fall onto the floor.
+        const miss=ring.position.distanceTo(p.center);
+        a.held=false;
+        if(miss>.091)placed.copy(ring.position).setY(tube+.002);
+        else placed.copy(p.center);
+        fall={p:ring.position.clone(),q:ring.quaternion.clone(),yaw:p.yaw,t:0};
+        a.laidDistance=miss;
+        stage(a,'invite');note(a,message.place);
+      }
+    }else if(a.stage==='invite'){
+      const p=a.drop;
+      lower(p.grip,1-rearRamp(a.t,.06,.72),0);
+      d.ropeInvitation=rearRamp(a.t,.42,1.15)*(1-rearRamp(a.t,2.65,3.75));
+      d.pose(dt,0,a.t<.94?p.grip:focus);
+      if(a.t>1&&a.t<2.8&&a.note!==message.invite)note(a,message.invite);
+      if(a.t>=5.8)stop(false);
+    }
+    return true;
+  }
+  function advance(dt){
+    const a=active;if(!a)return false;
+    blendSofaPose(a.entry,1);
+    const target=a.stage==='invite'?placed:a.held?ring.position:a.stage==='lift'?a.pickup.grip:d.object.position;
+    handLook.copy(target);
+    if(a.held||a.stage==='invite'||a.stage==='lift')handLook.y+=.075;
+    else handLook.y+=.46;
+    const yaw=T.MathUtils.clamp(headingDelta(root.rotation.y,headingTo(root.position,handLook)),-1.25,1.25);
+    let weight=.63*rearRamp(a.age,0,.68);
+    if(a.stage==='invite'&&a.t>4.5)weight*=1-rearRamp(a.t,4.50,5.74);
+    groups.chest.rotateX(.012*Math.sin(a.age*2.1)*rearRamp(a.age,0,.65));
+    groups.neck.rotateY(.25*yaw*weight);groups.head.rotateY(.64*yaw*weight);
+    groups.head.rotateX(.26*weight+(a.stage==='invite'?.24*weight:0));
+    if(a.stage==='invite'){
+      const t=a.t;
+      const signal=rearRamp(t,.78,1.55)*(1-rearRamp(t,3.23,4.26));
+      const nod=rearRamp(t,1.65,1.98)*(1-rearRamp(t,1.98,2.39));
+      groups.head.rotateX(.12*nod);
+      groups.head.rotateZ((a.style===0?-.12:.11)*signal);
+      if(a.style===0&&signal>.001){
+        // Open hand toward the toy without asserting an attempted grab.
+        const side=yaw>0?'P':'N',sg=side==='P'?1:-1;
+        const hand=V(.22*sg,.64,.32).applyAxisAngle(up,root.rotation.y).add(root.position);
+        const palm=orientPalm(side,ew.clone().applyAxisAngle(up,root.rotation.y),up);
+        hand.sub(palmRig[side].center.clone().applyQuaternion(palm));
+        reachHand(side,hand,palm,.66*signal,false,V(.15*sg,-.13,.10));
+      }
+      if(t>1.65&&!a.ack){a.ack=true;$('destination').textContent=a.style===0?message.soft:'レイラが首をかしげ、犬にうなずきました';}
+    }
+    return true;
+  }
+  function tick(dt){
+    if(active&&(mode!=='roam'||roam!==active.owner||roam.phase!=='dogRope128'||devOwned()||
+       reaction||contact||handLink||document.hidden||!floorGroup.visible))stop();
+    animateFall(dt);
+  }
+  function preview(){
+    if(active){stop();return;}
+    if(!begin(true))$('dogNote').textContent='ふたりが家具から少し離れ、床で落ち着いている時に試せます。';
+  }
+  $('dogRope128Try').onclick=preview;
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+  return {runDog,advance,maybe,tick,cancel:stop};
 })();
 
 const dogKitchen=(()=>{
@@ -17150,7 +17455,7 @@ const cinema=(()=>{
     dog.copy(measure.position);
     const episode=mode==='roam'?(dogRestMat.framed()?'dogRestMat':roam.phase):'';
     const paired=shepherd.ready&&Math.hypot(dog.x-hip.x,dog.z-hip.z)<(episode==='dogChase'?1.95:1.46)&&
-      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat'].includes(episode)||easelCompanion126.framed());
+      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat','dogRope128'].includes(episode)||easelCompanion126.framed());
     if(paired){
       dogMarks[0].copy(dog).add(V(0,.085,0));
       dogMarks[1].copy(dog).add(V(.28,.39,0));
@@ -17267,7 +17572,7 @@ home121.install();
 fresh126.install();
 ambience128.install();
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 home121.cleanup();fresh126.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
