@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 168｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 169｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -172,6 +172,9 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
 .wardrobe109Fields select{display:block;min-width:0;width:100%;font-size:.79rem}
 .wardrobe109Hint{margin:5px 0;font-size:.75rem;color:#a8c9df}
 .wardrobe109Hint:empty{display:none}
+.wardrobeAccessory{margin-top:7px}
+.wardrobeAccessory label{display:grid;gap:3px;color:#bbcee8;font-size:.72rem}
+.wardrobeAccessory select{display:block;width:100%;min-width:0;font-size:.79rem}
 @media(max-width:460px){.wardrobe109Fields{grid-template-columns:repeat(2,minmax(0,1fr))}.wardrobe109Fields label:last-child{grid-column:1/-1}}
 .leilaDevWardrobeButtons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .leilaDevWardrobe p{margin:7px 0 0;color:#b7c9df;font-size:.76rem}
@@ -227,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 168</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 169</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -289,6 +292,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <details id="wardrobe109Panel" class="wardrobe109Panel">
       <summary>クローゼット <small id="wardrobe-readout">装甲のみ</small></summary>
       <div class="wardrobe109Fields"><label>トップス<select id="wardrobe-top" disabled><option value="">なし・装甲</option></select></label><label>ボトムス<select id="wardrobe-bottom" disabled><option value="">なし・装甲</option></select></label><label>上下セット<select id="wardrobe-set" disabled><option value="">なし・上下別</option></select></label></div>
+      <div class="wardrobeAccessory"><label>アクセサリー<select id="wardrobe-accessory" disabled><option value="">なし</option></select></label></div>
       <p id="wardrobe-season" class="wardrobe109Hint" role="status"></p>
       </details><div class="wardrobeButtons" role="group" aria-label="衣装と装甲"><button data-menu-hidden hidden id="shirtToggle" data-wardrobe-slot="トップス" type="button" aria-pressed="false" disabled>白Tシャツ：未着用</button><button data-menu-hidden hidden id="skirtToggle" data-wardrobe-slot="ボトムス" type="button" aria-pressed="false" disabled>プリーツスカート：未着用</button><button id="paintOpen" type="button" aria-controls="paintWindow" aria-expanded="false" disabled>装甲カラーを編集</button></div>
   </div>
@@ -3752,6 +3756,24 @@ headband.add(bandArc);
 for (const x of [-.035,0,.035]) {
   block(headband,ivory,x,.076-Math.abs(x)*.16,.019,.015,.015,.010);
 }
+const bunnyBand=new T.Group(), bunnySatin=mat(0x292338,.45), bunnyLining=mat(0xd39caf,.73), bunnySeam=mat(0xf0dddc,.66);
+bunnyBand.name='バニーカチューシャ';
+const bunnyBandPreview=new T.Mesh(bandArc.geometry,bunnySatin);
+bunnyBandPreview.scale.copy(bandArc.scale);bunnyBand.add(bunnyBandPreview);
+function bunnyEars(parent,feet){
+  feet.forEach((at,i)=>{
+    const ear=new T.Group(), side=i===0?1:-1;
+    ear.position.copy(at);ear.rotation.z=side*(i===0?-.22:-.31);
+    ear.rotation.x=i===0?-.09:-.20;
+    const outline=[[-.021,-.006],[-.032,.055],[-.031,.112],[-.018,.159],[-.004,.179],[.010,.174],[.026,.148],[.035,.099],[.028,.050],[.016,-.006]];
+    accessoryShape(ear,bunnySatin,outline,.010);
+    const inner=accessoryShape(ear,bunnyLining,outline.map(([x,y])=>[x*.59,.027+y*.75]),.003);
+    inner.position.z=.011;
+    const stitch=accessoryShape(ear,bunnySeam,[[-.006,.036],[-.012,.073],[-.011,.092],[-.010,.073],[-.003,.036]],.001);
+    stitch.position.z=.015;parent.add(ear);
+  });
+}
+bunnyEars(bunnyBand,[new T.Vector3(.047,.064,.01),new T.Vector3(-.047,.064,.01)]);
 const hairBow = makeBow(lilac);
 const neckBow = makeBow(teal);
 const tie = new T.Group();
@@ -3772,13 +3794,14 @@ const accessories = [
   {name:'すみれ色のヘアリボン',region:'head',joint:'head',model:hairBow,at:[.064,.086,.025],tray:[.087,.060,.067]},
   {name:'青緑の首リボン',region:'neck',joint:'neck',model:neckBow,at:[0,-.010,.026],tray:[-.087,.060,-.025]},
   {name:'紺のネクタイ',region:'tie',joint:'chest',model:tie,at:[0,.071,.037],tray:[0,.060,-.025]},
-  {name:'星のブローチ',region:'chest',joint:'chest',model:brooch,at:[-.044,.035,.050],tray:[.087,.060,-.025]}
+  {name:'星のブローチ',region:'chest',joint:'chest',model:brooch,at:[-.044,.035,.050],tray:[.087,.060,-.025]},
+  {key:'bunny',name:'バニーカチューシャ',region:'head',joint:'head',model:bunnyBand,at:[0,0,0],tray:[.004,.092,-.075]}
 ];
 for (const item of accessories) {
   item.preview = item.model.clone();
   item.preview.position.set(...item.tray);
   item.preview.rotation.x = -Math.PI/2;
-  if (item.region !== 'wrist') item.preview.scale.setScalar(.48);
+  if (item.region !== 'wrist') item.preview.scale.setScalar(item.key==='bunny'?.33:.48);
   accessoryCase.add(item.preview);
   item.model.position.set(...item.at);
   item.model.visible = false;
@@ -3840,6 +3863,12 @@ function fitAccessoriesToArmor() {
   headband.userData.inspectPoint = crownPath.getPoint(.23).sub(bandCenter);
   headband.userData.inspectPoint.z += .012;
   for (const child of headband.children) child.position.sub(bandCenter);
+  bunnyBand.clear();
+  bunnyBand.position.copy(bandCenter);
+  const bunnyBase=new T.Mesh(band.geometry,bunnySatin);
+  bunnyBase.position.sub(bandCenter);bunnyBand.add(bunnyBase);
+  bunnyEars(bunnyBand,[crownPath.getPoint(.34).sub(bandCenter),crownPath.getPoint(.66).sub(bandCenter)]);
+  bunnyBand.userData.inspectPoint=crownPath.getPoint(.28).sub(bandCenter).add(new T.Vector3(0,.011,.014));
 
   // Use each piece's contact patch to set its depth and tangent on the shell.
   for (const [model,joint,meshes,size] of [
@@ -3905,8 +3934,9 @@ function wearAccessory(item) {
     wornAccessory.preview.visible = true;
   }
   wornAccessory = item;
-  item.preview.visible = false;
-  item.model.visible = true;
+  if(item){item.preview.visible=false;item.model.visible=true;}
+  const select=$('wardrobe-accessory');
+  if(select)select.value=item?item.key??String(accessories.indexOf(item)):'';
 }
 
 const paintParts = [
@@ -5528,7 +5558,17 @@ function createWardrobePants(){
   const legs=['P','N'].map(s=>segments([groups['thigh'+s],groups['knee'+s],groups['shin'+s]]));
   const seat=[...hips,...legs[0],...legs[1]];
   const dirs=Array.from({length:polar},(_,k)=>[Math.sin(tau*k/polar),Math.cos(tau*k/polar)]);
+  // All styles fit the same armor sections. Cache the measured supporting
+  // lines so growing the catalogue does not repeatedly scan the meshes.
+  const contourCache=new WeakMap();
   function outline(edges,y,x,z){
+    let contours=contourCache.get(edges);
+    if(!contours){contours=new Map();contourCache.set(edges,contours);}
+    const key=y+':'+x+':'+z;
+    if(!contours.has(key))contours.set(key,measureOutline(edges,y,x,z));
+    return contours.get(key);
+  }
+  function measureOutline(edges,y,x,z){
     // Intersect 2D supporting lines at 20 angles. This circumscribed hull
     // hugs the irregular armor and never relies on a chunky round cylinder.
     const sample=[];
@@ -5588,13 +5628,13 @@ function createWardrobePants(){
     m.customProgramCacheKey=()=>key+'-leila-trouser-cover-v1';
     m.needsUpdate=true;
   }
-  function cover(id){
-    const hem=id==='half'?.373:id==='short'||id==='inkShorts'?.502:id==='cargo'?.138:0;
+  function cover(id,customHem){
+    const hem=Number.isFinite(customHem)?customHem:id==='half'?.373:id==='short'||id==='inkShorts'?.502:id==='cargo'?.138:0;
     pantCover.value.set(hem?hem+.009:1,hem?.644:0);
   }
   function trouser(spec){
     const geometry=new T.BufferGeometry(), positions=[],idx=[],weights=[],indices=[],rgb=[];
-    const cloth=new T.MeshStandardMaterial({color:0xffffff,roughness:.87,metalness:0,side:T.DoubleSide,vertexColors:true});
+    const cloth=new T.MeshStandardMaterial({color:0xffffff,roughness:spec.roughness??.87,metalness:spec.metalness??0,side:T.DoubleSide,vertexColors:true});
     const main=new T.Color(spec.main), edge=new T.Color(spec.edge), thread=new T.Color(spec.trim);
     // The two upper contours come together front/back. Their inner arcs
     // originate at the short crotch seam, not as overlapped waistband disks.
@@ -5619,7 +5659,9 @@ function createWardrobePants(){
           const [s,c]=dirs[i], side=i<=halfPolar;
           const rx=Math.max(.033, y>.48?.045:.029),rz=y>.46?.044:.034;
           const thighEase=.0026*smooth(y,.478,.538)*(1-smooth(y,.592,.633));
-          const radius=Math.max(leg([s*sign,c])+.006+thighEase,1/Math.hypot(s/rx,c/rz));
+          const flare=(spec.flare??0)*smooth(y,spec.end,spec.end+.16);
+          const hemFullness=(spec.flare??0)-flare;
+          const radius=Math.max(leg([s*sign,c])+.006+thighEase,1/Math.hypot(s/rx,c/rz))+hemFullness;
           let x=sign*(Math.max(.002,Math.abs(cx)+s*radius)),z=cz+c*radius;
           const waistR=Math.max(pelvis([s*sign,c])+.005,1/Math.hypot(s/.056,c/.046));
           const bx=side?sign*s*waistR:0,bz=.036+(side?c*waistR:c*(pelvis([0,c>0?1:-1])+.005));
@@ -5661,7 +5703,40 @@ function createWardrobePants(){
           const beltLoop=j<4&&[6,13,23].some(k=>Math.abs(i-k)<1);
           const cargoFlap=cargo&&(h<.27||Math.abs(u-.25)>.082);
           let color=main.clone().lerp(edge,.07+.06*Math.cos(tau*(u*8+.13*h)));
+          switch(spec.texture){
+            case 'denim': {
+              const fade=smooth(c,-.25,.65)*(1-smooth(h,.40,.96))*.32;
+              color.lerp(thread,fade+.11*(.5+.5*Math.sin(tau*(u*31+h*6))));
+              break;
+            }
+            case 'pinstripe': {
+              const ribs=Math.abs(Math.sin(tau*u*8));
+              color.lerp(thread,(1-smooth(ribs,.11,.42))*.55);
+              break;
+            }
+            case 'check': {
+              const a=Math.sin(tau*u*5),b=Math.sin(tau*h*6);
+              color.lerp(a*b>0?thread:edge,.17+.14*Math.abs(a*b));
+              break;
+            }
+            case 'tech':
+              if(Math.abs(s)>.54 && (Math.abs(h-.31)<.023 || Math.abs(h-.70)<.024))
+                color.lerp(thread,.78);
+              if(h>.34&&h<.65&&Math.abs(s)>.68)color.lerp(edge,.46);
+              break;
+            case 'linen':
+              color.lerp(thread,.10+.12*(.5+.5*Math.sin(tau*(u*12+h*.35))));
+              break;
+            case 'cross':
+              if((Math.abs(Math.sin(tau*(u*6+h*9)))<.32)||
+                (Math.abs(Math.sin(tau*(u*6-h*9)))<.32))color.lerp(thread,.42);
+              break;
+          }
           if(j<3||j>=n-2||fly||beltLoop||cargoFlap||pocket)color.copy(edge);
+          if(spec.cuff&&h>=1-spec.cuff){
+            color.lerp(edge,.72);
+            if(h<1-spec.cuff*.73||j===n-3)color.lerp(thread,.54);
+          }
           if((spec.stripe&&sideSeam&&j>2)||((j===2||j===n-3)&&i%4!==0)||beltLoop&&j===2)
             color.lerp(thread,spec.stripe&&sideSeam?.88:.44);
           rgb.push(color.r,color.g,color.b);
@@ -5697,7 +5772,7 @@ function createWardrobePants(){
   }
   colors.needsUpdate=true;root.add(inkShorts);
   return {
-    cover,short,inkShorts,
+    cover,trouser,short,inkShorts,
     half:trouser({name:'テーパード・ハーフパンツ',main:0x575052,edge:0x372f32,trim:0x988684,end:.373}),
     cargo:trouser({name:'アッシュオリーブ・カーゴ',main:0x515947,edge:0x353e32,trim:0xc0a477,cargo:true,long:true,end:.138})
   };
@@ -6023,21 +6098,615 @@ const wardrobe109=(()=>{
     {collection:'sweet',bottom:newSkirt('mintRibbon',0x8bbb9f,0x528a80,0xf2e9cd,.205,{wideHem:true,pleat:.008})});
   item('lilacRibbon','set','すみれリボンのワンピース',sets.lilacRibbonTop,0xaa83b4,
     {collection:'sweet',bottom:newSkirt('lilacRibbon',0xad83b5,0x9a567e,0xf2deef,.221,{wideHem:true,pleat:.008})});
-  // Folded items occupy actual shelves, and the worn item disappears from its slot.
-  let shelfSlot=0;
-  for(const row of Object.values(registry)){
-    if(row.fold)continue;
-    const g=new T.Group(), n=shelfSlot++;
+
+
+
+  // LAB169 tops: share Leila's fitted bind shells and shoulder tension. New cuts,
+  // panels, stitching and hardware are independent of the armor and original looks.
+  {
+    const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z), soften=T.MathUtils.smoothstep;
+    const ray=new T.Ray(v(0,0,.16),v(0,0,-1)), hit=v(), bary=v();
+    const armTension=['P','N'].map(k=>[groups['upper'+k],groups['elbow'+k].position.clone().normalize()]);
+    const palettes={
+      denim:[0x355e84,0x24425f,0xd6a474,0x7897b1,0xb3c4d0],
+      canvas:[0x9b6a42,0x66452f,0xe5b77a,0xc28c5a,0x526b5b],
+      runner:[0x185d57,0x0d383d,0xd3eb8f,0x30a794,0xe7f2c0],
+      orbiter:[0x212d48,0x111e32,0x73eced,0x495777,0xd29645],
+      haori:[0x253951,0x161e36,0xe0c07e,0x364f72,0xb56672],
+      happi:[0xa13738,0x43313f,0xf6deb8,0xc65c55,0x553d44],
+      rugby:[0x3b594f,0x142c2b,0xf2e5c3,0x8a3f48,0xbcad84],
+      breton:[0xe9e1cf,0xc8bca7,0x485b80,0x3b506c,0xb35544],
+      halter:[0x334961,0x2b344c,0xebcc99,0x657d99,0x192e44],
+      blouse:[0xf4eada,0xe1c5af,0xa9867f,0xdcb0a7,0xf8f2e6],
+      chemise:[0xd6dfe1,0x929faa,0x5e807f,0x96b3c1,0x2e4355],
+      quilt:[0x536a4d,0x253f33,0xdbab65,0x708a62,0x324f42]
+    };
+    // Coordinate-based panels follow existing topology rather than scaling the body.
+    const shade=(type,x,y,z,old,sleeve)=>{
+      const f=z>.038, wide=Math.abs(x);
+      if(sleeve){
+        if(y<.589)return 1;
+        if(type==='runner'&&z>.021&&z<.036)return 2;
+        if(type==='orbiter')return y>.679&&z>.025?2:y<.637&&y>.621?3:old;
+        if(type==='haori')return y<.629?1:y>.675&&y<.688?3:0;
+        if(type==='happi')return y<.655?1:y<.667?2:0;
+        if(type==='denim')return y<.614?3:old;
+        return old===4?4:0;
+      }
+      if(type==='denim')return old===1?1:y>.751&&wide>.020?3:old===4?4:0;
+      if(type==='canvas')return old===1?1:f&&wide>.020&&y<.706&&y>.672?3:0;
+      if(type==='runner')return old===1?1:f&&y>.733+wide*.34?3:wide>.053?1:0;
+      if(type==='orbiter')return old===1?1:wide>.044&&y>.718?3:!f&&y>.745?4:0;
+      if(type==='haori')return y<.675?1:wide>.036&&y>.709?3:0;
+      if(type==='happi')return y<.678?4:wide>.035&&y>.733?3:0;
+      if(type==='rugby'){
+        if(y>.769&&wide<.033)return 2;
+        return y>.704&&y<.734?3:y>.686&&y<.692?4:old;
+      }
+      if(type==='breton')return y>.683&&y<.769&&Math.floor((y-.683)/.0075)%2===0?3:old;
+      if(type==='halter')return old===1?1:f&&x>(y-.737)*.60+.019?3:!f&&wide>.025?4:0;
+      if(type==='blouse')return old===1?1:y>.766&&wide<.025?4:wide>.063&&y>.710?4:0;
+      if(type==='chemise')return (y>.767&&wide<.031)?3:wide>.064&&y>.702?2:old;
+      if(type==='quilt')return wide>.052&&y>.677?4:old;
+      return old;
+    };
+    function remap(src,type,mats,sleeve=false){
+      const g=src.geometry.clone(), p=g.attributes.position;
+      const old=new Uint8Array(g.index.count);
+      for(const group of g.groups)old.fill(group.materialIndex,group.start,group.start+group.count);
+      const runs=mats.map(()=>[]);
+      for(let at=0;at<g.index.count;at+=3){
+        const ia=g.index.getX(at),ib=g.index.getX(at+1),ic=g.index.getX(at+2);
+        const x=(p.getX(ia)+p.getX(ib)+p.getX(ic))/3,y=(p.getY(ia)+p.getY(ib)+p.getY(ic))/3;
+        const z=(p.getZ(ia)+p.getZ(ib)+p.getZ(ic))/3;
+        // The happi ends above the wrist and exposes the original forearm.
+        // The remaining sleeve retains its original elbow coefficients.
+        if(type==='happi'&&sleeve&&Math.min(p.getY(ia),p.getY(ib),p.getY(ic))<.633)continue;
+        runs[shade(type,x,y,z,old[at],sleeve)].push(ia,ib,ic);
+      }
+      g.clearGroups();let from=0;
+      for(let slot=0;slot<runs.length;slot++)if(runs[slot].length){
+        g.addGroup(from,runs[slot].length,slot);from+=runs[slot].length;
+      }
+      g.setIndex(runs.flat());
+      if(type==='blouse'&&!sleeve){
+        // A shallow gathered shoulder on a short arm, not a rigid accessory.
+        for(let i=0;i<p.count;i++){
+          const x=p.getX(i),y=p.getY(i),z=p.getZ(i);
+          const puff=soften(Math.abs(x),.046,.087)*(1-soften(Math.abs(x),.113,.142))*soften(y,.702,.764);
+          p.setXYZ(i,x+Math.sign(x)*.0024*puff,y+.0046*puff,z+(z>.031?.0027:-.0020)*puff);
+        }
+        p.needsUpdate=true;
+        g.computeVertexNormals();
+      }
+      const ob=src.clone(false);ob.geometry=g;ob.material=mats;
+      return ob;
+    }
+    // Draw smooth creases, lapels and stitched details on the fitted torso, with
+    // the same skinning and shoulder morphs as the exact triangles below them.
+    function stitching(mesh){
+      const g=mesh.geometry,p=g.attributes.position, ids=g.attributes.skinIndex, w=g.attributes.skinWeight;
+      const vertices=Array.from({length:p.count},(_,i)=>v().fromBufferAttribute(p,i));
+      const tris=[];
+      for(let i=0;i<g.index.count;i+=3){
+        const corners=[g.index.getX(i),g.index.getX(i+1),g.index.getX(i+2)],pts=corners.map(k=>vertices[k]);
+        if(pts.every(a=>a.z<.031))continue;
+        tris.push([corners,pts,Math.min(...pts.map(v=>v.x)),Math.max(...pts.map(v=>v.x)),
+          Math.min(...pts.map(v=>v.y)),Math.max(...pts.map(v=>v.y))]);
+      }
+      const xyz=[], bones=[], weights=[], morphs=[[],[]], runs=mesh.material.map(()=>[]);
+      function at(x,y,offset){
+        ray.origin.set(x,y,.16);
+        let nearest=.025,candidate=null;
+        for(const [corners,pts,l,r,d,u] of tris){
+          if(x<l||x>r||y<d||y>u)continue;
+          if(!ray.intersectTriangle(...pts,false,hit)||hit.z<=nearest)continue;
+          if(!T.Triangle.getBarycoord(hit,...pts,bary))continue;
+          nearest=hit.z;candidate=[corners,bary.toArray()];
+        }
+        if(!candidate)return -1;
+        const [corners,mix]=candidate,k=xyz.length/3;
+        xyz.push(x,y,nearest+offset);
+        const sums=[0,0,0,0], ds=[[0,0,0],[0,0,0]];
+        corners.forEach((i,j)=>{
+          for(let q=0;q<4;q++)sums[ids.getComponent(i,q)]+=mix[j]*w.getComponent(i,q);
+          for(let m=0;m<2;m++)for(let axis=0;axis<3;axis++)
+            ds[m][axis]+=mix[j]*(g.morphAttributes.position?.[m]?.getComponent(i,axis)??0);
+        });
+        bones.push(0,1,2,3);weights.push(...sums);
+        for(let m=0;m<2;m++)morphs[m].push(...ds[m]);
+        return k;
+      }
+      function line(x,y,x2,y2,width,color=2,offset=.0025){
+        const dx=x2-x,dy=y2-y,len=Math.max(.0001,Math.hypot(dx,dy));
+        const nx=-dy*width*.5/len,ny=dx*width*.5/len,n=Math.max(2,Math.ceil(len/.004));
+        let previous=null;
+        for(let i=0;i<=n;i++){
+          const a=x+dx*i/n,b=y+dy*i/n,edge=[at(a+nx,b+ny,offset),at(a-nx,b-ny,offset)];
+          if(previous&&previous.every(k=>k>=0)&&edge.every(k=>k>=0))runs[color].push(previous[0],previous[1],edge[1],previous[0],edge[1],edge[0]);
+          previous=edge;
+        }
+      }
+      const trace=(points,width,color=2,offset=.0025)=>{
+        for(let i=1;i<points.length;i++)line(...points[i-1],...points[i],width,color,offset);
+      };
+      const marks=(x,y,ct,dy,width=.005,color=2)=>{
+        for(let j=0;j<ct;j++)line(x-width/2,y+j*dy,x+width/2,y+j*dy,width,color,.0032);
+      };
+      const pocket=(x,y,width,height,color=2)=>{
+        trace([[x-width/2,y],[x-width/2,y-height],[x+width/2,y-height],[x+width/2,y],[x-width/2,y]],.0022,color);
+      };
+      function done(){
+        if(!runs.some(r=>r.length))return null;
+        const trim=new T.BufferGeometry();
+        trim.setAttribute('position',new T.Float32BufferAttribute(xyz,3));
+        trim.setAttribute('skinIndex',new T.Uint16BufferAttribute(bones,4));
+        trim.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
+        trim.setIndex(runs.flat());trim.computeVertexNormals();
+        trim.morphTargetsRelative=true;
+        trim.morphAttributes.position=morphs.map(row=>new T.Float32BufferAttribute(row,3));
+        let from=0;for(let n=0;n<runs.length;n++)if(runs[n].length){trim.addGroup(from,runs[n].length,n);from+=runs[n].length;}
+        const deco=new T.SkinnedMesh(trim,mesh.material);
+        deco.frustumCulled=false;
+        deco.bind(mesh.skeleton,mesh.bindMatrix.clone());
+        return deco;
+      }
+      return {line,trace,marks,pocket,done};
+    }
+    const patterns={
+      denim:({line,marks,pocket})=>{
+        line(-.053,.745,.052,.745,.0024);
+        line(-.051,.738,.051,.738,.0016,4);
+        line(0,.668,0,.764,.0034,1);
+        marks(.003,.676,6,.012,.004,2);
+        for(const s of [-1,1])pocket(s*.026,.735,.025,.021);
+      },
+      canvas:({line,pocket,marks})=>{
+        line(-.004,.671,-.004,.768,.0052,1);
+        marks(.003,.684,4,.018,.005,2);
+        for(const side of [-1,1]){
+          pocket(side*.031,.703,.029,.029,1);
+          line(side*.021,.701,side*.034,.701,.0017,2);
+        }
+        pocket(-.029,.748,.023,.021,4);
+      },
+      runner:({trace,line})=>{
+        trace([[-.055,.746],[-.035,.742],[0,.729],[.034,.742],[.054,.746]],.0037,2);
+        trace([[-.051,.734],[-.026,.728],[0,.720],[.026,.728],[.051,.734]],.0022,4);
+        line(0,.665,0,.765,.0033,1);
+      },
+      orbiter:({trace,line})=>{
+        trace([[-.046,.754],[-.018,.742],[.023,.742],[.040,.718],[.040,.681]],.0042,2);
+        trace([[-.044,.693],[-.027,.707],[.017,.707]],.0031,3);
+        for(let i=0;i<3;i++)line(-.037+i*.006,.728,-.034+i*.006,.734,.003,4);
+      },
+      haori:({trace,line})=>{
+        trace([[-.036,.773],[-.017,.747],[.006,.719],[.019,.679]],.011,1);
+        trace([[.035,.774],[.005,.744],[-.017,.716],[-.017,.678]],.010,1);
+        trace([[-.034,.767],[-.016,.744],[.008,.715],[.022,.676]],.0023,2);
+        for(const side of [-1,1])for(let i=0;i<3;i++){
+          const x=side*(.034+i*.007);
+          line(x-.004,.687,x,.696,.0013,2);
+          line(x,.696,x+.004,.687,.0013,2);
+        }
+      },
+      happi:({trace,line})=>{
+        trace([[-.034,.767],[-.022,.749],[.003,.727],[.023,.684]],.012,1);
+        trace([[.035,.769],[.019,.747],[-.005,.728]],.011,1);
+        for(let i=0;i<4;i++){
+          const x=-.034+i*.010;
+          trace([[x,.697],[x+.004,.701],[x+.008,.697]],.0019,2);
+        }
+        line(-.044,.680,.044,.680,.0054,2);
+      },
+      rugby:({trace,line})=>{
+        trace([[-.027,.771],[0,.746],[.028,.771]],.0072,2);
+        line(0,.746,0,.720,.0061,1);
+        line(-.037,.745,-.022,.745,.007,4);
+      },
+      breton:({trace,line})=>{
+        trace([[-.051,.768],[-.029,.763],[.028,.763],[.051,.768]],.0052,3);
+        trace([[-.027,.728],[-.027,.714],[-.036,.717]],.0028,4);
+        line(-.032,.723,-.022,.723,.0031,4);
+      },
+      halter:({trace,line})=>{
+        trace([[-.029,.772],[-.016,.747],[.024,.727],[.037,.719]],.0068,2);
+        trace([[.030,.771],[.018,.751],[-.017,.738],[-.035,.723]],.0034,3);
+        line(-.034,.714,.035,.716,.0023,2);
+      },
+      blouse:({trace,line,marks})=>{
+        trace([[-.035,.768],[-.023,.753],[0,.746],[.022,.753],[.036,.769]],.0058,3);
+        for(const x of [-.019,-.012,.012,.019])line(x,.739,x,.686,.0018,2);
+        marks(0,.692,5,.011,.0044,3);
+      },
+      chemise:({trace,line,pocket})=>{
+        trace([[-.033,.768],[-.017,.759],[.015,.759],[.032,.768]],.0058,4);
+        line(-.005,.661,-.005,.758,.0021,2);
+        pocket(.027,.740,.021,.023,2);
+      },
+      quilt:({trace,line,pocket})=>{
+        for(let i=0;i<7;i++){
+          const y=.668+i*.013;
+          trace([[-.049,y+.005],[0,y],[.049,y+.005]],.0018,i%3===0?2:4,.0019);
+        }
+        line(0,.665,0,.775,.0049,1,.0031);
+        for(const side of [-1,1])pocket(side*.028,.698,.024,.026,4);
+      }
+    };
+    function make(type,source,name){
+      const colors=palettes[type],shell=new T.Group();
+      shell.name=name;shell.visible=false;root.add(shell);
+      const mats=colors.map((color,i)=>new T.MeshStandardMaterial({color,side:T.DoubleSide,
+        roughness:type==='halter'?.49:type==='orbiter'?.62:type==='runner'?.78:.92,
+        metalness:type==='halter'?.19:i===2&&type==='orbiter'?.27:.01,
+        ...(type==='orbiter'&&i===2?{emissive:0x226971,emissiveIntensity:.26}:{})
+      }));
+      const donors=source.isSkinnedMesh?[source]:source.children.slice(0,source===tops.jacket?3:1);
+      const drivers=[];
+      donors.forEach((src,i)=>{
+        const mine=remap(src,type,mats,i>0);
+        mine.name=name+(i===0?' / body':' / sleeve');shell.add(mine);
+        if(mine.morphTargetInfluences)drivers.push(mine);
+        if(i===0){
+          const details=stitching(mine);
+          patterns[type](details);
+          const outline=details.done();
+          if(outline){outline.name=name+' / trim';shell.add(outline);drivers.push(outline);}
+        }
+      });
+      const aim=v();
+      shell.updateTension=()=>{
+        if(!shell.visible)return;
+        for(let i=0;i<armTension.length;i++){
+          const [arm,down]=armTension[i];
+          const tension=soften(aim.copy(down).applyQuaternion(arm.quaternion).y,-.61,.42);
+          for(const mesh of drivers)mesh.morphTargetInfluences[i]=tension;
+        }
+      };
+      return shell;
+    }
+    const additions=[
+      ['denimTrucker','denim','インディゴのデニムジャケット',tops.jacket,'street'],
+      ['canvasChore','canvas','キャメルのワークジャケット',tops.jacket,'work'],
+      ['jadeTrack','runner','ジェイドのトラックジャケット',tops.jacket,'sport'],
+      ['orbiterFlight','orbiter','軌道ステーションのフライトジャケット',tops.jacket,'future'],
+      ['asanohaHaori','haori','紺と金の重ね襟・羽織風',tops.jacket,'trad'],
+      ['festivalHappi','happi','朱色の祭り半纏',tops.jacket,'trad'],
+      ['rugbyClub','rugby','クラブカラーのラグビーシャツ',leilaTee,'sport'],
+      ['bretonDeck','breton','マリンボーダーシャツ',leilaTee,'street'],
+      ['silverHalter','halter','銀糸クロスのステージトップ',tops.crop,'night'],
+      ['ivoryPuff','blouse','アイボリーのパフ袖ブラウス',leilaTee,'sweet'],
+      ['atelierShirt','chemise','アトリエのスタンドカラーシャツ',leilaTee,'work'],
+      ['pineQuilt','quilt','パイン色のキルティングトップ',tops.velvetTop,'street']
+    ];
+    for(const [id,type,name,source,collection] of additions)
+      item(id,'top',name,make(type,source,name),palettes[type][0],{collection});
+  }
+
+  // LAB 169: motion-fitted trousers and skirts, not copies of flat billboards.
+  // All use the established joint / skirt-envelope fitting and independent
+  // materials. Fabric markings are baked into mesh colour (no texture loads).
+  {
+    const pantsCatalog=[
+      ['oceanDenim','ブルーデニム・ストレート','street',
+        {main:0x24486a,edge:0x162738,trim:0x8f9ca7,long:true,end:.138,texture:'denim',cuff:.075,flare:.004}],
+      ['charcoalSlacks','チャコールのピンストライプ・スラックス','work',
+        {main:0x353743,edge:0x202129,trim:0x9295a1,long:true,end:.122,texture:'pinstripe',flare:.004}],
+      ['sageCapri','セージのクライミング・カプリ','sport',
+        {main:0x738879,edge:0x32483e,trim:0xc7b45e,long:true,end:.303,cargo:true,texture:'tech',cuff:.11}],
+      ['relayTrack','コバルトのレトロトラックパンツ','sport',
+        {main:0x253484,edge:0x172155,trim:0xf6b850,long:true,end:.155,stripe:true,cuff:.12,texture:'tech'}],
+      ['amberCulottes','琥珀色のリネンキュロット','work',
+        {main:0xc39455,edge:0x80583c,trim:0xe7c8a3,long:true,end:.295,texture:'linen',flare:.017,cuff:.055}],
+      ['photonCycling','フォトン・サイクルショーツ','future',
+        {main:0x142833,edge:0x1c4c56,trim:0x64e7bc,end:.427,texture:'tech',stripe:true,cuff:.14,roughness:.72}],
+      ['indigoShibori','藍染め調の作務ショーツ','trad',
+        {main:0x1c3e58,edge:0x213245,trim:0xa1c4cb,end:.517,texture:'cross',cuff:.13}]
+    ];
+    for(const [id,name,collection,spec] of pantsCatalog)
+      item(id,'bottom',name,pants.trouser({name,...spec}),spec.main,{collection,coverHem:spec.end});
+
+    const skirts=[
+      ['cranberryTartan','クランベリーのタータンプリーツ','street',
+        0x6e233b,0x36262f,0x422539,.197,{pleat:.010,wideHem:true,pattern:'tartan'}],
+      ['ivoryCourt','アイボリーのテニススカート','sport',
+        0xe5e7d7,0x3b635b,0x5d8a78,.143,{pleat:.0096,wideHem:true,pattern:'court'}],
+      ['indigoHakama','藍の袴風プリーツミディ','trad',
+        0x263648,0x333950,0x25384c,.250,{pleat:.0105,below:true,cut:.024,pattern:'hakama'}],
+      ['aubergineWrap','茄子紺の斜めラップスカート','night',
+        0x604052,0x342838,0xae818c,.188,{pleat:.0014,below:true,cut:.010,pattern:'wrap'}]
+    ];
+    for(const [id,name,collection,shade,band,hem,depth,opts] of skirts){
+      const {pattern,...style}=opts;
+      const mesh=newSkirt(id,shade,band,hem,depth,style);
+      const count=mesh.geometry.attributes.position.count, colors=[];
+      const tint=new T.Color();
+      for(let i=0;i<count;i++){
+        const u=(i%96)/96, y=Math.min(1,Math.floor(i/96)/15);
+        let color=0xffffff;
+        if(pattern==='tartan'&&y>.08&&y<.88){
+          const upright=Math.min(Math.abs((u*8)%1-.50),Math.abs((u*8)%1-.12));
+          const across=Math.min(Math.abs((y*4.7)%1-.48),Math.abs((y*4.7)%1-.10));
+          color=upright<.095&&across<.14?0x687983:upright<.105||across<.17?0xbb9aa3:
+            across<.27||upright<.19?0xe6d7bf:0xffffff;
+        }
+        if(pattern==='court'&&y>.73&&y<.88&&Math.abs(y-.80)<.038)color=0x629482;
+        if(pattern==='hakama'&&y>.10&&y<.93){
+          const stroke=(u*12)%1;
+          color=stroke<.13?0x8d9eb3:stroke<.31?0xc0bdad:0xffffff;
+        }
+        if(pattern==='wrap'&&y>.12&&y<.98&&(u<.29||u>.86)){
+          const x=u>.86?u-1:u, seam=.12-.22*y;
+          if(Math.abs(x-seam)<.017)color=0xc7aabd;
+          else if(x<seam&&x>-.17)color=0xd8bdcc;
+        }
+        tint.setHex(color);colors.push(tint.r,tint.g,tint.b);
+      }
+      mesh.geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));
+      for(const material of mesh.material){material.vertexColors=true;material.needsUpdate=true;}
+      item(id,'bottom',name,mesh,shade,{collection});
+    }
+  }
+
+  // LAB 169 sets. Each look uses a tested fit block; the graphics are drawn
+  // in bind space and inherit its skin/morph data rather than floating.
+  {
+    const TAU169=Math.PI*2;
+    const shell169=source=>source.isSkinnedMesh?source:source.children.find(m=>m.isSkinnedMesh);
+    const V169=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
+    const mix169=T.MathUtils.lerp, smooth169=T.MathUtils.smoothstep;
+    const palette169=(color,rough=.84,metal=0)=>new T.MeshStandardMaterial({
+      color,roughness:rough,metalness:metal,side:T.DoubleSide
+    });
+    function bodice169(name,source,colors,livery,rough=.84,extra=null){
+      const body=shell169(source), garb=new T.Group(), slots=colors.map((c,i)=>palette169(c,rough,i===2?.12:0));
+      garb.name=name;garb.visible=false;root.add(garb);
+      const main=body.clone(false), geom=body.geometry.clone();
+      main.visible=true;
+      const p=geom.getAttribute('position'), from=geom.index.array, bins=slots.map(()=>[]);
+      const oldSlots=new Uint8Array(from.length);
+      for(const g of geom.groups)oldSlots.fill(g.materialIndex,g.start,g.start+g.count);
+      for(let i=0;i<from.length;i+=3){
+        const a=from[i],b=from[i+1],c=from[i+2], index=slots.length;
+        const x=(p.getX(a)+p.getX(b)+p.getX(c))/3;
+        const y=(p.getY(a)+p.getY(b)+p.getY(c))/3;
+        const z=(p.getZ(a)+p.getZ(b)+p.getZ(c))/3;
+        bins[Math.max(0,Math.min(index-1,livery(x,y,z,oldSlots[i])))].push(a,b,c);
+      }
+      let n=0;geom.clearGroups();geom.setIndex(bins.flat());
+      bins.forEach((bin,i)=>{if(bin.length)geom.addGroup(n,bin.length,i);n+=bin.length;});
+      main.geometry=geom;main.material=slots;main.name=name+' / cloth';garb.add(main);
+      // Outer long-sleeve shells are separate on the jacket template.
+      if(source===tops.jacket||source===tops.creamCardigan)for(const child of source.children.slice(1,3)){
+        if(!child.isSkinnedMesh)continue;
+        const m=child.clone(false);
+        m.material=[slots[0],slots[1],slots[2],slots[1],slots.at(-1)];
+        garb.add(m);
+      }
+      if(extra)extra({garb,main,geom,p,slots});
+      const drivers=garb.children.filter(m=>m.morphTargetInfluences?.length>0);
+      const arm=['P','N'].map(s=>[groups['upper'+s],groups['elbow'+s].position.clone().normalize()]);
+      const aim=V169();
+      garb.updateTension=()=>{
+        for(const [i,[pivot,direction]] of arm.entries()){
+          const w=smooth169(aim.copy(direction).applyQuaternion(pivot.quaternion).y,-.61,.42);
+          for(const mesh of drivers)mesh.morphTargetInfluences[i]=w;
+        }
+      };
+      return garb;
+    }
+    function patch169({garb,main,geom},pieces){
+      const probe=new T.Mesh(geom,new T.MeshBasicMaterial({side:T.DoubleSide}));
+      const ray=new T.Raycaster(), origin=V169(), toward=V169(0,0,-1);
+      const si=geom.getAttribute('skinIndex'),sw=geom.getAttribute('skinWeight');
+      const morph=geom.morphAttributes.position??[];
+      for(const {xy:design,idx:pattern,color,depth=.0018} of pieces){
+        const xy=[],idx=[];
+        for(let i=0;i<pattern.length;i+=3){
+          const [a,b,c]=pattern.slice(i,i+3).map(k=>design[k]);
+          const nodes=Math.ceil(Math.max(...[[a,b],[a,c],[b,c]].map(([v,w])=>Math.hypot(v[0]-w[0],v[1]-w[1])))/.007);
+          const row=[];
+          for(let j=0;j<=nodes;j++){
+            row[j]=[];
+            for(let k=0;k<=nodes-j;k++){
+              row[j][k]=xy.length;
+              xy.push(a.map((value,n)=>value+(b[n]-value)*j/nodes+(c[n]-value)*k/nodes));
+            }
+          }
+          for(let j=0;j<nodes;j++)for(let k=0;k<nodes-j;k++){
+            idx.push(row[j][k],row[j+1][k],row[j][k+1]);
+            if(k+1<nodes-j)idx.push(row[j+1][k],row[j+1][k+1],row[j][k+1]);
+          }
+        }
+        const xyz=[], indices=[], weights=[], deltas=morph.map(()=>[]);
+        const map=[];
+        for(const [x,y] of xy){
+          ray.set(origin.set(x,y,.165),toward);
+          const hit=ray.intersectObject(probe,false)[0];
+          if(!hit?.face||!hit.barycoord){map.push(-1);continue;}
+          map.push(xyz.length/3);
+          const w=[0,0,0,0], vertices=[hit.face.a,hit.face.b,hit.face.c];
+          xyz.push(x,y,hit.point.z+depth);
+          for(let j=0;j<3;j++){
+            const i=vertices[j], frac=hit.barycoord.getComponent(j);
+            for(let k=0;k<4;k++){
+              const bone=si.getComponent(i,k);
+              if(bone<4)w[bone]+=sw.getComponent(i,k)*frac;
+            }
+          }
+          const total=w.reduce((a,b)=>a+b,0)||1;
+          indices.push(0,1,2,3);weights.push(...w.map(v=>v/total));
+          for(let m=0;m<morph.length;m++)for(let k=0;k<3;k++)
+            deltas[m].push(vertices.reduce((sum,v,i)=>sum+morph[m].getComponent(v,k)*hit.barycoord.getComponent(i),0));
+        }
+        const painted=[];
+        for(let i=0;i<idx.length;i+=3){
+          const tri=idx.slice(i,i+3).map(k=>map[k]);
+          if(tri.every(k=>k>=0))painted.push(...tri);
+        }
+        if(!painted.length)continue;
+        const g=new T.BufferGeometry();
+        g.setAttribute('position',new T.Float32BufferAttribute(xyz,3));g.setIndex(painted);
+        g.setAttribute('skinIndex',new T.Uint16BufferAttribute(indices,4));
+        g.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));
+        if(deltas.length){g.morphTargetsRelative=true;g.morphAttributes.position=deltas.map(d=>new T.Float32BufferAttribute(d,3));}
+        g.computeVertexNormals();
+        const mesh=new T.SkinnedMesh(g,palette169(color,.65));
+        mesh.bind(main.skeleton,main.bindMatrix);mesh.frustumCulled=false;
+        garb.add(mesh);
+      }
+      probe.material.dispose();
+    }
+    function petal169(x,y,r,ry,color,depth=.002){
+      const xy=[[x,y]],idx=[];
+      for(let i=0;i<8;i++){
+        const t=TAU169*i/8;
+        xy.push([x+r*Math.cos(t),y+ry*Math.sin(t)]);
+        idx.push(0,i+1,(i+1)%8+1);
+      }
+      return {xy,idx,color,depth};
+    }
+    const outfit169=({id,name,source,colors,rule,collection,skirt,pant,rough,detail})=>{
+      const top=bodice169(name,source,colors,rule,rough,detail);
+      let bottom,coverHem;
+      if(pant){
+        coverHem=pant.end;
+        bottom=pants.trouser({name:name+' / trousers',main:colors[0],edge:colors[1],trim:colors[2],...pant});
+        bottom.updateDrape=()=>{};
+      }else{
+        const [depth,color,band,hem,profile={}]=skirt;
+        bottom=newSkirt(id,color,band,hem,depth,profile);
+      }
+      item(id,'set',name,top,colors[0],{collection,bottom,coverHem});
+    };
+    const front169=z=>z>.046;
+    const scoop169=sets.noirTop, tank169=sets.dressTop, tee169=leilaTee, jacket169=tops.jacket;
+    const curved169=(width,hem,x,y)=>Math.abs(x-(y-.730)*.22)<width && y<hem;
+    const bow169=({garb,main,geom,p,slots})=>{
+      const pieces=[
+        {xy:[[-.023,.750],[.023,.750],[.016,.737],[0,.718],[-.016,.737]],idx:[0,1,4,1,2,4,4,2,3],color:0xf3e7df,depth:.0020},
+        {xy:[[-.024,.741],[-.022,.752],[0,.746],[0,.741],[.022,.752],[.024,.741]],idx:[0,1,2,0,2,3,2,4,5,2,5,3],color:0x321e42,depth:.0052},
+        petal169(0,.745,.005,.005,0xb48dc9,.0061),
+        petal169(0,.724,.0024,.0024,0x704785,.0043),
+        petal169(0,.713,.0024,.0024,0x704785,.0043),
+      ];
+      patch169({garb,main,geom},pieces);
+      // Detachable costume accessories. The ears are a separate wearable.
+      const cuffs=[], cuffWhite=palette169(0xf3e7df,.77), cuffBlack=palette169(0x38203d,.62);
+      for(const s of ['P','N']){
+        const bone=groups['hand'+s], cuff=new T.Group();
+        const band=new T.Mesh(new T.CylinderGeometry(.022,.020,.026,18,1,true),cuffWhite);
+        band.castShadow=true;cuff.add(band);
+        const b=new T.Mesh(new T.SphereGeometry(.0042,8,5),cuffBlack);
+        b.position.set(0,0,.0225);cuff.add(b);
+        const toElbow=bone.position.clone().negate().normalize();
+        cuff.position.copy(toElbow).multiplyScalar(.014);
+        cuff.quaternion.setFromUnitVectors(V169(0,1,0),toElbow);
+        cuff.visible=false;bone.add(cuff);cuffs.push(cuff);
+      }
+      const cloud=new T.Mesh(new T.IcosahedronGeometry(.024,1),cuffWhite);
+      cloud.name='Bunny costume / powder-puff tail';
+      cloud.position.set(0,.008,-.058);
+      cloud.scale.set(1,.93,.86);cloud.castShadow=true;cloud.visible=false;groups.pelvis.add(cloud);
+      let dressed=false;
+      Object.defineProperty(garb,'visible',{configurable:true,enumerable:true,get:()=>dressed,
+        set:on=>{dressed=!!on;cloud.visible=dressed;for(const cuff of cuffs)cuff.visible=dressed;}});
+    };
+    outfit169({id:'bunnySuit',name:'ベルベットのバニースーツ',source:scoop169,
+      colors:[0x202033,0x392644,0xd1a8de],collection:'night',rough:.62,
+      rule:(x,y,z)=> y<.661?1:front169(z)&&Math.abs(Math.abs(x)-(.023+(y-.674)*.24))<.0033?2:0,
+      pant:{end:.523,roughness:.66,cuff:.075},detail:bow169});
+    outfit169({id:'aeroTracksuit',name:'エアロ・トラックスーツ',source:jacket169,
+      colors:[0x2b4875,0x141d35,0xef8657,0xedebe5],collection:'sport',
+      rule:(x,y,z,m)=> m===1?1:front169(z)&&Math.abs(x)<.0039&&y>.664?2:
+        (y>.744&&Math.abs(x)>.031)||(!front169(z)&&y>.754)?3:0,
+      pant:{end:.142,long:true,stripe:true,cuff:.10,texture:'tech'}});
+    outfit169({id:'rinkCircuit',name:'シロップ色のスケートドレス',source:tank169,
+      colors:[0x2b8098,0x175367,0xe2daca],collection:'sport',rough:.57,
+      rule:(x,y,z)=>y<.664?1:front169(z)&&Math.abs(y-.707-.13*x-.10*Math.abs(x))<.005?2:0,
+      skirt:[.148,0x398da2,0x175367,0xdde7de,{x:.014,z:.008,wideHem:true,wave:1.25,pleat:.0025}]});
+    outfit169({id:'mossExplorer',name:'モスグリーンの探検服',source:jacket169,
+      colors:[0x556341,0x353e29,0xc4a169,0xa98e61],collection:'street',
+      rule:(x,y,z,m)=>m===1||y<.668?1:front169(z)&&Math.abs(x)<.004?2:
+        front169(z)&&Math.abs(Math.abs(x)-.035)<.014&&y>.696&&y<.721?3:0,
+      pant:{end:.344,stripe:false,cargo:true,cuff:.09,texture:'linen',edge:0x414b34}});
+    outfit169({id:'moonUtility',name:'月面整備ユニフォーム',source:jacket169,
+      colors:[0xafc0c4,0x485560,0xff9368,0x718995],collection:'future',rough:.65,
+      rule:(x,y,z,m)=>y<.671||y>.772?1:front169(z)&&Math.abs(x)<.0039?2:
+        y>.728&&Math.abs(x)>.030||y<.697&&Math.abs(x)>.030?3:0,
+      pant:{end:.133,long:true,cargo:true,texture:'tech',stripe:true,cuff:.12,metalness:.08},
+      detail:s=>patch169(s,[petal169(-.030,.731,.010,.006,0xee8954),petal169(-.030,.731,.005,.004,0xf7e2a5,.003)])});
+    outfit169({id:'neonPilot',name:'ネオンピンクのフライトスーツ',source:tee169,
+      colors:[0x36254b,0x20172e,0xf77cc4,0xa885d6],collection:'future',rough:.72,
+      rule:(x,y,z,m)=> m===1?1:front169(z)&&Math.abs(y-.710-.59*x)<.008?2:
+        y>.740&&Math.abs(x)>.021?3:0,
+      pant:{end:.157,long:true,texture:'tech',stripe:true,roughness:.73}});
+    outfit169({id:'teaHouse',name:'抹茶色の茶房着',source:jacket169,
+      colors:[0x6c7d58,0x3f5034,0xcd9f60,0x9b6650],collection:'trad',
+      rule:(x,y,z,m)=>y<.671?3:front169(z)&&Math.abs(x-(.754-y)*.82+.029)<.006?2:
+        front169(z)&&x>(.754-y)*.82-.029?0:m===1?1:3,
+      skirt:[.242,0x596a47,0x946353,0xd6b783,{below:true,x:.018,z:.009,pleat:.012,cut:.046}]});
+    outfit169({id:'marineYukata',name:'藍と波紋の浴衣風セット',source:jacket169,
+      colors:[0x384763,0x273349,0xeee0c7,0xb0656b,0x94bdd0],collection:'trad',
+      rule:(x,y,z)=>y<.673?3:front169(z)&&Math.abs(x-(.752-y)*.82+.033)<.005?2:
+        y<.729&&Math.abs(y-.691-.010*Math.sin(108*x))<.004?4:0,
+      skirt:[.390,0x3c4c67,0xbc6d78,0x879bb2,{below:true,x:.027,z:.015,pleat:.002,cut:.068,wave:.77}]});
+    outfit169({id:'cedarAcademy',name:'シダー・アカデミーの制服',source:jacket169,
+      colors:[0x573f36,0x322830,0xcab88e,0xefe7cc],collection:'work',
+      rule:(x,y,z,m)=>m===1?1:front169(z)&&Math.abs(x)<.0034&&y<.742?2:
+        front169(z)&&y>.709&&Math.abs(x)<Math.max(.011,(y-.708)*.65)?3:0,
+      skirt:[.193,0x786058,0x352f35,0xb0936a,{wideHem:true,pleat:.012}],
+      detail:s=>patch169(s,[petal169(.038,.730,.007,.0065,0xb79c61),petal169(.038,.730,.0034,.0038,0x745e43,.0032)])});
+    outfit169({id:'pastryApron',name:'レモン菓子店のエプロンドレス',source:tee169,
+      colors:[0x8d785d,0xf3e6be,0xe8876d,0xd8b56c],collection:'work',
+      rule:(x,y,z,m)=>front169(z)&&y>.689&&y<.753&&Math.abs(x)<.039-(y-.695)*.29?1:
+        front169(z)&&(Math.abs(Math.abs(x)-.024)<.004&&y>.718||y<.680)?2:m===1?3:0,
+      skirt:[.221,0xcaa46f,0xbf735b,0xf8e7c1,{wideHem:true,below:true,cut:.029,pleat:.003,wave:.86}],
+      detail:s=>patch169(s,[petal169(.020,.713,.007,.004,0xdec499),petal169(.020,.713,.003,.0025,0xbf735b,.003)])});
+    outfit169({id:'silverMasquerade',name:'銀枝のマスカレードドレス',source:scoop169,
+      colors:[0x325a67,0x213a4e,0xe5caa4,0x8bc5c8],collection:'night',rough:.51,
+      rule:(x,y,z)=>y<.662?1:front169(z)&&Math.abs(y-.734-x*.61)<.005?2:
+        y<.722&&curved169(.020,.732,x,y)?3:0,
+      skirt:[.341,0x2f5965,0x213a4e,0xc0aaa0,{below:true,x:.027,z:.016,pleat:.002,wave:1.26,cut:.052}],
+      detail:s=>patch169(s,[petal169(.019,.731,.006,.010,0xdcc5a5),petal169(.019,.731,.0023,.0054,0x58a9ac,.003)])});
+    outfit169({id:'lavenderSleep',name:'ラベンダーのパジャマ',source:jacket169,
+      colors:[0xa495bf,0x78678f,0xf6e9db,0xe7d3ec],collection:'sweet',
+      rule:(x,y,z,m)=>m===1?1:front169(z)&&(Math.abs(x)<.0038||Math.abs(y-.701-1.5*x)<.003&&x>.013&&x<.043)?2:
+        y>.749||m===4?3:0,
+      pant:{end:.168,long:true,flare:.005,texture:'check',stripe:false,cuff:.09,roughness:.96}});
+    outfit169({id:'brickBoiler',name:'煉瓦色のボイラースーツ',source:jacket169,
+      colors:[0x9a5f4c,0x5f3e3a,0xe3bc86,0xc7876a],collection:'street',
+      rule:(x,y,z,m)=>y<.668?1:front169(z)&&Math.abs(x)<.0032?2:
+        front169(z)&&Math.abs(Math.abs(x)-.033)<.016&&y>.696&&y<.732?3:0,
+      pant:{end:.135,long:true,cargo:true,texture:'denim',cuff:.08}});
+  }
+
+
+  // Keep one actual picking anchor per garment, but draw the shelf stacks
+  // in two batches instead of adding more than a hundred separate draw calls.
+  const foldedRows=Object.values(registry).filter(row=>!row.fold);
+  const folds=new T.InstancedMesh(cube,mat(0xffffff,.92),foldedRows.length*2);
+  folds.name='クローゼットの衣装棚';folds.frustumCulled=false;
+  wardrobeCabinet.add(folds);
+  const foldMatrix=new T.Matrix4(), foldColor=new T.Color();
+  const putFold=(row,visible)=>{
+    const i=row.foldIndex*2, p=row.fold.position;
+    foldMatrix.makeScale(visible?.091:0,visible?.015:0,visible?.113:0);
+    foldMatrix.setPosition(p.x,p.y,p.z);folds.setMatrixAt(i,foldMatrix);
+    foldMatrix.makeScale(visible?.088:0,visible?.004:0,visible?.012:0);
+    foldMatrix.setPosition(p.x,p.y+.008,p.z+.043);folds.setMatrixAt(i+1,foldMatrix);
+  };
+  foldedRows.forEach((row,n)=>{
+    const g=new T.Group();
     g.name='クローゼット / '+row.name;
     wardrobeCabinet.add(g);
-    g.position.set(-.258+(n%3)*.109,.612-Math.floor((n%12)/3)*.105+(n>=12?.026:0),.060);
-    const fabric=mat(row.shade,.93), crease=mat(new T.Color(row.shade).multiplyScalar(.78).getHex(),.95);
-    block(g,fabric,0,0,0,.094,.020,.119);
-    block(g,crease,0,.012,.046,.090,.006,.014);
-    row.fold=g;
-  }
+    g.position.set(-.258+(n%3)*.109,.613-Math.floor(n/12)*.072+Math.floor((n%12)/3)*.017,.063);
+    row.fold=g;row.foldIndex=n;
+    foldColor.setHex(row.shade);folds.setColorAt(n*2,foldColor);
+    folds.setColorAt(n*2+1,foldColor.multiplyScalar(.77));
+  });
   const shelves=mat(0x58473a,.95);
-  for(let i=0;i<4;i++)block(wardrobeCabinet,shelves,-.175,.597-i*.105,0,.346,.012,.333);
+  for(let i=0;i<5;i++)block(wardrobeCabinet,shelves,-.175,.600-i*.072,0,.346,.012,.333);
   const keys=['top','bottom','set'], storageKey='leila.wardrobe.v2';
   const empty=()=>({top:'',bottom:'',set:''});
   const available=(id,date=new Date())=>!registry[id]?.seasonal||(date.getMonth()===11&&date.getDate()>=20&&date.getDate()<=28);
@@ -6074,17 +6743,19 @@ const wardrobe109=(()=>{
   for(const prefix of ['wardrobe','check']){
     for(const which of keys){
       const select=$(prefix+'-'+which);
-      const special=document.createElement('optgroup');special.label='お楽しみ';
-      const night=document.createElement('optgroup');night.label='夜のおめかし';
-      const sweet=document.createElement('optgroup');sweet.label='リボンと淡い色';
+      const groupsByStyle=Object.fromEntries(Object.entries({
+        street:'普段着・ストリート',sport:'スポーツ・アウトドア',work:'フォーマル・仕事着',
+        trad:'和・クラシック',future:'SF・コスチューム',sweet:'リボンと淡い色',night:'夜のおめかし',
+        special:'お楽しみ'
+      }).map(([key,label])=>{const group=document.createElement('optgroup');group.label=label;return [key,group];}));
       const base=[];const seasonal=[];
       for(const row of Object.values(registry).filter(v=>v.slot===which)){
         const opt=new Option(row.name,row.id);
         if(row.seasonal)seasonal.push(opt);
-        else (row.collection==='night'?night:row.collection==='sweet'?sweet:row.surprise?special:select).append(opt);
+        else (groupsByStyle[row.collection]??(row.surprise?groupsByStyle.special:select)).append(opt);
         base.push(opt);
       }
-      for(const group of [special,night,sweet])if(group.children.length)select.append(group);
+      for(const group of Object.values(groupsByStyle))if(group.children.length)select.append(group);
       for(const node of seasonal)select.append(node);
       controls.push({prefix,which,select,base});
       select.disabled=false;
@@ -6114,13 +6785,18 @@ const wardrobe109=(()=>{
       }
       select.value=current[which];
     }
-    if(registry.santa.fold)registry.santa.fold.visible=available('santa')&&current.set!=='santa';
+    if(registry.santa.fold){
+      const show=available('santa')&&current.set!=='santa';
+      registry.santa.fold.visible=show;
+      putFold(registry.santa,show);folds.instanceMatrix.needsUpdate=true;
+    }
     $('wardrobe-readout').textContent=summary(current)||'装甲のみ';
     $('wardrobe-season').textContent=available('santa')?'期間限定のサンタ衣装が並んでいます。':'';
   }
   function apply(outfit){
     current=normalize(outfit,true);
-    pants.cover(current.bottom);
+    const lower=current.bottom||current.set;
+    pants.cover(lower,registry[lower]?.coverHem);
     visible.clear();
     for(const row of Object.values(registry)){
       const wearing=current[row.slot]===row.id;
@@ -6130,9 +6806,13 @@ const wardrobe109=(()=>{
         row.mesh.visible=wearing;
         if(row.bottom)row.bottom.visible=wearing;
       }
-      if(row.fold)row.fold.visible=!wearing&&(!row.seasonal||available(row.id));
+      if(row.fold){
+        row.fold.visible=!wearing&&(!row.seasonal||available(row.id));
+        if(row.foldIndex!==undefined)putFold(row,row.fold.visible);
+      }
       if(wearing)visible.add(row);
     }
+    folds.instanceMatrix.needsUpdate=true;
     try{localStorage.setItem(storageKey,JSON.stringify(current));}catch{}
     sync();
   }
@@ -6165,6 +6845,21 @@ const wardrobe109=(()=>{
       const choices=Object.values(registry).filter(x=>x.slot===k&&x.id!==current[k]);
       const choice=choices[Math.floor(Math.random()*choices.length)].id;
       return slot(current,k,Math.random()<.19&&current[k]?'':choice);
+    }
+    // Browse entire genres rather than locking the new outfits behind manual menus.
+    if(roll<.49){
+      const mood=currentMood(), night=lastWorldMinute>=18*60;
+      const styles=weightedChoice([
+        ['street',7],['sport',mood==='playful'?10:4],['work',4],['trad',4],['future',mood==='playful'?7:4],
+        ['sweet',mood==='affectionate'?10:5],['night',night?10:3]
+      ]);
+      const choices=Object.values(registry).filter(row=>row.collection===styles&&available(row.id));
+      const sets=choices.filter(row=>row.slot==='set'&&row.id!==current.set);
+      const top=choices.filter(row=>row.slot==='top'), bottom=choices.filter(row=>row.slot==='bottom');
+      const choose=a=>a[Math.floor(Math.random()*a.length)]?.id??'';
+      const look=sets.length&&(!(top.length&&bottom.length)||Math.random()<.52)?
+        {top:'',bottom:'',set:choose(sets)}:{top:choose(top),bottom:choose(bottom),set:''};
+      if(summary(look)&&signature(look)!==signature(current))return look;
     }
     const choices=[
       [{top:'tee',bottom:'midi',set:''},5],
@@ -6210,7 +6905,8 @@ const wardrobe109=(()=>{
       else{
         row.mesh.updateTension?.(dt);
         row.mesh.updateDrape?.(dt,rear);
-        row.bottom?.updateDrape(dt,rear);
+        row.bottom?.updateTension?.(dt);
+        row.bottom?.updateDrape?.(dt,rear);
       }
     }
     const date=new Date(),day=date.getFullYear()*400+date.getMonth()*32+date.getDate();
@@ -9640,6 +10336,20 @@ const sofaTarget = {name:'居住区のソファ',point:sofaDock,lookAt:V(0,0,0)}
 const bookTarget = {name:'サイドテーブルの本',point:sofaDock,lookAt:bookHome};
 const mirrorTarget = {name:'姿見',point:V(-4.77,0,-2.775),lookAt:dressingMirror.getWorldPosition(V(0,0,0)),heading:-Math.PI/2};
 const accessoryTarget = {name:'アクセサリーケース',point:V(-5.18,0,-2.115),lookAt:accessoryCase.localToWorld(V(0,.06,.045)),heading:-Math.PI/2};
+{
+  const select=$('wardrobe-accessory');
+  accessories.forEach((item,i)=>select.add(new Option(item.name,item.key??String(i))));
+  select.disabled=false;
+  select.onchange=()=>{
+    const value=select.value;
+    const item=accessories.find((el,i)=>(el.key??String(i))===value)??null;
+    select.value=wornAccessory?.key??(wornAccessory?String(accessories.indexOf(wornAccessory)):'');
+    if(item===wornAccessory)return;
+    if(mode!=='roam')beginRoam();
+    if(item)requestDestination({...accessoryTarget,kind:'accessoryChoice',item},true);
+    else {wearAccessory(null);requestDestination(mirrorTarget,true);}
+  };
+}
 const wardrobeTarget={kind:'wardrobe',name:'クローゼット',
   point:wardrobeCabinet.localToWorld(V(-.11,0,.68)).setY(0),
   lookAt:wardrobeCabinet.localToWorld(V(-.11,.73,.12)),heading:-Math.PI/2};
@@ -10754,11 +11464,11 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
   } else if(target.kind==='wardrobe'){
     visit.push(routeTurn(target.heading,'クローゼットの前に立っています'),
       ...wardrobeStages(target));
-  } else if (target === mirrorTarget || target.kind==='wardrobeMirror' || target === accessoryTarget) {
+  } else if (target === mirrorTarget || target.kind==='wardrobeMirror' || target === accessoryTarget || target.kind==='accessoryChoice') {
     visit.push(routeTurn(target.heading,message));
-    if (target === accessoryTarget) {
+    if (target === accessoryTarget || target.kind==='accessoryChoice') {
       const choices = accessories.filter(item => item !== wornAccessory);
-      const item = choices[Math.floor(Math.random()*choices.length)];
+      const item = target.item??choices[Math.floor(Math.random()*choices.length)];
       visit.push({type:'accessory',time:2.55,message:item.name+'に付け替えています',item});
     }
   } else if (target.shade132) {
@@ -12203,8 +12913,16 @@ function changeAtWardrobe(stage,t){
   if(reach+close>0)wardrobeHand('N',wardrobeGrip.getWorldPosition(V(0,0,0)),Math.max(reach,close));
   if(change>0){
     const atShelf=folded.getWorldPosition(V(0,0,0)).add(V(.045,.022,0));
-    const body=bottom?groups.pelvis.localToWorld(V(-.045,.048,.079)):groups.chest.localToWorld(V(0,.018,.112));
     const move=stage.on?rearRamp(t,.43,.62):1-rearRamp(t,.57,.76);
+    const low=rearRamp(.56-atShelf.y,0,.23)*change*(1-move);
+    if(low>.001){
+      if(!stage.wardrobeFeet)stage.wardrobeFeet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0)).setY(standingAnkleHeights[side])}));
+      groups.pelvis.position.y-=.085*low;
+      groups.abdomen.rotateX(.36*low);groups.chest.rotateX(.18*low);
+      lowerPelvisForFeet(stage.wardrobeFeet);
+      for(const {side,ankle} of stage.wardrobeFeet)solveLeg(side,ankle,root.rotation.y);
+    }
+    const body=bottom?groups.pelvis.localToWorld(V(-.045,.048,.079)):groups.chest.localToWorld(V(0,.018,.112));
     wardrobeHand('P',atShelf.lerp(body,move),change);
     const second=bottom?groups.pelvis.localToWorld(V(.049,.052,.067)):groups.chest.localToWorld(V(.046,.017,.104));
     wardrobeHand('N',second,.62*change*Math.sin(Math.PI*move*.88));
@@ -12667,7 +13385,7 @@ function arriveAtDestination() {
     $('destination').textContent = '本を読んでいます';
     return;
   }
-  if (roam.target === accessoryTarget) {
+  if (roam.target === accessoryTarget||roam.target.kind==='accessoryChoice') {
     enterQuietRest('linger','アクセサリーケースの前にいます',4);
     startDestination(mirrorTarget);
     return;
