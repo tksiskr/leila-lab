@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 161｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 162｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 161</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 162</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -13928,15 +13928,15 @@ function shepherdTouchSurface(model){
   const p=model.geometry.attributes.position, ix=model.geometry.index;
   const verts=[V(0,0,0),V(0,0,0),V(0,0,0)];
   const ray=new T.Ray(V(0,1,0),V(0,-1,0)),hit=V(0,0,0);
-  function bind(x,z,minY,maxY){
-    ray.origin.set(x,maxY,z);ray.direction.set(0,-1,0);
-    let sample=null,best=minY;
+  function bind(x,z,minY,maxY,under=false){
+    ray.origin.set(x,under?minY:maxY,z);ray.direction.set(0,under?1:-1,0);
+    let sample=null,best=under?maxY:minY;
     for(let i=0;i<(ix?.count??p.count);i+=3){
       const a=ix?ix.getX(i):i,b=ix?ix.getX(i+1):i+1,c=ix?ix.getX(i+2):i+2;
       if(x<Math.min(p.getX(a),p.getX(b),p.getX(c))||x>Math.max(p.getX(a),p.getX(b),p.getX(c))||
          z<Math.min(p.getZ(a),p.getZ(b),p.getZ(c))||z>Math.max(p.getZ(a),p.getZ(b),p.getZ(c)))continue;
       verts[0].fromBufferAttribute(p,a);verts[1].fromBufferAttribute(p,b);verts[2].fromBufferAttribute(p,c);
-      if(!ray.intersectTriangle(...verts,false,hit)||hit.y<=best)continue;
+      if(!ray.intersectTriangle(...verts,false,hit)||(under?hit.y>=best:hit.y<=best))continue;
       best=hit.y;sample={ids:[a,b,c],weights:T.Triangle.getBarycoord(hit,...verts,V(0,0,0))};
     }
     return sample;
@@ -13956,7 +13956,7 @@ function shepherdTouchSurface(model){
     return best;
   }
   const rows={
-    cozyFur:[bindSide(.402,-.041,1),bindSide(.392,-.014,1),bindSide(.380,.019,1)],
+    cozyFur:[bind(-.051,-.011,.22,.45,true),bind(-.050,.016,.22,.45,true),bind(-.047,.046,.22,.45,true)],
     flankNear:[bindSide(.42,-.324,1),bindSide(.474,-.307,1),bindSide(.512,-.300,1)],
     flankFar:[bindSide(.42,-.324,-1),bindSide(.474,-.307,-1),bindSide(.512,-.300,-1)],
     edgeNear:[bindSide(.379,.172,1),bindSide(.402,.178,1),bindSide(.418,.193,1)],
@@ -14352,8 +14352,10 @@ function createShepherd() {
           movedSkull.copy(neckRest).applyQuaternion(joint.quaternion).add(joint.position);
           const cozy=d.tumble.cozyGaze;
           if(cozy?.weight>.001){
-            joint.position.y+=.037*cozy.weight;
-            movedSkull.y+=.112*cozy.weight;movedSkull.z-=.027*cozy.weight;
+            // Raise the entire neck arc, so the eyes can look over the belly.
+            const lift=rearRamp(cozy.weight,0,.94);
+            joint.position.y+=.084*lift;
+            movedSkull.y+=.219*lift;movedSkull.z-=.060*lift;
           }
           return;
         }
@@ -14502,7 +14504,7 @@ function createShepherd() {
             const pitch=clamp(-Math.atan2(toward.y,Math.hypot(toward.x,toward.z)),-.36,.42);
             // Keep the upside-down head supported by the raised neck.
             const look=new T.Quaternion().setFromEuler(new T.Euler(pitch,yaw,Math.PI,'YXZ'));
-            joint.quaternion.slerp(look,cozy.weight*.86);
+            joint.quaternion.slerp(look,rearRamp(cozy.weight,0,.92)*.985);
           }
           return;
         }
@@ -14608,7 +14610,8 @@ function createShepherd() {
         const belly=d.tumble?.bellyUp;
         if(belly){
           const wave=Math.sin(belly.motion*15.9+.23*Math.sin(belly.motion*3.1));
-          looseTail.set(.04+.46*belly.roll, ( .22+.55*belly.joy)*wave,.065*wave,'YXZ');
+          looseTail.set(.04+(belly.quiet?1.16:.46)*belly.roll,
+            (belly.quiet?.075:.22+.55*belly.joy)*wave,.065*wave,'YXZ');
           joint.position.copy(bindTail).applyQuaternion(body.quaternion).add(body.position);
           joint.quaternion.copy(body.quaternion).multiply(tailLocal.setFromEuler(looseTail));
           return;
@@ -14670,7 +14673,7 @@ function createShepherd() {
           const belly=d.tumble?.bellyUp;
           if(belly){
             const pedal=Math.sin(belly.motion*(front?11.7:10.6)+index*1.64)*(belly.quiet?.15:1);
-            const tucked=V(hipRest.x+s*(front?.124:.074),(front?.325:.197)+(belly.quiet?.038:0),
+            const tucked=V(hipRest.x+s*(front?.124:belly.quiet?.186:.074),(front?.325:.197)+(belly.quiet?.038:0),
               hipRest.z+(front?-.043:-.037)+(front?.032:.049)*pedal);
             tucked.y+=(front?.031:.067)*pedal+(front?0:.078*belly.press-.053*belly.tryLift);
             ankle.lerp(tucked,belly.roll).applyQuaternion(body.quaternion).add(body.position);
@@ -14841,7 +14844,7 @@ function createShepherd() {
       d.bellyChestPoint=(side,stroke=0)=>{
         const bodyJoint=bones[bodyIndex];
         if(side==='waist')return bodyJoint.localToWorld(V(-.040,.354,-.158));
-        if(side==='cozyFur')return d.touchSurface?.('cozyFur',.57+stroke*.78)?.point??bodyJoint.localToWorld(V(.149,.393,.020+stroke*.038));
+        if(side==='cozyFur')return d.touchSurface?.('cozyFur',.57+stroke*.78)?.point??bodyJoint.localToWorld(V(-.050,.322,.016+stroke*.032));
         if(!side){
           return bodyJoint.localToWorld(V(-.068+stroke*.012,.301+stroke*.010,.174+stroke*.014));
         }
@@ -18758,16 +18761,17 @@ const dogTumble=(()=>{
     const h=groups.pelvis;
     a.cozy=true;a.dogYaw=a.yaw;
     a.start=local(a,.26,0,1.00);
-    a.finish=local(a,.247,0,.352);
+    // Keep Layla lengthwise on the tail line; only the dog enters from the side.
+    a.finish=local(a,.001,0,.379);
     settleStandingFeet();a.entry=captureSofaPose();
     a.kneel=preparePose(a,false,false);
     preparePose(a,false,true);
-    h.position.set(-.015,.116,.065);
-    orientWorld(h,angle(a,1.48,0,.10));
-    orientWorld(groups.abdomen,angle(a,1.49,.045,.15));
-    orientWorld(groups.chest,angle(a,1.50,.12,.18));
-    orientWorld(groups.neck,angle(a,1.37,.22,.13));
-    orientWorld(groups.head,angle(a,.40,1.12,.18));
+    h.position.set(0,.134,.110);
+    orientWorld(h,angle(a,1.39));
+    orientWorld(groups.abdomen,angle(a,1.17,0,.025));
+    orientWorld(groups.chest,angle(a,.98,0,.025));
+    orientWorld(groups.neck,angle(a,1.11,0,.02));
+    orientWorld(groups.head,angle(a,.49,.02,.17));
     for(const side of sofaSides){
       const sg=side==='P'?1:-1;
       const th=groups['thigh'+side],kn=groups['knee'+side];
@@ -18775,18 +18779,18 @@ const dogTumble=(()=>{
       aim(kn,base['foot'+side],local(a,sg*.104,.071,-.30+(sg>0?.025:0)).sub(kn.getWorldPosition(V(0,0,0))));
       orientWorld(groups['foot'+side],angle(a,-.89,sg*.1));
       const u=groups['upper'+side],e=groups['elbow'+side];
-      aim(u,base['elbow'+side],local(a,sg*.121,.051,.245).sub(u.getWorldPosition(V(0,0,0))));
-      aim(e,base['hand'+side],local(a,sg*.145,.037,.438).sub(e.getWorldPosition(V(0,0,0))));
+      aim(u,base['elbow'+side],local(a,sg*.149,.051,.255).sub(u.getWorldPosition(V(0,0,0))));
+      aim(e,base['hand'+side],local(a,sg*.172,.037,.411).sub(e.getWorldPosition(V(0,0,0))));
       orientWorld(groups['hand'+side],orientPalm(side,V(0,0,1).applyAxisAngle(up,a.yaw),down));
     }
     safeFloor(1);a.floor=captureSofaPose();standing(a);
-    if(a.manual||watch)dogFollowCamera(local(a,.105,.26,.50),V(-1.38,1.00,1.45).applyAxisAngle(up,a.yaw));
+    if(a.manual||watch)dogFollowCamera(local(a,.02,.28,.43),V(-1.38,1.02,1.50).applyAxisAngle(up,a.yaw));
     setNote('犬がゴロンとお腹を見せ、レイラも隣に寝転びます');
   }
   function cozyLook(a,target,weight,tilt=0){
     const h=groups.head, delta=target.clone().sub(h.getWorldPosition(V(0,0,0)));
     const flat=Math.hypot(delta.x,delta.z);
-    const yaw=clamp(headingDelta(a.yaw,Math.atan2(delta.x,delta.z)),.10,1.64);
+    const yaw=clamp(headingDelta(a.yaw,Math.atan2(delta.x,delta.z)),-1.12,1.12);
     orientWorld(h,angle(a,clamp(-Math.atan2(delta.y,flat),-.52,.67),yaw,tilt),weight);
   }
   function cozyFrame(a,dt){
@@ -18809,8 +18813,8 @@ const dogTumble=(()=>{
     blendSofaPose(a.kneel,kneel);blendSofaPose(a.floor,settled);
     if(settled>.001){
       const snuggle=settled*(1-greeting);
-      orientWorld(groups.abdomen,angle(a,1.49,.32,.15),snuggle);
-      orientWorld(groups.chest,angle(a,1.50,.46,.18),snuggle);
+      orientWorld(groups.abdomen,angle(a,1.17,0,.030),snuggle);
+      orientWorld(groups.chest,angle(a,1.02,0,.031),snuggle);
       groups.chest.rotateZ((.024*Math.sin(t*2.9)+.045*laugh)*settled);
       groups.abdomen.rotateY(.027*Math.sin(t*2.9)*settled);
       groups.neck.rotateX(-greeting*.25);
@@ -18855,11 +18859,14 @@ const dogTumble=(()=>{
       if(peek<.90){
         const toward=h.localToWorld(cheek).sub(fur);
         const x=V(1,0,0).applyAxisAngle(up,a.yaw);
-        const nudge=clamp(-toward.dot(x)-.008,-.018,.067)*m.settled*(1-peek);
+        const nudge=clamp(-toward.dot(x),-.024,.024)*m.settled*(1-peek);
         const along=V(0,0,1).applyAxisAngle(up,a.yaw);
         const tuck=m.settled*(1-peek);
-        shift(groups.pelvis,x.multiplyScalar(nudge).addScaledVector(along,clamp(-toward.dot(along)-.010,-.028,.050)*tuck));
-        safeFloor(m.settled*.65);
+        // Move toward the mapped coat, not toward the legs or below the floor.
+        const forward=clamp(-toward.dot(along)-.008,-.055,.066);
+        const lift=clamp(-toward.y+.012,-.029,.068);
+        shift(groups.pelvis,x.multiplyScalar(nudge).addScaledVector(along,forward*tuck).add(V(0,lift*tuck,0)));
+        safeFloor(0);
         cozyLook(a,wanted,m.settled,.12-.14*peek+.04*m.laugh);
       }
     }
