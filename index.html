@@ -302,6 +302,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <h2 id="lab121HomeTitle">南窓の園芸・点検台</h2>
       <button id="home121Plant" type="button">園芸台を試す</button>
       <button id="home121Service" type="button">セルフ点検台を試す</button>
+      <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
       <p>園芸は時刻と直前の作業で変化。点検は手首の検査と動作記録を切り替えます。</p>
     </div>
     <div class="leilaCard leilaDevWardrobe" role="group" aria-labelledby="devWardrobeTitle">
@@ -1365,7 +1366,7 @@ const home121=(()=>{
   for(let i=0;i<3;i++){
     const x=-.68+i*.150,z=i===1?-.082:-.134,k=new T.Group();k.position.set(x,.611,z);g.add(k);
     c(k,[clay,mineral,mat(0xaa8966)][i],0,.038,0,.075,.051,.076);
-    c(k,soil,0,.077,0,.066,.066,.004);
+    const soilMesh=c(k,soil,0,.077,0,.066,.066,.004);
     const shoots=new T.Group();shoots.position.y=.077;k.add(shoots);
     for(let n=0;n<5;n++){
       const a=(n+i*.28)*Math.PI*2/5;
@@ -1381,8 +1382,131 @@ const home121=(()=>{
         l.quaternion.copy(leaf.quaternion);shoots.add(l);
       }
     }
-    plants.push({x,z,shoots});
+    plants.push({x,z,shoots,soilMesh});
   }
+  // Care can leave a visible trace without turning the plant shelf into a chore.
+  // Store just three fixed-size rows; no wall-clock action is simulated offline.
+  const growth122=(()=>{
+    const key='leila.garden.v1', maxStage=4, dayMS=86400000, dampMS=25*60*1000;
+    const names=['テラコッタ','翡翠色','はちみつ色'];
+    const tiers=['苗','新芽','若葉','つぼみ','開花'];
+    const blank=()=>({stage:0,waterDay:-1,earnedDay:-1,wateredAt:0});
+    const bounded=(v,lo,hi,fallback)=>Number.isSafeInteger(v)&&v>=lo&&v<=hi?v:fallback;
+    let lamp=false;
+    function read(){
+      try{
+        const raw=localStorage.getItem(key);
+        const state=raw&&raw.length<=800?JSON.parse(raw):null;
+        if(state?.version!==1||!Array.isArray(state.pots)||state.pots.length!==3)
+          return Array.from({length:3},blank);
+        lamp=state.lamp===true;
+        return state.pots.map(p=>({
+          stage:bounded(p?.stage,0,maxStage,0),waterDay:bounded(p?.waterDay,-1,365242,-1),
+          earnedDay:bounded(p?.earnedDay,-1,365242,-1),wateredAt:bounded(p?.wateredAt,0,32503680000000,0)
+        }));
+      }catch{return Array.from({length:3},blank);}
+    }
+    const pots=read();
+    const q=()=>Date.now();
+    const localDay=(stamp)=>{
+      const d=new Date(stamp);
+      return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/dayMS);
+    };
+    const wet=(p,now)=>p.wateredAt>0&&now>=p.wateredAt&&now-p.wateredAt<dampMS;
+    function save(){
+      try{localStorage.setItem(key,JSON.stringify({version:1,pots,lamp}));}catch{}
+    }
+    const dampSoil=mat(0x2a3228,.89), blossomCenters=mat(0xe3b15c,.78);
+    const springColors=[mat(0xe9a49f,.76),mat(0xf0d6b0,.75),mat(0xbbadd8,.76)];
+    const tiny=new T.Vector3(0,1,0);
+    const visual=plants.map((plant,i)=>{
+      const {shoots,x,z}=plant, young=new T.Group(), crown=new T.Group(), petals=new T.Group();
+      shoots.add(young,crown);
+      // New foliage splays forward where it stays clear of the lamp shade.
+      for(let j=0;j<2;j++){
+        const s=j?1:-1;
+        beam(young,leafM[2],[0,0,0],[.075*s,.116,-.026],.004);
+        const leaf=new T.Mesh(leafGeo,leafM[(i+j+1)%3]);
+        leaf.position.set(.065*s,.104,-.025);leaf.scale.set(.013,.044,.009);
+        leaf.quaternion.setFromUnitVectors(tiny,new T.Vector3(.73*s,.60,-.22).normalize());
+        young.add(leaf);leaf.userData.tier=j+1;young.children[young.children.length-2].userData.tier=j+1;
+      }
+      beam(crown,leafM[2],[0,0,0],[.020,.169,-.018],.005);
+      const bud=new T.Mesh(leafGeo,springColors[i]);
+      bud.position.set(.020,.174,-.018);bud.scale.set(.017,.025,.016);crown.add(bud);
+      crown.add(petals);petals.position.copy(bud.position);
+      c(petals,blossomCenters,0,.003,0,.010,.009,.010,8);
+      for(let j=0;j<5;j++){
+        const a=j*2*Math.PI/5;
+        const leaf=new T.Mesh(leafGeo,springColors[i]);
+        leaf.position.set(Math.cos(a)*.017,.005,Math.sin(a)*.017);
+        leaf.scale.set(.013,.005,.017);
+        leaf.rotation.y=Math.PI/2-a;
+        petals.add(leaf);
+      }
+      const marker=new T.Group();marker.position.set(x+.048,.626,z-.070);g.add(marker);
+      block(marker,dark,0,.011,0,.007,.044,.009);
+      block(marker,edge,0,.036,-.002,.037,.018,.006);
+      const level=[];
+      for(let j=0;j<maxStage;j++)level.push(block(marker,sleepy,(j-1.5)*.007,.036,-.006,.004,.009,.003));
+      return {young,crown,petals,bud,level,stage:-1,wet:false};
+    });
+    let text='',nextProbe=0;
+    function refresh(now=q()){
+      const d=localDay(now);
+      let dirty=false;
+      for(let i=0;i<pots.length;i++){
+        const p=pots[i], w=visual[i];
+        // At most one advance for a watered date, even after a long gap.
+        if(p.waterDay>=0 && d>p.waterDay && p.earnedDay<p.waterDay && p.stage<maxStage){
+          p.stage++;p.earnedDay=p.waterDay;dirty=true;
+        }
+        const damp=wet(p,now);
+        if(w.stage===p.stage&&w.wet===damp)continue;
+        w.stage=p.stage;w.wet=damp;
+        plants[i].soilMesh.material=damp?dampSoil:soil;
+        plants[i].shoots.scale.set(1+p.stage*.020,1+p.stage*.015,1+p.stage*.020);
+        for(const leaf of w.young.children)leaf.visible=p.stage>=leaf.userData.tier;
+        w.crown.visible=p.stage>=3;w.bud.visible=p.stage===3;w.petals.visible=p.stage>=4;
+        w.level.forEach((mark,index)=>{mark.material=p.stage>index?mint:sleepy;});
+      }
+      if(dirty)save();
+      const next=pots.map((p,i)=>names[i]+'：'+tiers[p.stage]+(wet(p,now)?'・水やり後':'')).join(' ／ ');
+      const out=$('lab122GardenStatus');
+      if(out&&next!==text){text=next;out.textContent=next;}
+    }
+    function noteWater(index,now=q()){
+      if(!pots[index])return;
+      refresh(now);
+      const p=pots[index];
+      p.wateredAt=now;
+      p.waterDay=Math.max(p.waterDay,localDay(now));
+      save();refresh(now);
+    }
+    function choosePot(action,last,now=q()){
+      const day=localDay(now);
+      const order=pots.map((p,i)=>i);
+      if(action!=='water'){
+        const others=order.filter(i=>i!==last);
+        return others[Math.floor(Math.random()*others.length)];
+      }
+      // Divide today's care among the pots while prioritizing younger dry ones.
+      const score=i=>(pots[i].waterDay===day?9:0)+(wet(pots[i],now)?5:0)+pots[i].stage*.6+(last===i?.75:0);
+      const sorted=order.map(i=>[i,score(i)+Math.random()*.35]).sort((a,b)=>a[1]-b[1]);
+      return sorted[0][0];
+    }
+    function hasDry(now=q()){
+      return pots.some(p=>!wet(p,now));
+    }
+    function tick(){
+      const t=performance.now();
+      if(t<nextProbe)return;
+      nextProbe=t+2300;refresh();
+    }
+    refresh();
+    return {tick,noteWater,choosePot,hasDry,light:()=>lamp,setLight:on=>{lamp=!!on;save();}};
+  })();
+
   const lampStem=beam(g,dark,[-.108,.600,.148],[-.108,.920,.148],.018);
   beam(g,dark,[-.108,.920,.148],[-.74,.920,.098],.028);
   const lampShade=block(g,mineral,-.51,.907,.091,.56,.030,.087);
@@ -1415,7 +1539,8 @@ const home121=(()=>{
   function register(){
     destinationMeshes.set(plantPick,targets.plant);destinationMeshes.set(servicePick,targets.service);
   }
-  let nextPlant=35,nextService=62,lastPlant=-1,lastWork='',wetAt=-Infinity,lightOn=false;
+  let nextPlant=35,nextService=62,lastPlant=-1,lastWork='',wetAt=-Infinity,lightOn=growth122.light();
+  if(lightOn){lampFace.material=mint;lampShade.material=edge;}
   const status={
     water:'園芸台の鉢にじょうろで水をやっています',
     leaf:'鉢に手を添え、葉と土の様子を見ています',
@@ -1437,7 +1562,7 @@ const home121=(()=>{
     if(what==='service')return (!manual&&feel==='affectionate')||lastWork==='scan'?'quiet':'scan';
     if(!day&&!lightOn&&lastWork!=='grow')return 'grow';
     if(day&&lightOn&&lastWork!=='grow')return 'grow';
-    if(mood.seconds-wetAt>(manual?35:122)&&lastWork!=='water'&&(manual||day&&Math.random()<.72))return 'water';
+    if(mood.seconds-wetAt>(manual?35:122)&&lastWork!=='water'&&growth122.hasDry()&&(manual||day&&Math.random()<.72))return 'water';
     return 'leaf';
   }
   function choose(){
@@ -1496,7 +1621,7 @@ const home121=(()=>{
   function act(stage,progress){
     if(!stage.home121Init){
       stage.home121Init=true;
-      stage.j=(lastPlant+1+Math.floor(Math.random()*2))%plants.length;
+      stage.j=growth122.choosePot(stage.action,lastPlant);
       stage.flow=.9+Math.random()*.2;
     }
     const pending=roam.pending||reaction||contact||handLink;
@@ -1534,7 +1659,7 @@ const home121=(()=>{
         }
         p.shoots.rotation.z=.027*Math.sin(roam.elapsed*14)*poured;
       }
-      if(!pending&&u>=.60&&!stage.logged){stage.logged=true;wetAt=mood.seconds;lastPlant=stage.j;lab900LifeNote('homeWater');}
+      if(!pending&&u>=.60&&!stage.logged){stage.logged=true;wetAt=mood.seconds;lastPlant=stage.j;growth122.noteWater(stage.j);lab900LifeNote('homeWater');}
       look(wt(p.x,.767,p.z),w);
     }else if(action==='leaf'){
       const stroke=rearRamp(u,.27,.40)*(1-rearRamp(u,.61,.74))*fade;
@@ -1549,7 +1674,7 @@ const home121=(()=>{
       const press=rearRamp(u,.15,.41)*(1-rearRamp(u,.62,.85))*fade;
       const point=wt(-.335,.625,-.219);
       if(!pending&&u>.47&&!stage.logged&&hand(point,press).distanceTo(point)<.041){
-        stage.logged=true;lightOn=!lightOn;
+        stage.logged=true;lightOn=!lightOn;growth122.setLight(lightOn);
         lampFace.material=lightOn?mint:sleepy;lampShade.material=lightOn?edge:mineral;lab900LifeNote('homeLamp');
       }else hand(point,press);
       look(point,w);
@@ -1567,6 +1692,7 @@ const home121=(()=>{
     }
   }
   function cleanup(){
+    growth122.tick();
     const now=mode==='roam'&&roam?.phase==='route'&&roam.visit?.[roam.visitIndex]?.type==='home121Work';
     if(now||(!scan.visible&&can.position.equals(canHome)&&!drops.some(d=>d.visible)&&display.material===sleepy&&plants.every(p=>p.shoots.rotation.z===0)))return;
     reduceToRest();display.material=sleepy;button.material=signal;
