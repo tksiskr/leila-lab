@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 185｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 186｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 185</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 186</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -275,7 +275,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
 </details>
 <div class="leilaDeck">
   <div class="leilaCard" role="group" aria-labelledby="controls-actions">
-    <h2 id="controls-actions">行動</h2><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="standWait" class="primary">その場で待つ</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><button data-menu-hidden hidden id="offerHandButton" class="primary">手を差し出す</button></div>
+    <h2 id="controls-actions">行動</h2><div class="actionButtons"><button id="autoWait" class="primary">自律行動</button><button id="standWait" class="primary">その場で待つ</button><button id="danceLoop" class="primary">ずっと踊る</button><button id="capoeiraPlay" class="primary" type="button" disabled>カポエイラ演舞</button><button id="capoeiraRushPlay" class="primary" type="button" disabled>助走つき演舞</button><button id="roomLights" type="button" class="primary" hidden>電灯を消す</button><button data-menu-hidden hidden id="offerHandButton" class="primary">手を差し出す</button></div>
   </div>
   <div class="leilaCard" role="group" aria-labelledby="controls-look">
     <h2 id="controls-look">カメラ・外見</h2><div class="cameraButtons" role="group" aria-label="カメラの向き"><button id="front">正面</button><button id="side">側面</button><button id="back">背面</button><button data-menu-hidden hidden id="loungeView">居住区</button></div>
@@ -694,6 +694,7 @@ const lab900LifeNote=(()=>{
     observatorybirds:'窓辺で鳥の群れを追った',
     observatoryhorizon:'窓辺で地平線の光を観察した',
     observatorystars:'窓辺で星を探した',
+    capoeiraRush186:'運動場を横切るカポエイラ演舞を通しで披露した',
     meteor182:'北窓で流れ星を見つけた',
     teeOn:'クローゼットで白Tシャツに着替えた',
     teeOff:'白Tシャツをたたんでクローゼットに戻した',
@@ -7520,7 +7521,7 @@ function installDevPreview(){
     const kind=$('dogHoldDirection').value;
     if(previewHas('dogPlayHold')&&developerPreview.option!==kind)select('dogPlayHold',kind);
   };
-  for(const id of ['autoWait','danceLoop','capoeiraPlay','standWait','offerHandButton',
+  for(const id of ['autoWait','danceLoop','capoeiraPlay','capoeiraRushPlay','standWait','offerHandButton',
     'dogPlay','dogPlayThree','dogMeal','dogBond','dogSofa','dogBed','shirtToggle','skirtToggle']){
     const button=$(id), original=button.onclick;
     if(typeof original!=='function')continue;
@@ -10301,7 +10302,7 @@ function advanceRoam(dt) {
     if ((roam.phase==='wait' || roam.phase==='linger') && !reaction &&
         mood.seconds>=nextCapoeiraAt && ['bored','playful','happy'].includes(currentMood()) &&
         Object.keys(capoeiraClips).length && Math.random()<.20) {
-      requestCapoeira(null,false);
+      requestCapoeira(null,false,Math.random()<.48);
       return;
     }
     if((roam.phase==='wait'||roam.phase==='linger'||roam.phase==='rest')&&!reaction&&!contact&&
@@ -11243,8 +11244,14 @@ const starAtlas177=(()=>{
     return block(panel184,new T.MeshBasicMaterial({color:i?0x7194a4:0xf7c47a}),x,.061,0,.058,.023,.052);
   });
   for(const x of [-.27,.27])block(shelf,gold,x,-.13,-.06,.035,.13,.39);
-  const book177=new T.Group();book177.position.set(0,.015,.15);
-  shelf.add(book177);book177.rotation.x=-.28;
+  // Incline the book toward the reader, with a pair of matching low supports.
+  const bookPitch=.21;
+  for(const x of [-.149,.149]){
+    const rail=block(shelf,walnut,x,.026,.15,.031,.023,.362);
+    rail.rotation.x=bookPitch;
+  }
+  const book177=new T.Group();book177.position.set(0,.049,.15);
+  shelf.add(book177);book177.rotation.x=bookPitch;
   const hinge=new T.Group();book177.add(hinge);
   block(book177,cover,.166,0,0,.335,.023,.397);
   block(hinge,cover,-.166,.015,0,.335,.019,.397);
@@ -14376,15 +14383,35 @@ let nextCapoeiraAt=70;
 const capoeiraViewOffset=V(-1.56,1.47,2.72);
 const capoeiraHeading=Math.atan2(capoeiraViewOffset.x,capoeiraViewOffset.z);
 const capoeiraHandPoint=V(0,0,0);
+const rushFirst='Au To Role';
+let rushSide=0;
+function rushPlan(){
+  const clip=capoeiraClips[rushFirst];
+  if(!clip)return null;
+  const heading=(rushSide++%2)*Math.PI;
+  const center=capoeiraFloor.position;
+  const a=clip.hips[0],b=clip.hips.at(-1);
+  const span=(b.x-a.x)*transferScale;
+  const line=(x,z)=>V(x,0,z).applyAxisAngle(turnAxis,heading).add(center);
+  const entry=line(-.5*span,-.15),from=line(-.5*span,-1.49);
+  const anchor=entry.clone().sub(V(a.x,0,a.z).multiplyScalar(transferScale).applyAxisAngle(turnAxis,heading));
+  return {heading,entry,from,anchor,length:entry.distanceTo(from),duration:1.72,elapsed:0};
+}
+function dogOnCourt(){
+  const p=shepherd.object.position,c=capoeiraFloor.position;
+  return shepherd.ready&&Math.abs(p.x-c.x)<2.30&&Math.abs(p.z-c.z)<2.10;
+}
 for (const id of Object.keys(capoeiraClips)) $('capoeiraClip').add(new Option(id,id));
 if (capoeiraProgram.length) {
   $('capoeiraPlay').disabled=false;
   $('capoeiraPreview').disabled=false;
   $('capoeiraPlay').onclick=()=>requestCapoeira(null,true);
+  $('capoeiraRushPlay').disabled=!capoeiraClips[rushFirst];
+  $('capoeiraRushPlay').onclick=()=>requestCapoeira(null,true,true);
   $('capoeiraPreview').onclick=()=>requestCapoeira(developerPreview?.option||$('capoeiraClip').value,true);
 }
 
-function requestCapoeira(id,requested) {
+function requestCapoeira(id,requested,rush=false) {
   if (mode==='dance' && dance.capoeira && !dance.outro) return;
   if (mode==='roam' && roam.phase==='route' &&
       (roam.pending?.target ?? roam.target).kind==='capoeira') return;
@@ -14400,15 +14427,21 @@ function requestCapoeira(id,requested) {
   $('reactionStatus').hidden=true;
   closeWaveReply();
   nextCapoeiraAt=mood.seconds+120;
-  const point=capoeiraFloor.position;
+  const plan=rush&&!id?rushPlan():null;
+  const valid=plan&&(root.position.distanceTo(plan.from)<.07||destinationPath(root.position,plan.from).length)?plan:null;
+  const point=valid?.from??capoeiraFloor.position;
   requestDestination({
-    kind:'capoeira',name:'運動場',point,heading:capoeiraHeading,
-    onArrival:()=>beginCapoeira(id,requested)
+    kind:'capoeira',name:valid?'運動場の助走位置':'運動場',point,heading:valid?.heading??capoeiraHeading,
+    onArrival:()=>beginCapoeira(id,requested,valid)
   });
 }
 
-function beginCapoeira(id,requested) {
-  const sequence=id ? [id] : capoeiraProgram;
+function beginCapoeira(id,requested,rush=null) {
+  if(rush&&dogOnCourt()){
+    enterQuietRest('linger','運動場に犬がいるので、演舞は少し待ちます',5);
+    nextCapoeiraAt=mood.seconds+36;return;
+  }
+  const sequence=rush?[rushFirst,'Macaco Side','Chapaeu De Couro','Armada'].filter(id=>capoeiraClips[id]):id ? [id] : capoeiraProgram;
   if (requested && !cinemaOwnsView) {
     invitation=null;
     orbit.target.copy(root.position).y=.50;
@@ -14417,12 +14450,24 @@ function beginCapoeira(id,requested) {
   }
   const [first,...queue]=sequence;
   dance={
-    capoeira:true,id:first,queue,previewLoop:!!id&&previewHas('capoeiraPreview'),heading:capoeiraHeading,anchor:capoeiraFloor.position.clone(),
+    capoeira:true,rush,kind:rush&&!requested?'auto':'performance',id:first,queue,previewLoop:!!id&&previewHas('capoeiraPreview'),
+    heading:rush?.heading??capoeiraHeading,anchor:rush?.anchor??capoeiraFloor.position.clone(),
     elapsed:0,entryElapsed:0,entry:captureSofaPose(),
     cameraGuide:root.position.clone(),
     clearance:0
   };
   mode='dance';
+  if(rush){
+    root.rotation.y=rush.heading;
+    const arrived=root.position.clone();
+    sampleCapoeira(capoeiraClips[first],0,dance.anchor);
+    rush.firstPose=captureSofaPose();rush.firstGround=dance.clearance;
+    setTravelPosition(arrived.x,arrived.z,true);
+    blendSofaPose(dance.entry,1);
+    rush.heading=root.rotation.y; rush.from=arrived;
+    rush.length=rush.from.distanceTo(rush.entry);
+    if(shepherd.state==='wander'){shepherd.path=[];shepherd.destination=null;shepherd.change('idle');}
+  }
   showDanceTitle();
 }
 
@@ -14472,7 +14517,9 @@ function beginDance(kind,id=null) {
 
 function showDanceTitle() {
   if (dance.capoeira) {
-    $('destination').textContent='カポエイラ演舞 · '+dance.id;
+    $('destination').textContent=dance.rush?
+      (dance.rush.entryDone?'助走つき演舞 · '+dance.id:'運動場を駆け出します'):
+      'カポエイラ演舞 · '+dance.id;
     return;
   }
   const title = 'Hip Hop Dancing ' + dance.id;
@@ -14723,7 +14770,40 @@ function advanceCapoeiraStep(dt) {
   showDanceTitle();
 }
 
+function advanceRushEntry(dt){
+  const rush=dance.rush,TIME=rush.duration;
+  const t=rush.elapsed=Math.min(rush.elapsed+dt,TIME);
+  const d=runRetarget.metres(t,TIME,.31,rush.length),u=rush.length>.001?d/rush.length:1;
+  setTravelPosition(mix(rush.from.x,rush.entry.x,u),mix(rush.from.z,rush.entry.z,u),true);
+  const run=runRetarget.clips.run;
+  runRetarget.pose('run',d/(run.span*transferScale),null,0,rearRamp(t,0,.27),dance.entry);
+  const link=rearRamp(t,TIME-.39,TIME);
+  if(link){
+    blendSofaPose(rush.firstPose,link);
+    dance.clearance=rush.firstGround*link;
+    alignCapoeiraSupport(dance.clearance);
+  }
+  if(t>=TIME){
+    rush.entryDone=true;dance.elapsed=0;dance.entryElapsed=danceEntryTime;
+    showDanceTitle();
+  }
+}
+function finishRush(dt){
+  const f=dance.rush.finish;
+  f.elapsed+=dt;
+  blendSofaPose(f.pose,1);
+  const acknowledge=rearRamp(f.elapsed,.11,.44)*(1-rearRamp(f.elapsed,.74,1.16));
+  groups.chest.rotateX(.12*acknowledge);
+  groups.neck.rotateX(.115*acknowledge);
+  groups.head.rotateX(.075*acknowledge);
+  groups.upperP.rotateZ(-.105*acknowledge);
+  groups.upperN.rotateZ(.105*acknowledge);
+  alignCapoeiraSupport(dance.clearance);
+  if(f.elapsed>=1.23){lab900LifeNote('capoeiraRush186');beginDanceOutro();}
+}
 function advanceCapoeira(dt) {
+  if(dance.rush&&!dance.rush.entryDone){advanceRushEntry(dt);followCapoeira(dt);return;}
+  if(dance.rush?.finish){finishRush(dt);followCapoeira(dt);return;}
   if (dance.step) {
     advanceCapoeiraStep(dt);
   } else {
@@ -14734,7 +14814,10 @@ function advanceCapoeira(dt) {
     if (dance.elapsed>=clip.duration) {
       if(dance.previewLoop&&!dance.queue.length)dance.queue.push(dance.id);
       if (dance.queue.length) startCapoeiraStep();
-      else beginDanceOutro();
+      else if(dance.rush){
+        dance.rush.finish={elapsed:0,pose:captureSofaPose()};
+        $('destination').textContent='着地して、演舞を締めくくります';
+      }else beginDanceOutro();
     }
   }
   followCapoeira(dt);
@@ -17132,6 +17215,11 @@ function updateShepherd(dt){
   if(dogTumble.dog(dt)||dogChase.dog(dt)||windowSnow.dogStep(dt)||dogKitchen.dogStep(dt))return;
   if(easelCompanion126.dog(dt)||windowBuddy144.dog(dt))return;
   if(dogRestMat.dog(dt)||dogWater125.anim(dt)||dogWater125.maybe()||dogRope128.runDog(dt)||scent131.step(dt)||floorHello133.dog(dt)||dogSit135.dog(dt))return;
+  if(mode==='dance'&&dance.rush&&!d.jump&&['idle','wander'].includes(d.state)){
+    if(d.state==='wander'){d.change('idle');d.destination=null;d.path=[];}
+    d.rotate(headingTo(obj.position,root.position),dt,1.1);d.pose(dt,0,leilaFaceForDog());
+    return;
+  }
   const onBed=mode==='roam'&&roam.phase==='bed'&&bed.visible;
   const ontoBed=mode==='roam'&&roam.target===bedTarget&&roam.phase==='route'&&!roam.pending&&
     ['bedSit','bedLie'].includes(roam.visit?.[roam.visitIndex]?.type);
@@ -22733,7 +22821,7 @@ const cinema=(()=>{
     if(episode==='dogPlay'&&readFetch())return {paired,type:'fetch'};
     if(readDogCall(episode))return {paired:false,type:'call'};
     const station=episode==='route'&&workStages.has(stage);
-    return {paired,type:paired?'pair':mode==='dance'?'stage':station?'work':
+    return {paired,type:mode==='dance'&&dance.rush?'rushStage':paired?'pair':mode==='dance'?'stage':station?'work':
       (episode==='route'&&roam.target?.kind!=='wardrobeMirror'||['walk','travel','mixamo'].includes(mode))?'moving':
       episode==='sofaBall'||head.y<.66?'low':'quiet'};
   }
@@ -22857,6 +22945,22 @@ const cinema=(()=>{
     return score;
   }
   function select(type,paired){
+    if(type==='rushStage'){
+      // One court-side shot throughout this routine. Do not pan around the
+      // performer every time a cartwheel or spin changes the rig's heading.
+      resetStability();focus('wide',false);
+      let best=Infinity,chosen=-1.14,pitchGoal=.35;
+      const r=camera.aspect<.9?4.05:3.48;
+      for(const a of [-1.14,-.89,-1.38,-1.67,-.61])for(const e of [.27,.35,.46]){
+        const radius=fit(place(a,e,direction),r,'wide',false,desired);
+        trial.copy(desired).addScaledVector(direction,radius);
+        const score=coverage(trial)*8+outsideCost(trial)*6+Math.abs(a+1.14)*.8+Math.abs(e-.35)*1.3+.04*Math.abs(headingDelta(yaw,a));
+        if(score<best){best=score;chosen=a;pitchGoal=e;}
+      }
+      shot={kind:'wide',type,court:true,e:pitchGoal,r,seconds:35,elapsed:0,fromYaw:yaw,
+        toYaw:yaw+headingDelta(yaw,chosen),fromPitch:pitch,fromDist:distance};
+      facing=root.rotation.y;angleTravel=0;return;
+    }
     if(type==='atlasSky'){
       // Drop any occlusion detour inherited from the table view.
       resetStability();
@@ -23012,7 +23116,8 @@ const cinema=(()=>{
     const enteringPanel=panels[nextContext]&&context!==nextContext&&contextAge>.16;
     const enteringFetch=wideKind(nextContext)&&context!==nextContext&&contextAge>(nextContext==='call'?.02:.07);
     const reframe=shot.starPortrait&&nextContext==='atlasSky'&&Math.abs(camera.aspect-shot.aspect)>.065;
-    if(shot.elapsed>=shot.seconds||enteringPanel||enteringFetch||reframe||
+    const changingCourt=(nextContext==='rushStage'||context==='rushStage')&&context!==nextContext&&contextAge>.075;
+    if(shot.elapsed>=shot.seconds||enteringPanel||enteringFetch||reframe||changingCourt||
       (shot.starPortrait||context==='fountain')&&nextContext!==context&&contextAge>.10||
       (context!==nextContext&&contextAge>.75&&shot.elapsed>2.1)){
       context=nextContext;select(context,view.paired);
@@ -23022,7 +23127,7 @@ const cinema=(()=>{
     focus(kind,view.paired);
     // Follow the travel direction, not every bounce of the face and limbs.
     targetOffset.copy(desired).sub(root.position);
-    const active=context==='moving'||context==='stage'||roam?.phase==='dogTumble';
+    const active=context==='moving'||context==='stage'||context==='rushStage'||roam?.phase==='dogTumble';
     poseOffset.lerp(targetOffset,blend(dt,fetch?7.4:active?2.75:5.2));
     desired.copy(root.position).add(poseOffset);
     aimAt.lerp(desired,blend(dt,fetch?7.8:s.elapsed<1.95?2.5:5.0));
@@ -23031,11 +23136,11 @@ const cinema=(()=>{
       // low angle and centering the face would leave no room for the stars.
       proposed.copy(starFrom);
     }else{
-      angleTravel=mix(angleTravel,kind==='together'||fetch?0:clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
-      yaw=mix(s.fromYaw,s.toYaw+angleTravel+(fetch?.016:kind==='together'?.022:.13)*Math.sin(s.elapsed*.48),u);
+      angleTravel=mix(angleTravel,s.court||kind==='together'||fetch?0:clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
+      yaw=mix(s.fromYaw,s.toYaw+angleTravel+(fetch||s.court?.016:kind==='together'?.022:.13)*Math.sin(s.elapsed*.48),u);
       pitch=mix(s.fromPitch,s.e+(kind==='together'?.012:.035)*Math.sin(s.elapsed*.53),u);
       place(yaw,pitch,direction);
-      const ideal=fit(direction,s.r*(1-.055*Math.sin(s.elapsed*.38)),kind,view.paired);
+      const ideal=fit(direction,s.r*(1-(s.court?.011:.055)*Math.sin(s.elapsed*.38)),kind,view.paired);
       const aimDistance=fetch?ideal:s.elapsed<1.95?mix(s.fromDist,ideal,u):ideal;
       const zoom=aimDistance-distance;
       if(Math.abs(zoom)>.045)distance=mix(distance,aimDistance,blend(dt,zoom>0?(fetch?8.3:4.4):1.42));
