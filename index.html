@@ -351,6 +351,8 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
       <button id="ambience128Light" type="button">南窓の光の粒を試す</button>
       <button id="lab131MemoTest" type="button">南窓のメモ台を試す</button>
       <button id="tea132Preview" type="button">湯沸かし台を試す</button>
+      <label>引き出しの中身 <select id="drawer135Kind"><option value="">おまかせ</option><option value="cards">索引カード</option><option value="clip">予備の留め具</option></select></label>
+      <button id="drawer135Preview" type="button">小物引き出しを試す</button>
       <button id="lab131MemoPrior" type="button" disabled>前のメモを見る</button>
       <p id="lab131MemoStatus" aria-live="polite">まだメモはありません。</p>
       <p id="lab122GardenStatus" class="note" aria-label="南窓の鉢の生長"></p>
@@ -555,6 +557,8 @@ const lab900LifeNote=(()=>{
     homeRead:'点検台で動作記録を読み返した',
     freshWipe:'姿見の手入れ台を布で拭いた',
     freshFold:'乾いた布をたたみ、姿見のそばを整えた',
+    drawerCards135:'引き出しの索引カードを並べ直した',
+    drawerClip135:'予備の留め具を確かめて引き出しに戻した',
     memo131:'青いペンでひとことを残した',
     tea132:'湯のみを受け皿に置き、湯気を眺めた',
     observatorybirds:'窓辺で鳥の群れを追った',
@@ -3131,6 +3135,143 @@ const memo131=(()=>{
 destinationMeshes.set(kitchenScene.counter,kitchenTarget);
 tea132.register();
 memo131.register();memo131Observe=memo131.record;memo131Forget=memo131.reset;
+// LAB 135 | a shallow field-supplies drawer under the existing memo board.
+const drawer135=(()=>{
+  const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
+  const station=memo131.group;
+  const gunmetal=mat(0x344e50,.65), inner=mat(0x6e7466,.89),
+    oak=mat(0x9e7c57,.72), gold=mat(0xceaa77,.51), blue=mat(0x709b9f,.85),
+    amber=mat(0xd6a76d,.84), paper=mat(0xe1d3b4,.89);
+  for(const x of [-.169,.169])block(station,gunmetal,x,.660,-.025,.021,.091,.245);
+  block(station,gunmetal,0,.611,-.019,.355,.022,.253);
+  block(station,inner,0,.658,.094,.344,.095,.022);
+  const pull=new T.Group();pull.name='メモ台の小物引き出し';station.add(pull);
+  const face=block(pull,oak,0,.653,-.146,.329,.082,.022);
+  block(pull,inner,0,.623,-.019,.306,.019,.235);
+  for(const x of [-.149,.149,0])block(pull,inner,x,.645,-.014,.010,.035,.209);
+  block(pull,inner,0,.645,.087,.304,.035,.010);
+  const grip=block(pull,gold,0,.652,-.165,.087,.014,.022);
+  for(const x of [-.036,.036])block(pull,gold,x,.653,-.158,.014,.022,.017);
+  const deck=new T.Group();deck.name='青緑の索引カード';pull.add(deck);
+  block(deck,paper,0,.007,0,.077,.014,.050);
+  block(deck,blue,0,.015,0,.077,.007,.051);
+  for(const z of [-.011,.002,.012])block(deck,paper,-.007,.019,z,z===.012?.043:.057,.001,.002);
+  block(pull,amber,-.052,.642,.031,.068,.007,.040);
+  block(pull,paper,-.052,.646,.031,.051,.003,.024);
+  const clip=new T.Group();clip.name='予備の留め具';pull.add(clip);
+  block(clip,gold,0,.005,0,.054,.009,.029);
+  for(const x of [-.018,.018])block(clip,paper,x,.012,0,.008,.008,.018);
+  block(clip,gold,0,.019,.001,.056,.005,.006);
+  const slots=[v(.077,.636,-.066),v(-.078,.636,-.066)], clipHome=v(-.108,.636,.024);
+  const gripPose=v(0,.650,-.175), front=v(0,0,1), down=v(0,-1,0), handleNormal=v(0,0,1), fingersUp=v(0,1,0);
+  const bend=v(.17,-.15,.068), joint=v(), wrist=v(), world=v(), itemAim=v(), delta=v();
+  const headAt=v(), headQ=new T.Quaternion();
+  const target={kind:'drawer135',name:'メモ台の小物引き出し',point:v(-2.96,0,8.316),heading:0,
+    lookAt:station.localToWorld(v(0,.661,-.12))};
+  let slot=0,lastKind='',due=112,dirty=false;
+  function hide(){
+    pull.position.z=0;deck.position.copy(slots[slot]);deck.rotation.set(0,0,0);
+    clip.position.copy(clipHome);clip.rotation.set(0,0,0);
+  }
+  hide();
+  function action(manual){
+    if(manual)return lastKind==='cards'?'clip':'cards';
+    if(roam.target?.kind==='memo131'&&lastKind!=='cards')return 'cards';
+    if(lastKind)return lastKind==='cards'?'clip':'cards';
+    return lastWorldMinute>=17*60?'clip':'cards';
+  }
+  function choose(){
+    if(reaction||contact||handLink||roam.pending||document.hidden||!floorGroup.visible||devOwned()||
+       currentMood()==='annoyed'||mood.seconds<Math.max(due,leilaUserPriorityUntil)||
+       !['wait','rest','linger','window','seated'].includes(roam.phase)||roam.target?.kind==='drawer135')return false;
+    if(Math.random()>(roam.target?.kind==='memo131'?.41:.13))return false;
+    if(root.position.distanceTo(target.point)>.04&&!destinationPath(root.position,target.point).length)return false;
+    requestDestination({...target,action:action(false)},false);due=mood.seconds+145+Math.random()*79;return true;
+  }
+  function invite(){
+    if(devOwned()){clearDevPreview();windowSnow.clearPreview();}
+    if(mode!=='roam')beginRoam();
+    if(roam.phase==='route'&&(roam.pending?.target??roam.target)?.kind==='drawer135')return;
+    restoreReactionPose();reaction=null;mood.offeredHand=null;closeWaveReply();cancelCameraGreeting();
+    const requested=$('drawer135Kind')?.value;
+    requestDestination({...target,action:['cards','clip'].includes(requested)?requested:action(true),manual:true},false);
+    due=mood.seconds+142;
+  }
+  function decorate(visit,dest){
+    visit.push(routeTurn(0,'メモ台の前に立ちました'),{type:'drawer135Sort',time:8.4,
+      kind:dest.action??'cards',from:slot,message:'引き出しの取っ手に手を伸ばしています'});
+  }
+  function hand(point,weight,fwd=front,norm=down){
+    const r=orientPalm('P',fwd,norm);
+    wrist.copy(point).sub(delta.copy(palmRig.P.center).applyQuaternion(r));
+    if(weight>.002)reachHand('P',wrist,r,weight,false,bend,true);
+    return groups.handP.localToWorld(joint.copy(palmRig.P.center));
+  }
+  function look(point,w){
+    const h=groups.head;
+    headAt.copy(point).sub(h.getWorldPosition(delta)).applyQuaternion(h.getWorldQuaternion(headQ).invert());
+    h.rotateX(T.MathUtils.clamp(-Math.atan2(headAt.y,Math.hypot(headAt.x,headAt.z)),-.37,.57)*w);
+    h.rotateY(T.MathUtils.clamp(Math.atan2(headAt.x,headAt.z),-.59,.59)*w);
+  }
+  function draw(a,u){
+    if((roam.pending||contact||reaction||handLink)&&a.cancelAt===undefined)a.cancelAt=roam.elapsed;
+    if(a.cancelAt!==undefined)u=a.cancelAt/a.time;
+    const fade=a.cancelAt===undefined?1:1-rearRamp(roam.elapsed,a.cancelAt,a.cancelAt+.35);
+    blendSofaPose(a.pose,1);hide();
+    const desired=rearRamp(u,.185,.335)*(1-rearRamp(u,.775,.91));
+    const pick=rearRamp(u,.338,.405)*(1-rearRamp(u,.663,.747))*fade;
+    const reach=rearRamp(u,.031,.145)*(1-rearRamp(u,.318,.37))*fade
+      +rearRamp(u,.711,.773)*(1-rearRamp(u,.92,.994))*fade;
+    groups.abdomen.rotateX(.14*Math.max(pick,reach));
+    groups.chest.rotateX(.14*Math.max(pick,reach));
+    const depth=.135, card=a.kind==='cards', aim=(a.gripped?desired:0)*depth;
+    pull.position.z=-aim*fade;
+    const actual=hand(pull.localToWorld(world.copy(gripPose)),reach,fingersUp,handleNormal);
+    if(u>.151&&u<.333&&reach>.88&&actual.distanceTo(pull.localToWorld(world.copy(gripPose)))<.027&&a.cancelAt===undefined)
+      a.gripped=true;
+    const source=card?slots[a.from]:clipHome;
+    const dest=card?slots[1-a.from]:clipHome;
+    const progress=rearRamp(u,.425,.634);
+    itemAim.copy(source).lerp(dest,progress);
+    const arc=Math.sin(Math.PI*progress);
+    itemAim.y+=(card?.059:.132)*arc;
+    if(!card)itemAim.z-=.115*arc;
+    const obj=card?deck:clip;const offset=card?.021:.020;
+    if(pick>.002&&a.gripped){
+      const actual=hand(pull.localToWorld(itemAim.clone().add(v(0,offset,0))),pick);
+      const latch=rearRamp(u,.399,.438)*(1-rearRamp(u,.634,.674))*fade;
+      const local=pull.worldToLocal(actual);local.y-=offset;
+      obj.position.copy(u<.634?source:dest).lerp(local,latch);
+      obj.rotation.z=card?.06*arc*latch:.50*arc*latch;
+      obj.rotation.x=card?-.11*arc*latch:.68*arc*latch;
+      if(u>.427&&u<.620&&latch>.95&&obj.position.distanceTo(itemAim)<.034)a.inspected=true;
+      look(obj.getWorldPosition(world),Math.max(reach,pick));
+    }else look(pull.localToWorld(world.copy(gripPose)),reach);
+    if(a.gripped&&a.inspected&&u>=.684&&a.cancelAt===undefined&&!a.logged){
+      a.logged=true;lastKind=a.kind;if(card)slot=1-a.from;
+      lab900LifeNote(card?'drawerCards135':'drawerClip135');
+    }
+    if(u>=.387&&u<.69&&a.cancelAt===undefined&&a.gripped){
+      const label=$('destination'),message=card?'索引カードを取り出して並べ直しています':'予備の留め具を持ち上げて確かめています';
+      if(label.textContent!==message)label.textContent=message;
+    }
+    dirty=true;
+  }
+  function finish(){
+    const a=roam.visit?.find(s=>s.type==='drawer135Sort');
+    hide();dirty=false;
+    enterQuietRest('linger',a?.logged?'小物を整えて、引き出しを閉めました':'引き出しの前でひと息ついています',6.1);
+  }
+  function tick(){
+    const s=mode==='roam'&&roam?.phase==='route'?roam.visit?.[roam.visitIndex]:null;
+    if(dirty&&s?.type!=='drawer135Sort'){hide();dirty=false;}
+  }
+  function register(){for(const o of [face,grip])destinationMeshes.set(o,target);}
+  function install(){$('drawer135Preview')?.addEventListener('click',invite);}
+  return {target,choose,invite,decorate,draw,finish,register,install,tick};
+})();
+
+drawer135.register();
 fresh126.register();
 home121.register();
 for (const mesh of [switchPlate,switchRocker,switchIndicator]) destinationMeshes.set(mesh,lightSwitchTarget);
@@ -5939,6 +6080,7 @@ function pickSurface(x, y) {
     const destination=destinationMeshes.get(hit.object);
     if(destination?.kind==='home121')return floorGroup.visible;
     if(destination?.kind==='fresh126')return floorGroup.visible;
+    if(destination?.kind==='drawer135')return floorGroup.visible;
     if(destination?.kind==='memo131')return floorGroup.visible;
     if(destination?.kind==='tea132')return floorGroup.visible;
     if (destination === kitchenTarget) return floorGroup.visible;
@@ -6664,6 +6806,8 @@ function endPointer(event) {
     }
     if(destination?.kind==='tea132'){
       tea132.request();
+    }else if(destination?.kind==='drawer135'){
+      drawer135.invite();
     }else if(destination?.kind==='memo131'){
       memo131.invite();
     }else if(destination?.kind==='fresh126'){
@@ -8633,7 +8777,7 @@ function chooseDestination() {
     startDestination(Math.random() < .60 ? accessoryTarget : mirrorTarget);
     return;
   }
-  if(tea132.choose()||home121.choose()||memo131.choose())return;
+  if(drawer135.choose()||tea132.choose()||home121.choose()||memo131.choose())return;
   const terraChance=feeling==='annoyed' ? 0 : feeling==='playful' || feeling==='happy' ? .18 : .075;
   if (terraChance && roam.target !== terrariumTarget && !reaction && moodSituation()==='free' &&
       mood.seconds >= (mood.nextTerrariumAt ?? 18) && Math.random()<terraChance) {
@@ -9819,6 +9963,8 @@ function startDestination(target, acknowledge=false, seated=roam.phase==='seated
     dogKitchen.decorate(visit,target);
   } else if(target.kind==='tea132'){
     tea132.decorate(visit,target);
+  } else if(target.kind==='drawer135'){
+    drawer135.decorate(visit,target);
   } else if(target.kind==='memo131'){
     memo131.decorate(visit,target);
   } else if(target.kind==='fresh126'){
@@ -11304,6 +11450,9 @@ function advanceDestinationRoute(dt) {
     case 'tea132Pour':
       tea132.draw(stage,progress);
       break;
+    case 'drawer135Sort':
+      drawer135.draw(stage,progress);
+      break;
     case 'memo131Write':
       memo131.draw(stage,progress);
       break;
@@ -11350,7 +11499,7 @@ function advanceDestinationRoute(dt) {
       break;
   }
   if (progress < 1 && !(roam.pending&&['kitchenCook','kitchenLower'].includes(stage.type)) && !(
-      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour') &&
+      (stage.type==='paintEasel' || stage.type==='terrariumVisit' || stage.type==='home121Work' || stage.type==='fresh126Act' || stage.type==='memo131Write' || stage.type==='tea132Pour' || stage.type==='drawer135Sort') &&
       stage.cancelAt!==undefined && roam.elapsed>=stage.cancelAt+.35)) return;
   if(stage.type==='bedSit'&&dogTumble.maybeEdge())return;
   if (stage.type==='paintEasel') easelBrush.visible=false;
@@ -11604,6 +11753,7 @@ function arriveAtDestination() {
   }
   if(roam.target.ambience128){ambience128.arrive(roam.target.ambience128);return;}
   if(roam.target.kind==='tea132'){tea132.finish();return;}
+  if(roam.target.kind==='drawer135'){drawer135.finish();return;}
   if(roam.target.kind==='memo131'){memo131.finish();return;}
   if(roam.target.kind==='fresh126'){fresh126.finish();return;}
   if(roam.target.kind==='home121'){home121.finish(roam.target);return;}
@@ -19164,11 +19314,12 @@ installDevPreview();shepherd.lockControls();window.LeilaBoot130?.ready();
 home121.install();
 fresh126.install();
 memo131.install();
+drawer135.install();
 tea132.install();
 ambience128.install();
 setupPaintWindow();
 r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);floorHello133.tick();dogRope128.tick(dt);ambience128.reconcile();easelCompanion126.tick();lab122Invite.tick(dt);dogRestMat.scout();dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
-home121.cleanup();fresh126.tick();memo131.tick();
+home121.cleanup();fresh126.tick();memo131.tick();drawer135.tick();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
 if (handLink && mode !== 'standWait') endHandLink(false);
