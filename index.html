@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 151｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 152｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 151</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 152</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -18060,7 +18060,8 @@ const dogKitchen=(()=>{
   const floorBowl=k.pad.clone().setY(.022), dogDock=k.pad.clone().add(V(-.502,0,.012));
   const mealTarget=V(0,0,0);
   const floorEye=k.pad.clone().setY(.066);
-  const prepLead=1.53, transferEnd=5.27, exchangeTime=2.90;
+  const stepLead=.49, bowlLead=.30;
+  const prepLead=1.53+stepLead, transferEnd=5.27, exchangeTime=2.90+bowlLead;
   const exchangeAt=prepLead+transferEnd;
   const config={cook:12.8+prepLead+exchangeTime,lower:3.65,eat:shepherdMealMotion.finish};
   const at=(p,a,b)=>rearRamp(p,a,b);
@@ -18153,31 +18154,47 @@ const dogKitchen=(()=>{
     blendSofaPose(stage.pose,1);
     if(!a)return;
     const clock=u*stage.time;
-    // Step forward with the raised prop, then step back when reaching for storage.
-    // The cabinet lip stays clear while each sole has its own swing interval.
-    let stance=1;
-    if(clock<prepLead)stance=at(at(clock,.24,1.29),.44,.84);
+    // Clear the counter first, then return after the prop has been raised.
+    // Pause with both feet down before starting the hinge.
+    let stance=1, retreat=0;
+    const takeBoard=clock-stepLead;
+    if(clock<prepLead){
+      retreat=.055*at(clock,.04,stepLead)*(1-at(takeBoard,.64,1.13));
+      stance=at(at(takeBoard,.24,1.29),.44,.84);
+    }
     else if(clock>=exchangeAt&&clock<exchangeAt+exchangeTime){
       const t=clock-exchangeAt;
-      stance=t<1.31?at(1-at(t,.15,1.12),.44,.84):at(at(t-1.31,.24,1.34),.44,.84);
+      const takeBowl=t-1.31-bowlLead;
+      stance=t<1.31?1-at(at(t,.15,1.12),.20,.63):at(at(takeBowl,.24,1.34),.44,.84);
+      retreat=.055*at(t,.56,1.04)*(1-at(takeBowl,.64,1.14));
     }else if(clock>exchangeAt+exchangeTime)stance=1-at(clock-prepLead-exchangeTime,11.95,12.72);
     const stride=.25;
+    const recipeTime=clock-prepLead-exchangeTime;
+    const potStepOut=at(recipeTime,5.29,6.00),potStepBack=at(recipeTime,8.82,9.68);
+    const byPot=potStepOut*(1-potStepBack);
     const feet=sofaSides.map((side,i)=>{
       const ankle=groups['foot'+side].getWorldPosition(V(0,0,0));
       const step=at(stance,i*.42,.58+i*.42);
-      ankle.x+=stride*step;ankle.y+=.025*Math.sin(Math.PI*step);
+      const stepBack=i===0?retreat:retreat*at(clock,.17,stepLead+.06);
+      ankle.x+=stride*step-stepBack;
+      ankle.x+=stride*step-stepBack;
+      const out=at(potStepOut,i*.33,.67+i*.33),back=at(potStepBack,(1-i)*.33,.67+(1-i)*.33);
+      ankle.z+=.166*out*(1-back);
+      ankle.y+=.025*Math.sin(Math.PI*step)+.013*Math.sin(Math.PI*stepBack/.055)
+        +.016*(Math.sin(Math.PI*out)+Math.sin(Math.PI*back));
       return {side,ankle};
     });
-    groups.pelvis.position.z+=stride*stance;
+    groups.pelvis.position.x-=.166*byPot;
+    groups.pelvis.position.z+=stride*stance-retreat*.85;
     lowerPelvisForFeet(feet);
     for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y);
     if(clock<prepLead){
-      const intoPlace=at(clock,.24,1.29);
-      k.cuttingBoard.visible=clock>.10;
+      const intoPlace=at(takeBoard,.24,1.29);
+      k.cuttingBoard.visible=takeBoard>.10;
       const place=counterPropPath(k.boardHome,intoPlace,.050);
       k.cuttingBoard.position.copy(place);
       setStatus('レイラがまな板を取り出しています');
-      guideBoard(place,easeBetween(clock,.02,.24,1.29,1.51));
+      guideBoard(place,easeBetween(takeBoard,.02,.24,1.29,1.51));
       return;
     }
     if(clock>=exchangeAt&&clock<exchangeAt+exchangeTime){
@@ -18195,13 +18212,13 @@ const dogKitchen=(()=>{
         setStatus('材料を鍋に入れ終え、まな板を片づけています');
       }else{
         k.cuttingBoard.visible=false;
-        const placeTime=handoff-1.31;
+        const placeTime=handoff-1.31-bowlLead;
         const intoPlace=at(placeTime,.24,1.34);
         k.largeBowl.visible=placeTime>.10;
         const place=counterPropPath(k.bowlHome,intoPlace,.058);
         const weight=easeBetween(placeTime,.02,.24,1.37,1.59);
         leanToProp(place,weight);
-        holdBowl(place,weight);
+        holdBowl(place,weight,true);
         setStatus('まな板を片づけた場所に、犬の器を置いています');
       }
       return;
@@ -18214,7 +18231,7 @@ const dogKitchen=(()=>{
     }
     k.utensil.visible=true;
     const cutting=easeBetween(t,.12,.76,3.48,4.08);
-    const stirring=easeBetween(t,4.08,5.21,8.98,9.63);
+    const stirring=easeBetween(t,5.31,5.99,8.98,9.63);
     const serving=easeBetween(t,9.0,9.42,10.86,11.44);
     a.grip=at(t,11.18,11.67);a.phase=t>=11.38?'carry':'cook';
     const steam=easeBetween(t,4.5,6,9.3,11.8);
@@ -18242,7 +18259,11 @@ const dogKitchen=(()=>{
     }else{
       k.knife.visible=false;k.ladle.visible=t<11.35;
       const a0=t*5.3;
-      const stirred=k.potTop.clone().add(V(Math.cos(a0)*.055-.040,.076+Math.sin(a0)*.012,Math.sin(a0)*.057));
+      // Drive the scoop through the pot first, then derive the grip from
+      // the visible handle. The shaft stays attached to the actual palm.
+      const stirringTip=k.potTop.clone().add(V(Math.cos(a0)*.036,-.046+Math.sin(a0)*.006,Math.sin(a0)*.037));
+      const shaft=V(.42,-.82,.37+.06*Math.sin(a0)).normalize();
+      const stirred=stirringTip.clone().addScaledVector(shaft,-.145);
       const scoop=at(t,9.08,9.52), pour=at(t,9.55,10.19), rest=at(t,10.86,11.25);
       const transferAt=at(t,4.03,5.18);
       const take=k.boardTop.clone().add(V(-.049,.113,.047));
@@ -18262,7 +18283,14 @@ const dogKitchen=(()=>{
       palm('N',grip,V(.91,-.41,0),V(0,0,-1),Math.max(stirring,serving));
       if(t>=transferEnd)palm('P',brace,V(1,-.22,0),V(0,-1,0),serving*.78);
       k.utensil.position.copy(actualGrip('N'));
-      k.utensil.rotation.set(.10*Math.sin(a0)*stirring+.96*pour,.22,.48*stirring+.26*pour);
+      k.utensil.rotation.set(.96*pour,.22,.26*pour);
+      if(stirring>.001){
+        const shaftDirection=stirringTip.clone().sub(k.utensil.position);
+        if(shaftDirection.lengthSq()>.0001){
+          const stirRotation=new T.Quaternion().setFromUnitVectors(V(0,-1,0),shaftDirection.normalize());
+          k.utensil.quaternion.slerp(stirRotation,at(stirring,.05,.91));
+        }
+      }
       const tipped=(t-10.10)/.59;
       k.falling.visible=tipped>0&&tipped<1;
       if(k.falling.visible){
@@ -18272,7 +18300,9 @@ const dogKitchen=(()=>{
       k.fill(at(t,10.12,10.76));
       k.blank.children.forEach((piece,i)=>{piece.visible=t<4.27+i*.065;});
       if(t<transferEnd)setStatus('刻んだ材料をまな板から鍋に移しています');
-      else if(t<9.2)setStatus('湯気の立つ鍋を、おたまで混ぜています');
+      else if(t<5.99)setStatus('鍋のそばへ一歩寄り、おたまを入れています');
+      else if(t<8.98)setStatus('湯気の立つ鍋を、おたまで混ぜています');
+      else if(t<9.2)setStatus('混ぜ終え、おたまを持ち上げています');
       else if(t<11.18)setStatus('できたごはんを犬の器によそっています');
       else setStatus('犬のごはんを、両手で持ち上げています');
     }
@@ -18288,20 +18318,21 @@ const dogKitchen=(()=>{
     const feet=sofaSides.map(side=>({side,ankle:groups['foot'+side].getWorldPosition(V(0,0,0))}));
     const low=(1-rearRamp(center.y,.38,.57))*weight;
     const extend=rearRamp(center.x,4.68,4.93)*weight;
-    groups.pelvis.position.y-=.158*low+.060*extend;
-    groups.pelvis.position.z+=.048*weight+.028*extend;
-    groups.pelvis.position.x+=.024*weight;
-    groups.abdomen.rotateX(.18*low+.10*extend);
-    groups.chest.rotateX(.20*low+.16*extend);
-    groups.head.rotateX(.27*weight);
+    groups.pelvis.position.y-=.159*low+.051*extend;
+    groups.pelvis.position.z+=.038*weight+.023*extend-.075*low;
+    groups.pelvis.position.x+=.010*weight;
+    groups.pelvis.rotateX(.35*low+.045*extend);
+    groups.abdomen.rotateX(.26*low+.11*extend);
+    groups.chest.rotateX(.20*low+.15*extend);
+    groups.head.rotateX(.22*weight);
     lowerPelvisForFeet(feet);
-    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y,0,root.rotation.y+(side==='P'?1:-1)*.90*weight);
+    for(const {side,ankle} of feet)solveLeg(side,ankle,root.rotation.y,0,root.rotation.y+(side==='P'?1:-1)*.07*weight);
   }
   function guideBoard(center,weight){
     leanToProp(center,weight);
     for(const side of ['P','N']){
       const sign=side==='P'?-1:1;
-      const edge=center.clone().add(V(-.111,.022,sign*.098));
+      const edge=center.clone().add(V(-.148,.022,sign*.091));
       palm(side,edge,V(1,-.12,0),V(0,0,-sign),weight);
     }
   }
@@ -18310,12 +18341,12 @@ const dogKitchen=(()=>{
     center.lerp(groups.upperN.getWorldPosition(V(0,0,0)),.5);
     return center.add(V(0,-.123,.285).applyAxisAngle(up,root.rotation.y));
   }
-  function holdBowl(center,weight){
+  function holdBowl(center,weight,storage=false){
     const yaw=root.rotation.y;
     const f=V(0,-.08,1).applyAxisAngle(up,yaw);
     for(const side of ['P','N']){
       const sign=side==='P'?1:-1;
-      const x=V(sign*.100,.043,-.080).applyAxisAngle(up,yaw);
+      const x=V(sign*(storage?.075:.100),.043,storage?-.105:-.080).applyAxisAngle(up,yaw);
       const normal=V(-sign*.89,-.46,0).applyAxisAngle(up,yaw);
       palm(side,center.clone().add(x),f,normal,weight);
     }
@@ -18336,20 +18367,41 @@ const dogKitchen=(()=>{
     const a=run;
     blendSofaPose(stage.pose,1);
     if(!a)return;
-    const bend=easeBetween(u,0,.58,.68,.99);
-    const settle=at(u,.09,.59);
-    const hold=1-at(u,.61,.72);
+    const bend=easeBetween(u,0,.55,.67,.99);
+    const settle=at(u,.09,.57);
+    const hold=1-at(u,.585,.69);
     const h=root.rotation.y;
-    groups.pelvis.position.y-=.462*bend;
-    groups.pelvis.position.z-=.064*bend;
-    groups.abdomen.rotateX(.76*bend);
-    groups.chest.rotateX(.53*bend);
-    groups.head.rotateX(-.43*bend);
+    groups.pelvis.position.y-=.352*bend;
+    groups.pelvis.position.z-=.038*bend;
+    groups.pelvis.rotateX(.44*bend);
+    groups.abdomen.rotateX(.88*bend);
+    groups.chest.rotateX(.54*bend);
+    groups.head.rotateX(-.42*bend);
     if(a.floorFeet){
       lowerPelvisForFeet(a.floorFeet);
       for(const {side,ankle} of a.floorFeet){
         const outward=side==='P'?1:-1;
-        solveLeg(side,ankle,h,0,h+outward*1.18*bend);
+        solveLeg(side,ankle,h,0,h+outward*.94*bend);
+        // Aim both links in the same hinge plane. The shortest-arc IK on its
+        // own can give the shell an inverted twist in a deep, wide crouch.
+        const thigh=groups['thigh'+side],knee=groups['knee'+side];
+        const upper=base['knee'+side],lower=base['foot'+side];
+        const p1=knee.getWorldPosition(V(0,0,0));
+        const a=p1.clone().sub(thigh.getWorldPosition(V(0,0,0)));
+        const b=groups['foot'+side].getWorldPosition(V(0,0,0)).sub(p1);
+        const plane=a.clone().cross(b).normalize(),blend=rearRamp(bend,.12,.50);
+        const restSide=v=>{const m=v.clone().normalize();return V(1,0,0).addScaledVector(m,-m.x).normalize();};
+        if(plane.lengthSq()>.5&&blend>.001){
+          const tq=thigh.quaternion.clone();
+          const axis=restSide(lower).applyQuaternion(knee.getWorldQuaternion(new T.Quaternion()));
+          aimArmInPlane(thigh,upper,a,restSide(upper),plane);
+          thigh.quaternion.slerp(tq,1-blend);
+          axis.lerp(plane,blend).normalize();
+          aimArmInPlane(knee,lower,b,restSide(lower),axis);
+          const foot=groups['foot'+side];
+          foot.quaternion.copy(foot.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(
+            new T.Quaternion().setFromAxisAngle(up,h)));
+        }
       }
     }
     const waist=root.position.clone().add(V(0,.563,.205).applyAxisAngle(up,h));
