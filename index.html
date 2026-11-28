@@ -115,6 +115,11 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
 #view{position:relative}
 #waveReplyHint{position:absolute;z-index:2;bottom:10px;right:max(10px,env(safe-area-inset-right));margin:0;pointer-events:none;background:#101c2dec;color:#f0f6ff;border:1px solid #7a9abc;border-radius:14px;padding:7px 12px;font-size:.79rem;font-weight:650;box-shadow:0 2px 10px #0007}
 #waveReplyHint[hidden]{display:none}
+#lab122InviteHud[hidden]{display:none}
+#lab122InviteHud{position:absolute;z-index:3;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 22px);border:1px solid #86a0b8;background:#142333ee;border-radius:16px;padding:8px 12px 9px;color:#f1f6ff;box-shadow:0 8px 24px #07101866;text-align:center;font-size:.84rem}
+#lab122InviteMessage{margin:1px 0 5px}
+#lab122InviteHud button{min-height:44px;margin:0 3px;padding:2px 11px;border-radius:10px}
+#lab122InviteYes{border:1px solid #a2c7cf;background:#284857;color:#f7fbff}
 .dogBar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 8px;background:#111d30;border:1px solid #263d5a;border-radius:9px}
 .dogBar button{margin:0;min-height:44px}
 .dogBar strong{font-size:.79rem;color:#ebc48c;margin-inline:3px 6px}
@@ -223,7 +228,10 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
   <svg class="viewEnter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg>
   <svg class="viewExit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h5V4m6 0v5h5m0 6h-5v5m-6 0v-5H4"/></svg>
-</button><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
+</button><div id="lab122InviteHud" role="group" aria-labelledby="lab122InviteMessage" hidden>
+<p id="lab122InviteMessage" aria-live="polite"></p>
+<button id="lab122InviteYes" type="button">ついて行く</button><button id="lab122InviteNo" type="button">今はいい</button>
+</div><div id="waveReplyHint" role="status" hidden>👋 指を左右に振って返す</div><div id="threeFetchCue" role="group" aria-label="ボールを投げる" hidden><div id="threeFetchPad" aria-hidden="true">🥎 上へスワイプ</div><button type="button" id="threeFetchFallback">投げる</button></div></div><div id="controlPane"><div id="controlScroll" role="region" aria-label="操作メニュー" tabindex="0"><section><div id="status" role="status">読み込み中…</div><div id="destination" aria-live="polite"></div><div class="lab900PhotoBar" role="group" aria-label="観測アルバム">
   <button data-menu-hidden hidden type="button" id="lab900PhotoCapture" disabled>撮影</button>
   <button data-menu-hidden hidden type="button" id="lab900PhotoOpen" disabled>アルバム <span id="lab900PhotoCount"></span></button>
   <span class="lab900PhotoFeedback" id="lab900PhotoFeedback" role="status">カメラ準備中…</span>
@@ -287,6 +295,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     </div>
     <div class="leilaCard"><h2>LAB 121・レイラの仕草</h2>
       <button id="lab121SocialTry" type="button">仕草を順に試す</button>
+      <button id="lab122InviteTry" type="button">お誘いを試す</button><p id="lab122InviteStatus" aria-live="polite"></p>
       <p id="lab121SocialStatus" aria-live="polite">全7種。静かな待機中に試せます。ご機嫌のとき、同じ前腕を短く2回タップしても反応が変わります。</p>
     </div>
     <div class="leilaCard" role="group" aria-labelledby="lab121ObserveTitle">
@@ -5368,6 +5377,7 @@ function legReactionKind(part,action,feeling,rear,moving) {
 }
 
 function respondToContact(action, current) {
+  if(lab122Invite.tap(action,current))return;
   prioritizeLeilaUser();
   if (handlingBook()) {
     if (roam.phase === 'reading' && action === 'tap') {
@@ -6870,6 +6880,10 @@ function applyReaction(dt) {
     applyRearReaction(reaction,time,weight,pitch);
     return;
   }
+  if (reaction.pose==='lab122Invite') {
+    lab122Invite.pose(reaction,time,weight,yaw,pitch);
+    return;
+  }
   if (reaction.pose==='lab121Gesture') {
     social121.pose(reaction,time,weight,yaw,pitch);
     return;
@@ -7296,6 +7310,163 @@ const social121=(()=>{
   return {idle,prune,greet,foreTap,clearTap,pose};
 })();
 
+// LAB 122 — a voluntary, short-lived invitation to look at something together.
+// An open palm here is not a hand link: only a tap or the caption button accepts.
+const lab122Invite=(()=>{
+  const actions={
+    invite:{label:'レイラが、何かを一緒に見に行こうとしています',duration:7.4,pose:'lab122Invite'},
+    thanks:{label:'レイラがうなずいて、あなたを案内します',duration:1.04,pose:'lab122Invite'}
+  };
+  reactions.lab122Invite=actions.invite;
+  reactions.lab122Thanks=actions.thanks;
+  const box=$('lab122InviteHud'), text=$('lab122InviteMessage'), status=$('lab122InviteStatus');
+  const tmp=V(0,0,0),headPosition=V(0,0,0), handPoint=V(0,0,0),lookQ=new T.Quaternion();
+  const clamp=T.MathUtils.clamp;
+  let session=null, next=46+Math.random()*26, lastOffer=null, lastSensed=-Infinity;
+  const catalog=()=>[
+    {key:'window',target:leilaObservatory.target,ask:lab900SceneMinute>=19*60||lab900SceneMinute<5*60+20
+      ?'一緒に窓辺へ星を見に行きませんか？':'一緒に窓辺から外を見ませんか？'},
+    {key:'terrarium',target:terrariumTarget,ask:'ホタルを一緒に眺めませんか？'}
+  ];
+  const visible=(on)=>{if(box.hidden===on)box.hidden=!on;};
+  function valid(){
+    const p=session;
+    return p&&roam===p.owner&&mode==='roam'&&roam.phase===p.phase&&roam.target===p.from&&
+      !roam.pending&&!roam.attention&&!roam.handRelease&&!handLink&&!devOwned()&&!document.hidden;
+  }
+  function free(manual=false){
+    return cameraGreetingIdle()&&!roam.attention&&!roam.handRelease&&!roam.pending&&!handLink&&!devOwned()&&
+      !reaction&&!contact&&!trackedPointers.size&&!activeCameraGreeting&&!document.hidden&&
+      (!manual?mood.seconds>=Math.max(leilaUserPriorityUntil,mood.avoidedUntil)&&
+        mood.seconds-mood.lastContact>7&&['happy','affectionate','playful'].includes(currentMood()):true)&&
+      performance.now()>=waveReplyUntil&&canSeeGreeting();
+  }
+  function reached(target){return root.position.distanceToSquared(target.point)<.59**2;}
+  function reachable(target){
+    return target.point&&!reached(target)&&roam.target!==target&&destinationPath(root.position,target.point).length>0;
+  }
+  function offer(manual=false){
+    if(session||!free(manual))return false;
+    const options=catalog().filter(o=>reachable(o.target));
+    if(!options.length)return false;
+    const pick=options.find(o=>o.key!==lastOffer)??options[0];
+    lastOffer=pick.key;
+    const offset=tmp.copy(camera.position).sub(root.position).applyAxisAngle(turnAxis,-root.rotation.y);
+    beginReaction('lab122Invite',false,offset.x>=0?'P':'N');
+    session={owner:roam,phase:roam.phase,from:roam.target,pick,entry:reaction,confirmed:false};
+    next=mood.seconds+145+Math.random()*95;
+    text.textContent=pick.ask;
+    return true;
+  }
+  function fade(p){
+    if(reaction===p.entry)reaction.duration=Math.min(reaction.duration,reaction.elapsed+.35);
+    else if(reaction===p.thanks)reaction.duration=Math.min(reaction.duration,reaction.elapsed+.35);
+  }
+  function cancel(){
+    if(!session)return;
+    fade(session);
+    session=null;
+    visible(false);
+  }
+  function hideOnNextRoute(){
+    if(session)cancel();
+  }
+  function accept(){
+    const p=session;
+    if(!p||p.confirmed||!valid()||reaction!==p.entry||box.hidden)return false;
+    if(!reachable(p.pick.target)){
+      cancel();status.textContent='今はそこへ向かえる道がありません。';return false;
+    }
+    p.confirmed=true;
+    fade(p);
+    visible(false);
+    enjoyContact('sharedLook',.48);
+    return true;
+  }
+  function tap(action,gesture){
+    if(action!=='tap'||!session||gesture.path[0]?.id!=='hand'+session.entry.side)return false;
+    return accept();
+  }
+  // While an offer is on screen, postpone unrelated automatic choices long
+  // enough to answer, without setting an infinite pause or seizing controls.
+  // Manual commands, a normal touch, and a lost view can always end it.
+  function idle(){
+    if(session)return valid();
+    if(mood.seconds<next||mood.seconds-lastSensed<2.5||!free()||roam.elapsed<1.2||
+       roam.pause-roam.elapsed<2.55||roam.phase==='rest'&&roam.glanceAt-roam.elapsed<2.30)return false;
+    lastSensed=mood.seconds;
+    if(Math.random()>= (currentMood()==='affectionate'?.73:currentMood()==='happy'?.51:.36)){
+      next=mood.seconds+29+Math.random()*24;return false;
+    }
+    return offer();
+  }
+  function tick(dt){
+    const p=session;
+    if(!p)return;
+    if(!valid()||currentMood()==='annoyed'||roam.phase==='rest'&&roam.glanceAt-roam.elapsed<.14){
+      cancel();return;
+    }
+    if(p.confirmed){
+      if(!p.thanks&&reaction===null){
+        beginReaction('lab122Thanks',false,p.entry.side);
+        p.thanks=reaction;
+        return;
+      }
+      if(p.thanks&&reaction===null){
+        session=null;
+        if(reachable(p.pick.target))requestDestination(p.pick.target,true);
+        return;
+      }
+      if(reaction!==p.entry&&reaction!==p.thanks)cancel();
+      return;
+    }
+    if(reaction!==p.entry){cancel();return;}
+    if(!canSeeGreeting()){
+      p.lost=(p.lost??0)+dt;
+      if(p.lost>.68){cancel();return;}
+    }else p.lost=0;
+    visible(p.entry.elapsed>=.66&&p.entry.duration-p.entry.elapsed>.37);
+  }
+  function pose(entry,t,w,yaw,pitch){
+    if(entry.kind==='lab122Thanks'){
+      const a=Math.sin(Math.PI*rearRamp(t,.08,.69));
+      groups.neck.rotateY(yaw*.24*w);groups.head.rotateY(yaw*.61*w);
+      groups.head.rotateX((pitch*.83+a*.175)*w);
+      return;
+    }
+    // Pivot the eye-line toward the object first, then look back to the
+    // visitor. No camera movement and never turn or shift the planted feet.
+    const seeAway=rearRamp(t,.06,.27)*(1-rearRamp(t,.40,.67));
+    const h=groups.head;
+    let glance=0;
+    if(session?.pick?.target?.lookAt){
+      tmp.copy(session.pick.target.lookAt).sub(h.getWorldPosition(headPosition))
+        .applyQuaternion(h.getWorldQuaternion(lookQ).invert());
+      glance=clamp(Math.atan2(tmp.x,tmp.z),-.66,.66);
+    }
+    const aware=mix(yaw*.70,glance,seeAway)*w;
+    groups.neck.rotateY(.28*aware);
+    h.rotateY(.72*aware);h.rotateX((pitch*.67-.04*seeAway)*w);
+    const sign=entry.side==='P'?1:-1;
+    h.rotateZ(sign*.08*w);
+    const arm=rearRamp(t,.17,.68)*w;
+    if(arm<.001)return;
+    // Palm tipped upward at chest height, not stretched toward the camera.
+    // Keep wrist in front of the shell and elbow offset outward.
+    groups.chest.localToWorld(handPoint.set(sign*.194,-.143+.004*Math.sin(t*2.7),.231));
+    tmp.set(sign*.13,.10,.98).normalize().applyAxisAngle(turnAxis,root.rotation.y);
+    reachHand(entry.side,handPoint,orientPalm(entry.side,tmp,palmUp),arm,false,V(sign*.29,-.215,.023),true);
+  }
+  $('lab122InviteYes').onclick=()=>accept();
+  $('lab122InviteNo').onclick=()=>cancel();
+  $('lab122InviteTry').onclick=()=>{
+    if(mode==='standWait'&&!handLink&&!reaction&&!devOwned())beginRoam();
+    status.textContent=offer(true)?'差し出した手か「ついて行く」で応えてください。'
+      :'静かな自律待機中、正面で試せます。';
+  };
+  return {pose,idle,tick,tap,cancel,hideOnNextRoute};
+})();
+
 function advanceRoam(dt) {
   const nextPlay=dogTumble.followUp();
   if(nextPlay==='started')return;
@@ -7370,6 +7541,7 @@ function advanceRoam(dt) {
     else roam.handRelease = null;
   }
   if (!nextPlay && !devOwned() && !lingeringReaction && advanceCameraGreeting(dt)) return;
+  if (!nextPlay && !devOwned() && !lingeringReaction && lab122Invite.idle()) return;
   if (!nextPlay && !devOwned() && !lingeringReaction && social121.idle(dt)) return;
   if (!nextPlay && !lingeringReaction && roam.elapsed >= roam.pause) {
     if(devNextDestination())return;
@@ -8153,6 +8325,7 @@ function requestDestination(target, acknowledge=false) {
 }
 
 function startDestination(target, acknowledge=false, seated=roam.phase==='seated') {
+  lab122Invite.hideOnNextRoute();
   windowSnow.onOtherTarget(target);
   dogKitchen.onOtherTarget(target);
   if(target!==bedTarget)dogBedRequested=false;
@@ -12169,6 +12342,7 @@ const lostSofaBall=(()=>{
 })();
 
 function prioritizeLeilaUser(){
+  lab122Invite.cancel();
   const newAttention=mood.seconds>=leilaUserPriorityUntil;
   leilaUserPriorityUntil=mood.seconds+5.8;
   if(newAttention)queueRivalNotice();
@@ -15906,7 +16080,7 @@ const cinema=(()=>{
 installDevPreview();shepherd.lockControls();
 home121.install();
 setupPaintWindow();
-r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
+r.setAnimationLoop(t=>{const dt=Math.min(.05,Math.max(0,(t-prev)/1000));prev=t;restoreReactionPose();updateMood(dt);lab122Invite.tick(dt);dogTumble.reconcile();dogChase.reconcile();dogKitchen.reconcile();windowSnow.update(dt);updateTerrarium(dt);stepDevPreview(dt);
 home121.cleanup();
 if (mode !== "roam" && !book.position.equals(bookHome)) placeBookOnTable();
 if (mode!=='roam' || roam.phase!=='route' || roam.visit[roam.visitIndex]?.type!=='paintEasel') easelBrush.visible=false;
