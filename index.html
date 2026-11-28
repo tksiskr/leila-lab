@@ -16609,11 +16609,12 @@ const windowSnow=(()=>{
 // Reversing the same route stows the board without passing through the worktop.
 function counterPropPath(home,weight,lift){
   const p=home.clone();
-  const near=home.x-.275;
+  const near=home.x-.110;
   const pick=rearRamp(weight,0,.44);
   const slide=rearRamp(weight,.44,.84);
   const settle=rearRamp(weight,.84,1);
   p.x=mix(near,home.x,slide);
+  p.z-=.045*Math.sin(Math.PI*weight);
   p.y=home.y-.169*(1-pick)+lift*pick*(1-settle);
   return p;
 }
@@ -17955,9 +17956,9 @@ const dogKitchen=(()=>{
     const low=(1-rearRamp(center.y,.38,.57))*weight;
     const extend=rearRamp(center.x,4.68,4.93)*weight;
     groups.pelvis.position.y-=.144*low+.060*extend;
-    groups.pelvis.position.z+=.073*extend;
+    groups.pelvis.position.z+=.028*extend;
     groups.pelvis.position.x+=.050*weight;
-    groups.abdomen.rotateX(.31*low+.15*extend);
+    groups.abdomen.rotateX(.18*low+.10*extend);
     groups.chest.rotateX(.20*low+.16*extend);
     groups.head.rotateX(.27*weight);
     lowerPelvisForFeet(feet);
