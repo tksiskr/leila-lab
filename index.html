@@ -15269,8 +15269,8 @@ const windowBuddy144=(()=>{
     if(distance>.075&&a.sitAt===null){
       if(a.age>8.4){stop();return false;}
       if(d.path[0]){
-        into.copy(d.path[0]).sub(o).setY(0);
-        off.copy(root.position).sub(o).setY(0);
+        into.copy(d.path[0]).sub(o.position).setY(0);
+        off.copy(root.position).sub(o.position).setY(0);
         const ahead=into.lengthSq()>1e-6?off.dot(into)/into.length():0;
         if(!(ahead>.03&&ahead<.47&&off.lengthSq()-ahead*ahead<.25**2))moved=d.follow(dt,.87);
       }
@@ -15284,7 +15284,7 @@ const windowBuddy144=(()=>{
         const s=a.age-a.sitAt, amount=rearRamp(s,.08,1.02)*(1-rearRamp(a.age,20,21.7));
         d.sit135=a.pose={amount,tilt:.22*Math.sin(s*.64),fold:Math.sin(Math.PI*amount),cheer:0};
       }
-      aim.set(0,.82,1.75).applyAxisAngle(turnAxis,a.h).add(o);
+      aim.set(0,.82,1.75).applyAxisAngle(turnAxis,a.h).add(o.position);
       look.copy(aim);
     }
     d.pose(dt,moved,look);return true;
