@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 142｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 143｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -194,7 +194,7 @@ body{background:var(--lab900-bg);color:var(--lab900-text)}
  .leilaAudioCard label{grid-column:auto;justify-content:start}
 }
 
-/* LAB 142: the scene stays in place; only the controls pane scrolls. */
+/* LAB 143: the scene stays in place; only the controls pane scrolls. */
 html,body{overflow:hidden;overscroll-behavior-y:none}
 body{height:100vh;height:100dvh;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
 #view{height:58vh;height:min(58dvh,max(0px,calc(100dvh - 9rem)));min-width:0;z-index:1}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 142</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 143</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -20011,6 +20011,7 @@ const cinema=(()=>{
     pair:[['pair',.57,.26,2.54,7.4],['pair',-.64,.21,2.33,7.1],['wide',.31,.34,2.98,8.6],['pair',.82,.20,2.41,7.8]],
     low:[['wide',.48,.31,2.42,8.0],['medium',-.63,.25,1.91,7.2],['wide',.85,.39,2.58,7.4]],
     moving:[['wide',.81,.23,2.94,7.4],['wide',-.56,.17,2.72,7.2],['wide',.36,.19,2.81,7.9]],
+    work:[['work',.72,.24,1.83,7.1],['work',-.80,.29,1.85,7.5],['wide',.99,.23,2.44,8.2]],
     stage:[['wide',.43,.26,3.20,7.7],['wide',-.71,.18,2.89,7.3],['wide',.27,.33,3.26,8.1]]
   };
   const aimAt=V(0,0,0), desired=V(0,0,0), head=V(0,0,0), hip=V(0,0,0), dog=V(0,0,0);
@@ -20022,7 +20023,10 @@ const cinema=(()=>{
   const chestUp=['head','chest','neck','upperP','upperN'];
   let wait=firstWait, wasFull=false, shot=null, yaw=0, pitch=0, distance=0;
   let context='', nextContext='', contextAge=0, facing=0, angleTravel=0;
-  const cursors={quiet:0,pair:0,low:0,moving:0,stage:0};
+  const handsInShot=['head','chest','upperP','upperN','handP','handN'];
+  const workStages=new Set(['home121Work','fresh126Act','drawer135Sort','press137Make','memo131Write',
+    'tea132Pour','hourglass135Flip','coaster141Slide','paintEasel','radioTune','shade132Work','lab121Observe']);
+  const cursors={quiet:0,pair:0,low:0,moving:0,stage:0,work:0};
   const fingers=new Set();
   // Check sight lines through individual furniture parts, not navigation bounds:
   // e.g. an armrest can hide Leila without the rest of the sofa doing so.
@@ -20030,17 +20034,26 @@ const cinema=(()=>{
   const ray=new T.Ray(), localRay=new T.Ray(), hit=V(0,0,0), localEnd=V(0,0,0);
   const end=V(0,0,0), safeAim=V(0,0,0), proposed=V(0,0,0), escape=V(0,0,0), trial=V(0,0,0);
   const sightHead=V(0,0,0), sightChest=V(0,0,0), sightHip=V(0,0,0);
-  function addBlockers(group,dynamic=false){
+  function addBlockers(group,dynamic=false,frameOnly=false){
     const cluster={parts:[],bounds:new T.Box3()};
     group.updateWorldMatrix(true,true);
     group.traverse(mesh=>{
       if(!mesh.isMesh||mesh.material===glass||mesh.geometry===undefined)return;
       if(!dynamic&&mesh.parent===wardrobeHinge)return;
       const mat=mesh.material;
-      if(mat?.transparent&&mat.opacity<.35)return;
+      if(mat?.visible===false||mat?.transparent&&mat.opacity<.35)return;
       const shape=mesh.geometry;
       if(!shape.boundingBox)shape.computeBoundingBox();
       if(shape.boundingBox.isEmpty())return;
+      if(frameOnly){
+        const m=mesh.matrixWorld.elements,b=shape.boundingBox;
+        const x=b.max.x-b.min.x,y=b.max.y-b.min.y,z=b.max.z-b.min.z;
+        const major=[Math.abs(m[0])*x+Math.abs(m[4])*y+Math.abs(m[8])*z,
+          Math.abs(m[1])*x+Math.abs(m[5])*y+Math.abs(m[9])*z,
+          Math.abs(m[2])*x+Math.abs(m[6])*y+Math.abs(m[10])*z].filter(a=>a>.16);
+        // Include counters and shelves, not every moving flower or carried prop.
+        if(major.length<2)return;
+      }
       const part={mesh,wall:wallGroups.indexOf(group),shape:shape.boundingBox,bounds:new T.Box3(),inverse:new T.Matrix4()};
       cluster.parts.push(part);
     });
@@ -20060,6 +20073,7 @@ const cinema=(()=>{
   for(const group of [sofa,bed,dressingArea,sideTable,roomRadio,artistEasel,labTerrarium,kitchenScene.group,...wallGroups])
     addBlockers(group);
   addBlockers(wardrobeHinge,true);
+  for(const bench of [home121.g,memo131.group,tea132.group])addBlockers(bench,false,true);
   function cutAwayFor(p,from){
     // Same side thresholds as updateCutaway(). Current visibility may belong to
     // the previous camera position; use the position being tested instead.
@@ -20181,13 +20195,14 @@ const cinema=(()=>{
     dog.copy(measure.position);
     const episode=mode==='roam'?(dogRestMat.framed()?'dogRestMat':roam.phase):'';
     const paired=shepherd.ready&&Math.hypot(dog.x-hip.x,dog.z-hip.z)<(episode==='dogChase'?1.95:1.46)&&
-      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat','dogRope128','dogHello133'].includes(episode)||easelCompanion126.framed());
+      (['dogTumble','dogPlay','dogBond','dogChase','snowWindow','bed','seated','dogMeal','dogRestMat','dogRope128','dogHello133'].includes(episode)||easelCompanion126.framed()||dogSit135.active());
     if(paired){
       dogMarks[0].copy(dog).add(V(0,.085,0));
       dogMarks[1].copy(dog).add(V(.28,.39,0));
       dogMarks[2].copy(dog).add(V(-.28,.39,0));
     }
-    return {paired,type:paired?'pair':mode==='dance'?'stage':
+    const station=episode==='route'&&workStages.has(roam.visit?.[roam.visitIndex]?.type);
+    return {paired,type:paired?'pair':mode==='dance'?'stage':station?'work':
       (episode==='route'&&roam.target?.kind!=='wardrobeMirror'||['walk','travel','mixamo'].includes(mode))?'moving':
       episode==='sofaBall'||head.y<.66?'low':'quiet'};
   }
@@ -20205,7 +20220,10 @@ const cinema=(()=>{
     return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
-    if(kind==='portrait'){
+    if(kind==='work'){
+      desired.copy(marks.chest).lerp(head,.32);
+      desired.lerp(point.copy(marks.handP).lerp(marks.handN,.5),.34);
+    }else if(kind==='portrait'){
       desired.copy(head).lerp(marks.chest,.32);desired.y+=.015;
     }else if(kind==='medium'&&head.y>.63){
       desired.copy(head).lerp(hip,.48);
@@ -20236,7 +20254,7 @@ const cinema=(()=>{
     screenX.crossVectors(up,dir).normalize();screenY.crossVectors(dir,screenX).normalize();
     const h=Math.tan(T.MathUtils.degToRad(camera.fov*.5))*.77;
     const w=h*Math.max(.31,camera.aspect);
-    const use=kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
+    const use=kind==='work'?handsInShot:kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
       ['head','upperP','upperN','pelvis','handP','handN']:tall;
     function include(p,pad){
       point.copy(p).sub(focusPoint);
@@ -20267,7 +20285,7 @@ const cinema=(()=>{
       context=nextContext;select(context,view.paired);
     }
     const s=shot,u=ease(s.elapsed/1.95);
-    const kind=view.paired&&(s.kind==='portrait'||s.kind==='medium')?'pair':s.kind;
+    const kind=view.paired&&['portrait','medium','work'].includes(s.kind)?'pair':s.kind;
     focus(kind,view.paired);
     aimAt.lerp(desired,blend(dt,s.elapsed<1.95?1.8:4.8));
     angleTravel=mix(angleTravel,clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
