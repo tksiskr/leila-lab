@@ -9159,8 +9159,67 @@ const cool134=(()=>{
   return {start,advance};
 })();
 
+// Standing recovery flourish: one short brush, never during the play loop.
+const afterPlayCheck149=(()=>{
+  const pos=V(0,0,0),wrist=V(0,0,0),tip=V(0,0,0),forward=V(0,0,0),normal=V(0,0,0);
+  const basis=new T.Quaternion(),ray=new T.Raycaster();
+  const shell=parts.filter(m=>m.parent===groups.abdomen||m.parent===groups.pelvis);
+  const side='P',duration=1.82, label='レイラは立ち上がり、お腹の装甲を指先でさっと確かめています';
+  let active=null;
+  function start(done){
+    if(mode!=='roam'||roam.phase!=='linger'||roam.pending||document.hidden||reaction||contact||handLink||
+       trackedPointers.size||mood.seconds<leilaUserPriorityUntil||devOwned())return false;
+    const outfit=wardrobe109.current(),cloth=[];
+    for(const slot of ['set','top','bottom']){
+      const item=wardrobe109.registry[outfit[slot]];
+      if(!item)continue;
+      for(const ob of [item.mesh,item.bottom])if(ob)ob.traverseVisible(obj=>{if(obj.isMesh)cloth.push(obj);});
+    }
+    active={owner:roam,elapsed:0,done,surface:[...shell,...cloth],prior:$('destination').textContent};
+    $('destination').textContent=label;
+    return true;
+  }
+  function stop(completed){
+    const a=active;if(!a)return;
+    active=null;
+    if(a.owner===roam&&$('destination').textContent===label)$('destination').textContent=a.prior;
+    if(completed)a.done();
+  }
+  function advance(dt){
+    const a=active;if(!a)return false;
+    if(a.owner!==roam||mode!=='roam'||roam.phase!=='linger'||roam.pending||devOwned()||
+       reaction||contact||handLink||trackedPointers.size||document.hidden||mood.seconds<leilaUserPriorityUntil){
+      stop(false);return false;
+    }
+    const t=a.elapsed=Math.min(duration,a.elapsed+dt);
+    roam.elapsed+=dt;applyQuietPose();
+    const look=rearRamp(t,.06,.40)*(1-rearRamp(t,1.30,1.76));
+    groups.neck.rotateX(.24*look);groups.head.rotateX(.51*look);groups.head.rotateY(.055*look);
+    const hold=rearRamp(t,.17,.61)*(1-rearRamp(t,1.19,1.71));
+    if(hold>.001){
+      const sweep=rearRamp(t,.61,1.14),hip=groups.pelvis;
+      hip.getWorldQuaternion(basis);
+      const x=mix(.020,-.018,sweep),y=mix(.078,.084,sweep);
+      hip.localToWorld(pos.set(x,y,.24));
+      ray.set(pos,normal.set(0,0,-1).applyQuaternion(basis));
+      ray.far=.25;
+      for(const m of a.surface)m.updateWorldMatrix(true,false);
+      const hit=ray.intersectObjects(a.surface,false)[0];
+      if(hit)tip.copy(hit.point).addScaledVector(normal,-(.007+.026*(1-hold)));
+      else hip.localToWorld(tip.set(x,y,.075+.026*(1-hold)));
+      forward.set(-.97,.216,-.10).normalize();
+      normal.set(0,0,-1).addScaledVector(forward,forward.z).normalize();
+      const hand=orientPalm(side,forward.applyQuaternion(basis),normal.applyQuaternion(basis));
+      wrist.copy(tip).sub(pos.copy(middleFingertip[side]).applyQuaternion(hand));
+      reachHand(side,wrist,hand,hold,true,V(.144,-.149,.077),true);
+    }
+    if(t>=duration){stop(true);return true;}
+    return true;
+  }
+  return {start,advance};
+})();
 function advanceRoam(dt) {
-  if(cool134.advance(dt))return;
+  if(afterPlayCheck149.advance(dt)||cool134.advance(dt))return;
   if(windowBuddy144.holding()){roam.elapsed+=dt;applyQuietPose();return;}
   const nextPlay=dogTumble.followUp();
   if(nextPlay==='started')return;
@@ -19770,7 +19829,7 @@ const dogTumble=(()=>{
     }
     if(next)requestDestination(next.target,next.acknowledge);
     else if(previewHas(a.front?'dogTumbleFront':'dogTumbleRear'))developerPreview.delay=1.2;
-    else rememberBeat(a);
+    else if(!afterPlayCheck149.start(()=>rememberBeat(a)))rememberBeat(a);
   }
   function defer(target,acknowledge){
     if(mode!=='roam'||roam.phase!=='dogTumble'||!active)return false;
