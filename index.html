@@ -279,6 +279,7 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     <h2 id="controls-audio">サウンド</h2><div class="labMusic" role="group" aria-label="音楽">
 <button id="danceSound" type="button" aria-pressed="false">ダンス音：OFF</button>
 <button id="radioSound" type="button" aria-pressed="false">ラジオBGM：OFF</button>
+<button id="lab129FoleyToggle" type="button" aria-pressed="false" aria-describedby="labAudioHint">生活音：OFF</button>
 <label>放送局 <select id="labRadioStation"><option value="0">83.4 / チル</option><option value="1">89.1 / グルーヴ</option><option value="2">96.7 / 深夜</option></select></label>
 <small id="labAudioHint" role="status">ダンス音をONにすると、レイラが踊っている間だけビートが鳴ります。</small>
 </div>
@@ -8376,6 +8377,7 @@ const leilaObservatory=(()=>{
       const tip=groups.handN.localToWorld(middleFingertip.N.clone());
       if(!stage.pressed&&!requestLeave&&p>=.29&&p<.46&&tip.distanceTo(target.lookAt)<.024){
         stage.pressed=true;
+        lab129Foley.panel(target.lookAt);
         observed=stage.reading;
         skyKind=observed;burst=observed==='birds'?15:0;burstOverride=requested==='birds';
         lab900LifeNote('observatory'+observed);
@@ -9392,7 +9394,9 @@ function advanceReading(dt) {
       $('destination').textContent = '本を読んでいます';
     }
   } else {
+    const before=roam.readTime;
     if(dogDream.readWeight()<.001)roam.readTime += dt;
+    lab129Foley.reading(before,roam.readTime);
     leilaBookmark.tick();
     if (roam.pendingBookCue) cueReading(roam.pendingBookCue);
   }
@@ -9725,7 +9729,7 @@ function pressWallSwitch(stage,progress) {
   groups.handP.localToWorld(switchFingerOffset.copy(middleFingertip.P));
   if (switchFingerOffset.distanceTo(switchFingerTarget) > .016) return;
   stage.pressed = true;
-  toggleRoomLights();
+  toggleRoomLights();lab129Foley.click(switchFingerTarget);
   $('destination').textContent = roomLightsOn ? 'レイラが電灯をつけました' : 'レイラが電灯を消しました';
 }
 
@@ -9753,7 +9757,7 @@ function labAudioButtons(){
   radioSoundButton.textContent='ラジオBGM：'+(radioSoundEnabled?'ON':'OFF');
   danceSoundButton.textContent='ダンス音：'+(danceSoundEnabled?'ON':'OFF');
 }
-function labAudioResume(){
+function labAudioResume(onRejected){
   try{
     labAudio??=new LabAudioContext();
     const id=++labAudioUnlock;
@@ -9761,7 +9765,8 @@ function labAudioResume(){
     if(labAudio.state!=='running') labAudio.resume().catch(()=>{
       if(id!==labAudioUnlock || labAudio.state==='running') return;
       $('labAudioHint').textContent='音を再生できませんでした。音のボタンをもう一度押してください。';
-      radioSoundEnabled=danceSoundEnabled=false; labAudioButtons();
+      if(onRejected)onRejected();
+      else{radioSoundEnabled=danceSoundEnabled=false; labAudioButtons();}
     });
     $('labAudioHint').textContent='音はこのページを開いている間だけ有効です。';
     return true;
@@ -9770,6 +9775,158 @@ function labAudioResume(){
     return false;
   }
 }
+// LAB 129 · Local acoustic details (optional, in-page only).
+const lab129Foley=(()=>{
+  const toggle=$('lab129FoleyToggle');
+  let enabled=false,bus=null,lastRootX=0,lastRootZ=0,tracked=false,frameReady=false;
+  let lastStep=-Infinity,lastEvent=-Infinity,variant=0;
+  const samples=Object.create(null),voices=new Set();
+  const feet={P:{armed:false,previous:0},N:{armed:false,previous:0}};
+  const parameters={
+    oak:[.115,154, .82,.48], tile:[.086,258,.62,.47],
+    page:[.188,0,.69,.29], click:[.072,616,.84,.29], panel:[.086,527,.83,.16]
+  };
+  const resetGait=()=>{
+    tracked=frameReady=false;
+    feet.P.armed=feet.N.armed=false;
+    feet.P.previous=feet.N.previous=0;
+  };
+  function update(){
+    toggle.setAttribute('aria-pressed',String(enabled));
+    toggle.textContent='生活音：'+(enabled?'ON':'OFF');
+  }
+  function quiet(){
+    resetGait();
+    const now=labAudio?.currentTime??0;
+    for(const voice of voices){
+      try{voice.source.stop(now);}catch{}
+      disconnect(voice);
+    }
+    voices.clear();
+    try{bus?.disconnect();}catch{}
+    bus=null;
+  }
+  function disable(){
+    enabled=false;quiet();update();
+  }
+  function disconnect(voice){
+    voice.source.onended=null;
+    for(const node of [voice.source,voice.gain,voice.pan])try{node?.disconnect();}catch{}
+  }
+  function buffer(key){
+    if(samples[key])return samples[key];
+    // Short procedural Foley: damped wood/tile transients, soft paper
+    // flutter, and a filtered switch/panel click. No audio download.
+    const [length,hz,decay]=parameters[key],rate=Math.min(48000,labAudio.sampleRate);
+    const count=Math.max(1,Math.ceil(rate*length));
+    const out=labAudio.createBuffer(1,count,rate),pcm=out.getChannelData(0);
+    let seed=(hz||742)*1103,lo=0,hi=0;
+    for(let n=0;n<count;n++){
+      const t=n/rate,u=t/length;
+      seed=(Math.imul(seed,1664525)+1013904223)>>>0;
+      const noise=seed/2147483648-1;
+      lo+=.080*(noise-lo);hi+=.24*(noise-hi);
+      let value;
+      if(key==='page'){
+        const flicker=.33+.32*Math.sin(Math.PI*u*1.78)**2+.21*Math.sin(Math.PI*u*4.32)**2;
+        value=(.41*hi+.25*(hi-lo))*flicker*Math.sin(Math.PI*u)**1.3;
+      }else{
+        const attack=Math.min(1,t/.0025);
+        const primary=Math.exp(-6.25*u/decay);
+        const tone=Math.sin(2*Math.PI*hz*t*(1-u*.105));
+        const partial=Math.sin(2*Math.PI*(hz*1.83)*t);
+        const noiseShare=key==='oak'?.42:key==='tile'?.65:.54;
+        value=attack*primary*(tone*.54+partial*.17+hi*noiseShare+(noise-hi)*.16*Math.exp(-u*7));
+        if(key==='oak')value+=.16*attack*Math.sin(Math.PI*2*83*t)*Math.exp(-7.4*u);
+      }
+      pcm[n]=value*(1-Math.pow(u,5));
+    }
+    samples[key]=out;
+    return out;
+  }
+  function play(key,position,strength=1){
+    if(!enabled||!position||document.hidden||labAudio?.state!=='running'||!parameters[key])return false;
+    const now=labAudio.currentTime;
+    const isStep=key==='tile'||key==='oak';
+    if(isStep?now-lastStep<.155:now-lastEvent<.275)return false;
+    const dx=position.x-camera.position.x,dy=position.y-camera.position.y,dz=position.z-camera.position.z;
+    const range=Math.hypot(dx,dy,dz);
+    if(range>=8||voices.size>=6)return false;
+    const attenuation=.76/(1+(range*.47)**2)*(1-Math.min(.64,range*.069));
+    if(!bus){
+      bus=labAudio.createGain();bus.gain.value=.34;bus.connect(labAudio.destination);
+    }
+    const source=labAudio.createBufferSource(),gain=labAudio.createGain();
+    const pan=typeof labAudio.createStereoPanner==='function'?labAudio.createStereoPanner():null;
+    source.buffer=buffer(key);
+    // Deterministic small variations without changing the game's RNG.
+    const n=(variant++%7)-3;
+    source.playbackRate.value=1+n*.027;
+    gain.gain.value=parameters[key][3]*attenuation*strength*(1+n*.035);
+    if(pan){
+      const x=dx*camera.matrixWorld.elements[0]+dy*camera.matrixWorld.elements[1]+dz*camera.matrixWorld.elements[2];
+      pan.pan.value=T.MathUtils.clamp(x/Math.max(1.0,range)*.83,-.76,.76);
+    }
+    source.connect(gain);
+    if(pan){gain.connect(pan);pan.connect(bus);}else gain.connect(bus);
+    const voice={source,gain,pan};
+    voices.add(voice);
+    source.onended=()=>{voices.delete(voice);disconnect(voice);};
+    source.start(now);
+    if(isStep)lastStep=now;else lastEvent=now;
+    return true;
+  }
+  function beginWalkFrame(){
+    if(!enabled||labAudio?.state!=='running'||document.hidden){if(tracked)resetGait();return false;}
+    const stage=mode==='roam'&&roam.phase==='route' ? roam.visit[roam.visitIndex] : null;
+    const allowed=stage?.type==='walk'||stage?.type==='brake'||handLink?.phase==='following'||mode==='travel';
+    if(!allowed){if(tracked)resetGait();return false;}
+    const x=root.position.x,z=root.position.z;
+    const speed=tracked?Math.hypot(x-lastRootX,z-lastRootZ):0;
+    lastRootX=x;lastRootZ=z;
+    frameReady=tracked&&speed>.0009&&speed<.19;
+    if(speed>=.19){
+      // Teleport/view reset: consume no touchdown from the old place.
+      resetGait();return false;
+    }
+    tracked=true;
+    return true;
+  }
+  function floorAt(p){
+    return Math.abs(p.x-lounge.position.x)<=deckWidth*.5&&Math.abs(p.z-lounge.position.z)<=deckLength*.5;
+  }
+  function sampleFoot(side,height,point){
+    const foot=feet[side];
+    // Arm only after a visible lift, then require a descending strike and
+    // planar progress. Settling in place never sounds like a real stride.
+    if(height>.032)foot.armed=true;
+    if(foot.armed&&height<=.015&&height<foot.previous-.001){
+      if(frameReady)play(floorAt(point)?'oak':'tile',point,roam?.visit?.[roam.visitIndex]?.jog?1:.83);
+      foot.armed=false;
+    }
+    foot.previous=height;
+  }
+  function reading(before,after){
+    if(!enabled||after<=before||after-before>.3)return;
+    // The modeled page starts to rise at the same mark in every reading cycle.
+    const pageUp=4.66;
+    if(Math.floor((before-pageUp)/5.8)!==Math.floor((after-pageUp)/5.8))play('page',book.position,.96);
+  }
+  function click(position){return play('click',position,.83);}
+  function panel(position){return play('panel',position,.70);}
+  toggle.onclick=()=>{
+    if(!LabAudioContext)return;
+    if(enabled){disable();return;}
+    if(labAudioResume(disable)){
+      enabled=true;lastStep=lastEvent=-Infinity;resetGait();update();
+      $('labAudioHint').textContent='近くの足音や本のページをめくる音などが聞こえます。このページでのみ有効です。';
+    }
+  };
+  toggle.disabled=!LabAudioContext;
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)quiet();});
+  return {beginWalkFrame,sampleFoot,reading,click,panel};
+})();
+
 function labTrackStop(key){
   const t=labTrack[key]; if(!t || !labAudio) return;
   labTrack[key]=null;
@@ -10792,6 +10949,7 @@ const standingAnkleHeights = Object.fromEntries(shoeContactGeometry.map(({side,a
 const contactBox=new T.Box3(),contactPartBox=new T.Box3(),contactCenter=new T.Vector3(),contactSize=new T.Vector3();
 function updateContactShadows(){
  const visible=floorGroup.visible;bodyContact.visible=visible;
+ const listen=lab129Foley.beginWalkFrame();
  root.updateMatrixWorld(true);
  let cx=0,cz=0,count=0;
  for(const f of footContacts){
@@ -10800,6 +10958,7 @@ function updateContactShadows(){
   if(contactBox.isEmpty()){m.visible=false;continue;}
   contactBox.getCenter(contactCenter);contactBox.getSize(contactSize);
   const lift=Math.max(0,contactBox.min.y),spread=1+Math.min(1,lift*7);
+  if(listen)lab129Foley.sampleFoot(f.side,lift,contactCenter);
   m.position.set(contactCenter.x,.004,contactCenter.z);
   m.scale.set((contactSize.x+.045)*spread,1,(contactSize.z+.045)*spread);
   m.material.opacity=.28*Math.exp(-lift*12);
