@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 149｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 150｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 149</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 150</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -9164,7 +9164,7 @@ const afterPlayCheck149=(()=>{
   const pos=V(0,0,0),wrist=V(0,0,0),tip=V(0,0,0),forward=V(0,0,0),normal=V(0,0,0);
   const basis=new T.Quaternion(),ray=new T.Raycaster();
   const shell=parts.filter(m=>m.parent===groups.abdomen||m.parent===groups.pelvis);
-  const side='P',duration=1.82, label='レイラは立ち上がり、お腹の装甲を指先でさっと確かめています';
+  const side='P',duration=1.82, label='レイラは立ち上がり、下腹部の装甲を指先でさっと確かめています';
   let active=null;
   function start(done){
     if(mode!=='roam'||roam.phase!=='linger'||roam.pending||document.hidden||reaction||contact||handLink||
@@ -9194,18 +9194,19 @@ const afterPlayCheck149=(()=>{
     const t=a.elapsed=Math.min(duration,a.elapsed+dt);
     roam.elapsed+=dt;applyQuietPose();
     const look=rearRamp(t,.06,.40)*(1-rearRamp(t,1.30,1.76));
-    groups.neck.rotateX(.24*look);groups.head.rotateX(.51*look);groups.head.rotateY(.055*look);
+    groups.neck.rotateX(.26*look);groups.head.rotateX(.56*look);groups.head.rotateY(.055*look);
     const hold=rearRamp(t,.17,.61)*(1-rearRamp(t,1.19,1.71));
     if(hold>.001){
       const sweep=rearRamp(t,.61,1.14),hip=groups.pelvis;
       hip.getWorldQuaternion(basis);
-      const x=mix(.020,-.018,sweep),y=mix(.078,.084,sweep);
+      // Stay on the front of the lower abdominal plate, below the waist seam.
+      const x=mix(.020,-.018,sweep),y=mix(.026,.032,sweep);
       hip.localToWorld(pos.set(x,y,.24));
       ray.set(pos,normal.set(0,0,-1).applyQuaternion(basis));
       ray.far=.25;
       for(const m of a.surface)m.updateWorldMatrix(true,false);
       const hit=ray.intersectObjects(a.surface,false)[0];
-      if(hit)tip.copy(hit.point).addScaledVector(normal,-(.007+.026*(1-hold)));
+      if(hit)tip.copy(hit.point).addScaledVector(normal,-(.004+.026*(1-hold)));
       else hip.localToWorld(tip.set(x,y,.075+.026*(1-hold)));
       forward.set(-.97,.216,-.10).normalize();
       normal.set(0,0,-1).addScaledVector(forward,forward.z).normalize();
