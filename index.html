@@ -470,19 +470,19 @@ body.leilaFullView #viewModeToggle .viewExit{display:block}
     status.textContent=reason;
     help.hidden=false;
   };
+  function bootError(event){
+    if(event.message)show('読み込み中にエラーが起きました。');
+  }
   window.LeilaBoot130={
     stage(next){phase=next;if(!help.hidden)status.textContent=phase+'を読み込み中…';},
-    ready(){clearTimeout(timer);help.hidden=true;},
+    ready(){clearTimeout(timer);window.removeEventListener('error',bootError);help.hidden=true;},
     failed(){clearTimeout(timer);help.hidden=false;}
   };
   const timer=setTimeout(()=>{
     if(status.textContent==='読み込み中…'||status.textContent.endsWith('を読み込み中…'))
       show(phase+'の読み込みに時間がかかっています。');
   },8500);
-  window.addEventListener('error',event=>{
-    if(!event.message)return;
-    show('読み込み中にエラーが起きました。');
-  });
+  window.addEventListener('error',bootError);
 })();
 </script><script type="module">
 async function loadAsset(path) {
