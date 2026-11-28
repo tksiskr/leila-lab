@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 177｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 178｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -230,7 +230,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 177</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 178</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -11276,7 +11276,7 @@ const starAtlas177=(()=>{
   const target={kind:'window',atlas177:true,name:'北窓の星図',point:V(2.17,0,-5.39),heading:Math.PI,
     lookAt:book177.getWorldPosition(V(0,0,0))};
   destinationMeshes.set(tray,target);destinationMeshes.set(handle,target);destinationMeshes.set(closedCover,target);destinationMeshes.set(chart,target);
-  let next=50,delay=0,visits=0,open=0,owner=null;
+  let next=50,delay=0,visits=0,open=0,owner=null,skyShot=false;
   const from=V(0,0,0),gaze=V(0,0,0),scratch=V(0,0,0),hand=V(0,0,0),sky=V(0,0,0),q=new T.Quaternion();
   const starry=()=>lab900Stars.visible&&lab900StarMaterial.opacity>.13&&!shade132.shut();
   const active=()=>mode==='roam'&&roam.target?.atlas177&&roam.phase==='route'&&
@@ -11314,6 +11314,9 @@ const starAtlas177=(()=>{
     open=unfurl;fold(open);
     const star=patterns[variant][(p>.70?2:0)]??{x:0,y:15,z:-80};
     const canSee=starry();
+    // Keep one composition across the two looks to avoid cutting away
+    // during the beat when Leila checks the page between them.
+    skyShot=canSee&&p>=.22&&p<.87;
     const outside=canSee?(rearRamp(p,.35,.43)*(1-rearRamp(p,.52,.59))+
       rearRamp(p,.66,.73)*(1-rearRamp(p,.78,.83))):0;
     const center=chart.getWorldPosition(scratch);
@@ -11344,7 +11347,8 @@ const starAtlas177=(()=>{
     {type:'starAtlas177',time:18.2,message:'窓辺で星図を広げています'});}
   function arrive(){enterQuietRest('linger','窓辺で少し余韻を楽しんでいます',5);}
   $('lab177StarTry').onclick=()=>{clearDevPreview();windowSnow.clearPreview();visit(true);};
-  return {shelf,chart,hinge,target,choose,active,starry,act,tick,interrupt,decorate,arrive};
+  const skyView=()=>active()&&skyShot&&starry();
+  return {shelf,chart,hinge,target,choose,active,starry,skyView,act,tick,interrupt,decorate,arrive};
 })();
 
 // Room shutter routine. A manual choice wins for the whole current morning/night period.
@@ -22101,7 +22105,7 @@ const cinema=(()=>{
   const fetchCenter=V(0,0,0), fetchHeading=V(0,0,0), fetchPeak=V(0,0,0);
   const fetchMin=V(0,0,0), fetchMax=V(0,0,0);
   let fetchCount=0, fetchFar=null;
-  const dogCallSight=V(0,0,0), callPredict=V(0,0,0);
+  const dogCallSight=V(0,0,0), callPredict=V(0,0,0), northSky=V(2.10,2.25,-5.89), northSkyUpper=V(2.44,2.53,-5.89);
   function fetchAdd(p,minY=0){
     if(!p||fetchCount>=fetchPoints.length)return;
     const m=fetchPoints[fetchCount++].copy(p);m.y=Math.max(minY,m.y);
@@ -22147,7 +22151,7 @@ const cinema=(()=>{
     centerWideShot();
     return true;
   }
-  const wideKind=kind=>kind==='fetch'||kind==='call'||kind==='chime'||kind==='atlas';
+  const wideKind=kind=>kind==='fetch'||kind==='call'||kind==='chime'||kind==='atlas'||kind==='atlasSky';
   function centerWideShot(){
     // Hold a midpoint of the composed scene, not the flying ball itself.
     fetchMin.copy(hip);fetchMin.y=Math.min(marks.footP.y,marks.footN.y);
@@ -22307,7 +22311,7 @@ const cinema=(()=>{
     return (blocked(from,sightHead,.046)?8:0)+(blocked(from,sightChest,.06)?5:0)+
       (blocked(from,sightHip,.074)?2:0)+(kind==='together'?panelCoverage(from):0)+
       (kind==='fetch'&&fetchFar&&blocked(from,fetchFar,.17)?2:0)+
-      (kind==='call'&&blocked(from,dogCallSight,.16)?7:0)+(kind==='chime'&&fetchFar&&blocked(from,fetchFar,.20)?5:0);
+      (kind==='call'&&blocked(from,dogCallSight,.16)?7:0)+(kind==='chime'&&fetchFar&&blocked(from,fetchFar,.20)?5:0)+(kind==='atlasSky'&&blocked(from,northSky,.08)?8:0);
   }
   function framingCost(from,aim,kind,paired){
     offset.subVectors(from,aim);
@@ -22394,6 +22398,9 @@ const cinema=(()=>{
     readPanel(type);
     fetchCount=0;fetchFar=null;
     if(type)return {paired:false,type};
+    if(starAtlas177.skyView()){
+      fetchAdd(northSky);fetchAdd(northSkyUpper);centerWideShot();return {paired:false,type:'atlasSky'};
+    }
     if(starAtlas177.active()){fetchAdd(starAtlas177.chart.getWorldPosition(fetchPeak));centerWideShot();return {paired:false,type:'atlas'};}
     if(windowChime176.active()){fetchAdd(windowChime176.position());centerWideShot();return {paired,type:'chime'};}
     if(episode==='dogPlay'&&readFetch())return {paired,type:'fetch'};
@@ -22417,7 +22424,8 @@ const cinema=(()=>{
     return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
-    if(wideKind(kind)&&fetchCount){
+    if(kind==='atlasSky'){desired.copy(head).lerp(northSky,.45);desired.x+=.08;}
+    else if(wideKind(kind)&&fetchCount){
       desired.copy(fetchCenter);
     }else if(kind==='together'&&panel){
       desired.copy(marks.chest).lerp(head,.34).lerp(panelCenter,.63);
@@ -22434,7 +22442,47 @@ const cinema=(()=>{
       if(paired){point.copy(dog).y+=.35;desired.lerp(point,.26);}
     }
   }
+  function visibleNorthStars(from,at){
+    if(from.z<=-5.94)return 0;
+    const view=sightVector.copy(from).sub(at).normalize();
+    screenX.crossVectors(up,view).normalize();screenY.crossVectors(view,screenX).normalize();
+    const fy=Math.tan(T.MathUtils.degToRad(camera.fov*.5))*.86, fx=fy*camera.aspect;
+    let n=0;
+    for(let i=0;i<lab900StarCoordinates.length;i+=3){
+      const x=lab900StarCoordinates[i], y=lab900StarCoordinates[i+1], z=lab900StarCoordinates[i+2];
+      if(z>=-6)continue;
+      const f=(-6-from.z)/(z-from.z);
+      const along=from.x+(x-from.x)*f, height=from.y+(y-from.y)*f;
+      if(Math.abs(along)>5.92||height<.41||height>3.32||Math.abs(height-1.825)<.04||
+        Math.abs(along-Math.round(along/1.5)*1.5)<.07)continue;
+      point.set(x,y,z).sub(from);
+      const depth=-point.dot(view);
+      if(depth<=0||Math.abs(point.dot(screenX))>fx*depth||Math.abs(point.dot(screenY))>fy*depth)continue;
+      n++;
+    }
+    return n;
+  }
   function select(type,paired){
+    if(type==='atlasSky'){
+      // Drop any occlusion detour inherited from the table view.
+      resetStability();
+      focus(type,false);
+      let best=Infinity,chosen=yaw,pitchGoal=.045;
+      // Only indoor, three-quarter rear shots. A window marker is kept on
+      // the same projected plane as the visible patch of sky beyond it.
+      for(const a of [.88,-.88,1.04,-1.04,.69,-.69])for(const e of [-.08,.008,.075]){
+        const r=fit(place(a,e,direction),1.91,type,false,desired);
+        trial.copy(desired).addScaledVector(direction,r);
+        const cost=coverage(trial,type)*8+outsideCost(trial)*8+r*.35+
+          Math.abs(headingDelta(yaw,a))*.16+Math.abs(.88-Math.abs(a))*.19
+          -Math.min(22,visibleNorthStars(trial,desired))*.53;
+        if(cost<best){best=cost;chosen=a;pitchGoal=e;}
+      }
+      shot={kind:type,type,e:pitchGoal,r:1.91,seconds:21,elapsed:0,fromYaw:yaw,
+        toYaw:yaw+headingDelta(yaw,chosen),fromPitch:pitch,fromDist:distance};
+      facing=root.rotation.y;angleTravel=0;
+      return;
+    }
     if(wideKind(type)){
       focus(type,paired);
       fetchHeading.copy(fetchFar??hip).sub(hip);
@@ -22503,7 +22551,7 @@ const cinema=(()=>{
     screenX.crossVectors(up,dir).normalize();screenY.crossVectors(dir,screenX).normalize();
     const h=Math.tan(T.MathUtils.degToRad(camera.fov*.5))*.77;
     const w=h*Math.max(.31,camera.aspect);
-    const use=kind==='work'||kind==='together'?handsInShot:kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
+    const use=kind==='work'||kind==='together'?handsInShot:kind==='portrait'||kind==='atlasSky'?chestUp:kind==='medium'&&head.y>.63?
       ['head','upperP','upperN','pelvis','handP','handN']:tall;
     function include(p,pad){
       point.copy(p).sub(focusPoint);
