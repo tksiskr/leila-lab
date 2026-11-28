@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 152｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LEILA LAB 153｜夜更けの研究室</title><style>*{box-sizing:border-box}body{margin:0;background:#191e27;color:#eee;font:15px system-ui}header,section{padding:10px}#view{height:58dvh;touch-action:none}canvas{display:block;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button,select{background:#343e50;color:white;border:1px solid #667;border-radius:8px;padding:9px;margin:3px;font-size:15px}label{display:flex;align-items:center;gap:8px;margin:6px}input[type=range]{flex:1}#status{color:#ffd080}section{display:grid;gap:6px}section>label{margin:0;justify-content:space-between}.cameraButtons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cameraButtons button,.primary{margin:0;min-height:44px}.primary{background:#39485a;font-weight:600}details{border-top:1px solid #46505e;padding-top:6px}summary{cursor:pointer;padding:10px 2px;color:#bcc6d4}#meshInfo{color:#ffd080;margin:6px 0}.testButtons{display:flex;flex-wrap:wrap}#developer [data-dev-active]{outline:2px solid #ffd080}#devLoopStatus{color:#ffd080}#status:empty{display:none}#destination{min-height:1.3em}.actionButtons{display:grid;grid-template-columns:1fr 1fr;gap:6px}#paintOpen {justify-self:start;margin:0}
 #lab900Sky {align-self:center;margin:0 0 0 6px;font:inherit;font-size:13px;padding:3px 5px;color:#e2efff;background:#273345;border-color:#5c7090;max-width:34vw}
 #worldClock {font-variant-numeric:tabular-nums}
 .wardrobeButtons{display:flex;flex-wrap:wrap;gap:6px}.wardrobeButtons button{min-height:44px;margin:0}#shirtToggle[aria-pressed="true"],#skirtToggle[aria-pressed="true"]{background:#47596c;border-color:#a6b6c6}
@@ -227,7 +227,7 @@ body.leilaFullView>#view{height:100%;min-height:0;overflow:hidden;box-shadow:non
 body.leilaFullView #viewModeToggle .viewExit{display:block}
 </style><header class="lab900Header">
   <div class="lab900Identity"><span class="lab900Mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M17.5 15.1A7.2 7.2 0 0 1 8.9 6.5 7.4 7.4 0 1 0 17.5 15.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.4 3.6v5.2m-2.6-2.6H19m1.3 3.5v2.4m-1.2-1.2h2.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span>
-    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 152</div><h1 class="lab900Title">夜更けの研究室</h1></div>
+    <div class="lab900TitleGroup"><div class="lab900Tag">LEILA / LAB 153</div><h1 class="lab900Title">夜更けの研究室</h1></div>
   </div>
   <div class="lab900Telemetry"><span id="worldClock"></span><span id="fps"></span></div>
 </header><div id="view"><div id="viewMood" role="status" aria-live="polite" aria-atomic="true" aria-label="レイラの気分"><span id="viewMoodIcon" aria-hidden="true">😐</span><span id="viewMoodLabel">普通</span></div><button id="viewModeToggle" type="button" aria-label="全画面表示" title="全画面表示" hidden>
@@ -20567,6 +20567,58 @@ const cinema=(()=>{
   const workStages=new Set(['home121Work','fresh126Act','drawer135Sort','press137Make','memo131Write',
     'tea132Pour','hourglass135Flip','coaster141Slide','paintEasel','radioTune','shade132Work','lab121Observe']);
   const cursors={quiet:0,pair:0,low:0,moving:0,stage:0,work:0};
+  const panels={
+    easelOver:{mesh:easelSurface,w:easelWidth*.48,h:easelHeight*.48,heading:easelTarget.heading,tilt:.29,distance:1.78},
+    mirrorOver:{mesh:dressingMirror,w:.59*.48,h:.98*.48,heading:mirrorTarget.heading,tilt:.20,distance:1.89}
+  };
+  const panelCenter=V(0,0,0),panelNormal=V(0,0,0), panelQ=new T.Quaternion(),panelInverse=new T.Matrix4();
+  const panelCorners=Array.from({length:4},()=>V(0,0,0));
+  const panelTests=Array.from({length:5},()=>V(0,0,0));
+  const virtualHead=V(0,0,0),faceInMirror=V(0,0,0),sightVector=V(0,0,0),panelTmp=V(0,0,0);
+  let panel=null;
+  function readPanel(type){
+    panel=panels[type]??null;
+    if(!panel)return;
+    const {mesh,w,h}=panel;
+    mesh.updateWorldMatrix(true,false);
+    panelInverse.copy(mesh.matrixWorld).invert();
+    mesh.getWorldPosition(panelCenter);
+    mesh.getWorldQuaternion(panelQ);
+    panelNormal.set(0,0,1).applyQuaternion(panelQ);
+    for(let i=0;i<4;i++)
+      panelCorners[i].set((i%2?1:-1)*w,(i<2?1:-1)*h,0).applyMatrix4(mesh.matrixWorld);
+    panelTests[0].copy(panelCenter);
+    for(let i=1;i<=4;i++)panelTests[i].copy(panelCenter).lerp(panelCorners[i-1],.57);
+  }
+  function coversPanel(from,to,p,r){
+    sightVector.subVectors(to,from);const len=sightVector.lengthSq();
+    if(len<1e-5)return true;
+    const t=panelTmp.subVectors(p,from).dot(sightVector)/len;
+    return t>.025&&t<.975&&panelTmp.addScaledVector(sightVector,-t).lengthSq()<r*r;
+  }
+  function panelCoverage(from){
+    if(!panel)return 0;
+    if(panelTmp.subVectors(from,panelCenter).dot(panelNormal)<.12)return 20;
+    const behind=panelTmp.subVectors(from,hip).dot(panelNormal);
+    if(behind<.22)return 16;
+    if(panel===panels.mirrorOver){
+      virtualHead.copy(sightHead).addScaledVector(panelNormal,-2*panelTmp.subVectors(sightHead,panelCenter).dot(panelNormal));
+      const l=panelTmp.subVectors(from,panelCenter).dot(panelNormal);
+      const v=panelTmp.subVectors(virtualHead,panelCenter).dot(panelNormal);
+      if(l-v>.02){
+        faceInMirror.copy(from).lerp(virtualHead,l/(l-v));
+        panelTmp.copy(faceInMirror).applyMatrix4(panelInverse);
+        if(Math.abs(panelTmp.x)>panel.w*.965||Math.abs(panelTmp.y)>panel.h*.95)return 12;
+        if(blocked(from,faceInMirror,.050)||coversPanel(from,faceInMirror,sightHead,.089)||
+          coversPanel(from,faceInMirror,sightChest,.079))return 8;
+      }
+    }
+    let missed=0;
+    for(const p of panelTests){
+      if(blocked(from,p,.050)||coversPanel(from,p,sightHead,.089)||coversPanel(from,p,sightChest,.079))missed++;
+    }
+    return Math.max(0,missed-1)*3;
+  }
   const fingers=new Set();
   // Check sight lines through individual furniture parts, not navigation bounds:
   // e.g. an armrest can hide Leila without the rest of the sofa doing so.
@@ -20652,12 +20704,12 @@ const cinema=(()=>{
     return false;
   }
   let recovering=false;
-  function coverage(from){
+  function coverage(from,kind){
     // Near-contact furniture (e.g. a mounted pillow) is not an obstruction
     // just because the last centimeters of the ray touch the support surface.
     if(from.y<.14||from.y>3.79||from.x< -6.02||from.x>6.02||from.z< -6.02||from.z>9.02)return 24;
     return (blocked(from,sightHead,.046)?8:0)+(blocked(from,sightChest,.06)?5:0)+
-      (blocked(from,sightHip,.074)?2:0);
+      (blocked(from,sightHip,.074)?2:0)+(kind==='together'?panelCoverage(from):0);
   }
   function framingCost(from,aim,kind,paired){
     offset.subVectors(from,aim);
@@ -20672,19 +20724,19 @@ const cinema=(()=>{
     recovering=false;blockedFor=clearFor=probeIn=0;cameraSpeed.set(0,0,0);
   }
   function repair(a,e,r,kind,paired,dt){
-    const base=coverage(proposed);
+    const base=coverage(proposed,kind);
     if(base){blockedFor+=dt;clearFor=0;}else{clearFor+=dt;blockedFor=0;}
     probeIn=Math.max(0,probeIn-dt);
     if(recovering&&clearFor>.48){recovering=false;probeIn=0;}
     const retained=recovering?escape.copy(aimAt).add(avoidOffset):null;
-    const retainedCover=retained?coverage(retained):base;
+    const retainedCover=retained?coverage(retained,kind):base;
     // A passing arm, stride or endpoint of a quick turn must not choose an
     // entirely different shot. Hold a working detour across short clear gaps.
     if(base&&blockedFor>=(base>=13?.092:.19)&&probeIn<=0&&
        (!recovering||retainedCover>0||framingCost(retained,aimAt,kind,paired)>.25)){
       probeIn=.24;
       let best=Infinity,bestCover=24;
-      const vents=[0,-.32,.32,-.65,.65,-1,1,-1.45,1.45,-2.05,2.05,Math.PI];
+      const vents=kind==='together'?[0,-.21,.21,-.43,.43,-.65,.65]:[0,-.32,.32,-.65,.65,-1,1,-1.45,1.45,-2.05,2.05,Math.PI];
       for(const raise of [0,.31,-.22,.60,.91]){
         const v=clamp(e+raise,.075,1.41);
         for(const side of vents){
@@ -20695,7 +20747,7 @@ const cinema=(()=>{
             trial.copy(aimAt).addScaledVector(direction,radius);
             const aesthetic=Math.abs(side)*.54+Math.abs(raise)*.91+Math.abs(radius-r)*.36+outsideCost(trial)*.7;
             if(aesthetic>=best)continue;
-            const misses=coverage(trial), clip=Math.max(0,bare-radius);
+            const misses=coverage(trial,kind), clip=Math.max(0,bare-radius);
             const score=misses*8+aesthetic+clip*3+.30*trial.distanceTo(camera.position);
             if(score<best){best=score;bestCover=misses;safeAim.copy(trial);}
           }
@@ -20739,7 +20791,11 @@ const cinema=(()=>{
       dogMarks[1].copy(dog).add(V(.28,.39,0));
       dogMarks[2].copy(dog).add(V(-.28,.39,0));
     }
-    const station=episode==='route'&&workStages.has(roam.visit?.[roam.visitIndex]?.type);
+    const stage=episode==='route'?roam.visit?.[roam.visitIndex]?.type:null;
+    const type=episode==='mirror'?'mirrorOver':stage==='paintEasel'||episode==='linger'&&roam.target===easelTarget?'easelOver':null;
+    readPanel(type);
+    if(type)return {paired:false,type};
+    const station=episode==='route'&&workStages.has(stage);
     return {paired,type:paired?'pair':mode==='dance'?'stage':station?'work':
       (episode==='route'&&roam.target?.kind!=='wardrobeMirror'||['walk','travel','mixamo'].includes(mode))?'moving':
       episode==='sofaBall'||head.y<.66?'low':'quiet'};
@@ -20758,7 +20814,9 @@ const cinema=(()=>{
     return coverage(point)*8+outsideCost(point)*.65+(point.y>3.65?.8:0);
   }
   function focus(kind,paired){
-    if(kind==='work'){
+    if(kind==='together'&&panel){
+      desired.copy(marks.chest).lerp(head,.34).lerp(panelCenter,.63);
+    }else if(kind==='work'){
       desired.copy(marks.chest).lerp(head,.32);
       desired.lerp(point.copy(marks.handP).lerp(marks.handN,.5),.34);
     }else if(kind==='portrait'){
@@ -20772,6 +20830,35 @@ const cinema=(()=>{
     }
   }
   function select(type,paired){
+    if(panels[type]&&panel){
+      const {heading,tilt,distance:r}=panel;
+      focus('together',false);
+      let best=Infinity,chosen=heading+Math.PI-.49,bestPitch=tilt;
+      for(const side of [-.51,.51,-.72,.72,-.33,.33,-.91,.91]){
+        for(const raise of [0,.13,-.09]){
+          const e=tilt+raise, a=heading+Math.PI+side;
+          place(a,e,direction);
+          const radius=fit(direction,r,'together',false,desired);
+          trial.copy(desired).addScaledVector(direction,radius);
+          const occlusion=coverage(trial,'together');
+          // Leave space for the face to move inside the reflection as Leila
+          // leans or steps back, especially when framing a narrow window.
+          let reflectionEdge=0;
+          if(type==='mirrorOver'&&occlusion<8){
+            panelTmp.copy(faceInMirror).applyMatrix4(panelInverse);
+            reflectionEdge=2.4*(Math.abs(panelTmp.x)/panel.w)**2+1.4*(Math.abs(panelTmp.y)/panel.h)**2;
+          }
+          const score=occlusion*7+outsideCost(trial)*2+reflectionEdge+
+            Math.abs(side)*.18+Math.abs(raise)*.35+.08*Math.abs(headingDelta(yaw,a));
+          if(score<best){best=score;chosen=a;bestPitch=e;}
+        }
+      }
+      shot={kind:'together',type,e:bestPitch,r,seconds:32,elapsed:0,fromYaw:yaw,
+        toYaw:yaw+headingDelta(yaw,chosen),fromPitch:pitch,fromDist:distance};
+      facing=root.rotation.y;angleTravel=0;
+      return;
+    }
+    if(!tapes[type])type='quiet';
     const table=tapes[type], i=cursors[type]++%table.length;
     const [kind,side,e,r,seconds]=table[i];
     focus(kind,paired);
@@ -20792,7 +20879,7 @@ const cinema=(()=>{
     screenX.crossVectors(up,dir).normalize();screenY.crossVectors(dir,screenX).normalize();
     const h=Math.tan(T.MathUtils.degToRad(camera.fov*.5))*.77;
     const w=h*Math.max(.31,camera.aspect);
-    const use=kind==='work'?handsInShot:kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
+    const use=kind==='work'||kind==='together'?handsInShot:kind==='portrait'?chestUp:kind==='medium'&&head.y>.63?
       ['head','upperP','upperN','pelvis','handP','handN']:tall;
     function include(p,pad){
       point.copy(p).sub(focusPoint);
@@ -20800,6 +20887,7 @@ const cinema=(()=>{
     }
     for(const k of use)include(marks[k],k==='head'?.13:k.startsWith('foot')?.14:.085);
     if(paired)for(const p of dogMarks)include(p,.12);
+    if(kind==='together'&&panel)for(const p of panelCorners)include(p,.041);
     return r;
   }
   function tick(dt){
@@ -20815,13 +20903,14 @@ const cinema=(()=>{
       distance=Math.max(.35,offset.length());yaw=Math.atan2(offset.x,offset.z);
       pitch=Math.asin(clamp(offset.y/distance,-.988,.988));
       context=nextContext=view.type;contextAge=0;resetStability();
-      focus(view.paired?'pair':view.type==='work'?'work':'wide',view.paired);
+      focus(panels[view.type]?'together':view.paired?'pair':view.type==='work'?'work':'wide',view.paired);
       poseOffset.copy(desired).sub(root.position);
       select(context,view.paired);
     }
     shot.elapsed+=dt;
     if(view.type!==nextContext){nextContext=view.type;contextAge=0;}else contextAge+=dt;
-    if(shot.elapsed>=shot.seconds||(context!==nextContext&&contextAge>.75&&shot.elapsed>2.1)){
+    const enteringPanel=panels[nextContext]&&context!==nextContext&&contextAge>.16;
+    if(shot.elapsed>=shot.seconds||enteringPanel||(context!==nextContext&&contextAge>.75&&shot.elapsed>2.1)){
       context=nextContext;select(context,view.paired);
     }
     const s=shot,u=ease(s.elapsed/1.95);
@@ -20833,9 +20922,9 @@ const cinema=(()=>{
     poseOffset.lerp(targetOffset,blend(dt,active?2.75:5.2));
     desired.copy(root.position).add(poseOffset);
     aimAt.lerp(desired,blend(dt,s.elapsed<1.95?2.5:5.0));
-    angleTravel=mix(angleTravel,clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
-    yaw=mix(s.fromYaw,s.toYaw+angleTravel+.13*Math.sin(s.elapsed*.48),u);
-    pitch=mix(s.fromPitch,s.e+.035*Math.sin(s.elapsed*.53),u);
+    angleTravel=mix(angleTravel,kind==='together'?0:clamp(headingDelta(facing,root.rotation.y)*.35,-.39,.39),blend(dt,1.4));
+    yaw=mix(s.fromYaw,s.toYaw+angleTravel+(kind==='together'?.022:.13)*Math.sin(s.elapsed*.48),u);
+    pitch=mix(s.fromPitch,s.e+(kind==='together'?.012:.035)*Math.sin(s.elapsed*.53),u);
     place(yaw,pitch,direction);
     const ideal=fit(direction,s.r*(1-.055*Math.sin(s.elapsed*.38)),kind,view.paired);
     const aimDistance=s.elapsed<1.95?mix(s.fromDist,ideal,u):ideal;
